@@ -11,7 +11,6 @@ class AuthenticationController extends GetxController {
   final token = ''.obs;
 
   void storeLocalData(String key, String value) async {
-    print("asd");
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(key, value);
   }
@@ -64,6 +63,38 @@ class AuthenticationController extends GetxController {
         body: data,
       );
       var jsonObject = jsonDecode(response.body);
+      if (jsonObject['message'] == "Authorized") {
+        isLoading.value = false;
+        print(jsonObject['access_token']);
+        return 0;
+      } else {
+        isLoading.value = false;
+        return jsonObject['errors'];
+      }
+    } catch (e) {
+      print(e);
+      isLoading.value = false;
+    }
+  }
+
+  Future checkEmail({
+    required String email,
+  }) async {
+    try {
+      isLoading.value = true;
+      var data = {
+        'email': email,
+      };
+
+      var response = await http.post(
+        Uri.parse('${url}checkEmail'),
+        headers: {
+          'Accept': 'application/json',
+        },
+        body: data,
+      );
+      var jsonObject = jsonDecode(response.body);
+
       if (jsonObject['message'] == "Authorized") {
         isLoading.value = false;
         print(jsonObject['access_token']);

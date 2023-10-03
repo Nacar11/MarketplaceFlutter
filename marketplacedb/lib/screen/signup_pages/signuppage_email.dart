@@ -83,9 +83,11 @@ class _SignUpPageState extends State<SignUpPageemail> {
                     child: Continue(
                       onTap: () {
                         if (!isNameEmpty) {
+                          var response = authController.checkEmail(
+                              email: textcontrol.text);
+
                           authController.storeLocalData(
                               'email', textcontrol.text);
-                          authController.test();
                           continuebutton5(context);
                         }
                       },

@@ -3,6 +3,7 @@ import 'package:marketplacedb/config/icons.dart';
 import 'package:marketplacedb/screen/signin_pages/homepage.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/discoverpage.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/sellpage.dart';
+import 'package:marketplacedb/screen/signin_pages/mepage_pages/mepage.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class NavigationState extends State<Navigation> {
     const Discoverpage(),
     const Sellpage(),
     //Messages(),
-    //Me(),
+    const Mepage(),
   ];
 
   @override
