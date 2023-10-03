@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/config/icons.dart';
 import 'package:marketplacedb/screen/signin_pages/homepage.dart';
-import 'package:marketplacedb/screen/signin_pages/discoverpage.dart';
-import 'package:marketplacedb/screen/signin_pages/sellpage.dart';
+import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/discoverpage.dart';
+import 'package:marketplacedb/screen/signin_pages/sellpage_pages/sellpage.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({Key? key}) : super(key: key);

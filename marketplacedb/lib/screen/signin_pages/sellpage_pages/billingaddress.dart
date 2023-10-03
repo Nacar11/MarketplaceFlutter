@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
-import 'package:marketplacedb/screen/signup_pages/signuppage_birthdate.dart';
+import 'package:marketplacedb/screen/signin_pages/sellpage_pages/listitem.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 
@@ -27,12 +27,25 @@ class BillingAddressState extends State<BillingAddress> {
   @override
   void initState() {
     super.initState();
+    country.addListener(() {
+      setState(() {
+        if (country.text.isEmpty &&
+            postalcode.text.isEmpty &&
+            stateprovince.text.isEmpty &&
+            city.text.isEmpty &&
+            addressline1.text.isEmpty) {
+          isNameEmpty = true;
+        } else {
+          isNameEmpty = false;
+        }
+      });
+    });
     // Listen for changes in the text field and update isNameEmpty accordingly.
   }
 
-  void continuebutton(BuildContext context) {
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => const SignUpPagebirthdate()));
+  void billingaddressbutton(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const Listitempage()));
   }
 
   @override
@@ -68,6 +81,8 @@ class BillingAddressState extends State<BillingAddress> {
                       hintText: 'Enter your Address',
                       labelText: 'Address Line 1',
                       obscureText: false,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 16.0),
                     ),
                     const SizedBox(height: 20),
                     UnderlineTextField(
@@ -75,6 +90,8 @@ class BillingAddressState extends State<BillingAddress> {
                       hintText: 'Enter your 2nd Address',
                       labelText: 'Address Line 2 (optional)',
                       obscureText: false,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 16.0),
                     ),
                     const SizedBox(height: 20),
                     UnderlineTextField(
@@ -82,6 +99,8 @@ class BillingAddressState extends State<BillingAddress> {
                       hintText: 'Enter your City',
                       labelText: 'City',
                       obscureText: false,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 16.0),
                     ),
                     const SizedBox(height: 20),
                     UnderlineTextField(
@@ -89,6 +108,8 @@ class BillingAddressState extends State<BillingAddress> {
                       hintText: 'Enter your State, Province, or Region',
                       labelText: 'State, province or region',
                       obscureText: false,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 16.0),
                     ),
                     const SizedBox(height: 20),
                     UnderlineTextField(
@@ -96,6 +117,8 @@ class BillingAddressState extends State<BillingAddress> {
                       hintText: 'Enter your Zip or Postal Code',
                       labelText: 'Zip or Postal Code',
                       obscureText: false,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 16.0),
                     ),
                     const SizedBox(height: 20),
                     UnderlineTextField(
@@ -103,8 +126,19 @@ class BillingAddressState extends State<BillingAddress> {
                       hintText: 'Enter your Country',
                       labelText: 'Country',
                       obscureText: false,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 16.0),
                     ),
                     const SizedBox(height: 20),
+                    Continue(
+                      onTap: () {
+                        if (!isNameEmpty) {
+                          billingaddressbutton(context);
+                        }
+                      },
+                      isDisabled:
+                          isNameEmpty, // Pass the isNameEmpty variable here
+                    ),
                   ]),
                 ),
               ],

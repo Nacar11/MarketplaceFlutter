@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:marketplacedb/config/icons.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/textfields.dart';
-import 'package:marketplacedb/screen/signin_pages/discoverpage.dart';
+import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/discoverpage.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -87,7 +87,7 @@ class HomepageState extends State<Homepage> {
                       padding: EdgeInsets.all(8.0),
                       child: Headertext(text: 'Suggested for you'),
                     ),
-                    Sidetext(text: 'see more'),
+                    // Sidetext(text: 'see more'),
                   ],
                 ),
               ],
@@ -103,7 +103,7 @@ class HomepageState extends State<Homepage> {
                   padding: EdgeInsets.all(8.0),
                   child: Headertext(text: 'Our Picks'),
                 ),
-                Sidetext(text: 'see more'),
+                // Sidetext(text: 'see more'),
               ],
             ),
             const Homepagecon(),

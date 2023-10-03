@@ -59,20 +59,25 @@ class Headertext extends StatelessWidget {
 
 class Sidetext extends StatelessWidget {
   final String text;
+  final VoidCallback? onPressed;
+  final Color textcolor;
 
-  const Sidetext({Key? key, required this.text}) : super(key: key);
+  const Sidetext(
+      {Key? key,
+      required this.text,
+      required this.onPressed,
+      required this.textcolor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {
-        // Handle "See more" click here
-      },
-      child: const Text(
-        'See more',
-        style: TextStyle(
-          color: Colors.blue, // Adjust the color as needed
-        ),
+      onPressed: onPressed, // Use the provided onPressed function
+      child: Text(
+        text,
+
+        style:
+            TextStyle(color: textcolor), // Use TextStyle to set the text color
       ),
     );
   }
@@ -96,28 +101,34 @@ class MyText extends StatelessWidget {
 }
 
 class UnderlineTextField extends StatelessWidget {
-  const UnderlineTextField({
-    Key? key,
-    required this.controller,
-    this.hintText,
-    this.labelText,
-    this.obscureText = false, // Should default to false for plain text input
-  }) : super(key: key);
+  const UnderlineTextField(
+      {Key? key,
+      required this.controller,
+      this.hintText,
+      this.labelText,
+      this.obscureText = false,
+      this.padding // Should default to false for plain text input
+      })
+      : super(key: key);
 
   final TextEditingController controller;
   final String? hintText;
   final String? labelText;
   final bool obscureText;
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      obscureText: obscureText,
-      decoration: InputDecoration(
-        hintText: hintText,
-        labelText: labelText, // You can provide an optional label
-        border: const UnderlineInputBorder(), // Add an underline border
+    return Padding(
+      padding: padding ?? EdgeInsets.zero,
+      child: TextField(
+        controller: controller,
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          hintText: hintText,
+          labelText: labelText, // You can provide an optional label
+          border: const UnderlineInputBorder(), // Add an underline border
+        ),
       ),
     );
   }
