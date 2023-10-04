@@ -108,7 +108,6 @@ class _SignUpPageState extends State<SignUpPagephone> {
                         if (!isNameEmpty) {
                           authController.storeLocalData(
                               'contact_number', textcontrol.text);
-                          authController.test();
                           continuebutton3(context);
                         }
                       },

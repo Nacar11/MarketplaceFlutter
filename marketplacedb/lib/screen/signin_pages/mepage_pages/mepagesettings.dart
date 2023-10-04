@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:marketplacedb/screen/front_page.dart';
 
 // import 'package:get/get.dart';
+import 'package:marketplacedb/controllers/authenticationController.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Mepagesettings extends StatefulWidget {
@@ -12,6 +14,8 @@ class Mepagesettings extends StatefulWidget {
   @override
   State<Mepagesettings> createState() => MepagesettingsState();
 }
+
+final authController = AuthenticationController();
 
 class MepagesettingsState extends State<Mepagesettings> {
   @override
@@ -46,13 +50,26 @@ class MepagesettingsState extends State<Mepagesettings> {
             children: [
               TextButton(
                 onPressed: () async {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => const Frontpage()));
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  print('ASD ${prefs.getString('token')}');
-                  await prefs.clear();
-                  print(prefs.getString('token'));
+                  var response = await authController.logout();
+                  if (response['message'] == 'Logged out Successfully') {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const Frontpage()));
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    print('ASD ${prefs.getString('token')}');
+                    await prefs.clear();
+                    print(prefs.getString('token'));
+                  } else {
+                    final snackbar = SnackBar(
+                      duration: const Duration(seconds: 3),
+                      content: const Text('Error, Please Try Again!'),
+                      action: SnackBarAction(
+                        label: 'Dismiss',
+                        onPressed: () {},
+                      ),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                  }
                 },
                 child: const Text(
                   "Log Out",

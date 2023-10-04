@@ -16,9 +16,9 @@ class SignInPage extends StatefulWidget {
 
 final authController = AuthenticationController();
 
-void signinbutton(BuildContext context) {
-  Navigator.of(context)
-      .push(MaterialPageRoute(builder: (context) => const Navigation()));
+void signinbutton(BuildContext context, bool? welcomeMessage) {
+  Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) => Navigation(welcomeMessage: welcomeMessage)));
 }
 
 class _SignInPageState extends State<SignInPage> {
@@ -114,7 +114,7 @@ class _SignInPageState extends State<SignInPage> {
 
                               if (response == 0) {
                                 print("Success");
-                                signinbutton(context);
+                                signinbutton(context, true);
                               } else {
                                 final text = response;
                                 final snackbar = SnackBar(

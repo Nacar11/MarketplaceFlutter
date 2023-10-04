@@ -119,7 +119,6 @@ class SignUpPagenameState extends State<SignUpPagename> {
                           authController.storeLocalData(
                               'last_name', lastnamecontroller.text);
                           authController.storeLocalData('gender', _value);
-                          authController.test();
                           continuebutton(context);
                         }
                       },

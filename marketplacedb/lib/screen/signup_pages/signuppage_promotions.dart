@@ -9,9 +9,9 @@ import 'package:marketplacedb/screen/signin_page.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/config/textfields.dart';
 
-void continuebutton7(BuildContext context) {
-  Navigator.of(context)
-      .push(MaterialPageRoute(builder: (context) => const Navigation()));
+void continuebutton7(BuildContext context, bool? welcomeMessage) {
+  Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) => Navigation(welcomeMessage: welcomeMessage)));
 }
 
 class SignUpPagepromotion extends StatefulWidget {
@@ -89,7 +89,7 @@ class _SignUpPageState extends State<SignUpPagepromotion> {
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Obx(() {
                       if (authController.isLoading.value) {
-                        return CircularProgressIndicator(); // Display a circular progress indicator when isLoading is true
+                        return const CircularProgressIndicator(); // Display a circular progress indicator when isLoading is true
                       } else {
                         return Continue(
                           onTap: () async {
@@ -101,7 +101,7 @@ class _SignUpPageState extends State<SignUpPagepromotion> {
                                 ischeckednewsletters);
                             var response = await authController.register();
                             if (response == 0) {
-                              continuebutton7(context);
+                              continuebutton7(context, true);
                             } else {
                               print(response);
                             }

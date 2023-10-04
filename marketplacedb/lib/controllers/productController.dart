@@ -14,13 +14,11 @@ class ProductController extends GetxController {
 
   @override
   void onInit() {
-    print("asd");
     super.onInit();
     getProductCategories();
   }
 
   Future test() async {
-    print('asdasd');
     final response = await http.get(
       Uri.parse(url + 'test'),
     );
@@ -29,7 +27,7 @@ class ProductController extends GetxController {
 
   Future<List<ProductCategoryModel>> getProductCategories() async {
     final response = await http.get(Uri.parse(url + "product-category"));
-    print(response.body);
+
     if (response.statusCode == 200) {
       final List<dynamic> result =
           jsonDecode(response.body); // Parse JSON as a List

@@ -17,7 +17,6 @@ class AuthenticationController extends GetxController {
   }
 
   void storeLocalBoolData(String key, bool value) async {
-    print("asd");
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(key, value);
   }
@@ -33,17 +32,16 @@ class AuthenticationController extends GetxController {
   final is_subscribe_to_newsletter = false;
   final is_subscribe_to_promotions = false;
 
-  Future test() async {
-    final prefs = await SharedPreferences.getInstance();
-    final String? action = prefs.getString('username');
-    print(action);
+  // Future test() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final String? action = prefs.getString('username');
 
-    // print('asdasd');
-    // final response = await http.get(
-    //   Uri.parse(url + 'test'),
-    // );
-    // print(response.body);
-  }
+  //   // print('asdasd');
+  //   // final response = await http.get(
+  //   //   Uri.parse(url + 'test'),
+  //   // );
+  //   // print(response.body);
+  // }
 
   Future login({
     required String email,
@@ -55,7 +53,6 @@ class AuthenticationController extends GetxController {
         'email': email,
         'password': password,
       };
-      print(data['password'].runtimeType);
       var response = await http.post(
         Uri.parse('${url}login'),
         headers: {
@@ -69,6 +66,7 @@ class AuthenticationController extends GetxController {
         print(jsonObject['access_token']);
         final prefs = await SharedPreferences.getInstance();
         prefs.setString('token', jsonObject['access_token']);
+        prefs.setString('username', jsonObject['username']);
         return 0;
       } else {
         isLoading.value = false;
@@ -170,16 +168,17 @@ class AuthenticationController extends GetxController {
         body: data,
       );
       var jsonObject = jsonDecode(response.body);
-      print(jsonObject);
       if (jsonObject['message'] == "Success") {
         isLoading.value = false;
         print(jsonObject['access_token']);
         final prefs = await SharedPreferences.getInstance();
+        prefs.clear();
         prefs.setString('token', jsonObject['access_token']);
+        prefs.setString('username', jsonObject['username']);
+
         return 0;
       } else {
         isLoading.value = false;
-        print(jsonObject['errors']);
         return jsonObject['errors'];
       }
     } catch (e) {
@@ -198,7 +197,7 @@ class AuthenticationController extends GetxController {
         },
       );
       var jsonObject = jsonDecode(response.body);
-
+      isLoading.value = false;
       return jsonObject;
     } catch (e) {
       print(e);

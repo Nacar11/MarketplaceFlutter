@@ -76,7 +76,6 @@ class _SignUpPageState extends State<SignUpPagepassword> {
                                   if (!isNameEmpty) {
                                     authController.storeLocalData(
                                         'password', passwordControl.text);
-                                    authController.test();
                                     continuebutton6(context);
                                   }
                                 },

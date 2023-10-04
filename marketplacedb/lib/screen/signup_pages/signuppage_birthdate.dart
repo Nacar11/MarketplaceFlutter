@@ -142,7 +142,6 @@ class _SignUpPageState extends State<SignUpPagebirthdate> {
                               DateFormat('yyyy-MM-dd').format(selectedDate);
                           authController.storeLocalData(
                               'date_of_birth', formattedDate);
-                          authController.test();
                           continuebutton2(context);
                         }
                       },

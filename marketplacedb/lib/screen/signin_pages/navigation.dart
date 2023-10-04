@@ -4,15 +4,24 @@ import 'package:marketplacedb/screen/signin_pages/homepage.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/discoverpage.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/sellpage.dart';
 import 'package:marketplacedb/screen/signin_pages/mepage_pages/mepage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:marketplacedb/controllers/productController.dart';
 
 class Navigation extends StatefulWidget {
-  const Navigation({Key? key}) : super(key: key);
+  final bool? welcomeMessage;
 
+  const Navigation({Key? key, this.welcomeMessage}) : super(key: key);
   @override
-  State<Navigation> createState() => NavigationState();
+  State<Navigation> createState() =>
+      // ignore: no_logic_in_create_state
+      NavigationState(welcomeMessage: welcomeMessage ?? false);
 }
 
 class NavigationState extends State<Navigation> {
+  final bool welcomeMessage;
+  final productController = ProductController();
+  NavigationState({required this.welcomeMessage});
+
   int index = 0;
   final screens = [
     const Homepage(),
@@ -21,6 +30,29 @@ class NavigationState extends State<Navigation> {
     //Messages(),
     const Mepage(),
   ];
+
+  @override
+  void initState() {
+    super.initState(); // Call the superclass's initState
+    // Call your custom init method here
+    init();
+  }
+
+  Future init() async {
+    final prefs = await SharedPreferences.getInstance();
+    await productController.getProductCategories();
+    if (widget.welcomeMessage == true) {
+      final snackbar = SnackBar(
+        duration: const Duration(seconds: 3),
+        content: Text('Welcome, ${prefs.getString('username')}'),
+        action: SnackBarAction(
+          label: 'Dismiss',
+          onPressed: () {},
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    }
+  }
 
   @override
   void dispose() {
