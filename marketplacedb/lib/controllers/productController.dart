@@ -27,7 +27,7 @@ class ProductController extends GetxController {
     print(response.body);
   }
 
-  Future getProductCategories() async {
+  Future<List<ProductCategoryModel>> getProductCategories() async {
     final response = await http.get(Uri.parse(url + "product-category"));
     print(response.body);
     if (response.statusCode == 200) {
@@ -39,5 +39,6 @@ class ProductController extends GetxController {
 
       productCategoryList.assignAll(categoryList);
     }
+    return productCategoryList;
   }
 }

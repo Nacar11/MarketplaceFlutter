@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/constants/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -66,6 +67,8 @@ class AuthenticationController extends GetxController {
       if (jsonObject['message'] == "Authorized") {
         isLoading.value = false;
         print(jsonObject['access_token']);
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString('token', jsonObject['access_token']);
         return 0;
       } else {
         isLoading.value = false;
@@ -95,14 +98,40 @@ class AuthenticationController extends GetxController {
       );
       var jsonObject = jsonDecode(response.body);
 
-      if (jsonObject['message'] == "Authorized") {
-        isLoading.value = false;
-        print(jsonObject['access_token']);
-        return 0;
-      } else {
-        isLoading.value = false;
-        return jsonObject['errors'];
-      }
+      return jsonObject;
+      // if (jsonObject['message'] == "Authorized") {
+      //   isLoading.value = false;
+      //   print(jsonObject['access_token']);
+      //   return 0;
+      // } else {
+      //   isLoading.value = false;
+      //   return jsonObject['errors'];
+      // }
+    } catch (e) {
+      print(e);
+      isLoading.value = false;
+    }
+  }
+
+  Future checkUsername({
+    required String username,
+  }) async {
+    try {
+      isLoading.value = true;
+      var data = {
+        'username': username,
+      };
+
+      var response = await http.post(
+        Uri.parse('${url}checkUsername'),
+        headers: {
+          'Accept': 'application/json',
+        },
+        body: data,
+      );
+      var jsonObject = jsonDecode(response.body);
+
+      return jsonObject;
     } catch (e) {
       print(e);
       isLoading.value = false;
@@ -122,9 +151,15 @@ class AuthenticationController extends GetxController {
         'username': prefs.getString('username'),
         'contact_number': prefs.getString('contact_number'),
         'date_of_birth': prefs.getString('date_of_birth'),
-        'is_subscribe_to_newsletter': 'false',
-        'is_subscribe_to_promotions': 'false',
-        'gender': "Male"
+        'is_subscribe_to_newsletter':
+            (prefs.getBool('is_subscribe_to_newsletter') ?? false)
+                ? 'true'
+                : 'false',
+        'is_subscribe_to_promotions':
+            (prefs.getBool('is_subscribe_to_promotions') ?? false)
+                ? 'true'
+                : 'false',
+        'gender': prefs.getString('gender'),
       };
 
       var response = await http.post(
@@ -139,12 +174,32 @@ class AuthenticationController extends GetxController {
       if (jsonObject['message'] == "Success") {
         isLoading.value = false;
         print(jsonObject['access_token']);
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString('token', jsonObject['access_token']);
         return 0;
       } else {
         isLoading.value = false;
         print(jsonObject['errors']);
         return jsonObject['errors'];
       }
+    } catch (e) {
+      print(e);
+      isLoading.value = false;
+    }
+  }
+
+  Future logout() async {
+    try {
+      isLoading.value = true;
+      var response = await AuthInterceptor().get(
+        Uri.parse('${url}logout'),
+        headers: {
+          'Accept': 'application/json',
+        },
+      );
+      var jsonObject = jsonDecode(response.body);
+
+      return jsonObject;
     } catch (e) {
       print(e);
       isLoading.value = false;

@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
+import 'package:get/get.dart';
+
 import 'package:marketplacedb/screen/signin_page.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/config/textfields.dart';
@@ -74,7 +76,7 @@ class _SignUpPageState extends State<SignUpPagepromotion> {
                       ischeckednewsletters = newBool!;
                     });
                   }),
-              const Text('Subscribe to promotions'),
+              const Text('Subscribe to newsletters'),
             ]),
           ]),
           Expanded(
@@ -85,23 +87,32 @@ class _SignUpPageState extends State<SignUpPagepromotion> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
-                    child: Continue(
-                      onTap: () async {
-                        authController.storeLocalBoolData(
-                            'is_subscribe_to_promotion', ischeckedpromotions);
-                        authController.storeLocalBoolData(
-                            'is_subscribe_to_newsletter', ischeckednewsletters);
-                        var response = await authController.register();
-                        if (response == 0) {
-                          continuebutton7(context);
-                        } else {
-                          print(response);
-                        }
-                      },
+                    child: Obx(() {
+                      if (authController.isLoading.value) {
+                        return CircularProgressIndicator(); // Display a circular progress indicator when isLoading is true
+                      } else {
+                        return Continue(
+                          onTap: () async {
+                            authController.storeLocalBoolData(
+                                'is_subscribe_to_promotions',
+                                ischeckedpromotions);
+                            authController.storeLocalBoolData(
+                                'is_subscribe_to_newsletter',
+                                ischeckednewsletters);
+                            var response = await authController.register();
+                            if (response == 0) {
+                              continuebutton7(context);
+                            } else {
+                              print(response);
+                            }
+                          },
 
-                      isDisabled: false, // Pass the isNameEmpty variable here
-                    ),
-                  ),
+                          isDisabled:
+                              false, // Pass the isNameEmpty variable here
+                        );
+                      }
+                    }),
+                  )
                 ],
               ),
             ),

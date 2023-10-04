@@ -81,14 +81,28 @@ class _SignUpPageState extends State<SignUpPageemail> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Continue(
-                      onTap: () {
+                      onTap: () async {
                         if (!isNameEmpty) {
-                          var response = authController.checkEmail(
+                          var response = await authController.checkEmail(
                               email: textcontrol.text);
 
-                          authController.storeLocalData(
-                              'email', textcontrol.text);
-                          continuebutton5(context);
+                          if (response['message'] == null) {
+                            authController.storeLocalData(
+                                'email', textcontrol.text);
+                            continuebutton5(context);
+                          } else {
+                            final text = response['message'];
+                            final snackbar = SnackBar(
+                              duration: const Duration(seconds: 3),
+                              content: Text(text),
+                              action: SnackBarAction(
+                                label: 'Dismiss',
+                                onPressed: () {},
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackbar);
+                          }
                         }
                       },
                       isDisabled:

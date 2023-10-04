@@ -74,12 +74,28 @@ class _SignUpPageState extends State<SignUpPageusername> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Continue(
-                      onTap: () {
+                      onTap: () async {
                         if (!isNameEmpty) {
-                          authController.storeLocalData(
-                              'username', textcontrol.text);
-                          authController.test();
-                          continuebutton6(context);
+                          var response = await authController.checkUsername(
+                              username: textcontrol.text);
+
+                          if (response['message'] == null) {
+                            authController.storeLocalData(
+                                'username', textcontrol.text);
+                            continuebutton6(context);
+                          } else {
+                            final text = response['message'];
+                            final snackbar = SnackBar(
+                              duration: const Duration(seconds: 3),
+                              content: Text(text),
+                              action: SnackBarAction(
+                                label: 'Dismiss',
+                                onPressed: () {},
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackbar);
+                          }
                         }
                       },
                       isDisabled:

@@ -4,6 +4,7 @@ import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/productController.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
+import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/see_more.dart';
 
 class CardItem {
   final String urlImage;
@@ -25,17 +26,9 @@ class Discoverpage extends StatefulWidget {
 
 class DiscoverpageState extends State<Discoverpage> {
   final searchController = TextEditingController();
-  // String valueChoose = '';
-  // List listItem = [
-  //   "item 1",
-  //   "item 2",
-  //   "item 3",
-  //   "item 4",
-  // ];
 
   @override
   void dispose() {
-    // Dispose of the controller when no longer needed to prevent memory leaks.
     searchController.dispose();
     super.dispose();
   }
@@ -81,52 +74,85 @@ class DiscoverpageState extends State<Discoverpage> {
         ),
         body: ListView(
           children: <Widget>[
-            Column(
-              children: <Widget>[
-                Container(
-                  height: 3, // Adjust the height to make the line thicker
-                  color: Colors.grey, // Adjust the color as needed
-                ),
-                const SizedBox(height: 20),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Headertext(text: 'Womens Wear'),
+            Container(
+              height: 3, // Adjust the height to make the line thicker
+              color: Colors.grey, // Adjust the color as needed
+            ),
+            FutureBuilder<List<ProductCategoryModel>>(
+              future: controller
+                  .getProductCategories(), // Replace with your actual fetch method
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: SizedBox(
+                      width: 50.0, // Adjust the size as needed
+                      height: 50.0, // Adjust the size as needed
+                      child: CircularProgressIndicator(
+                        strokeWidth: 3.0, // Adjust the stroke width as needed
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.blue), // Set the desired color
+                      ),
                     ),
-                    // Sidetext(text: 'see all'),
-                  ],
-                ),
-              ],
+                  ); // Display a loading indicator
+                } else if (snapshot.hasError) {
+                  return Text(
+                      'Error: ${snapshot.error}'); // Display an error message
+                } else {
+                  return Column(
+                    children: [
+                      for (final category in productCategoryList)
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(11.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Headertext(
+                                      text: category.category_name ?? 'Error',
+                                    ),
+                                  ),
+                                  Sidetext(
+                                    text: 'see more',
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Seemore(category: category)));
+                                    },
+                                    textcolor:
+                                        Colors.blue, // Set the desired color
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Homepagecon(),
+                            const Homepagecon(),
+                          ],
+                        ),
+                    ],
+                  );
+                }
+              },
             ),
-            const Womenswear(),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Headertext(text: 'Mens Wear'),
-                ),
-                // Sidetext(text: 'see more'),
-              ],
-            ),
-            const Homepagecon(),
-            const Homepagecon(),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Headertext(text: 'Our Picks'),
-                ),
-                // Sidetext(text: 'see more'),
-              ],
-            ),
-            const Homepagecon(),
-            const Womenswear(),
-            const Homepagecon(),
-            const Womenswear(),
+
+            // const Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: <Widget>[
+            //     Padding(
+            //       padding: EdgeInsets.all(8.0),
+            //       child: Headertext(text: 'Our Picks'),
+            //     ),
+            //     // Sidetext(text: 'see more'),
+            //   ],
+            // ),
+            // const Homepagecon(),
+            // const Womenswear(),
+            // const Homepagecon(),
+            // const Womenswear(),
 
 //  Column(
 //   children: [
@@ -145,22 +171,38 @@ class DiscoverpageState extends State<Discoverpage> {
 //       ),
 //   ],
 // )
-            Column(
-              children: [
-                for (final category in productCategoryList)
-                  ExpansionTile(
-                    title: Text(category.category_name ?? "asd"),
+            FutureBuilder<List<ProductCategoryModel>>(
+              future: controller
+                  .getProductCategories(), // Replace with your data fetching function
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<ProductCategoryModel>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  // While waiting for the data to load, you can return a loading indicator or message.
+                  return Container(); // or any other loading widget.
+                } else if (snapshot.hasError) {
+                  // Handle the error here.
+                  return Text("Error: ${snapshot.error}, No data available");
+                } else {
+                  // Data has been successfully fetched, build the UI with ExpansionTiles.
+                  return Column(
                     children: [
-                      if (category.children != null)
-                        for (final subcategory in category.children!)
-                          ListTile(
-                            title: Text(subcategory.category_name ??
-                                "Unnamed Subcategory"),
-                            onTap: () {},
-                          ),
+                      for (final category in productCategoryList)
+                        ExpansionTile(
+                          title: Text(category.category_name ?? "asd"),
+                          children: [
+                            if (category.children != null)
+                              for (final subcategory in category.children!)
+                                ListTile(
+                                  title: Text(subcategory.category_name ??
+                                      "Unnamed Subcategory"),
+                                  onTap: () {},
+                                ),
+                          ],
+                        ),
                     ],
-                  ),
-              ],
+                  );
+                }
+              },
             )
             // Center(
             //     child: Padding(

@@ -50,7 +50,7 @@ class MepagesettingsState extends State<Mepagesettings> {
                       builder: (context) => const Frontpage()));
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
-                  print(prefs.getString('token'));
+                  print('ASD ${prefs.getString('token')}');
                   await prefs.clear();
                   print(prefs.getString('token'));
                 },

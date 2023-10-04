@@ -118,7 +118,7 @@ class _SignInPageState extends State<SignInPage> {
                               } else {
                                 final text = response;
                                 final snackbar = SnackBar(
-                                  duration: const Duration(days: 365),
+                                  duration: const Duration(seconds: 3),
                                   content: Text(text),
                                   action: SnackBarAction(
                                     label: 'Dismiss',
