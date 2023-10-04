@@ -4,10 +4,45 @@ import 'package:flutter/gestures.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_name.dart';
 import 'package:marketplacedb/screen/signin_page.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Frontpage extends StatelessWidget {
-  // ignore: use_key_in_widget_constructors
-  const Frontpage({Key? key});
+class Frontpage extends StatefulWidget {
+  final bool? logoutMessage;
+  const Frontpage({Key? key, this.logoutMessage}) : super(key: key);
+
+  @override
+  State<Frontpage> createState() =>
+      // ignore: no_logic_in_create_state
+      FrontpageState(logoutMessage: logoutMessage ?? false);
+}
+
+class FrontpageState extends State<Frontpage> {
+  final bool logoutMessage;
+  FrontpageState({required this.logoutMessage});
+
+  @override
+  void initState() {
+    super.initState(); // Call the superclass's initState
+    // Call your custom init method here
+    init();
+  }
+
+  Future init() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    if (widget.logoutMessage == true) {
+      final snackbar = SnackBar(
+        duration: const Duration(seconds: 3),
+        content: const Text('Logged Out Successfully.'),
+        action: SnackBarAction(
+          label: 'Dismiss',
+          onPressed: () {},
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    }
+  }
+
   void fbbutton() {}
   void signupbutton(BuildContext context) {
     Navigator.of(context)

@@ -17,11 +17,11 @@ class SignUpPagebirthdate extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPagebirthdate> {
   final authController = AuthenticationController();
   final textcontrol = TextEditingController();
+  DateTime? pickedDate;
+  String _valueGender = "";
   DateTime selectedDate = DateTime(2023, 9, 22, 12, 21);
-  bool isDateSelected =
-      true; // Store whether a date is selected // Store the selected date
-
-  showDatePicker(
+  bool isDateSelected = false;
+  showDatePickerC(
       {required DateTime initialDate,
       required BuildContext context,
       required DateTime firstDate,
@@ -46,7 +46,7 @@ class _SignUpPageState extends State<SignUpPagebirthdate> {
   @override
   void initState() {
     super.initState();
-    // Listen for changes in the text field and update the button's state.
+    isDateSelected = selectedDate != DateTime(2023, 9, 22, 12, 21);
     textcontrol.addListener(() {
       setState(() {});
     });
@@ -82,50 +82,59 @@ class _SignUpPageState extends State<SignUpPagebirthdate> {
           const SizedBox(
             height: 20,
           ),
-          Builder(
-            builder: (BuildContext context) {
-              return Column(
+          Padding(
+            padding: const EdgeInsets.all(28.0),
+            child: Center(
+              child: Row(
                 children: [
-                  const Text(
-                    "Date of birth",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      final pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: selectedDate,
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime.now(),
-                      );
-
-                      if (pickedDate != null && pickedDate != selectedDate) {
-                        setState(() {
-                          selectedDate = pickedDate;
-                        });
-                      }
+                  const Text("Select Gender"),
+                  Radio(
+                    value: "Male",
+                    groupValue: _valueGender,
+                    onChanged: (value) {
+                      setState(() {
+                        _valueGender = value!;
+                      });
                     },
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: Text(
-                              "${selectedDate.toLocal().toLocal()}"
-                                  .split(' ')[0],
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        ),
-                        const Icon(Icons.calendar_today),
-                      ],
-                    ),
                   ),
+                  const Text("Male"),
+                  Radio(
+                    value: "Female",
+                    groupValue: _valueGender,
+                    onChanged: (value) {
+                      setState(() {
+                        _valueGender = value!;
+                      });
+                    },
+                  ),
+                  const Text("Female"),
                 ],
-              );
-            },
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: TextField(
+                readOnly: true, // Disable text input
+                controller: textcontrol,
+                decoration: const InputDecoration(
+                    icon: Icon(Icons.calendar_today_rounded),
+                    labelText: "Date of Birth"),
+                onTap: () async {
+                  pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1960),
+                      lastDate: DateTime(2101));
+
+                  if (pickedDate != null) {
+                    textcontrol.text =
+                        DateFormat('yyyy-MM-dd').format(pickedDate!);
+                    setState(() {
+                      isDateSelected = true;
+                    });
+                  }
+                }),
           ),
           Expanded(
             child: Align(
@@ -136,18 +145,19 @@ class _SignUpPageState extends State<SignUpPagebirthdate> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Continue(
-                      onTap: () {
-                        if (isDateSelected) {
-                          final formattedDate =
-                              DateFormat('yyyy-MM-dd').format(selectedDate);
-                          authController.storeLocalData(
-                              'date_of_birth', formattedDate);
-                          continuebutton2(context);
-                        }
-                      },
-                      isDisabled:
-                          !isDateSelected, // Disable if no date selected
-                    ),
+                        onTap: () {
+                          if (isDateSelected && _valueGender.isNotEmpty) {
+                            final formattedDate =
+                                DateFormat('yyyy-MM-dd').format(pickedDate!);
+                            authController.storeLocalData(
+                                'date_of_birth', formattedDate);
+                            authController.storeLocalData(
+                                'gender', _valueGender);
+
+                            continuebutton2(context);
+                          }
+                        },
+                        isDisabled: !isDateSelected || _valueGender.isEmpty),
                   ),
                 ],
               ),

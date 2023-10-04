@@ -53,7 +53,8 @@ class MepagesettingsState extends State<Mepagesettings> {
                   var response = await authController.logout();
                   if (response['message'] == 'Logged out Successfully') {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const Frontpage()));
+                        builder: (context) =>
+                            const Frontpage(logoutMessage: true)));
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     print('ASD ${prefs.getString('token')}');

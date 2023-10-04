@@ -17,7 +17,6 @@ class SignUpPagenameState extends State<SignUpPagename> {
   final firstnamecontroller = TextEditingController();
   final lastnamecontroller = TextEditingController();
   final authController = AuthenticationController();
-  String _value = "";
 
   bool isNameEmpty = true;
 
@@ -77,32 +76,6 @@ class SignUpPagenameState extends State<SignUpPagename> {
             labelText: 'Enter your Last name',
             obscureText: false,
           ),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              const SizedBox(width: 20),
-              Radio(
-                value: "Male",
-                groupValue: _value,
-                onChanged: (value) {
-                  setState(() {
-                    _value = value!;
-                  });
-                },
-              ),
-              const Text("Male"),
-              Radio(
-                value: "Female",
-                groupValue: _value,
-                onChanged: (value) {
-                  setState(() {
-                    _value = value!;
-                  });
-                },
-              ),
-              const Text("Female"),
-            ],
-          ),
           Expanded(
             child: Align(
               alignment: Alignment.bottomCenter,
@@ -118,7 +91,6 @@ class SignUpPagenameState extends State<SignUpPagename> {
                               'first_name', firstnamecontroller.text);
                           authController.storeLocalData(
                               'last_name', lastnamecontroller.text);
-                          authController.storeLocalData('gender', _value);
                           continuebutton(context);
                         }
                       },
