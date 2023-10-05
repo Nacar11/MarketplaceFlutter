@@ -27,22 +27,17 @@ class CustomSnackBarState extends State<CustomSnackBar> {
   }
 }
 
-void showSnackBar(BuildContext context, String message, String type) {
+void showSuccessSnackBar(BuildContext context, String message, String type) {
   Flushbar(
     margin: EdgeInsets.all(15),
     duration: Duration(seconds: 1),
     message: message,
     flushbarPosition: FlushbarPosition.TOP,
     borderRadius: BorderRadius.all(Radius.circular(10.0)),
-    backgroundGradient: type == 'error'
-        ? LinearGradient(
-            colors: [Colors.red.shade800, Colors.redAccent.shade700],
-            stops: [0.6, 1],
-          )
-        : LinearGradient(
-            colors: [Colors.green.shade800, Colors.greenAccent.shade700],
-            stops: [0.6, 1],
-          ),
+    backgroundGradient: LinearGradient(
+      colors: [Colors.green.shade800, Colors.greenAccent.shade700],
+      stops: [0.6, 1],
+    ),
     boxShadows: [
       BoxShadow(
         color: Colors.black45,
@@ -52,6 +47,31 @@ void showSnackBar(BuildContext context, String message, String type) {
     ],
     dismissDirection: FlushbarDismissDirection.HORIZONTAL,
     forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
-    title: 'Error',
+    title: type == 'loginsuccess' ? 'Successfully Logged In' : 'Success',
   ).show(context);
+}
+
+void showErrorHandlingSnackBar(
+    BuildContext context, String message, String type) {
+  Flushbar(
+          margin: EdgeInsets.all(15),
+          duration: Duration(seconds: 1),
+          message: message,
+          flushbarPosition: FlushbarPosition.TOP,
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          backgroundGradient: LinearGradient(
+            colors: [Colors.green.shade800, Colors.greenAccent.shade700],
+            stops: [0.6, 1],
+          ),
+          boxShadows: [
+            BoxShadow(
+              color: Colors.black45,
+              offset: Offset(3, 3),
+              blurRadius: 3,
+            ),
+          ],
+          dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+          forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+          title: 'Error')
+      .show(context);
 }

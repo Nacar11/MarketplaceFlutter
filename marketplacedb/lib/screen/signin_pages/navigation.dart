@@ -6,6 +6,7 @@ import 'package:marketplacedb/screen/signin_pages/sellpage_pages/sellpage.dart';
 import 'package:marketplacedb/screen/signin_pages/mepage_pages/mepage.dart';
 import 'package:marketplacedb/controllers/productController.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:marketplacedb/config/snackbar.dart';
 
 class Navigation extends StatefulWidget {
   final bool? welcomeMessage;
@@ -45,15 +46,8 @@ class NavigationState extends State<Navigation> {
 
   void showWelcomeMessageSnackBar() {
     final storage = GetStorage();
-    final snackbar = SnackBar(
-      duration: const Duration(seconds: 3),
-      content: Text('Welcome, ${storage.read('username')}'),
-      action: SnackBarAction(
-        label: 'Dismiss',
-        onPressed: () {},
-      ),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    String text = 'Welcome, ${storage.read('username')}';
+    showSuccessSnackBar(context, text, 'loginsuccess');
   }
 
   @override

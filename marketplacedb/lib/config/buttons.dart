@@ -92,24 +92,35 @@ class SignupButton extends StatelessWidget {
 
 class SigninButton extends StatelessWidget {
   final Function()? onPressed;
+  final bool isDisabled;
+  final String text;
+
   const SigninButton({
-    super.key,
+    Key? key,
     required this.onPressed,
+    required this.text,
+    this.isDisabled = false, // Default to not disabled
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onPressed,
+      onTap: isDisabled ? null : onPressed, // Conditionally set onTap
       child: Container(
         padding: const EdgeInsets.all(20),
         margin: const EdgeInsets.symmetric(horizontal: 20),
-        decoration: const BoxDecoration(color: Colors.black),
-        child: const Center(
+        decoration: BoxDecoration(
+          color: isDisabled
+              ? Colors.grey
+              : Colors.black, // Change the background color
+        ),
+        child: Center(
           child: Text(
-            "Sign In",
+            isDisabled ? '' : text,
             style: TextStyle(
-              color: Colors.white,
+              color: isDisabled
+                  ? Colors.black
+                  : Colors.white, // Change the text color
               fontWeight: FontWeight.bold,
               fontSize: 24,
             ),

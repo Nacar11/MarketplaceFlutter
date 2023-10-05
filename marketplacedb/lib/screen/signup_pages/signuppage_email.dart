@@ -93,7 +93,7 @@ class _SignUpPageState extends State<SignUpPageemail> {
                             continuebutton5(context);
                           } else {
                             final text = response['message'];
-                            showSnackBar(context, text, 'error');
+                            showErrorHandlingSnackBar(context, text, 'error');
                           }
                         }
                       },

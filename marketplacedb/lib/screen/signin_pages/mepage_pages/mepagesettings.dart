@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/screen/front_page.dart';
+import 'package:marketplacedb/config/snackbar.dart';
 
 // import 'package:get/get.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
@@ -61,15 +62,8 @@ class MepagesettingsState extends State<Mepagesettings> {
                     await storage.erase();
                     print(storage.read('token'));
                   } else {
-                    final snackbar = SnackBar(
-                      duration: const Duration(seconds: 3),
-                      content: const Text('Error, Please Try Again!'),
-                      action: SnackBarAction(
-                        label: 'Dismiss',
-                        onPressed: () {},
-                      ),
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                    showSuccessSnackBar(
+                        context, 'Successfully Logged Out', 'logoutSuccess');
                   }
                 },
                 child: const Text(

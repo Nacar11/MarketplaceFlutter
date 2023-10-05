@@ -118,7 +118,12 @@ class FirstOptionMenu extends StatefulWidget {
 }
 
 class _FirstOptionMenuState extends State<FirstOptionMenu> {
-  void listItemButton(BuildContext context) {
+  void goToListAnItem(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const Listitempage()));
+  }
+
+  void goToBillingAddress(BuildContext context) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const Listitempage()));
   }
@@ -210,9 +215,15 @@ class _FirstOptionMenuState extends State<FirstOptionMenu> {
           ),
         ],
       ),
-      ListItem(onTap: () {
-        listItemButton(context);
-      }),
+      SigninButton(
+          isDisabled: false,
+          text: "List an Item and Start Selling",
+          onPressed: () {
+            if (0 == 1) {
+              goToListAnItem(context);
+            } else
+              goToBillingAddress(context);
+          }),
     ]);
   }
 }

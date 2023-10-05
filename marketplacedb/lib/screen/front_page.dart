@@ -4,7 +4,8 @@ import 'package:flutter/gestures.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_name.dart';
 import 'package:marketplacedb/screen/signin_page.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
-import 'package:get_storage/get_storage.dart';
+// import 'package:get_storage/get_storage.dart';
+import 'package:marketplacedb/config/snackbar.dart';
 
 class Frontpage extends StatefulWidget {
   final bool? logoutMessage;
@@ -32,15 +33,7 @@ class FrontpageState extends State<Frontpage> {
   }
 
   void showLogoutSnackBar() async {
-    final snackbar = SnackBar(
-      duration: const Duration(seconds: 3),
-      content: const Text('Logged Out Successfully.'),
-      action: SnackBarAction(
-        label: 'Dismiss',
-        onPressed: () {},
-      ),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    showSuccessSnackBar(context, "Successfully Logged Out", 'success');
   }
 
   void fbbutton() {}
