@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/screen/front_page.dart';
 
 // import 'package:get/get.dart';
@@ -55,11 +56,10 @@ class MepagesettingsState extends State<Mepagesettings> {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) =>
                             const Frontpage(logoutMessage: true)));
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    print('ASD ${prefs.getString('token')}');
-                    await prefs.clear();
-                    print(prefs.getString('token'));
+                    final storage = GetStorage();
+                    print('ASD ${storage.read('token')}');
+                    await storage.erase();
+                    print(storage.read('token'));
                   } else {
                     final snackbar = SnackBar(
                       duration: const Duration(seconds: 3),

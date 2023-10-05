@@ -1,5 +1,5 @@
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthInterceptor extends http.BaseClient {
   final http.Client _inner = http.Client();
@@ -7,7 +7,7 @@ class AuthInterceptor extends http.BaseClient {
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) async {
     // Get the token from SharedPreferences
-    String? token = await getTokenFromSharedPreferences();
+    String? token = getTokenFromStorage();
 
     if (token != null) {
       request.headers['Authorization'] = 'Bearer $token';
@@ -16,8 +16,8 @@ class AuthInterceptor extends http.BaseClient {
     return _inner.send(request);
   }
 
-  Future<String?> getTokenFromSharedPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token');
+  String? getTokenFromStorage() {
+    final storage = GetStorage();
+    return storage.read('token');
   }
 }

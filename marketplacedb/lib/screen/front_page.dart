@@ -4,7 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_name.dart';
 import 'package:marketplacedb/screen/signin_page.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 
 class Frontpage extends StatefulWidget {
   final bool? logoutMessage;
@@ -24,23 +24,23 @@ class FrontpageState extends State<Frontpage> {
   void initState() {
     super.initState(); // Call the superclass's initState
     // Call your custom init method here
-    init();
+    if (logoutMessage) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        showLogoutSnackBar();
+      });
+    }
   }
 
-  Future init() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.clear();
-    if (widget.logoutMessage == true) {
-      final snackbar = SnackBar(
-        duration: const Duration(seconds: 3),
-        content: const Text('Logged Out Successfully.'),
-        action: SnackBarAction(
-          label: 'Dismiss',
-          onPressed: () {},
-        ),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackbar);
-    }
+  void showLogoutSnackBar() async {
+    final snackbar = SnackBar(
+      duration: const Duration(seconds: 3),
+      content: const Text('Logged Out Successfully.'),
+      action: SnackBarAction(
+        label: 'Dismiss',
+        onPressed: () {},
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 
   void fbbutton() {}
@@ -55,8 +55,8 @@ class FrontpageState extends State<Frontpage> {
   }
 
   void signInButton(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const SignInPage()));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const SignInPage()));
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/productController.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/see_more.dart';
+import 'package:get_storage/get_storage.dart';
 
 class CardItem {
   final String urlImage;
@@ -28,6 +29,14 @@ class DiscoverpageState extends State<Discoverpage> {
   final searchController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  Future init() async {}
+
+  @override
   void dispose() {
     searchController.dispose();
     super.dispose();
@@ -46,6 +55,7 @@ class DiscoverpageState extends State<Discoverpage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: true,
           title: Row(
             children: <Widget>[
               const Icon(Icons.search),
@@ -65,8 +75,10 @@ class DiscoverpageState extends State<Discoverpage> {
                 icon: const Icon(
                   Icons.shopping_cart,
                 ), // Add the shopping cart icon
-                onPressed: () {
-                  // Handle the shopping cart action here
+                onPressed: () async {
+                  final storage = GetStorage();
+                  print(storage.read('token'));
+                  print('asd');
                 },
               ),
             ],

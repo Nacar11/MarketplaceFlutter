@@ -6,12 +6,14 @@ import 'package:marketplacedb/config/buttons.dart';
 import 'package:get/get.dart';
 
 import 'package:marketplacedb/screen/signin_page.dart';
-import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/config/textfields.dart';
 
 void continuebutton7(BuildContext context, bool? welcomeMessage) {
-  Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => Navigation(welcomeMessage: welcomeMessage)));
+  Navigator.of(context).pushNamedAndRemoveUntil(
+    '/navigation',
+    (Route<dynamic> route) => false,
+    arguments: welcomeMessage, // Pass the optional argument using RouteSettings
+  );
 }
 
 class SignUpPagepromotion extends StatefulWidget {
@@ -93,11 +95,11 @@ class _SignUpPageState extends State<SignUpPagepromotion> {
                       } else {
                         return Continue(
                           onTap: () async {
-                            authController.storeLocalBoolData(
+                            authController.storeLocalData(
                                 'is_subscribe_to_promotions',
                                 ischeckedpromotions);
-                            authController.storeLocalBoolData(
-                                'is_subscribe_to_newsletter',
+                            authController.storeLocalData(
+                                'is_subscribe_to_newsletters',
                                 ischeckednewsletters);
                             var response = await authController.register();
                             if (response == 0) {

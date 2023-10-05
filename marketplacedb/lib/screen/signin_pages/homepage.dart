@@ -45,6 +45,7 @@ class HomepageState extends State<Homepage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Row(
             children: <Widget>[
               const Icon(Icons.search),

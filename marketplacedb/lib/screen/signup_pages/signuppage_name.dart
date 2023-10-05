@@ -87,10 +87,12 @@ class SignUpPagenameState extends State<SignUpPagename> {
                     child: Continue(
                       onTap: () {
                         if (!isNameEmpty) {
+                          authController.test();
                           authController.storeLocalData(
                               'first_name', firstnamecontroller.text);
                           authController.storeLocalData(
                               'last_name', lastnamecontroller.text);
+                          authController.test();
                           continuebutton(context);
                         }
                       },

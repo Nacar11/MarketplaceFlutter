@@ -5,20 +5,16 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/constants/constant.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 
 class AuthenticationController extends GetxController {
   final isLoading = false.obs;
   final token = ''.obs;
+  final storage = GetStorage();
 
-  void storeLocalData(String key, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(key, value);
-  }
-
-  void storeLocalBoolData(String key, bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(key, value);
+  void storeLocalData(String key, value) async {
+    final storage = GetStorage();
+    await storage.write(key, value);
   }
 
   String email = '';
@@ -32,16 +28,17 @@ class AuthenticationController extends GetxController {
   final is_subscribe_to_newsletter = false;
   final is_subscribe_to_promotions = false;
 
-  // Future test() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final String? action = prefs.getString('username');
-
-  //   // print('asdasd');
-  //   // final response = await http.get(
-  //   //   Uri.parse(url + 'test'),
-  //   // );
-  //   // print(response.body);
-  // }
+  Future test() async {
+    final storage = GetStorage();
+    print(storage.read('username'));
+    print(storage.read('last_name'));
+    print(storage.read('first_name'));
+    // print('asdasd');
+    // final response = await http.get(
+    //   Uri.parse(url + 'test'),
+    // );
+    // print(response.body);
+  }
 
   Future login({
     required String email,
@@ -64,9 +61,9 @@ class AuthenticationController extends GetxController {
       if (jsonObject['message'] == "Authorized") {
         isLoading.value = false;
         print(jsonObject['access_token']);
-        final prefs = await SharedPreferences.getInstance();
-        prefs.setString('token', jsonObject['access_token']);
-        prefs.setString('username', jsonObject['username']);
+        storage.write('token', jsonObject['access_token']);
+        storage.write('username', jsonObject['username']);
+        storage.read('token');
         return 0;
       } else {
         isLoading.value = false;
@@ -137,27 +134,27 @@ class AuthenticationController extends GetxController {
   }
 
   Future register() async {
-    final prefs = await SharedPreferences.getInstance();
+    final storage = await GetStorage();
     try {
       isLoading.value = true;
 
       var data = {
-        'email': prefs.getString('email'),
-        'password': prefs.getString('password'),
-        'last_name': prefs.getString('first_name'),
-        'first_name': prefs.getString('first_name'),
-        'username': prefs.getString('username'),
-        'contact_number': prefs.getString('contact_number'),
-        'date_of_birth': prefs.getString('date_of_birth'),
-        'is_subscribe_to_newsletter':
-            (prefs.getBool('is_subscribe_to_newsletter') ?? false)
+        'email': storage.read('email'),
+        'password': storage.read('password'),
+        'last_name': storage.read('first_name'),
+        'first_name': storage.read('first_name'),
+        'username': storage.read('username'),
+        'contact_number': storage.read('contact_number'),
+        'date_of_birth': storage.read('date_of_birth'),
+        'is_subscribe_to_newsletters':
+            (storage.read('is_subscribe_to_newsletters') ?? false)
                 ? 'true'
                 : 'false',
         'is_subscribe_to_promotions':
-            (prefs.getBool('is_subscribe_to_promotions') ?? false)
+            (storage.read('is_subscribe_to_promotions') ?? false)
                 ? 'true'
                 : 'false',
-        'gender': prefs.getString('gender'),
+        'gender': storage.read('gender'),
       };
 
       var response = await http.post(
@@ -171,10 +168,10 @@ class AuthenticationController extends GetxController {
       if (jsonObject['message'] == "Success") {
         isLoading.value = false;
         print(jsonObject['access_token']);
-        final prefs = await SharedPreferences.getInstance();
-        prefs.clear();
-        prefs.setString('token', jsonObject['access_token']);
-        prefs.setString('username', jsonObject['username']);
+        final storage = GetStorage();
+        storage.erase();
+        storage.write('token', jsonObject['access_token']);
+        storage.write('username', jsonObject['username']);
 
         return 0;
       } else {
