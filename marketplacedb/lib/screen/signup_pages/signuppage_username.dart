@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
+import 'package:marketplacedb/config/snackbar.dart';
+
 import 'package:marketplacedb/screen/signup_pages/signuppage_password.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
@@ -85,16 +87,7 @@ class _SignUpPageState extends State<SignUpPageusername> {
                             continuebutton6(context);
                           } else {
                             final text = response['message'];
-                            final snackbar = SnackBar(
-                              duration: const Duration(seconds: 3),
-                              content: Text(text),
-                              action: SnackBarAction(
-                                label: 'Dismiss',
-                                onPressed: () {},
-                              ),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackbar);
+                            showSnackBar(context, text, 'error');
                           }
                         }
                       },

@@ -36,8 +36,9 @@ dependencies:
   shared_preferences: ^2.0.6
   carousel_slider: ^4.2.1
   dotted_border: 
-  awesome_snackbar_content: ^0.1.3
   get_storage: ^2.1.1
+ 
+  another_flushbar: ^1.12.30
   
 
 

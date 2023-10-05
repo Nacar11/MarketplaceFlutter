@@ -4,6 +4,7 @@ import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_username.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
+import 'package:marketplacedb/config/snackbar.dart';
 
 class SignUpPageemail extends StatefulWidget {
   const SignUpPageemail({Key? key}) : super(key: key);
@@ -92,16 +93,7 @@ class _SignUpPageState extends State<SignUpPageemail> {
                             continuebutton5(context);
                           } else {
                             final text = response['message'];
-                            final snackbar = SnackBar(
-                              duration: const Duration(seconds: 3),
-                              content: Text(text),
-                              action: SnackBarAction(
-                                label: 'Dismiss',
-                                onPressed: () {},
-                              ),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackbar);
+                            showSnackBar(context, text, 'error');
                           }
                         }
                       },
