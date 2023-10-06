@@ -5,7 +5,7 @@ import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/productController.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/see_more.dart';
-import 'package:marketplacedb/config/CustomAppBar.dart';
+import 'package:marketplacedb/config/Customappbar.dart';
 
 class CardItem {
   final String urlImage;

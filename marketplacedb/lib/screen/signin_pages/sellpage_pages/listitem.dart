@@ -34,121 +34,196 @@ class ListitempageState extends State<Listitempage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-            icon: const Icon(Icons.close),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: const Icon(Icons.close),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        title: const Center(
+          child: Row(
+            mainAxisAlignment:
+                MainAxisAlignment.center, // Center the children horizontally
+            children: [
+              Text('Listing', style: TextStyle(fontSize: 30)),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.auto_awesome_motion_outlined),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
-          title: const Center(
-            child: Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.center, // Center the children horizontally
+        ],
+      ),
+      body: Column(
+        children: [
+          Container(
+            height: 1, // Adjust the height to make the line thicker
+            color: Colors.grey, // Adjust the color as needed
+          ),
+          const SizedBox(height: 30),
+          const Row(children: [
+            DashedBorderContainerWithIcon(iconData: Icons.camera_alt),
+            DashedBorderContainerWithIcon(iconData: Icons.camera_alt),
+            DashedBorderContainerWithIcon(iconData: Icons.camera_alt),
+            DashedBorderContainerWithIcon(iconData: Icons.camera_alt),
+            DashedBorderContainerWithIcon(iconData: Icons.videocam),
+          ]),
+          const Sidetext(
+            text: 'Read our shooting tips',
+            onPressed: null,
+            textcolor: Colors.blue,
+          ),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(width: 10),
+              Headertext(text: 'Description'),
+            ],
+          ),
+          UnderlineTextField(
+            controller: descriptioncontroller,
+            hintText: 'Enter Description',
+            labelText: 'Enter Description',
+            padding:
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          ),
+          const SizedBox(height: 30),
+          Container(
+            height: 5, // Adjust the height to make the line thicker
+            color: Colors.grey, // Adjust the color as needed
+          ),
+          const SizedBox(height: 10),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black, width: 2.0),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(10.0),
+                topRight: Radius.circular(10.0),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: TabBar(
+                controller:
+                    _tabController, // You'll need to define _tabController
+                tabs: const [
+                  Tab(text: 'Info'),
+                  Tab(text: 'Attributes'),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
               children: [
-                Text('Listing', style: TextStyle(fontSize: 30)),
+                ListView(children: const [
+                  FirstOptionMenu(),
+                ]), // Content for the "Manage" tab
+                const SecondOptionMenu(), // Content for the "How it Works" tab
               ],
             ),
           ),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.auto_awesome_motion_outlined),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+        ],
+      ),
+    );
+  }
+}
+
+class FirstOptionMenu extends StatefulWidget {
+  const FirstOptionMenu({Key? key}) : super(key: key);
+
+  @override
+  State<FirstOptionMenu> createState() => _FirstOptionMenuState();
+}
+
+final pricecontroller = TextEditingController();
+
+class _FirstOptionMenuState extends State<FirstOptionMenu> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+      const ExpansionTile(
+        title: Text("Category"),
+      ),
+      const ExpansionTile(
+        title: Text("condition"),
+      ),
+      const ExpansionTile(
+        title: Text("Brand"),
+      ),
+      const ExpansionTile(
+        title: Text("Size"),
+      ),
+      const ExpansionTile(
+        title: Text("Color"),
+      ),
+      UnderlineTextField(
+        controller: pricecontroller,
+        hintText: 'Item Price',
+        labelText: 'Enter Price',
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      ),
+    ]);
+  }
+}
+
+class SecondOptionMenu extends StatelessWidget {
+  const SecondOptionMenu({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ListTile(
+          title: Text(
+            '1. List an Item',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
-          ],
+          ),
+          subtitle: Text(
+            'Describe your item and add photos. Set a competitive price and reach millions of shoppers.',
+            style: TextStyle(fontSize: 16),
+          ),
         ),
-        body: ListView(
-          children: [
-            Column(children: [
-              Container(
-                height: 1, // Adjust the height to make the line thicker
-                color: Colors.grey, // Adjust the color as needed
-              ),
-              const SizedBox(height: 30),
-              const Row(children: [
-                DashedBorderContainerWithIcon(iconData: Icons.camera_alt),
-                DashedBorderContainerWithIcon(iconData: Icons.camera_alt),
-                DashedBorderContainerWithIcon(iconData: Icons.camera_alt),
-                DashedBorderContainerWithIcon(iconData: Icons.camera_alt),
-                DashedBorderContainerWithIcon(iconData: Icons.videocam),
-              ]),
-              const Sidetext(
-                  text: 'Read our shooting tips',
-                  onPressed: null,
-                  textcolor: Colors.blue)
-            ]),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(width: 10),
-                Headertext(text: 'Description'),
-              ],
+        SizedBox(height: 20),
+        ListTile(
+          title: Text(
+            '2. Ship the Item',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
-            UnderlineTextField(
-              controller: descriptioncontroller,
-              hintText: 'Enter Description',
-              labelText: 'Enter Description',
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          ),
+          subtitle: Text(
+            'We provide a prepaid shipping label for easy and insured shipping. You can also choose to ship it yourself.',
+            style: TextStyle(fontSize: 16),
+          ),
+        ),
+        SizedBox(height: 20),
+        ListTile(
+          title: Text(
+            '3. Get Paid',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
-            const SizedBox(height: 30),
-            Container(
-              height: 5, // Adjust the height to make the line thicker
-              color: Colors.grey, // Adjust the color as needed
-            ),
-            const SizedBox(height: 10),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(width: 10),
-                Headertext(text: 'Info'),
-              ],
-            ),
-            const ExpansionTile(
-              title: Text("Category"),
-            ),
-            const ExpansionTile(
-              title: Text("condition"),
-            ),
-            const ExpansionTile(
-              title: Text("Brand"),
-            ),
-            const ExpansionTile(
-              title: Text("Size"),
-            ),
-            const ExpansionTile(
-              title: Text("Color"),
-            ),
-            UnderlineTextField(
-              controller: descriptioncontroller,
-              hintText: 'Item Price',
-              labelText: 'Enter Price',
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-            ),
-            const SizedBox(height: 30),
-            Container(
-              height: 5, // Adjust the height to make the line thicker
-              color: Colors.grey, // Adjust the color as needed
-            ),
-            const SizedBox(height: 10),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(width: 10),
-                Headertext(text: 'Shipping'),
-              ],
-            ),
-            const ExpansionTile(
-              title: Text("Shipping Fee"),
-            ),
-            const ExpansionTile(
-              title: Text("Location"),
-            ),
-          ],
-        ));
+          ),
+          subtitle: Text(
+            'Receive up to 90% of your sale when the item is delivered to your buyer.',
+            style: TextStyle(fontSize: 16),
+          ),
+        ),
+        // Add your specific widgets for Option 2 here
+      ],
+    );
   }
 }

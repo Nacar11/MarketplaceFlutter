@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, no_logic_in_create_state
+
 import 'package:flutter/material.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
@@ -29,16 +31,16 @@ class CustomSnackBarState extends State<CustomSnackBar> {
 
 void showSuccessSnackBar(BuildContext context, String message, String type) {
   Flushbar(
-    margin: EdgeInsets.all(15),
-    duration: Duration(seconds: 1),
+    margin: const EdgeInsets.all(15),
+    duration: const Duration(seconds: 1),
     message: message,
     flushbarPosition: FlushbarPosition.TOP,
-    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
     backgroundGradient: LinearGradient(
       colors: [Colors.green.shade800, Colors.greenAccent.shade700],
-      stops: [0.6, 1],
+      stops: const [0.6, 1],
     ),
-    boxShadows: [
+    boxShadows: const [
       BoxShadow(
         color: Colors.black45,
         offset: Offset(3, 3),
@@ -54,16 +56,16 @@ void showSuccessSnackBar(BuildContext context, String message, String type) {
 void showErrorHandlingSnackBar(
     BuildContext context, String message, String type) {
   Flushbar(
-          margin: EdgeInsets.all(15),
-          duration: Duration(seconds: 1),
+          margin: const EdgeInsets.all(15),
+          duration: const Duration(seconds: 1),
           message: message,
           flushbarPosition: FlushbarPosition.TOP,
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
           backgroundGradient: LinearGradient(
             colors: [Colors.red.shade800, Colors.redAccent.shade700],
-            stops: [0.6, 1],
+            stops: const [0.6, 1],
           ),
-          boxShadows: [
+          boxShadows: const [
             BoxShadow(
               color: Colors.black45,
               offset: Offset(3, 3),

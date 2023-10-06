@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unused_import, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -22,64 +22,40 @@ final authController = AuthenticationController();
 class MepagesettingsState extends State<Mepagesettings> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Row(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.close), // Use the close icon (X)
-              onPressed: () {
-                // Handle the action when the X button is pressed
-                Navigator.of(context)
-                    .pop(); // Typically, this would navigate back
-              },
-            ),
-            const Text('Settings', style: TextStyle(fontSize: 30)),
-          ],
-        ),
-      ),
-      body: Column(
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
         children: [
-          const SizedBox(height: 10),
-          Container(
-            height: 4, // Adjust the height to make the line thicker
-            color: Colors.grey, // Adjust the color as needed
-          ),
-          const SizedBox(height: 30),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start, // Align to the start
-            children: [
-              TextButton(
-                onPressed: () async {
-                  var response = await authController.logout();
-                  if (response['message'] == 'Logged out Successfully') {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) =>
-                            const Frontpage(logoutMessage: true)));
-                    final storage = GetStorage();
-                    print('ASD ${storage.read('token')}');
-                    await storage.erase();
-                    print(storage.read('token'));
-                  } else {
-                    showSuccessSnackBar(
-                        context, 'Successfully Logged Out', 'logoutSuccess');
-                  }
-                },
-                child: const Text(
-                  "Log Out",
-                  style: TextStyle(
-                    color: Colors.black, // Customize the text color
-                    fontSize: 20, // Customize the font size
-                    // Add underline
-                  ),
+          const UserAccountsDrawerHeader(
+              accountName: Text('FnameLname'), accountEmail: Text('email.com')),
+          ListTile(
+            title: TextButton(
+              onPressed: () async {
+                var response = await authController.logout();
+                if (response['message'] == 'Logged out Successfully') {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const Frontpage(logoutMessage: true),
+                  ));
+                  final storage = GetStorage();
+                  print('ASD ${storage.read('token')}');
+                  await storage.erase();
+                  print(storage.read('token'));
+                } else {
+                  showSuccessSnackBar(
+                    context,
+                    'Successfully Logged Out',
+                    'logoutSuccess',
+                  );
+                }
+              },
+              child: const Text(
+                "Log Out",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
                 ),
               ),
-            ],
-          ),
-          Container(
-            height: 4, // Adjust the height to make the line thicker
-            color: Colors.grey, // Adjust the color as needed
+            ),
           ),
         ],
       ),

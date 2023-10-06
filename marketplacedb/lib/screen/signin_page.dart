@@ -130,7 +130,7 @@ class _SignInPageState extends State<SignInPage> {
                           8.0), // Adjust the border radius
                     ),
                     padding: const EdgeInsets.all(12.0),
-                    child: CircularProgressIndicator(),
+                    child: const CircularProgressIndicator(),
                   ),
               ],
             );

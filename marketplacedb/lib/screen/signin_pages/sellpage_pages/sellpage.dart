@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/config/buttons.dart';
 // import 'package:marketplacedb/config/tabbar.dart';
@@ -127,13 +129,13 @@ class FirstOptionMenu extends StatefulWidget {
 
 class _FirstOptionMenuState extends State<FirstOptionMenu> {
   void goToListAnItem(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const Listitempage()));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const Listitempage()));
   }
 
   void goToBillingAddress(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const BillingAddress()));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const BillingAddress()));
   }
 
   @override
@@ -231,8 +233,10 @@ class _FirstOptionMenuState extends State<FirstOptionMenu> {
             print(response);
             if (response) {
               goToListAnItem(context);
-            } else
-              goToBillingAddress(context);
+            } else {
+              goToListAnItem(context);
+              // goToBillingAddress(context);
+            }
           }),
     ]);
   }

@@ -37,8 +37,7 @@ class MessagepageState extends State<Messagepage>
             const Align(
               alignment: Alignment.center,
               child: Padding(
-                padding:
-                    const EdgeInsets.only(top: 8.0), // Add space above the text
+                padding: EdgeInsets.only(top: 8.0), // Add space above the text
                 child: Text('Messages', style: TextStyle(fontSize: 30)),
               ),
             ),

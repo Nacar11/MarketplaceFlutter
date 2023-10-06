@@ -96,7 +96,7 @@ class LargeBlackButton extends StatelessWidget {
   final String text;
 
   const LargeBlackButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.text,
     this.isDisabled = false, // Default to not disabled
