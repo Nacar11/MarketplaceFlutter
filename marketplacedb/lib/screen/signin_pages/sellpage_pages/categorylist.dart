@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
-import 'package:marketplacedb/controllers/productController.dart';
 import 'package:get/get.dart';
+import 'package:marketplacedb/controllers/productController.dart';
 
 final controller = Get.put<ProductController>(ProductController());
 
-class Seemore extends StatefulWidget {
+class CategoryListPage extends StatefulWidget {
   final ProductCategoryModel category;
-  const Seemore({Key? key, required this.category}) : super(key: key);
+  const CategoryListPage({Key? key, required this.category}) : super(key: key);
 
   @override
-  // ignore: no_logic_in_create_state
-  State<Seemore> createState() => SeemoreState(category: category);
+  State<CategoryListPage> createState() =>
+      // ignore: no_logic_in_create_state
+      CategoryListPageState(category: category);
 }
 
-class SeemoreState extends State<Seemore> {
+class CategoryListPageState extends State<CategoryListPage> {
   final ProductCategoryModel category;
-  SeemoreState({required this.category});
+  CategoryListPageState({required this.category});
 
   @override
   Widget build(BuildContext context) {

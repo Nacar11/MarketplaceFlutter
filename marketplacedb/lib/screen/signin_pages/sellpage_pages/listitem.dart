@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/textfields.dart';
-// import 'package:marketplacedb/config/tabbar.dart';
-// import 'package:marketplacedb/config/buttons.dart';
-// import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddress.dart';
-// import 'package:marketplacedb/config/expansiontile.dart';
-// import 'package:marketplacedb/config/textfields.dart';
+import 'package:marketplacedb/models/ProductCategoryModel.dart';
 
 class Listitempage extends StatefulWidget {
-  const Listitempage({Key? key}) : super(key: key);
+  final List<ProductCategoryModel>? productCategorySelected;
+  const Listitempage({Key? key, this.productCategorySelected})
+      : super(key: key);
 
   @override
   State<Listitempage> createState() => ListitempageState();
@@ -17,7 +15,6 @@ class Listitempage extends StatefulWidget {
 class ListitempageState extends State<Listitempage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final descriptioncontroller = TextEditingController();
 
   @override
   void initState() {
@@ -79,32 +76,13 @@ class ListitempageState extends State<Listitempage>
             onPressed: null,
             textcolor: Colors.blue,
           ),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(width: 10),
-              Headertext(text: 'Description'),
-            ],
-          ),
-          UnderlineTextField(
-            controller: descriptioncontroller,
-            hintText: 'Enter Description',
-            labelText: 'Enter Description',
-            padding:
-                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-          ),
           const SizedBox(height: 30),
           Container(
-            height: 5, // Adjust the height to make the line thicker
-            color: Colors.grey, // Adjust the color as needed
-          ),
-          const SizedBox(height: 10),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 2.0),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(10.0),
-                topRight: Radius.circular(10.0),
+            decoration: const BoxDecoration(
+              border: Border(
+                top: BorderSide(color: Colors.black, width: 3.0), // Top border
+                bottom: BorderSide(
+                    color: Colors.black, width: 3.0), // Bottom border
               ),
             ),
             child: Padding(
@@ -144,6 +122,7 @@ class FirstOptionMenu extends StatefulWidget {
 }
 
 final pricecontroller = TextEditingController();
+final descriptioncontroller = TextEditingController();
 
 class _FirstOptionMenuState extends State<FirstOptionMenu> {
   @override
@@ -152,17 +131,11 @@ class _FirstOptionMenuState extends State<FirstOptionMenu> {
       const ExpansionTile(
         title: Text("Category"),
       ),
-      const ExpansionTile(
-        title: Text("condition"),
-      ),
-      const ExpansionTile(
-        title: Text("Brand"),
-      ),
-      const ExpansionTile(
-        title: Text("Size"),
-      ),
-      const ExpansionTile(
-        title: Text("Color"),
+      UnderlineTextField(
+        controller: descriptioncontroller,
+        hintText: 'Enter Description',
+        labelText: 'Enter Description',
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       ),
       UnderlineTextField(
         controller: pricecontroller,
@@ -227,3 +200,17 @@ class SecondOptionMenu extends StatelessWidget {
     );
   }
 }
+
+
+// const ExpansionTile(
+//         title: Text("condition"),
+//       ),
+//       const ExpansionTile(
+//         title: Text("Brand"),
+//       ),
+//       const ExpansionTile(
+//         title: Text("Size"),
+//       ),
+//       const ExpansionTile(
+//         title: Text("Color"),
+//       ),
