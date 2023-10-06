@@ -50,63 +50,61 @@ class _SignUpPageState extends State<SignUpPageemail> {
         title: const Text("Sign Up"),
         backgroundColor: const Color.fromARGB(255, 215, 205, 205),
       ),
-      body: Column(
-        children: [
-          const Text(
-            "Get Started",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+      body: ListView(children: [
+        Column(
+          children: [
+            const Center(
+              child: Headertext(text: 'Get Started'),
             ),
-          ),
-          const MyContainer(
-            headerText: "What is your email?              ",
-            text: "notifications and transactions will be sent to your email",
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          MyTextField(
-            controller: textcontrol,
-            hintText: 'E-mail',
-            labelText: 'Enter your E-mail',
-            obscureText: false,
-          ),
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Continue(
-                      onTap: () async {
-                        if (!isNameEmpty) {
-                          var response = await authController.checkEmail(
-                              email: textcontrol.text);
+            const MyContainer(
+              headerText: "What is your email?              ",
+              text: "notifications and transactions will be sent to your email",
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            MyTextField(
+              controller: textcontrol,
+              hintText: 'E-mail',
+              labelText: 'Enter your E-mail',
+              obscureText: false,
+            ),
+            const SizedBox(height: 340),
+            Stack(children: [
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: Continue(
+                        onTap: () async {
+                          if (!isNameEmpty) {
+                            var response = await authController.checkEmail(
+                                email: textcontrol.text);
 
-                          if (response['message'] == null) {
-                            authController.storeLocalData(
-                                'email', textcontrol.text);
-                            continuebutton5(context);
-                          } else {
-                            final text = response['message'];
-                            showErrorHandlingSnackBar(context, text, 'error');
+                            if (response['message'] == null) {
+                              authController.storeLocalData(
+                                  'email', textcontrol.text);
+                              continuebutton5(context);
+                            } else {
+                              final text = response['message'];
+                              showErrorHandlingSnackBar(context, text, 'error');
+                            }
                           }
-                        }
-                      },
-                      isDisabled:
-                          isNameEmpty, // Pass the isNameEmpty variable here
+                        },
+                        isDisabled:
+                            isNameEmpty, // Pass the isNameEmpty variable here
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ),
-        ],
-      ),
+            ]),
+          ],
+        ),
+      ]),
     );
   }
 }

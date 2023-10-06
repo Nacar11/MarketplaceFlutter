@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:marketplacedb/config/icons.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/textfields.dart';
-import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/discoverpage.dart';
+import 'package:marketplacedb/config/CustomAppBar.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -13,8 +13,6 @@ class Homepage extends StatefulWidget {
 
 class HomepageState extends State<Homepage> {
   int index = 0;
-
-  final searchController = TextEditingController();
 
   // @override
   // Widget build(BuildContext context) => Scaffold(
@@ -28,49 +26,17 @@ class HomepageState extends State<Homepage> {
   @override
   void dispose() {
     // Dispose of the controller when no longer needed to prevent memory leaks.
-    searchController.dispose();
-    super.dispose();
-  }
 
-  void submitSearch() {
-    final query = searchController.text;
-    showSearch(
-      context: context,
-      delegate: CustomSearchDelegate(initialQuery: query), // Pass the query
-    );
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Row(
-            children: <Widget>[
-              const Icon(Icons.search),
-              const SizedBox(width: 8), // Add some spacing
-              Expanded(
-                child: TextField(
-                  controller: searchController,
-                  onSubmitted: (_) => submitSearch(),
-                  decoration: const InputDecoration(
-                    hintText: 'Search for products or users',
-                    border: InputBorder.none,
-                  ),
-                  style: const TextStyle(fontSize: 15),
-                ),
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.shopping_cart,
-                ), // Add the shopping cart icon
-                onPressed: () {
-                  // Handle the shopping cart action here
-                },
-              ),
-            ],
-          ),
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: CustomappBar(),
         ),
         body: ListView(
           children: <Widget>[

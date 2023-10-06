@@ -60,7 +60,7 @@ void showErrorHandlingSnackBar(
           flushbarPosition: FlushbarPosition.TOP,
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
           backgroundGradient: LinearGradient(
-            colors: [Colors.green.shade800, Colors.greenAccent.shade700],
+            colors: [Colors.red.shade800, Colors.redAccent.shade700],
             stops: [0.6, 1],
           ),
           boxShadows: [

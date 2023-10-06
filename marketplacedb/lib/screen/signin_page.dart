@@ -97,7 +97,7 @@ class _SignInPageState extends State<SignInPage> {
             return Stack(
               alignment: Alignment.center,
               children: [
-                SigninButton(
+                LargeBlackButton(
                   text: "Sign In",
                   isDisabled: authController.isLoading.value,
                   onPressed: () async {

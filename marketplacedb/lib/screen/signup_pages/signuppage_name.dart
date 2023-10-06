@@ -51,9 +51,11 @@ class SignUpPagenameState extends State<SignUpPagename> {
         title: const Text("Sign Up"),
         backgroundColor: const Color.fromARGB(255, 215, 205, 205),
       ),
-      body: Column(
+      body: ListView(
         children: [
-          const Headertext(text: 'Get Started'),
+          const Center(
+            child: Headertext(text: 'Get Started'),
+          ),
           const MyContainer(
             headerText: "Hello, tell us about yourself              ",
             text: "so we can personalize your account",
@@ -76,34 +78,37 @@ class SignUpPagenameState extends State<SignUpPagename> {
             labelText: 'Enter your Last name',
             obscureText: false,
           ),
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Continue(
-                      onTap: () {
-                        if (!isNameEmpty) {
-                          authController.test();
-                          authController.storeLocalData(
-                              'first_name', firstnamecontroller.text);
-                          authController.storeLocalData(
-                              'last_name', lastnamecontroller.text);
-                          authController.test();
-                          continuebutton(context);
-                        }
-                      },
-                      isDisabled:
-                          isNameEmpty, // Pass the isNameEmpty variable here
+          const SizedBox(height: 270),
+          Stack(
+            children: [
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: Continue(
+                        onTap: () {
+                          if (!isNameEmpty) {
+                            authController.test();
+                            authController.storeLocalData(
+                                'first_name', firstnamecontroller.text);
+                            authController.storeLocalData(
+                                'last_name', lastnamecontroller.text);
+                            authController.test();
+                            continuebutton(context);
+                          }
+                        },
+                        isDisabled:
+                            isNameEmpty, // Pass the isNameEmpty variable here
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ),
+            ],
+          )
         ],
       ),
     );

@@ -51,56 +51,61 @@ class _SignUpPageState extends State<SignUpPageusername> {
         title: const Text("Sign Up"),
         backgroundColor: const Color.fromARGB(255, 215, 205, 205),
       ),
-      body: Column(
-        children: [
-          const Headertext(text: 'Get Started'),
-          const MyContainer(
-            headerText: "Please enter a username.              ",
-            text: "this will be the primary name other users will see",
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          MyTextField(
-            controller: textcontrol,
-            hintText: 'Username',
-            labelText: 'Enter your Username',
-            obscureText: false,
-          ),
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Continue(
-                      onTap: () async {
-                        if (!isNameEmpty) {
-                          var response = await authController.checkUsername(
-                              username: textcontrol.text);
-
-                          if (response['message'] == null) {
-                            authController.storeLocalData(
-                                'username', textcontrol.text);
-                            continuebutton6(context);
-                          } else {
-                            final text = response['message'];
-                            showErrorHandlingSnackBar(context, text, 'error');
-                          }
-                        }
-                      },
-                      isDisabled:
-                          isNameEmpty, // Pass the isNameEmpty variable here
-                    ),
-                  ),
-                ],
-              ),
+      body: ListView(children: [
+        Column(
+          children: [
+            const Center(
+              child: Headertext(text: 'Get Started'),
             ),
-          ),
-        ],
-      ),
+            const MyContainer(
+              headerText: "Please enter a username.              ",
+              text: "this will be the primary name other users will see",
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            MyTextField(
+              controller: textcontrol,
+              hintText: 'Username',
+              labelText: 'Enter your Username',
+              obscureText: false,
+            ),
+            const SizedBox(height: 330),
+            Stack(children: [
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: Continue(
+                        onTap: () async {
+                          if (!isNameEmpty) {
+                            var response = await authController.checkUsername(
+                                username: textcontrol.text);
+
+                            if (response['message'] == null) {
+                              authController.storeLocalData(
+                                  'username', textcontrol.text);
+                              continuebutton6(context);
+                            } else {
+                              final text = response['message'];
+                              showErrorHandlingSnackBar(context, text, 'error');
+                            }
+                          }
+                        },
+                        isDisabled:
+                            isNameEmpty, // Pass the isNameEmpty variable here
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ]),
+          ],
+        ),
+      ]),
     );
   }
 }

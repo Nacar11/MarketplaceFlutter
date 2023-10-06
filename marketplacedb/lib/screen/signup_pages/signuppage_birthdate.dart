@@ -72,99 +72,104 @@ class _SignUpPageState extends State<SignUpPagebirthdate> {
         title: const Text("Sign Up"),
         backgroundColor: const Color.fromARGB(255, 215, 205, 205),
       ),
-      body: Column(
-        children: [
-          const Headertext(text: 'Get Started'),
-          const MyContainer(
-            headerText: "What's your Date of Birth?              ",
-            text: "this will not be shown without your permission",
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(28.0),
-            child: Center(
-              child: Row(
-                children: [
-                  const Text("Select Gender"),
-                  Radio(
-                    value: "Male",
-                    groupValue: _valueGender,
-                    onChanged: (value) {
-                      setState(() {
-                        _valueGender = value!;
-                      });
-                    },
-                  ),
-                  const Text("Male"),
-                  Radio(
-                    value: "Female",
-                    groupValue: _valueGender,
-                    onChanged: (value) {
-                      setState(() {
-                        _valueGender = value!;
-                      });
-                    },
-                  ),
-                  const Text("Female"),
-                ],
+      body: ListView(children: [
+        Column(
+          children: [
+            const Center(
+              child: Headertext(text: 'Get Started'),
+            ),
+            const MyContainer(
+              headerText: "What's your Date of Birth?              ",
+              text: "this will not be shown without your permission",
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(28.0),
+              child: Center(
+                child: Row(
+                  children: [
+                    const Text("Select Gender"),
+                    Radio(
+                      value: "Male",
+                      groupValue: _valueGender,
+                      onChanged: (value) {
+                        setState(() {
+                          _valueGender = value!;
+                        });
+                      },
+                    ),
+                    const Text("Male"),
+                    Radio(
+                      value: "Female",
+                      groupValue: _valueGender,
+                      onChanged: (value) {
+                        setState(() {
+                          _valueGender = value!;
+                        });
+                      },
+                    ),
+                    const Text("Female"),
+                  ],
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: TextField(
-                readOnly: true, // Disable text input
-                controller: textcontrol,
-                decoration: const InputDecoration(
-                    icon: Icon(Icons.calendar_today_rounded),
-                    labelText: "Date of Birth"),
-                onTap: () async {
-                  pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1960),
-                      lastDate: DateTime(2101));
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: TextField(
+                  readOnly: true, // Disable text input
+                  controller: textcontrol,
+                  decoration: const InputDecoration(
+                      icon: Icon(Icons.calendar_today_rounded),
+                      labelText: "Date of Birth"),
+                  onTap: () async {
+                    pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(1960),
+                        lastDate: DateTime(2101));
 
-                  if (pickedDate != null) {
-                    textcontrol.text =
-                        DateFormat('yyyy-MM-dd').format(pickedDate!);
-                    setState(() {
-                      isDateSelected = true;
-                    });
-                  }
-                }),
-          ),
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Continue(
-                        onTap: () {
-                          if (isDateSelected && _valueGender.isNotEmpty) {
-                            final formattedDate =
-                                DateFormat('yyyy-MM-dd').format(pickedDate!);
-                            authController.storeLocalData(
-                                'date_of_birth', formattedDate);
-                            authController.storeLocalData(
-                                'gender', _valueGender);
-
-                            continuebutton2(context);
-                          }
-                        },
-                        isDisabled: !isDateSelected || _valueGender.isEmpty),
-                  ),
-                ],
-              ),
+                    if (pickedDate != null) {
+                      textcontrol.text =
+                          DateFormat('yyyy-MM-dd').format(pickedDate!);
+                      setState(() {
+                        isDateSelected = true;
+                      });
+                    }
+                  }),
             ),
-          ),
-        ],
-      ),
+            const SizedBox(height: 190),
+            Stack(children: [
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: Continue(
+                          onTap: () {
+                            if (isDateSelected && _valueGender.isNotEmpty) {
+                              final formattedDate =
+                                  DateFormat('yyyy-MM-dd').format(pickedDate!);
+                              authController.storeLocalData(
+                                  'date_of_birth', formattedDate);
+                              authController.storeLocalData(
+                                  'gender', _valueGender);
+
+                              continuebutton2(context);
+                            }
+                          },
+                          isDisabled: !isDateSelected || _valueGender.isEmpty),
+                    ),
+                  ],
+                ),
+              ),
+            ]),
+          ],
+        ),
+      ]),
     );
   }
 }

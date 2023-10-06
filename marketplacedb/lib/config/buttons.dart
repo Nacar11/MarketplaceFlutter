@@ -90,12 +90,12 @@ class SignupButton extends StatelessWidget {
   }
 }
 
-class SigninButton extends StatelessWidget {
+class LargeBlackButton extends StatelessWidget {
   final Function()? onPressed;
   final bool isDisabled;
   final String text;
 
-  const SigninButton({
+  const LargeBlackButton({
     Key? key,
     required this.onPressed,
     required this.text,

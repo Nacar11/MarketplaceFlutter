@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/config/buttons.dart';
 // import 'package:marketplacedb/config/tabbar.dart';
-// import 'package:marketplacedb/config/buttons.dart';
-// import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddress.dart';
-// import 'package:marketplacedb/config/expansiontile.dart';
 import 'package:marketplacedb/config/textfields.dart';
+import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddress.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/listitem.dart';
+import 'package:marketplacedb/controllers/userController.dart';
 
 class Sellpage extends StatefulWidget {
   const Sellpage({Key? key}) : super(key: key);
@@ -13,6 +12,8 @@ class Sellpage extends StatefulWidget {
   @override
   State<Sellpage> createState() => SellpageState();
 }
+
+final userController = UserController();
 
 class SellpageState extends State<Sellpage>
     with SingleTickerProviderStateMixin {
@@ -38,14 +39,21 @@ class SellpageState extends State<Sellpage>
             const Size.fromHeight(130.0), // Adjust the height as needed
         child: Column(
           children: [
-            const SizedBox(height: 20), // SizedBox above the AppBar
+            // SizedBox above the AppBar
             AppBar(
+              automaticallyImplyLeading: false,
               flexibleSpace: const Stack(
                 alignment: Alignment.topLeft,
                 children: [
-                  CircleAvatar(
-                    radius: 55,
-                    backgroundImage: AssetImage('flutter_images/batman.png'),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 10,
+                    ),
+                    child: CircleAvatar(
+                      radius: 55,
+                      backgroundImage: AssetImage('flutter_images/batman.png'),
+                    ),
                   ),
                 ],
               ),
@@ -119,13 +127,13 @@ class FirstOptionMenu extends StatefulWidget {
 
 class _FirstOptionMenuState extends State<FirstOptionMenu> {
   void goToListAnItem(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const Listitempage()));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const Listitempage()));
   }
 
   void goToBillingAddress(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const Listitempage()));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const BillingAddress()));
   }
 
   @override
@@ -215,11 +223,13 @@ class _FirstOptionMenuState extends State<FirstOptionMenu> {
           ),
         ],
       ),
-      SigninButton(
-          isDisabled: false,
+      LargeBlackButton(
+          isDisabled: userController.isLoading.value,
           text: "List an Item and Start Selling",
-          onPressed: () {
-            if (0 == 1) {
+          onPressed: () async {
+            var response = await userController.UserHasAddress();
+            print(response);
+            if (response) {
               goToListAnItem(context);
             } else
               goToBillingAddress(context);

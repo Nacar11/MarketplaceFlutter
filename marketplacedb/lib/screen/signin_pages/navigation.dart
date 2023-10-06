@@ -7,6 +7,8 @@ import 'package:marketplacedb/screen/signin_pages/mepage_pages/mepage.dart';
 import 'package:marketplacedb/controllers/productController.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/snackbar.dart';
+import 'package:flutter/services.dart';
+import 'package:marketplacedb/screen/signin_pages/messagespage_pages/messagepage.dart';
 
 class Navigation extends StatefulWidget {
   final bool? welcomeMessage;
@@ -29,7 +31,7 @@ class NavigationState extends State<Navigation> {
     const Homepage(),
     const Discoverpage(),
     const Sellpage(),
-    //Messages(),
+    const Messagepage(),
     const Mepage(),
   ];
 
@@ -59,20 +61,30 @@ class NavigationState extends State<Navigation> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      bottomNavigationBar: NavigationBar(
-          selectedIndex: index,
-          onDestinationSelected: (index) => setState(() => this.index = index),
-          destinations: const [
-            NavigationDestination(icon: PentagonIcon(), label: 'home'),
-            NavigationDestination(icon: Icon(Icons.search), label: 'Discover'),
-            NavigationDestination(icon: Icon(Icons.home), label: 'Sell'),
-            NavigationDestination(icon: Icon(Icons.mail), label: 'Messages'),
-            NavigationDestination(icon: Icon(Icons.person), label: 'Me'),
-          ]),
-      //
-      body: screens[index],
-    ));
+    return WillPopScope(
+        onWillPop: () async {
+          // Handle the back button press here
+          SystemNavigator
+              .pop(); // This will exit the app and go to the home screen
+          return false; // Return false to prevent exiting the app immediately
+        },
+        child: SafeArea(
+            child: Scaffold(
+          bottomNavigationBar: NavigationBar(
+              selectedIndex: index,
+              onDestinationSelected: (index) =>
+                  setState(() => this.index = index),
+              destinations: const [
+                NavigationDestination(icon: PentagonIcon(), label: 'home'),
+                NavigationDestination(
+                    icon: Icon(Icons.search), label: 'Discover'),
+                NavigationDestination(icon: Icon(Icons.home), label: 'Sell'),
+                NavigationDestination(
+                    icon: Icon(Icons.mail), label: 'Messages'),
+                NavigationDestination(icon: Icon(Icons.person), label: 'Me'),
+              ]),
+          //
+          body: screens[index],
+        )));
   }
 }

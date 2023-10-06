@@ -43,52 +43,51 @@ class _SignUpPageState extends State<SignUpPagepassword> {
           title: const Text("Sign Up"),
           backgroundColor: const Color.fromARGB(255, 215, 205, 205),
         ),
-        body: Obx(
-          () => authController.isLoading.value
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Column(
-                  children: [
-                    const Headertext(text: 'Get Started'),
-                    const MyContainer(
-                      headerText: "Please input a password.              ",
-                      text: "password must be at least 8 characters.",
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    MyTextField(
-                      controller: passwordControl,
-                      hintText: 'Password',
-                      labelText: 'Enter Password',
-                    ),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 20),
-                              child: Continue(
-                                onTap: () async {
-                                  if (!isNameEmpty) {
-                                    authController.storeLocalData(
-                                        'password', passwordControl.text);
-                                    continuebutton6(context);
-                                  }
-                                },
-                                isDisabled:
-                                    isNameEmpty, // Pass the isNameEmpty variable here
-                              ),
-                            ),
-                          ],
+        body: ListView(children: [
+          Column(
+            children: [
+              const Center(
+                child: Headertext(text: 'Get Started'),
+              ),
+              const MyContainer(
+                headerText: "Please input a password.              ",
+                text: "password must be at least 8 characters.",
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              MyTextField(
+                controller: passwordControl,
+                hintText: 'Password',
+                labelText: 'Enter Password',
+              ),
+              const SizedBox(height: 360),
+              Stack(children: [
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Continue(
+                          onTap: () async {
+                            if (!isNameEmpty) {
+                              authController.storeLocalData(
+                                  'password', passwordControl.text);
+                              continuebutton6(context);
+                            }
+                          },
+                          isDisabled:
+                              isNameEmpty, // Pass the isNameEmpty variable here
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-        ));
+              ]),
+            ],
+          ),
+        ]));
   }
 }

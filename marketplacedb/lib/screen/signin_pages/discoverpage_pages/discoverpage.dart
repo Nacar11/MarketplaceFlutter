@@ -5,7 +5,7 @@ import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/productController.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/see_more.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:marketplacedb/config/CustomAppBar.dart';
 
 class CardItem {
   final String urlImage;
@@ -42,47 +42,13 @@ class DiscoverpageState extends State<Discoverpage> {
     super.dispose();
   }
 
-  void submitSearch() {
-    final query = searchController.text;
-    showSearch(
-      context: context,
-      delegate: CustomSearchDelegate(initialQuery: query), // Pass the query
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: true,
-          title: Row(
-            children: <Widget>[
-              const Icon(Icons.search),
-              const SizedBox(width: 8), // Add some spacing
-              Expanded(
-                child: TextField(
-                  controller: searchController,
-                  onSubmitted: (_) => submitSearch(),
-                  decoration: const InputDecoration(
-                    hintText: 'Search for products or users',
-                    border: InputBorder.none,
-                  ),
-                  style: const TextStyle(fontSize: 15),
-                ),
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.shopping_cart,
-                ), // Add the shopping cart icon
-                onPressed: () async {
-                  final storage = GetStorage();
-                  print(storage.read('token'));
-                  print('asd');
-                },
-              ),
-            ],
-          ),
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: CustomappBar(),
         ),
         body: ListView(
           children: <Widget>[
@@ -246,78 +212,6 @@ class DiscoverpageState extends State<Discoverpage> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class CustomSearchDelegate extends SearchDelegate {
-  final String initialQuery;
-
-  CustomSearchDelegate({this.initialQuery = ''});
-  List<String> searchTerms = [
-    'jeans',
-    'shirt',
-    'polo',
-    'polo shirt',
-    'shoes',
-  ];
-
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-          onPressed: () {
-            query = '';
-          },
-          icon: const Icon(Icons.clear)),
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        close(context, null);
-      },
-      icon: const Icon(Icons.arrow_back),
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var clothes in searchTerms) {
-      if (clothes.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(clothes);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
-      },
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var clothes in searchTerms) {
-      if (clothes.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(clothes);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
-      },
     );
   }
 }
