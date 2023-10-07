@@ -94,7 +94,7 @@ class DiscoverpageState extends State<Discoverpage> {
                                     ),
                                   ),
                                   Sidetext(
-                                    text: 'see more',
+                                    text: 'see all',
                                     onPressed: () {
                                       Navigator.of(context).push(
                                           MaterialPageRoute(

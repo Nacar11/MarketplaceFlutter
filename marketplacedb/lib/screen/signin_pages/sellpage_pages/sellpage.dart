@@ -1,12 +1,14 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
 import 'package:marketplacedb/config/buttons.dart';
 // import 'package:marketplacedb/config/tabbar.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddress.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/listitem.dart';
 import 'package:marketplacedb/controllers/userController.dart';
+import 'package:marketplacedb/screen/signin_pages/sellpage_pages/draft.dart';
 
 class Sellpage extends StatefulWidget {
   const Sellpage({Key? key}) : super(key: key);
@@ -138,6 +140,11 @@ class _FirstOptionMenuState extends State<FirstOptionMenu> {
         .push(MaterialPageRoute(builder: (context) => const BillingAddress()));
   }
 
+  void goToDrafts(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const Draftpage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -149,13 +156,30 @@ class _FirstOptionMenuState extends State<FirstOptionMenu> {
           ),
         ],
       ), // Call the Expantiontile widget here
-      const ExpansionTile(
-        title: Text("Drafts"),
-        children: <Widget>[
-          ListTile(
-            title: Text('Test'),
+      Card(
+        elevation: 2, // Customize the card elevation as needed
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: InkWell(
+          onTap: () {
+            // Add your button's action here
+            goToDrafts(context);
+          },
+          child: const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Drafts',
+                  style: TextStyle(fontSize: 16),
+                ),
+                Icon(Icons.expand_more),
+              ],
+            ),
           ),
-        ],
+        ),
       ),
       const ExpansionTile(
         title: Text("Offers"),
@@ -226,6 +250,9 @@ class _FirstOptionMenuState extends State<FirstOptionMenu> {
         ],
       ),
       LargeBlackButton(
+          padding: const EdgeInsets.all(20),
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          fontsize: 24,
           isDisabled: userController.isLoading.value,
           text: "List an Item and Start Selling",
           onPressed: () async {

@@ -17,7 +17,7 @@ class GoogleButton extends StatelessWidget {
         decoration: const BoxDecoration(color: Colors.white),
         child: const Center(
           child: Text(
-            "Continue with google",
+            "Continue with Google",
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
@@ -94,11 +94,17 @@ class LargeBlackButton extends StatelessWidget {
   final Function()? onPressed;
   final bool isDisabled;
   final String text;
+  final double fontsize;
+  final EdgeInsetsGeometry padding; // Make padding required
+  final EdgeInsetsGeometry margin;
 
   const LargeBlackButton({
     super.key,
     required this.onPressed,
     required this.text,
+    required this.fontsize,
+    required this.padding,
+    required this.margin,
     this.isDisabled = false, // Default to not disabled
   });
 
@@ -107,8 +113,8 @@ class LargeBlackButton extends StatelessWidget {
     return GestureDetector(
       onTap: isDisabled ? null : onPressed, // Conditionally set onTap
       child: Container(
-        padding: const EdgeInsets.all(20),
-        margin: const EdgeInsets.symmetric(horizontal: 20),
+        padding: padding,
+        margin: margin,
         decoration: BoxDecoration(
           color: isDisabled
               ? Colors.grey
@@ -122,7 +128,50 @@ class LargeBlackButton extends StatelessWidget {
                   ? Colors.black
                   : Colors.white, // Change the text color
               fontWeight: FontWeight.bold,
-              fontSize: 24,
+              fontSize: fontsize,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LargeWhiteButton extends StatelessWidget {
+  final Function()? onPressed;
+  final bool isDisabled;
+  final String text;
+
+  const LargeWhiteButton({
+    super.key,
+    required this.onPressed,
+    required this.text,
+    this.isDisabled = false, // Default to not disabled
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: isDisabled ? null : onPressed, // Conditionally set onTap
+      child: Container(
+        width: 150,
+        height: 60,
+        margin: const EdgeInsets.symmetric(horizontal: 40),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black, width: 2),
+          color: isDisabled
+              ? Colors.grey
+              : Colors.white, // Change the background color
+        ),
+        child: Center(
+          child: Text(
+            isDisabled ? '' : text,
+            style: TextStyle(
+              color: isDisabled
+                  ? Colors.black
+                  : Colors.black, // Change the text color
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
             ),
           ),
         ),
