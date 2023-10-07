@@ -98,6 +98,9 @@ class _SignInPageState extends State<SignInPage> {
               alignment: Alignment.center,
               children: [
                 LargeBlackButton(
+                  padding: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  fontsize: 24,
                   text: "Sign In",
                   isDisabled: authController.isLoading.value,
                   onPressed: () async {

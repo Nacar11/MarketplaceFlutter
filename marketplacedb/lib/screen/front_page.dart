@@ -94,6 +94,10 @@ class FrontpageState extends State<Frontpage> {
                           FBButton(onTap: fbbutton),
                           const SizedBox(height: 20),
                           LargeBlackButton(
+                              padding: const EdgeInsets.all(20),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              fontsize: 20,
                               text: "Sign Up",
                               isDisabled: false,
                               onPressed: () async {

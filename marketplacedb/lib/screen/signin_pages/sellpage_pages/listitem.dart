@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
@@ -108,6 +109,17 @@ class ListitempageState extends State<Listitempage>
               ],
             ),
           ),
+          const Row(children: [
+            LargeWhiteButton(onPressed: null, text: 'Save to Drafts'),
+            LargeBlackButton(
+              onPressed: null,
+              text: 'Post Listing',
+              fontsize: 20,
+              padding: EdgeInsets.all(15),
+              margin: EdgeInsets.symmetric(horizontal: 0),
+            )
+          ]),
+          const SizedBox(height: 30),
         ],
       ),
     );
