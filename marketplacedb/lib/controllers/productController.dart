@@ -39,4 +39,8 @@ class ProductController extends GetxController {
     }
     return productCategoryList;
   }
+
+  // Future<List<VariantsModel>> getVariantsByProductType() async {
+
+  // }
 }

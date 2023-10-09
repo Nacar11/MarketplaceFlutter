@@ -3,11 +3,12 @@ import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
+import 'package:marketplacedb/screen/signin_pages/sellpage_pages/categorylist.dart';
 
 class Listitempage extends StatefulWidget {
-  final List<ProductCategoryModel>? productCategorySelected;
-  const Listitempage({Key? key, this.productCategorySelected})
-      : super(key: key);
+  const Listitempage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<Listitempage> createState() => ListitempageState();
@@ -17,6 +18,12 @@ class ListitempageState extends State<Listitempage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
+  ProductCategoryModel? productCategorySelected;
+
+  TextEditingController priceController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController categoryController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -25,6 +32,10 @@ class ListitempageState extends State<Listitempage>
 
   @override
   void dispose() {
+    categoryController
+        .dispose(); // Dispose the controller when the widget is removed
+    descriptionController.dispose();
+    priceController.dispose();
     _tabController.dispose();
     super.dispose();
   }
@@ -64,7 +75,7 @@ class ListitempageState extends State<Listitempage>
             height: 1, // Adjust the height to make the line thicker
             color: Colors.grey, // Adjust the color as needed
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 30), //padding
           const Row(children: [
             DashedBorderContainerWithIcon(iconData: Icons.camera_alt),
             DashedBorderContainerWithIcon(iconData: Icons.camera_alt),
@@ -102,10 +113,69 @@ class ListitempageState extends State<Listitempage>
             child: TabBarView(
               controller: _tabController,
               children: [
-                ListView(children: const [
-                  FirstOptionMenu(),
+                ListView(children: [
+                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                    Card(
+                      elevation: 2, // Customize the card elevation as needed
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          // Add your button's action here
+                          Navigator.of(context)
+                              .push(
+                            MaterialPageRoute(
+                              builder: (context) => const CategoryListPage(),
+                            ),
+                          )
+                              .then((selectedData) {
+                            if (selectedData != null) {
+                              setState(() {
+                                print(selectedData);
+                                categoryController.text =
+                                    selectedData.id.toString();
+                                print(categoryController.text);
+                                productCategorySelected = selectedData;
+                              });
+                            }
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                productCategorySelected?.category_name ??
+                                    "Selected Product",
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                              const Icon(Icons.expand_more),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    UnderlineTextField(
+                      controller: descriptionController,
+                      hintText: 'Enter Description',
+                      labelText: 'Enter Description',
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 16.0),
+                    ),
+                    UnderlineTextField(
+                      controller: priceController,
+                      hintText: 'Item Price',
+                      labelText: 'Enter Price',
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 16.0),
+                    ),
+                  ])
                 ]), // Content for the "Manage" tab
-                const SecondOptionMenu(), // Content for the "How it Works" tab
+                const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                ) // Content for the "How it Works" tab
               ],
             ),
           ),
@@ -126,93 +196,32 @@ class ListitempageState extends State<Listitempage>
   }
 }
 
-class FirstOptionMenu extends StatefulWidget {
-  const FirstOptionMenu({Key? key}) : super(key: key);
+// class FirstOptionMenu extends StatefulWidget {
+//   final List<ProductCategoryModel>? productCategorySelected;
+//   const FirstOptionMenu({Key? key, this.productCategorySelected})
+//       : super(key: key);
 
-  @override
-  State<FirstOptionMenu> createState() => _FirstOptionMenuState();
-}
+//   @override
+//   State<FirstOptionMenu> createState() => _FirstOptionMenuState();
+// }
 
-final pricecontroller = TextEditingController();
-final descriptioncontroller = TextEditingController();
+// final pricecontroller = TextEditingController();
+// final descriptioncontroller = TextEditingController();
 
-class _FirstOptionMenuState extends State<FirstOptionMenu> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-      const ExpansionTile(
-        title: Text("Category"),
-      ),
-      UnderlineTextField(
-        controller: descriptioncontroller,
-        hintText: 'Enter Description',
-        labelText: 'Enter Description',
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      ),
-      UnderlineTextField(
-        controller: pricecontroller,
-        hintText: 'Item Price',
-        labelText: 'Enter Price',
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      ),
-    ]);
-  }
-}
+// class _FirstOptionMenuState extends State<FirstOptionMenu> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return
+//   }
+// }
 
-class SecondOptionMenu extends StatelessWidget {
-  const SecondOptionMenu({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ListTile(
-          title: Text(
-            '1. List an Item',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          subtitle: Text(
-            'Describe your item and add photos. Set a competitive price and reach millions of shoppers.',
-            style: TextStyle(fontSize: 16),
-          ),
-        ),
-        SizedBox(height: 20),
-        ListTile(
-          title: Text(
-            '2. Ship the Item',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          subtitle: Text(
-            'We provide a prepaid shipping label for easy and insured shipping. You can also choose to ship it yourself.',
-            style: TextStyle(fontSize: 16),
-          ),
-        ),
-        SizedBox(height: 20),
-        ListTile(
-          title: Text(
-            '3. Get Paid',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          subtitle: Text(
-            'Receive up to 90% of your sale when the item is delivered to your buyer.',
-            style: TextStyle(fontSize: 16),
-          ),
-        ),
-        // Add your specific widgets for Option 2 here
-      ],
-    );
-  }
-}
-
+// class SecondOptionMenu extends StatelessWidget {
+//   const SecondOptionMenu({Key? key}) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return const ;
+//   }
+// }
 
 // const ExpansionTile(
 //         title: Text("condition"),
