@@ -3,6 +3,7 @@ import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/controllers/productController.dart';
+import 'package:marketplacedb/screen/signin_pages/sellpage_pages/producttype.dart';
 
 final controller = Get.put<ProductController>(ProductController());
 
@@ -53,7 +54,21 @@ class CategoryListPage extends StatelessWidget {
                                     title: Text(subcategory.category_name ??
                                         "Unnamed Subcategory"),
                                     onTap: () {
-                                      Navigator.of(context).pop(subcategory);
+                                      // print(subcategory);
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) => ProductTypePage(
+                                            productCategoryId: subcategory.id!,
+                                            categoryName:
+                                                subcategory.category_name!),
+                                      ))
+                                          .then((selectedData) {
+                                        if (selectedData != null) {
+                                          Navigator.of(context)
+                                              .pop(selectedData);
+                                        }
+                                      });
+                                      // Navigator.of(context).pop(subcategory);
                                     },
                                   ),
                             ],

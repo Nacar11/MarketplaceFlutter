@@ -38,7 +38,8 @@ class NavigationState extends State<Navigation> {
   @override
   void initState() {
     super.initState();
-
+    final storage = GetStorage();
+    print(storage.read('token'));
     if (welcomeMessage) {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         showWelcomeMessageSnackBar();

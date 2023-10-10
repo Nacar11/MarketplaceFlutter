@@ -156,30 +156,12 @@ class _FirstOptionMenuState extends State<FirstOptionMenu> {
           ),
         ],
       ), // Call the Expantiontile widget here
-      Card(
-        elevation: 2, // Customize the card elevation as needed
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: InkWell(
-          onTap: () {
-            // Add your button's action here
-            goToDrafts(context);
-          },
-          child: const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Drafts',
-                  style: TextStyle(fontSize: 16),
-                ),
-                Icon(Icons.expand_more),
-              ],
-            ),
-          ),
-        ),
+      ExpansiontileButton(
+        onTap: () {
+          // Add your button's action here
+          goToDrafts(context);
+        },
+        text: 'Drafts',
       ),
       const ExpansionTile(
         title: Text("Offers"),

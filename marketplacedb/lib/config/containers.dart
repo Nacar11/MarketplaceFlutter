@@ -177,3 +177,32 @@ class DashedBorderContainerWithIcon extends StatelessWidget {
     );
   }
 }
+
+class ProductContainer extends StatelessWidget {
+  const ProductContainer({required this.text, required this.fontsize, Key? key})
+      : super(key: key);
+  final String text;
+  final double fontsize;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.black, // Adjust the border color
+          width: 3.0, // Adjust the border width
+        ),
+      ),
+      child: Center(
+        child: FittedBox(
+          fit: BoxFit.scaleDown, // Scale the text down to fit the container
+          child: Text(
+            text,
+            style: TextStyle(fontSize: fontsize),
+          ),
+        ),
+      ),
+    );
+  }
+}

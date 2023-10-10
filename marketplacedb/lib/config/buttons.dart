@@ -248,3 +248,37 @@ class ListItem extends StatelessWidget {
     );
   }
 }
+
+class ExpansiontileButton extends StatelessWidget {
+  final Function()? onTap;
+  final String text;
+
+  const ExpansiontileButton({
+    Key? key,
+    required this.onTap,
+    required this.text, // New parameter to disable the button
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 2, // Customize the card elevation as needed
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(text),
+              const Icon(Icons.expand_more),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

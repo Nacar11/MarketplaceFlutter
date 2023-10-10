@@ -39,6 +39,7 @@ class DiscoverpageState extends State<Discoverpage> {
   @override
   void dispose() {
     searchController.dispose();
+    controller.dispose();
     super.dispose();
   }
 
