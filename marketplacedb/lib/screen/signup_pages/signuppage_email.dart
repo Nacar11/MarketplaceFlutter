@@ -34,7 +34,7 @@ class _SignUpPageState extends State<SignUpPageemail> {
 
   void continuebutton5(BuildContext context) {
     Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => const SignUpPageusername()));
+        MaterialPageRoute(builder: (context) => const SignUpPageUsername()));
   }
 
   @override

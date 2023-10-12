@@ -1,9 +1,10 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
+// import 'package:permission_handler/permission_handler.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/textfields.dart';
@@ -57,6 +58,8 @@ class ListitempageState extends State<Listitempage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
+  File? returnedImage;
+
   ProductTypeModel? productTypeSelected;
   late List<VariationModel> variations = [];
   List<String> variationOptionSelectedList = [];
@@ -64,6 +67,8 @@ class ListitempageState extends State<Listitempage>
   TextEditingController priceController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController productTypeController = TextEditingController();
+  List<File?> selectedImages = List.filled(4, null);
+  // int indeximage;
 
   @override
   void initState() {
@@ -96,75 +101,68 @@ class ListitempageState extends State<Listitempage>
     }
   }
 
-  Future<void> requestGalleryPermission() async {
-    try {
-      var status = await Permission.storage.request();
-      if (status.isGranted) {
-        _pickfromGallery(); // Call the function to pick an image from the gallery.
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Permission to access the gallery was denied.'),
-          ),
-        );
-      }
-    } catch (e) {
-      print('Error requesting gallery permission: $e');
-      // Handle any exceptions here.
-    }
-  }
+  // Future<void> requestGalleryPermission() async {
+  //   try {
+  //     var status = await Permission.storage.request();
+  //     if (status.isGranted) {
+  //       _pickfromGallery(ImageSource
+  //           .gallery); // Call the function to pick an image from the gallery.
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text('Permission to access the gallery was denied.'),
+  //         ),
+  //       );
+  //     }
+  //   } catch (e) {
+  //     print('Error requesting gallery permission: $e');
+  //     // Handle any exceptions here.
+  //   }
+  // }
 
-  Future<void> requestCameraPermission() async {
-    try {
-      var status = await Permission.camera.request();
-      if (status.isGranted) {
-        _pickfromCamera(); // Call the function to pick an image from the gallery.
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Permission to access the camera was denied.'),
-          ),
-        );
-      }
-    } catch (e) {
-      print('Error requesting camera permission: $e');
-      // Handle any exceptions here.
-    }
-  }
-
-  Future<void> _displayBottomSheet(BuildContext context) async {
-    _selectedImage != null
-        ? Image.file(_selectedImage!)
-        : await showModalBottomSheet(
-            context: context,
-            builder: (context) {
-              return Container(
-                height: 200,
-                padding: const EdgeInsets.all(40),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+  Future<void> _displayBottomSheet(BuildContext context, int index) async {
+    // if (_selectedImage != null) {
+    await showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          height: 200,
+          padding: const EdgeInsets.all(40),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (_selectedImage != null)
+                Image.file(
+                  _selectedImage!,
+                  height: 100,
+                  width: 100,
+                )
+              else
+                Row(
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        requestCameraPermission();
+                        _pickfromGallery(index, ImageSource.camera);
                         // Implement the action for "Take a Photo" here
                         Navigator.pop(context); // Close the bottom sheet
                       },
                       child: const Text("Take a Photo"),
                     ),
-                    const SizedBox(
-                        height: 16), // Add spacing between the buttons
-                    ElevatedButton(
-                      onPressed: () {
-                        requestGalleryPermission(); // Request gallery access permission.
-                      },
-                      child: const Text("Pick Image from Gallery"),
-                    ),
                   ],
                 ),
-              );
-            },
-          );
+              const SizedBox(height: 16), // Add spacing between the buttons
+              ElevatedButton(
+                onPressed: () {
+                  _pickfromGallery(index, ImageSource.gallery);
+                  Navigator.pop(context); // Close the bottom sheet
+                },
+                child: const Text("Pick Image from Gallery"),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   File? _selectedImage;
@@ -204,28 +202,26 @@ class ListitempageState extends State<Listitempage>
           ),
           const SizedBox(height: 30), //padding
 
-          Row(children: [
-            DashedBorderContainerWithIcon(
-                onTap: () {
-                  _displayBottomSheet(context);
-                },
-                iconData: Icons.camera_alt),
-            DashedBorderContainerWithIcon(
-                onTap: () {
-                  _displayBottomSheet(context);
-                },
-                iconData: Icons.camera_alt),
-            DashedBorderContainerWithIcon(
-                onTap: () {
-                  _displayBottomSheet(context);
-                },
-                iconData: Icons.camera_alt),
-            DashedBorderContainerWithIcon(
-                onTap: () {
-                  _displayBottomSheet(context);
-                },
-                iconData: Icons.camera_alt),
-          ]),
+          Row(
+              children: List.generate(4, (index) {
+            return Container(
+              child: selectedImages[index] != null
+                  ? DashedBorderContainerWithIcon(
+                      selectedImage: selectedImages[index],
+                      onTap: () {
+                        _displayBottomSheet(context, index);
+                      },
+                      iconData: Icons.camera_alt,
+                    )
+                  : DashedBorderContainerWithIcon(
+                      selectedImage: null,
+                      onTap: () {
+                        _displayBottomSheet(context, index);
+                      },
+                      iconData: Icons.camera_alt,
+                    ),
+            );
+          })),
           const Sidetext(
             text: 'Read our shooting tips',
             onPressed: null,
@@ -448,37 +444,17 @@ class ListitempageState extends State<Listitempage>
         ]));
   }
 
-  Future<void> _pickfromGallery() async {
+  Future<void> _pickfromGallery(int index, ImageSource source) async {
     try {
-      final returnedImage =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (returnedImage != null) {
+      final pickedFile = await ImagePicker().pickImage(source: source);
+      if (pickedFile != null) {
         setState(() {
-          _selectedImage = File(returnedImage.path);
+          selectedImages[index] = File(pickedFile.path);
+          print(selectedImages[index]);
         });
-      } else {
-        return;
       }
-    } catch (e) {
-      print('Error picking image from gallery: $e');
-      // Handle any exceptions here.
-    }
-  }
-
-  Future<void> _pickfromCamera() async {
-    try {
-      final returnedImage =
-          await ImagePicker().pickImage(source: ImageSource.camera);
-      if (returnedImage != null) {
-        setState(() {
-          _selectedImage = File(returnedImage.path);
-        });
-      } else {
-        return;
-      }
-    } catch (e) {
-      print('Error picking image from gallery: $e');
-      // Handle any exceptions here.
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
     }
   }
 }

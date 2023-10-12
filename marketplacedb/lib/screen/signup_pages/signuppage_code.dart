@@ -8,89 +8,124 @@ class SignUpPagecode extends StatefulWidget {
   const SignUpPagecode({Key? key}) : super(key: key);
 
   @override
-  State<SignUpPagecode> createState() => _SignUpPageState();
+  State<SignUpPagecode> createState() => SignUpPageCodeState();
 }
 
-class _SignUpPageState extends State<SignUpPagecode> {
-  final textcontrol = TextEditingController();
-  bool isNameEmpty = true;
+class SignUpPageCodeState extends State<SignUpPagecode> {
+  final codeControl = TextEditingController();
+  bool isCodeValid = true;
 
-  @override
-  void initState() {
-    super.initState();
-    // Listen for changes in the text field and update isNameEmpty accordingly.
-    textcontrol.addListener(() {
-      setState(() {
-        isNameEmpty = textcontrol.text.isEmpty;
-      });
-    });
+  void continueButton(BuildContext context) {
+    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+      // Handle code validation logic here
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const SignUpPageemail()));
+    }
   }
 
-  void continuebutton4(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const SignUpPageemail()));
-  }
-
-  @override
-  void dispose() {
-    // Dispose the controller when the widget is removed.
-    textcontrol.dispose();
-    super.dispose();
-  }
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-      appBar: AppBar(
-        title: const Text("Sign Up"),
+        resizeToAvoidBottomInset: false,
         backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-      ),
-      body: ListView(children: [
-        Column(
-          children: [
-            const Center(
-              child: Headertext(text: 'Get Started'),
-            ),
-            const MyContainer(
-              headerText: "Enter the code              ",
-              text: "We've sent a 6 digit code to your number",
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            MyTextField(
-              controller: textcontrol,
-              hintText: 'Code',
-              labelText: 'Enter your code',
-              obscureText: false,
-            ),
-            const SizedBox(height: 360),
-            Stack(children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Continue(
-                        onTap: () {
-                          if (!isNameEmpty) {
-                            continuebutton4(context);
-                          }
-                        },
-                        isDisabled:
-                            isNameEmpty, // Pass the isNameEmpty variable here
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ]),
-          ],
+        appBar: AppBar(
+          title: const Text("Sign Up"),
+          backgroundColor: const Color.fromARGB(255, 215, 205, 205),
         ),
-      ]),
+        body: Stack(children: [
+          Form(
+              key: _formKey,
+              child: Column(children: [
+                Column(children: [
+                  const Center(
+                    child: Headertext(text: 'Get Started'),
+                  ),
+                  const MyContainer(
+                    headerText: "Enter the code              ",
+                    text: "We've sent a 6-digit code to your number",
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  MyCodeField(
+                    controller: codeControl,
+                    hintText: 'Code',
+                    labelText: 'Enter Code',
+                    onChanged: (value) {
+                      setState(() {
+                        isCodeValid = _formKey.currentState != null &&
+                            _formKey.currentState!.validate();
+                      });
+                    },
+                  ),
+                ])
+              ])),
+          Positioned(
+              bottom: 20, // Adjust this value as needed
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Continue(
+                  onTap: () {
+                    continueButton(context);
+                  },
+                  isDisabled: !isCodeValid,
+                ),
+              ))
+        ]));
+  }
+}
+
+class MyCodeField extends StatelessWidget {
+  const MyCodeField({
+    Key? key,
+    required this.controller,
+    this.hintText,
+    this.labelText,
+    this.onChanged,
+  }) : super(key: key);
+
+  final TextEditingController controller;
+  final String? hintText;
+  final String? labelText;
+  final ValueChanged<String>? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+      child: TextFormField(
+        controller: controller,
+        obscureText: false, // Not an obscured field
+        decoration: InputDecoration(
+          labelText: labelText,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Color.fromARGB(255, 0, 0, 0),
+              width: 2.0,
+            ),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          hintText: hintText,
+        ),
+        validator: (value) {
+          RegExp codePattern = RegExp(r'^\d{6}$');
+
+          if (value == null || value.isEmpty) {
+            return 'Code is required';
+          } else if (!codePattern.hasMatch(value)) {
+            return 'Code must contain 6 digits';
+          }
+
+          return null;
+        },
+        onChanged: onChanged,
+      ),
     );
   }
 }

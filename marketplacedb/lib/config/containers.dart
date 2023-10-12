@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 
@@ -156,8 +158,12 @@ Widget buildCard({
 
 class DashedBorderContainerWithIcon extends StatelessWidget {
   final Function()? onTap;
+  final File? selectedImage;
   const DashedBorderContainerWithIcon(
-      {required this.onTap, required this.iconData, Key? key})
+      {required this.selectedImage,
+      required this.onTap,
+      required this.iconData,
+      Key? key})
       : super(key: key);
   final IconData iconData;
 
