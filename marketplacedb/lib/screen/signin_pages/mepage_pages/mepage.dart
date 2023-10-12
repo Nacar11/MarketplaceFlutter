@@ -33,7 +33,7 @@ class MepageState extends State<Mepage> with SingleTickerProviderStateMixin {
         appBar: AppBar(
           automaticallyImplyLeading: false,
         ),
-        endDrawer: Mepagesettings(),
+        endDrawer: const Mepagesettings(),
         body: Column(
           children: [
             const SizedBox(height: 10),
@@ -42,12 +42,12 @@ class MepageState extends State<Mepage> with SingleTickerProviderStateMixin {
               color: Colors.grey, // Adjust the color as needed
             ),
             const SizedBox(height: 10),
-            Row(children: [
-              const SizedBox(width: 20), // Add some space on the left
+            const Row(children: [
+              SizedBox(width: 20), // Add some space on the left
               CircularProfilePicture(
-                imageAsset: const AssetImage('flutter_images/batman.png'),
+                imageAsset: AssetImage('flutter_images/batman.png'),
               ),
-              const SizedBox(width: 20),
+              SizedBox(width: 20),
             ]), // Add space between profile picture and other content
             const SizedBox(height: 10),
             Container(
@@ -85,7 +85,8 @@ class FirstOptionMenu extends StatefulWidget {
 class _FirstOptionMenuState extends State<FirstOptionMenu> {
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisAlignment: MainAxisAlignment.start, children: []);
+    return const Column(
+        mainAxisAlignment: MainAxisAlignment.start, children: []);
   }
 }
 
@@ -152,14 +153,16 @@ class ThirdOptionMenu extends StatefulWidget {
 class _ThirdOptionMenuState extends State<ThirdOptionMenu> {
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisAlignment: MainAxisAlignment.start, children: []);
+    return const Column(
+        mainAxisAlignment: MainAxisAlignment.start, children: []);
   }
 }
 
 class CircularProfilePicture extends StatelessWidget {
   final AssetImage imageAsset;
 
-  CircularProfilePicture({required this.imageAsset});
+  const CircularProfilePicture({required this.imageAsset, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -37,8 +37,12 @@ dependencies:
   carousel_slider: ^4.2.1
   dotted_border: 
   get_storage: ^2.1.1
+  image_picker : ^0.8.9
+  permission_handler: ^10.0.1
+
  
   another_flushbar: ^1.12.30
+  flutter_facebook_auth: ^5.0.11
   
 
 

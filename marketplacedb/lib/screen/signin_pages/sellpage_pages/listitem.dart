@@ -1,18 +1,24 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/textfields.dart';
-import 'package:marketplacedb/constants/constant.dart';
+// import 'package:marketplacedb/constants/constant.dart';
 // import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/models/ProductTypeModel.dart';
+import 'package:marketplacedb/models/VariantsOptionsModel.dart';
+
 import 'package:marketplacedb/controllers/variationController.dart';
 import 'package:marketplacedb/controllers/productController.dart';
-
 import 'package:marketplacedb/models/VariantsModel.dart';
-import 'package:marketplacedb/models/VariantsOptionsModel.dart';
+// import 'package:marketplacedb/models/VariantsOptionsModel.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/categorylist.dart';
+import 'package:marketplacedb/screen/signin_pages/sellpage_pages/variationoptions.dart';
+import 'dart:io';
 
 final variationController = VariationController();
 final productController = Get.put<ProductController>(ProductController());
@@ -50,11 +56,11 @@ class Listitempage extends StatefulWidget {
 class ListitempageState extends State<Listitempage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  VariationOptionModel? variationOptionselected;
 
   ProductTypeModel? productTypeSelected;
   late List<VariationModel> variations = [];
-
+  List<String> variationOptionSelectedList = [];
+  Map<int, VariationOptionModel> selectedOptions = {};
   TextEditingController priceController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController productTypeController = TextEditingController();
@@ -90,6 +96,78 @@ class ListitempageState extends State<Listitempage>
     }
   }
 
+  Future<void> requestGalleryPermission() async {
+    try {
+      var status = await Permission.storage.request();
+      if (status.isGranted) {
+        _pickfromGallery(); // Call the function to pick an image from the gallery.
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Permission to access the gallery was denied.'),
+          ),
+        );
+      }
+    } catch (e) {
+      print('Error requesting gallery permission: $e');
+      // Handle any exceptions here.
+    }
+  }
+
+  Future<void> requestCameraPermission() async {
+    try {
+      var status = await Permission.camera.request();
+      if (status.isGranted) {
+        _pickfromCamera(); // Call the function to pick an image from the gallery.
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Permission to access the camera was denied.'),
+          ),
+        );
+      }
+    } catch (e) {
+      print('Error requesting camera permission: $e');
+      // Handle any exceptions here.
+    }
+  }
+
+  Future<void> _displayBottomSheet(BuildContext context) async {
+    _selectedImage != null
+        ? Image.file(_selectedImage!)
+        : await showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return Container(
+                height: 200,
+                padding: const EdgeInsets.all(40),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        requestCameraPermission();
+                        // Implement the action for "Take a Photo" here
+                        Navigator.pop(context); // Close the bottom sheet
+                      },
+                      child: const Text("Take a Photo"),
+                    ),
+                    const SizedBox(
+                        height: 16), // Add spacing between the buttons
+                    ElevatedButton(
+                      onPressed: () {
+                        requestGalleryPermission(); // Request gallery access permission.
+                      },
+                      child: const Text("Pick Image from Gallery"),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+  }
+
+  File? _selectedImage;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,12 +203,28 @@ class ListitempageState extends State<Listitempage>
             color: Colors.grey, // Adjust the color as needed
           ),
           const SizedBox(height: 30), //padding
-          const Row(children: [
-            DashedBorderContainerWithIcon(iconData: Icons.camera_alt),
-            DashedBorderContainerWithIcon(iconData: Icons.camera_alt),
-            DashedBorderContainerWithIcon(iconData: Icons.camera_alt),
-            DashedBorderContainerWithIcon(iconData: Icons.camera_alt),
-            DashedBorderContainerWithIcon(iconData: Icons.videocam),
+
+          Row(children: [
+            DashedBorderContainerWithIcon(
+                onTap: () {
+                  _displayBottomSheet(context);
+                },
+                iconData: Icons.camera_alt),
+            DashedBorderContainerWithIcon(
+                onTap: () {
+                  _displayBottomSheet(context);
+                },
+                iconData: Icons.camera_alt),
+            DashedBorderContainerWithIcon(
+                onTap: () {
+                  _displayBottomSheet(context);
+                },
+                iconData: Icons.camera_alt),
+            DashedBorderContainerWithIcon(
+                onTap: () {
+                  _displayBottomSheet(context);
+                },
+                iconData: Icons.camera_alt),
           ]),
           const Sidetext(
             text: 'Read our shooting tips',
@@ -182,6 +276,9 @@ class ListitempageState extends State<Listitempage>
                                     selectedData.id.toString();
                                 productTypeSelected = selectedData;
                                 fetchData();
+                                variationOptionSelectedList = List.filled(
+                                    variations.length, 'InitialValue');
+                                selectedOptions = {};
                               });
                               // variations = await variationController
                               //     .getVariantsByProductType(
@@ -255,7 +352,7 @@ class ListitempageState extends State<Listitempage>
                         List<VariationModel> variations = snapshot.data ?? [];
                         if (variations.isEmpty) {
                           // Variations are empty
-                          return Text('No data yet');
+                          return const Text('No data yet');
                         } else {
                           // Variations are not empty
                           return Padding(
@@ -264,7 +361,10 @@ class ListitempageState extends State<Listitempage>
                                 horizontal: 20,
                               ),
                               child: Column(
-                                children: variations.map((variation) {
+                                children:
+                                    variations.asMap().entries.map((entry) {
+                                  final int index = entry.key;
+                                  final VariationModel variation = entry.value;
                                   return Row(
                                     children: [
                                       Expanded(
@@ -280,43 +380,36 @@ class ListitempageState extends State<Listitempage>
                                           ),
                                         ),
                                       ),
-                                      Container(
-                                        width: 150,
-                                        height: 60,
-                                        child: DropdownButton<
-                                            VariationOptionModel>(
-                                          dropdownColor: Colors.black,
-                                          value:
-                                              variationOptionselected, // You can set the initial value here
-                                          onChanged:
-                                              (VariationOptionModel? newValue) {
-                                            setState(() {
-                                              variationOptionselected =
-                                                  newValue;
-                                              print(variationOptionselected
-                                                  ?.value);
-                                            });
-
-                                            // Handle the selected option for this variation
-                                          },
-                                          items: variation.variation_options
-                                              ?.map((option) {
-                                            return DropdownMenuItem<
-                                                VariationOptionModel>(
-                                              value: option,
-                                              child: Text(
-                                                option.value ?? '',
-                                                style: const TextStyle(
-                                                  height: 1,
-                                                  color: Colors
-                                                      .white, // Set the desired text color here
+                                      Column(
+                                        children: [
+                                          ExpansiontileButton(
+                                            text:
+                                                selectedOptions[index]?.value ??
+                                                    "Select an Option",
+                                            onTap: () {
+                                              Navigator.of(context)
+                                                  .push(MaterialPageRoute(
+                                                builder: (context) =>
+                                                    VariationOptionsPage(
+                                                  options: variation
+                                                      .variation_options!,
+                                                  variant: variation.name!,
+                                                  selectedIndex:
+                                                      index, // Pass the index
                                                 ),
-                                              ),
-                                            );
-                                          }).toList(),
-                                          icon: const Icon(Icons.menu),
-                                        ),
-                                      ),
+                                              ))
+                                                  .then((selectedData) async {
+                                                if (selectedData != null) {
+                                                  setState(() {
+                                                    selectedOptions[index] =
+                                                        selectedData;
+                                                  });
+                                                }
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      )
                                     ],
                                   );
                                 }).toList(),
@@ -353,5 +446,39 @@ class ListitempageState extends State<Listitempage>
             ]),
           )
         ]));
+  }
+
+  Future<void> _pickfromGallery() async {
+    try {
+      final returnedImage =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (returnedImage != null) {
+        setState(() {
+          _selectedImage = File(returnedImage.path);
+        });
+      } else {
+        return;
+      }
+    } catch (e) {
+      print('Error picking image from gallery: $e');
+      // Handle any exceptions here.
+    }
+  }
+
+  Future<void> _pickfromCamera() async {
+    try {
+      final returnedImage =
+          await ImagePicker().pickImage(source: ImageSource.camera);
+      if (returnedImage != null) {
+        setState(() {
+          _selectedImage = File(returnedImage.path);
+        });
+      } else {
+        return;
+      }
+    } catch (e) {
+      print('Error picking image from gallery: $e');
+      // Handle any exceptions here.
+    }
   }
 }

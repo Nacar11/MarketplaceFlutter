@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, avoid_print, prefer_interpolation_to_compose_strings
+// ignore_for_file: file_names, avoid_print, prefer_interpolation_to_compose_strings, unnecessary_cast
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;

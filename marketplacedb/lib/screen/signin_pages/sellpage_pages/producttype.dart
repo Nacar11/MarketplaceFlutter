@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/models/ProductTypeModel.dart';
@@ -47,7 +49,7 @@ class ProductTypePageState extends State<ProductTypePage> {
               .productCategoryId), // Replace 5 with the dynamic category ID
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator(); // Loading state
+              return const CircularProgressIndicator(); // Loading state
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}'); // Error state
             } else {

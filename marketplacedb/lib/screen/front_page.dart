@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:flutter/gestures.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_name.dart';
@@ -37,7 +38,10 @@ class FrontpageState extends State<Frontpage> {
     showSuccessSnackBar(context, "Successfully Logged Out", 'success');
   }
 
-  void fbbutton() {}
+  void fbbutton() async {
+    await FacebookAuth.instance.login(permissions: ['public_profile', 'email']);
+  }
+
   void signupButton(BuildContext context) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const SignUpPagename()));
@@ -91,7 +95,11 @@ class FrontpageState extends State<Frontpage> {
                         children: [
                           GoogleButton(onTap: () => googlebutton(context)),
                           const SizedBox(height: 20), // Add spacing if needed
-                          FBButton(onTap: fbbutton),
+                          ElevatedButton(
+                              onPressed: () {
+                                fbbutton();
+                              },
+                              child: const Text('asd')),
                           const SizedBox(height: 20),
                           LargeBlackButton(
                               padding: const EdgeInsets.all(20),

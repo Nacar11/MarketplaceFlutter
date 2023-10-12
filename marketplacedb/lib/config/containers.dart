@@ -9,6 +9,14 @@ class CardItem {
   });
 }
 
+// Future<void> _displayBottomSheet(BuildContext context) {
+//   return showModalBottomSheet(
+//       context: context,
+//       builder: (context) => Container(
+//             height: 200,
+//           ));
+// }
+
 class MyContainer extends StatelessWidget {
   const MyContainer({Key? key, required this.headerText, required this.text})
       : super(key: key);
@@ -147,29 +155,37 @@ Widget buildCard({
     );
 
 class DashedBorderContainerWithIcon extends StatelessWidget {
-  const DashedBorderContainerWithIcon({required this.iconData, Key? key})
+  final Function()? onTap;
+  const DashedBorderContainerWithIcon(
+      {required this.onTap, required this.iconData, Key? key})
       : super(key: key);
   final IconData iconData;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 80, // Set the desired width
-      height: 80, // Set the desired height
-      child: Container(
-        padding: const EdgeInsets.all(20), // Padding of the outer Container
-        child: DottedBorder(
-          color: Colors.black, // Color of dotted/dash line
-          strokeWidth: 1, // Thickness of dash/dots
-          dashPattern: const [
-            5,
-            5
-          ], // Dash patterns, 10 is dash width, 6 is space width
-          child: Center(
-            child: Icon(
-              iconData, // Replace with your desired icon
-              size: 30, // Adjust the size of the icon as needed
-              color: Colors.grey, // Set the color of the icon
+    return GestureDetector(
+      onTap: onTap,
+      // () {
+      //   print('asd');
+      // },
+      child: SizedBox(
+        width: 80, // Set the desired width
+        height: 80, // Set the desired height
+        child: Container(
+          padding: const EdgeInsets.all(20), // Padding of the outer Container
+          child: DottedBorder(
+            color: Colors.black, // Color of dotted/dash line
+            strokeWidth: 1, // Thickness of dash/dots
+            dashPattern: const [
+              5,
+              5
+            ], // Dash patterns, 10 is dash width, 6 is space width
+            child: Center(
+              child: Icon(
+                iconData, // Replace with your desired icon
+                size: 30, // Adjust the size of the icon as needed
+                color: Colors.grey, // Set the color of the icon
+              ),
             ),
           ),
         ),

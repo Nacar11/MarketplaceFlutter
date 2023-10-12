@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:get/get.dart';
-import 'package:marketplacedb/models/ProductCategoryModel.dart';
+
 import 'package:marketplacedb/controllers/productController.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/producttype.dart';
 
