@@ -36,15 +36,11 @@ class MepagesettingsState extends State<Mepagesettings> {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => const Frontpage(logoutMessage: true),
                   ));
-                  final storage = GetStorage();
-                  print('ASD ${storage.read('token')}');
-                  await storage.erase();
-                  print(storage.read('token'));
                 } else {
-                  showSuccessSnackBar(
+                  showErrorHandlingSnackBar(
                     context,
-                    'Successfully Logged Out',
-                    'logoutSuccess',
+                    'Error Logging Out, Please Try Again',
+                    'error',
                   );
                 }
               },

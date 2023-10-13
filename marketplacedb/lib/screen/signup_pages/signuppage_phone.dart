@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_code.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
+import 'package:marketplacedb/screen/signup_pages/signuppage_password.dart';
 
 class SignUpPagephone extends StatefulWidget {
   const SignUpPagephone({Key? key}) : super(key: key);
@@ -35,8 +37,14 @@ class _SignUpPageState extends State<SignUpPagephone> {
   }
 
   void continuebutton3(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const SignUpPagecode()));
+    final storage = GetStorage();
+    if (storage.read('signInMethod')) {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const SignUpPagePassword()));
+    } else {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const SignUpPagecode()));
+    }
   }
 
   @override

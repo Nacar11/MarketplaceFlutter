@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 // import 'package:get/get.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
+import 'package:marketplacedb/config/snackbar.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_birthdate.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 
 class SignUpPagename extends StatefulWidget {
-  const SignUpPagename({Key? key}) : super(key: key);
+  final bool? socialLogin;
+
+  const SignUpPagename({Key? key, this.socialLogin}) : super(key: key);
 
   @override
-  State<SignUpPagename> createState() => SignUpPagenameState();
+  // ignore: no_logic_in_create_state
+  State<SignUpPagename> createState() =>
+      // ignore: no_logic_in_create_state
+      SignUpPagenameState(socialLogin: socialLogin ?? false);
 }
 
 class SignUpPagenameState extends State<SignUpPagename> {
+  final bool socialLogin;
+  SignUpPagenameState({required this.socialLogin});
   final firstnamecontroller = TextEditingController();
   final lastnamecontroller = TextEditingController();
   final authController = AuthenticationController();
@@ -23,12 +32,18 @@ class SignUpPagenameState extends State<SignUpPagename> {
   @override
   void initState() {
     super.initState();
-    // Listen for changes in the text field and update isNameEmpty accordingly.
-    firstnamecontroller.addListener(() {
-      setState(() {
-        isNameEmpty = firstnamecontroller.text.isEmpty;
+    if (socialLogin) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        showWelcomeMessageSnackBar();
       });
-    });
+    }
+  }
+
+  void showWelcomeMessageSnackBar() {
+    final storage = GetStorage();
+    String text =
+        'Welcome, ${storage.read('email')}. Sign in with just a couple more steps!';
+    socialLoginSignUp(context, text, 'loginsuccess');
   }
 
   void continuebutton(BuildContext context) {
@@ -101,7 +116,7 @@ class SignUpPagenameState extends State<SignUpPagename> {
                           }
                         },
                         isDisabled:
-                            isNameEmpty, // Pass the isNameEmpty variable here
+                            !isNameEmpty, // Pass the isNameEmpty variable here
                       ),
                     ),
                   ],

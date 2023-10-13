@@ -53,6 +53,30 @@ void showSuccessSnackBar(BuildContext context, String message, String type) {
   ).show(context);
 }
 
+void socialLoginSignUp(BuildContext context, String message, String type) {
+  Flushbar(
+    margin: const EdgeInsets.all(15),
+    duration: const Duration(seconds: 3),
+    message: message,
+    flushbarPosition: FlushbarPosition.TOP,
+    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+    backgroundGradient: LinearGradient(
+      colors: [Colors.green.shade800, Colors.greenAccent.shade700],
+      stops: const [0.6, 1],
+    ),
+    boxShadows: const [
+      BoxShadow(
+        color: Colors.black45,
+        offset: Offset(3, 3),
+        blurRadius: 3,
+      ),
+    ],
+    dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+    forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+    title: type == 'loginsuccess' ? 'Welcome!' : 'Success',
+  ).show(context);
+}
+
 void showErrorHandlingSnackBar(
     BuildContext context, String message, String type) {
   Flushbar(

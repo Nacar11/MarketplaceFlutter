@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:marketplacedb/networks/googleSignIn.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/constants/constant.dart';
 import 'package:get_storage/get_storage.dart';
@@ -60,7 +61,7 @@ class AuthenticationController extends GetxController {
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == "Authorized") {
         isLoading.value = false;
-        print(jsonObject['access_token']);
+
         storage.write('token', jsonObject['access_token']);
         storage.write('username', jsonObject['username']);
         storage.read('token');
@@ -94,14 +95,6 @@ class AuthenticationController extends GetxController {
       var jsonObject = jsonDecode(response.body);
 
       return jsonObject;
-      // if (jsonObject['message'] == "Authorized") {
-      //   isLoading.value = false;
-      //   print(jsonObject['access_token']);
-      //   return 0;
-      // } else {
-      //   isLoading.value = false;
-      //   return jsonObject['errors'];
-      // }
     } catch (e) {
       print(e);
       isLoading.value = false;
@@ -168,11 +161,8 @@ class AuthenticationController extends GetxController {
       if (jsonObject['message'] == "Success") {
         isLoading.value = false;
         print(jsonObject['access_token']);
-        final storage = GetStorage();
-        storage.erase();
         storage.write('token', jsonObject['access_token']);
         storage.write('username', jsonObject['username']);
-
         return 0;
       } else {
         isLoading.value = false;
@@ -193,9 +183,49 @@ class AuthenticationController extends GetxController {
           'Accept': 'application/json',
         },
       );
+      await GoogleSignAPI.logout();
+      final storage = GetStorage();
+      print('ASD ${storage.read('token')}'); //
+      await storage.erase();
+      print(storage.read('token')); //
       var jsonObject = jsonDecode(response.body);
       isLoading.value = false;
       return jsonObject;
+    } catch (e) {
+      print(e);
+      isLoading.value = false;
+    }
+  }
+
+  Future loginGoogle(String? email) async {
+    try {
+      var data = {'email': email};
+      isLoading.value = true;
+      var response = await AuthInterceptor().post(
+        Uri.parse('${url}google/callback'),
+        headers: {
+          'Accept': 'application/json',
+        },
+        body: data,
+      );
+
+      var jsonObject = jsonDecode(response.body);
+
+      if (jsonObject['message'] == 'registerFirst') {
+        final storage = GetStorage();
+        storage.write('email', email);
+        storage.write('signInMethod', 'google');
+        isLoading.value = false;
+        return 0;
+      } else if (jsonObject['message'] == 'Success') {
+        final storage = GetStorage();
+        storage.erase();
+        storage.write('token', jsonObject['access_token']);
+        storage.write('username', jsonObject['username']);
+        return 1;
+      } else {
+        return 2;
+      }
     } catch (e) {
       print(e);
       isLoading.value = false;

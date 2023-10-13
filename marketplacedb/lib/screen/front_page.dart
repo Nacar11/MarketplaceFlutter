@@ -1,13 +1,20 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:flutter/gestures.dart';
+import 'package:marketplacedb/networks/googleSignIn.dart';
+import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_name.dart';
 import 'package:marketplacedb/screen/signin_page.dart';
-import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 // import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/snackbar.dart';
 import 'package:flutter/services.dart';
+import 'package:marketplacedb/controllers/authenticationController.dart';
+
+final authController = AuthenticationController();
 
 class Frontpage extends StatefulWidget {
   final bool? logoutMessage;
@@ -25,8 +32,7 @@ class FrontpageState extends State<Frontpage> {
 
   @override
   void initState() {
-    super.initState(); // Call the superclass's initState
-    // Call your custom init method here
+    super.initState();
     if (logoutMessage) {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         showLogoutSnackBar();
@@ -39,7 +45,8 @@ class FrontpageState extends State<Frontpage> {
   }
 
   void fbbutton() async {
-    await FacebookAuth.instance.login(permissions: ['public_profile', 'email']);
+    // await FacebookAuth.instance.login(permissions: ['public_profile', 'email']);
+    await GoogleSignAPI.logout();
   }
 
   void signupButton(BuildContext context) {
@@ -47,9 +54,21 @@ class FrontpageState extends State<Frontpage> {
         .push(MaterialPageRoute(builder: (context) => const SignUpPagename()));
   }
 
-  void googlebutton(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const Navigation()));
+  Future googlebutton(BuildContext context) async {
+    // await GoogleSignAPI.logout();
+    final userData = await GoogleSignAPI.login();
+
+    final response = await authController.loginGoogle(userData?.email);
+    // print(response);
+    if (response == 0) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const SignUpPagename(socialLogin: true)));
+    } else if (response == 1) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const Navigation(welcomeMessage: true)));
+    } else {
+      showErrorHandlingSnackBar(context, 'Error Logging In', 'error');
+    }
   }
 
   void signInButton(BuildContext context) {
