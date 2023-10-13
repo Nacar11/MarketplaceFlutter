@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, avoid_print, non_constant_identifier_names, await_only_futures
+// ignore_for_file: file_names, avoid_print, non_constant_identifier_names, await_only_futures, unused_import
 
 import 'dart:convert';
 import 'package:get/get.dart';
