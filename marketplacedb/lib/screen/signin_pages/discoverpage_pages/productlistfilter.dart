@@ -1,13 +1,19 @@
 // ignore_for_file: unused_import
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 // import 'package:marketplacedb/config/icons.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/config/Customappbar.dart';
+import 'package:marketplacedb/controllers/productController.dart';
+import 'package:marketplacedb/models/ProductCategoryModel.dart';
+import 'package:marketplacedb/models/ProductItemModel.dart';
+
+final controller = Get.put<ProductController>(ProductController());
 
 class Filterpage extends StatefulWidget {
-  final String productType; // Add this line
+  final int productType; // Add this line
 
   const Filterpage({
     Key? key,
@@ -15,13 +21,16 @@ class Filterpage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<Filterpage> createState() => FilterpageState();
+  // ignore: no_logic_in_create_state
+  State<Filterpage> createState() => FilterpageState(productType: productType);
 }
 
 final searchController = TextEditingController();
 
 class FilterpageState extends State<Filterpage> {
   int index = 0;
+  final int productType;
+  FilterpageState({required this.productType});
 
   void submitSearch() {
     final query = searchController.text;
@@ -42,89 +51,74 @@ class FilterpageState extends State<Filterpage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 80,
-          centerTitle: true,
-          title: Stack(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: Row(children: [
-                  Text(
-                    widget.productType,
-                    style: const TextStyle(fontSize: 30),
-                  ),
-                ]),
-              ),
-              Row(
-                children: [
-                  const Icon(Icons.search),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: TextField(
-                      controller: searchController,
-                      onSubmitted: (_) => submitSearch(),
-                      decoration: const InputDecoration(
-                        hintText: 'Search for products or users',
-                        border: InputBorder.none,
+        body: FutureBuilder<List<ProductItemModel>>(
+            future: controller.getProductItemsByProductType(
+                productType: productType),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator(
+                  strokeWidth: 3.0, // Adjust the stroke width as needed
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      Colors.blue), // Set the desired color
+                );
+                // Display a loading indicator
+              } else if (snapshot.hasError) {
+                return Text(
+                    'Error: ${snapshot.error}'); // Display an error message
+              } else {
+                return ListView(
+                  children: <Widget>[
+                    for (final item in snapshot.data!)
+                      Column(
+                        children: <Widget>[
+                          Container(
+                            height:
+                                3, // Adjust the height to make the line thicker
+                            color: Colors.grey, // Adjust the color as needed
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Headertext(text: item.SKU ?? 'asd'),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Headertext(
+                                      text: item.product!.name ?? 'asd'),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Headertext(
+                                      text:
+                                          'Php ${item.price!.toStringAsFixed(2)}'),
+                                ),
+                                Column(
+                                  children: <Widget>[
+                                    for (final product_image
+                                        in item.product_images!)
+                                      Image.network(
+                                        product_image
+                                            .product_image!, // Replace with the actual URL property
+                                        width: 100, // Set the desired width
+                                        height: 100, // Set the desired height
+                                        fit: BoxFit
+                                            .cover, // Adjust the fit as needed
+                                      ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      style: const TextStyle(fontSize: 15),
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.shopping_cart),
-                    onPressed: () {
-                      // Handle the shopping cart action here
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        body: ListView(
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                Container(
-                  height: 3, // Adjust the height to make the line thicker
-                  color: Colors.grey, // Adjust the color as needed
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Headertext(text: 'Suggested for you'),
-                      ),
-                      // Sidetext(text: 'see more'),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const Homepagecon(),
-            const Headertext(text: 'Recommended Sellers'),
-            const Homepagecon(),
-            const Homepagecon(),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Headertext(text: 'Our Picks'),
-                ),
-                // Sidetext(text: 'see more'),
-              ],
-            ),
-            const Homepagecon(),
-            const Homepagecon(),
-            const Homepagecon(),
-            const Homepagecon(),
-          ],
-        ),
+                  ],
+                );
+              }
+            }),
       ),
     );
   }

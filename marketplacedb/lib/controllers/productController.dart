@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, avoid_print, prefer_interpolation_to_compose_strings, unnecessary_cast, unused_import
+// ignore_for_file: file_names, avoid_print, prefer_interpolation_to_compose_strings, unnecessary_cast, unused_import, non_constant_identifier_names, no_leading_underscores_for_local_identifiers
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -117,12 +117,33 @@ class ProductController extends GetxController {
     final response =
         await AuthInterceptor().get(Uri.parse(url + "productItems"));
 
+    // print(response.body);
     if (response.statusCode == 200) {
       final List<dynamic> result =
           jsonDecode(response.body); // Parse JSON as a List
+      print(result);
+      final List<ProductItemModel> itemList = result
+          .map((e) => ProductItemModel.fromJson(e) as ProductItemModel)
+          .toList();
 
-      final List<ProductItemModel> itemList =
-          result.map((e) => ProductItemModel.fromJson(e)).toList();
+      productItemList.assignAll(itemList);
+    }
+    return productItemList;
+  }
+
+  Future<List<ProductItemModel>> getProductItemsByProductType(
+      {required int productType}) async {
+    final response = await AuthInterceptor()
+        .get(Uri.parse(url + "getProductItemsByProductType/$productType"));
+
+    print(response.body);
+    if (response.statusCode == 200) {
+      final List<dynamic> result =
+          jsonDecode(response.body); // Parse JSON as a List
+      print(result);
+      final List<ProductItemModel> itemList = result
+          .map((e) => ProductItemModel.fromJson(e) as ProductItemModel)
+          .toList();
 
       productItemList.assignAll(itemList);
     }

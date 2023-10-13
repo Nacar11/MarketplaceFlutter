@@ -1,5 +1,8 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
+import 'package:marketplacedb/models/ProductImageModel.dart';
+import 'package:marketplacedb/models/ProductTypeModel.dart';
+
 class ProductItemModel {
   int? id;
   int? product_id;
@@ -7,7 +10,8 @@ class ProductItemModel {
   String? SKU;
   double? price;
   String? description;
-  List<ProductItemModel>? children; // Define children property
+  List<ProductImageModel>? product_images;
+  ProductTypeModel? product; // Define children property
 
   ProductItemModel(
       {this.id,
@@ -16,7 +20,8 @@ class ProductItemModel {
       this.SKU,
       this.price,
       this.description,
-      this.children});
+      this.product_images,
+      this.product});
 
   ProductItemModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -25,12 +30,19 @@ class ProductItemModel {
     SKU = json['SKU'];
     price = json['price'];
     description = json['description'];
-    if (json['children'] != null) {
-      children = (json['children'] as List<dynamic>)
-          .map((e) => ProductItemModel.fromJson(e))
+    if (json['product_images'] != null) {
+      product_images = (json['product_images'] as List)
+          .map((e) => ProductImageModel.fromJson(e))
           .toList();
     } else {
-      children = <ProductItemModel>[]; // Initialize children as an empty list
+      product_images =
+          <ProductImageModel>[]; // Initialize children as an empty list
+    }
+
+    if (json['product'] != null) {
+      product = ProductTypeModel.fromJson(json['product']);
+    } else {
+      product = null;
     } // Initialize children as an empty list
   }
 }

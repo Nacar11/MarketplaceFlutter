@@ -70,9 +70,8 @@ class TypePageState extends State<TypePage> {
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Filterpage(
-                                productType: productType.name ??
-                                    "Error on Handling API Responses"),
+                            builder: (context) =>
+                                Filterpage(productType: productType.id!),
                           ));
                         },
                         child: ListTile(
