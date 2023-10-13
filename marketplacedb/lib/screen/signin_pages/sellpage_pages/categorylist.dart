@@ -24,10 +24,12 @@ class CategoryListPage extends StatelessWidget {
       body: ListView(children: [
         Column(
           children: [
-            const SizedBox(height: 10),
-            Container(
-              height: 1,
-              color: Colors.grey,
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Container(
+                height: 1,
+                color: Colors.grey,
+              ),
             ),
             FutureBuilder<List<ProductCategoryModel>>(
               future: controller

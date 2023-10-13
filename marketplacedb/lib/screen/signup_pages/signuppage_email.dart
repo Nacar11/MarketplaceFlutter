@@ -62,29 +62,29 @@ class _SignUpPageState extends State<SignUpPageemail> {
                 text:
                     "notifications and transactions will be sent to your email",
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              ValidatorField(
-                controller: emailcontrol,
-                hintText: 'Email',
-                labelText: 'Enter Email',
-                obscureText: false,
-                validator: (value) {
-                  RegExp emailPattern = RegExp(r'^[a-zA-Z\s.]+@gmail\.com$');
-                  if (value == null || value.isEmpty) {
-                    return 'Email is required';
-                  } else if (!emailPattern.hasMatch(value)) {
-                    return 'Email must be valid';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  setState(() {
-                    isEmailValid = _formKey.currentState != null &&
-                        _formKey.currentState!.validate();
-                  });
-                },
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: ValidatorField(
+                  controller: emailcontrol,
+                  hintText: 'Email',
+                  labelText: 'Enter Email',
+                  obscureText: false,
+                  validator: (value) {
+                    RegExp emailPattern = RegExp(r'^[a-zA-Z\s.]+@gmail\.com$');
+                    if (value == null || value.isEmpty) {
+                      return 'Email is required';
+                    } else if (!emailPattern.hasMatch(value)) {
+                      return 'Email must be valid';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      isEmailValid = _formKey.currentState != null &&
+                          _formKey.currentState!.validate();
+                    });
+                  },
+                ),
               ),
             ])),
         Positioned(
@@ -94,7 +94,8 @@ class _SignUpPageState extends State<SignUpPageemail> {
           child: Center(
             child: Continue(
               onTap: () async {
-                if (!isEmailValid) {
+                if (isEmailValid) {
+                  print("asd");
                   var response =
                       await authController.checkEmail(email: emailcontrol.text);
 

@@ -84,7 +84,6 @@ class AuthenticationController extends GetxController {
       var data = {
         'email': email,
       };
-
       var response = await http.post(
         Uri.parse('${url}checkEmail'),
         headers: {
@@ -92,8 +91,9 @@ class AuthenticationController extends GetxController {
         },
         body: data,
       );
+      print(response.body);
       var jsonObject = jsonDecode(response.body);
-
+      print(jsonObject);
       return jsonObject;
     } catch (e) {
       print(e);
@@ -183,7 +183,7 @@ class AuthenticationController extends GetxController {
           'Accept': 'application/json',
         },
       );
-      await GoogleSignAPI.logout();
+      // await GoogleSignAPI.logout();
       final storage = GetStorage();
       print('ASD ${storage.read('token')}'); //
       await storage.erase();

@@ -75,16 +75,17 @@ class BillingAddressState extends State<BillingAddress> {
               slivers: <Widget>[
                 SliverList(
                   delegate: SliverChildListDelegate([
-                    const SizedBox(height: 20),
-                    UnderlineTextField(
-                      controller: addressline1,
-                      hintText: 'Enter your Address',
-                      labelText: 'Address Line 1',
-                      obscureText: false,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 16.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: UnderlineTextField(
+                        controller: addressline1,
+                        hintText: 'Enter your Address',
+                        labelText: 'Address Line 1',
+                        obscureText: false,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 16.0),
+                      ),
                     ),
-                    const SizedBox(height: 20),
                     UnderlineTextField(
                       controller: addressline2,
                       hintText: 'Enter your 2nd Address',
@@ -93,16 +94,17 @@ class BillingAddressState extends State<BillingAddress> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 8.0, horizontal: 16.0),
                     ),
-                    const SizedBox(height: 20),
-                    UnderlineTextField(
-                      controller: city,
-                      hintText: 'Enter your City',
-                      labelText: 'City',
-                      obscureText: false,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 16.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: UnderlineTextField(
+                        controller: city,
+                        hintText: 'Enter your City',
+                        labelText: 'City',
+                        obscureText: false,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 16.0),
+                      ),
                     ),
-                    const SizedBox(height: 20),
                     UnderlineTextField(
                       controller: stateprovince,
                       hintText: 'Enter your State, Province, or Region',
@@ -111,16 +113,17 @@ class BillingAddressState extends State<BillingAddress> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 8.0, horizontal: 16.0),
                     ),
-                    const SizedBox(height: 20),
-                    UnderlineTextField(
-                      controller: postalcode,
-                      hintText: 'Enter your Zip or Postal Code',
-                      labelText: 'Zip or Postal Code',
-                      obscureText: false,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 16.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: UnderlineTextField(
+                        controller: postalcode,
+                        hintText: 'Enter your Zip or Postal Code',
+                        labelText: 'Zip or Postal Code',
+                        obscureText: false,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 16.0),
+                      ),
                     ),
-                    const SizedBox(height: 20),
                     UnderlineTextField(
                       controller: country,
                       hintText: 'Enter your Country',
@@ -129,15 +132,17 @@ class BillingAddressState extends State<BillingAddress> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 8.0, horizontal: 16.0),
                     ),
-                    const SizedBox(height: 20),
-                    Continue(
-                      onTap: () {
-                        if (!isNameEmpty) {
-                          billingaddressbutton(context);
-                        }
-                      },
-                      isDisabled:
-                          isNameEmpty, // Pass the isNameEmpty variable here
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Continue(
+                        onTap: () {
+                          if (!isNameEmpty) {
+                            billingaddressbutton(context);
+                          }
+                        },
+                        isDisabled:
+                            isNameEmpty, // Pass the isNameEmpty variable here
+                      ),
                     ),
                   ]),
                 ),

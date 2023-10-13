@@ -46,19 +46,19 @@ class SignUpPageCodeState extends State<SignUpPagecode> {
                     headerText: "Enter the code              ",
                     text: "We've sent a 6-digit code to your number",
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  MyCodeField(
-                    controller: codeControl,
-                    hintText: 'Code',
-                    labelText: 'Enter Code',
-                    onChanged: (value) {
-                      setState(() {
-                        isCodeValid = _formKey.currentState != null &&
-                            _formKey.currentState!.validate();
-                      });
-                    },
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: MyCodeField(
+                      controller: codeControl,
+                      hintText: 'Code',
+                      labelText: 'Enter Code',
+                      onChanged: (value) {
+                        setState(() {
+                          isCodeValid = _formKey.currentState != null &&
+                              _formKey.currentState!.validate();
+                        });
+                      },
+                    ),
                   ),
                 ])
               ])),

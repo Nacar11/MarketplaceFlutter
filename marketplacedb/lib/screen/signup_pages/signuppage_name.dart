@@ -26,8 +26,8 @@ class SignUpPagenameState extends State<SignUpPagename> {
   final firstnamecontroller = TextEditingController();
   final lastnamecontroller = TextEditingController();
   final authController = AuthenticationController();
-  bool isFirstnameValid = true;
-  bool isLastnameValid = true;
+  bool isFirstnameValid = false;
+  bool isLastnameValid = false;
 
   bool isNameEmpty = true;
 
@@ -60,7 +60,8 @@ class SignUpPagenameState extends State<SignUpPagename> {
     super.dispose();
   }
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> firstnameKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> lastnameKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -73,20 +74,19 @@ class SignUpPagenameState extends State<SignUpPagename> {
       ),
       body: Stack(
         children: [
-          Form(
-              key: _formKey,
-              child: Column(children: [
-                const Center(
-                  child: Headertext(text: 'Get Started'),
-                ),
-                const MyContainer(
-                  headerText: "Hello, tell us about yourself              ",
-                  text: "so we can personalize your account",
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ValidatorField(
+          Column(children: [
+            const Center(
+              child: Headertext(text: 'Get Started'),
+            ),
+            const MyContainer(
+              headerText: "Hello, tell us about yourself              ",
+              text: "so we can personalize your account",
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Form(
+                key: firstnameKey,
+                child: ValidatorField(
                   controller: firstnamecontroller,
                   hintText: 'Firstname',
                   labelText: 'Enter Firstname',
@@ -102,15 +102,19 @@ class SignUpPagenameState extends State<SignUpPagename> {
                   },
                   onChanged: (value) {
                     setState(() {
-                      isFirstnameValid = _formKey.currentState != null &&
-                          _formKey.currentState!.validate();
+                      isFirstnameValid = firstnameKey.currentState != null &&
+                          firstnameKey.currentState!.validate();
+                      print(isFirstnameValid);
                     });
                   },
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ValidatorField(
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Form(
+                key: lastnameKey,
+                child: ValidatorField(
                   controller: lastnamecontroller,
                   hintText: 'Lastname',
                   labelText: 'Enter Lastname',
@@ -126,32 +130,34 @@ class SignUpPagenameState extends State<SignUpPagename> {
                   },
                   onChanged: (value) {
                     setState(() {
-                      isLastnameValid = _formKey.currentState != null &&
-                          _formKey.currentState!.validate();
+                      isLastnameValid = lastnameKey.currentState != null &&
+                          lastnameKey.currentState!.validate();
                     });
                   },
                 ),
-              ])),
+              ),
+            ),
+          ]),
           Positioned(
             bottom: 20, // Adjust this value as needed
             left: 0,
             right: 0,
             child: Center(
               child: Continue(
-                onTap: () {
-                  if (isFirstnameValid && isLastnameValid) {
-                    authController.test();
-                    authController.storeLocalData(
-                        'first_name', firstnamecontroller.text);
-                    authController.storeLocalData(
-                        'last_name', lastnamecontroller.text);
-                    authController.test();
-                    continuebutton(context);
-                  }
-                },
-                isDisabled: isFirstnameValid,
-                // Pass the isNameEmpty variable here
-              ),
+                  onTap: () {
+                    // print(isLastnameValid);
+                    if (isFirstnameValid && isLastnameValid) {
+                      print("asd");
+                      authController.test();
+                      authController.storeLocalData(
+                          'first_name', firstnamecontroller.text);
+                      authController.storeLocalData(
+                          'last_name', lastnamecontroller.text);
+                      authController.test();
+                      continuebutton(context);
+                    }
+                  },
+                  isDisabled: !isFirstnameValid || !isLastnameValid),
             ),
           )
         ],

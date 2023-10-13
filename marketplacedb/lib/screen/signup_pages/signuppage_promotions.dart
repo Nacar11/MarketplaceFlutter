@@ -59,31 +59,31 @@ class _SignUpPageState extends State<SignUpPagepromotion> {
                   "Would you like to subcribe to our promotions and newsletters              ",
               text: "so you can get updated",
             ),
-            const SizedBox(
-              height: 20,
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Column(children: [
+                Row(children: [
+                  Checkbox(
+                      value: ischeckedpromotions,
+                      onChanged: (newBool) {
+                        setState(() {
+                          ischeckedpromotions = newBool!;
+                        });
+                      }),
+                  const Text('Subscribe to promotions'),
+                ]),
+                Row(children: [
+                  Checkbox(
+                      value: ischeckednewsletters,
+                      onChanged: (newBool) {
+                        setState(() {
+                          ischeckednewsletters = newBool!;
+                        });
+                      }),
+                  const Text('Subscribe to newsletters'),
+                ]),
+              ]),
             ),
-            Column(children: [
-              Row(children: [
-                Checkbox(
-                    value: ischeckedpromotions,
-                    onChanged: (newBool) {
-                      setState(() {
-                        ischeckedpromotions = newBool!;
-                      });
-                    }),
-                const Text('Subscribe to promotions'),
-              ]),
-              Row(children: [
-                Checkbox(
-                    value: ischeckednewsletters,
-                    onChanged: (newBool) {
-                      setState(() {
-                        ischeckednewsletters = newBool!;
-                      });
-                    }),
-                const Text('Subscribe to newsletters'),
-              ]),
-            ]),
           ]),
           Positioned(
             bottom: 20, // Adjust this value as needed

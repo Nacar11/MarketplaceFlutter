@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
@@ -128,20 +130,74 @@ class _SignUpPageState extends State<SignUpPagebirthdate> {
                         icon: Icon(Icons.calendar_today_rounded),
                         labelText: "Date of Birth"),
                     onTap: () async {
-                      pickedDate = await showDatePicker(
+                      final currentDate = DateTime.now();
+                      final pickedDate = await showDatePicker(
                           context: context,
-                          initialDate: DateTime.now(),
+                          initialDate: currentDate,
                           firstDate: DateTime(1960),
                           lastDate: DateTime(2101));
 
                       if (pickedDate != null) {
-                        textcontrol.text =
-                            DateFormat('yyyy-MM-dd').format(pickedDate!);
-                        setState(() {
-                          isDateSelected = true;
-                        });
+                        int age = currentDate.year - pickedDate.year;
+
+                        if (currentDate.month < pickedDate.month ||
+                            (currentDate.month == pickedDate.month &&
+                                currentDate.day < pickedDate.day)) {
+                          age--;
+                        }
+
+                        if (age >= 13) {
+                          textcontrol.text =
+                              DateFormat('yyyy-MM-dd').format(pickedDate);
+                          setState(() {
+                            isDateSelected = true;
+                          });
+                        } else {
+                          setState(() {
+                            isDateSelected = false;
+                          });
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text("Invalid Date of Birth"),
+                                content: const Text(
+                                    "You must be at least 13 years old to use this app."),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text("OK"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
                       }
                     }),
+                // child: TextField(
+                //     readOnly: true, // Disable text input
+                //     controller: textcontrol,
+                //     decoration: const InputDecoration(
+                //         icon: Icon(Icons.calendar_today_rounded),
+                //         labelText: "Date of Birth"),
+                //     onTap: () async {
+                //       pickedDate = await showDatePicker(
+                //           context: context,
+                //           initialDate: DateTime.now(),
+                //           firstDate: DateTime(1960),
+                //           lastDate: DateTime(2101));
+
+                //       if (pickedDate != null) {
+                //         textcontrol.text =
+                //             DateFormat('yyyy-MM-dd').format(pickedDate!);
+                //         setState(() {
+                //           isDateSelected = true;
+                //         });
+                //       }
+                //     }),
               ),
             ]),
           ),
@@ -152,11 +208,13 @@ class _SignUpPageState extends State<SignUpPagebirthdate> {
             child: Center(
               child: Continue(
                   onTap: () {
-                    if (isDateSelected && _valueGender.isNotEmpty) {
-                      final formattedDate =
-                          DateFormat('yyyy-MM-dd').format(pickedDate!);
+                    print(isDateSelected);
+                    print(_valueGender);
+                    if (isDateSelected && _valueGender != '') {
+                      print("asdasdasdasdasdsda");
+
                       authController.storeLocalData(
-                          'date_of_birth', formattedDate);
+                          'date_of_birth', textcontrol.text);
                       authController.storeLocalData('gender', _valueGender);
 
                       continuebutton2(context);
@@ -170,65 +228,3 @@ class _SignUpPageState extends State<SignUpPagebirthdate> {
     );
   }
 }
-
-
-
-
-
-
-
-// TextField(
-//                     readOnly: true, // Disable text input
-//                     controller: textcontrol,
-//                     decoration: const InputDecoration(
-//                         icon: Icon(Icons.calendar_today_rounded),
-//                         labelText: "Date of Birth"),
-//                     onTap: () async {
-//                       final currentDate = DateTime.now();
-//                       final pickedDate = await showDatePicker(
-//                           context: context,
-//                           initialDate: currentDate,
-//                           firstDate: DateTime(1960),
-//                           lastDate: DateTime(2101));
-
-//                       if (pickedDate != null) {
-//                         int age = currentDate.year - pickedDate.year;
-
-//                         if (currentDate.month < pickedDate.month ||
-//                             (currentDate.month == pickedDate.month &&
-//                                 currentDate.day < pickedDate.day)) {
-//                           age--;
-//                         }
-
-//                         if (age >= 13) {
-//                           textcontrol.text =
-//                               DateFormat('yyyy-MM-dd').format(pickedDate);
-//                           setState(() {
-//                             isDateSelected = true;
-//                           });
-//                         } else if (age == 12) {
-//                           // User is exactly 12 years old; you can handle this case if needed
-//                           // e.g., show a message that they'll be 13 soon.
-//                         } else {
-//                           // Show an error or prompt the user to select a valid date
-//                           showDialog(
-//                             context: context,
-//                             builder: (context) {
-//                               return AlertDialog(
-//                                 title: Text("Invalid Date of Birth"),
-//                                 content: Text(
-//                                     "You must be at least 13 years old to use this app."),
-//                                 actions: <Widget>[
-//                                   TextButton(
-//                                     onPressed: () {
-//                                       Navigator.of(context).pop();
-//                                     },
-//                                     child: Text("OK"),
-//                                   ),
-//                                 ],
-//                               );
-//                             },
-//                           );
-//                         }
-//                       }
-//                     }),

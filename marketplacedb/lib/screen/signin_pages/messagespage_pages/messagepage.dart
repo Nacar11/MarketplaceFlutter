@@ -56,24 +56,26 @@ class MessagepageState extends State<Messagepage>
       ),
       body: Column(
         children: [
-          const SizedBox(height: 20),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 2.0),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(10.0),
-                topRight: Radius.circular(10.0),
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black, width: 2.0),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  topRight: Radius.circular(10.0),
+                ),
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 10.0), // Add padding to make space for the border
-              child: TabBar(
-                controller: _tabController,
-                tabs: const [
-                  Tab(text: 'Chat'),
-                  Tab(text: 'Offers'),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    top: 10.0), // Add padding to make space for the border
+                child: TabBar(
+                  controller: _tabController,
+                  tabs: const [
+                    Tab(text: 'Chat'),
+                    Tab(text: 'Offers'),
+                  ],
+                ),
               ),
             ),
           ),
@@ -138,21 +140,24 @@ class SecondOptionMenu extends StatelessWidget {
             style: TextStyle(fontSize: 16),
           ),
         ),
-        SizedBox(height: 20),
-        ListTile(
-          title: Text(
-            '2. Ship the Item',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          child: ListTile(
+            title: Text(
+              '2. Ship the Item',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            subtitle: Text(
+              'We provide a prepaid shipping label for easy and insured shipping. You can also choose to ship it yourself.',
+              style: TextStyle(fontSize: 16),
             ),
           ),
-          subtitle: Text(
-            'We provide a prepaid shipping label for easy and insured shipping. You can also choose to ship it yourself.',
-            style: TextStyle(fontSize: 16),
-          ),
         ),
-        SizedBox(height: 20),
+
         ListTile(
           title: Text(
             '3. Get Paid',

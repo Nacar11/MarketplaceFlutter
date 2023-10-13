@@ -51,30 +51,31 @@ class _SignUpPagePasswordState extends State<SignUpPagePassword> {
                 headerText: "Please input a password.              ",
                 text: "Password must be at least 8 characters.",
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              ValidatorField(
-                controller: passwordControl,
-                hintText: 'Password',
-                labelText: 'Enter Password',
-                obscureText: true,
-                validator: (value) {
-                  RegExp passwordPattern =
-                      RegExp(r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$');
-                  if (value == null || value.isEmpty) {
-                    return 'Password is required';
-                  } else if (!passwordPattern.hasMatch(value)) {
-                    return 'Password must contain at least one number,\none uppercase letter, one lowercase letter,\nand be at least 8 characters long';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  setState(() {
-                    isPasswordValid = _formKey.currentState != null &&
-                        _formKey.currentState!.validate();
-                  });
-                },
+
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: ValidatorField(
+                  controller: passwordControl,
+                  hintText: 'Password',
+                  labelText: 'Enter Password',
+                  obscureText: true,
+                  validator: (value) {
+                    RegExp passwordPattern =
+                        RegExp(r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$');
+                    if (value == null || value.isEmpty) {
+                      return 'Password is required';
+                    } else if (!passwordPattern.hasMatch(value)) {
+                      return 'Password must contain at least one number,\none uppercase letter, one lowercase letter,\nand be at least 8 characters long';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      isPasswordValid = _formKey.currentState != null &&
+                          _formKey.currentState!.validate();
+                    });
+                  },
+                ),
               )
               // MyPasswordField(
               //   controller: passwordControl,

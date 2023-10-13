@@ -46,16 +46,18 @@ class HomepageState extends State<Homepage> {
                   height: 3, // Adjust the height to make the line thicker
                   color: Colors.grey, // Adjust the color as needed
                 ),
-                const SizedBox(height: 20),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Headertext(text: 'Suggested for you'),
-                    ),
-                    // Sidetext(text: 'see more'),
-                  ],
+                const Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Headertext(text: 'Suggested for you'),
+                      ),
+                      // Sidetext(text: 'see more'),
+                    ],
+                  ),
                 ),
               ],
             ),

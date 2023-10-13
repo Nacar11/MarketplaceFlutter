@@ -33,40 +33,19 @@ class Listitempage extends StatefulWidget {
   State<Listitempage> createState() => ListitempageState();
 }
 
-// List<DropdownButton<VariationOptionModel>> createDropdowns(
-//     List<VariationModel> variations) {
-//   return variations.map((variation) {
-//     VariationOptionModel? selectedValue;
-//     return DropdownButton<VariationOptionModel>(
-//       value: selectedValue, // You can set the initial value here
-//       onChanged: (VariationOptionModel? newValue) {
-//         selectedValue = newValue;
-//         // Handle the selected option for this variation
-//       },
-//       items: (variation.variation_options ?? []).map((option) {
-//         return DropdownMenuItem<VariationOptionModel>(
-//           value: option,
-//           child: Text(option.value ?? ''),
-//         );
-//       }).toList(),
-//       icon: const Icon(Icons.menu),
-//     );
-//   }).toList();
-// }
-
 class ListitempageState extends State<Listitempage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-
-  File? returnedImage;
 
   ProductTypeModel? productTypeSelected;
   late List<VariationModel> variations = [];
   List<String> variationOptionSelectedList = [];
   Map<int, VariationOptionModel> selectedOptions = {};
-  TextEditingController priceController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-  TextEditingController productTypeController = TextEditingController();
+  Map<String, TextEditingController> myControllers = {
+    'price': TextEditingController(),
+    'description': TextEditingController(),
+    'productType': TextEditingController(),
+  };
   List<File?> selectedImages = List.filled(4, null);
   // int indeximage;
 
@@ -89,7 +68,7 @@ class ListitempageState extends State<Listitempage>
 
   Future<void> fetchData() async {
     final data = await variationController.getVariantsByProductType(
-      int.parse(productTypeController.text),
+      int.parse(myControllers['productType']!.text),
     );
     setState(() {
       variations = data;
@@ -101,27 +80,7 @@ class ListitempageState extends State<Listitempage>
     }
   }
 
-  // Future<void> requestGalleryPermission() async {
-  //   try {
-  //     var status = await Permission.storage.request();
-  //     if (status.isGranted) {
-  //       _pickfromGallery(ImageSource
-  //           .gallery); // Call the function to pick an image from the gallery.
-  //     } else {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(
-  //           content: Text('Permission to access the gallery was denied.'),
-  //         ),
-  //       );
-  //     }
-  //   } catch (e) {
-  //     print('Error requesting gallery permission: $e');
-  //     // Handle any exceptions here.
-  //   }
-  // }
-
   Future<void> _displayBottomSheet(BuildContext context, int index) async {
-    // if (_selectedImage != null) {
     await showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -131,41 +90,40 @@ class ListitempageState extends State<Listitempage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              if (_selectedImage != null)
-                Image.file(
-                  _selectedImage!,
-                  height: 100,
-                  width: 100,
-                )
-              else
-                Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        _pickfromGallery(index, ImageSource.camera);
-                        // Implement the action for "Take a Photo" here
-                        Navigator.pop(context); // Close the bottom sheet
-                      },
-                      child: const Text("Take a Photo"),
-                    ),
-                  ],
+              Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      _pickfromGallery(index, ImageSource.camera);
+                      // Implement the action for "Take a Photo" here
+                      Navigator.pop(context); // Close the bottom sheet
+                    },
+                    child: const Text("Take a Photo"),
+                  ),
+                ],
+              ),
+              // Add spacing between the buttons
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: ElevatedButton(
+                  onPressed: () {
+                    _pickfromGallery(index, ImageSource.gallery);
+                    Navigator.pop(context); // Close the bottom sheet
+                  },
+                  child: const Text("Pick Image from Gallery"),
                 ),
-              const SizedBox(height: 16), // Add spacing between the buttons
-              ElevatedButton(
-                onPressed: () {
-                  _pickfromGallery(index, ImageSource.gallery);
-                  Navigator.pop(context); // Close the bottom sheet
-                },
-                child: const Text("Pick Image from Gallery"),
               ),
             ],
           ),
         );
       },
     );
+    selectedImages.asMap().forEach((index, image) {
+      print('Image $index: $image');
+    });
   }
 
-  File? _selectedImage;
+  // File? _selectedImage;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -200,51 +158,58 @@ class ListitempageState extends State<Listitempage>
             height: 1, // Adjust the height to make the line thicker
             color: Colors.grey, // Adjust the color as needed
           ),
-          const SizedBox(height: 30), //padding
-
-          Row(
-              children: List.generate(4, (index) {
-            return Container(
-              child: selectedImages[index] != null
-                  ? DashedBorderContainerWithIcon(
-                      selectedImage: selectedImages[index],
-                      onTap: () {
-                        _displayBottomSheet(context, index);
-                      },
-                      iconData: Icons.camera_alt,
-                    )
-                  : DashedBorderContainerWithIcon(
-                      selectedImage: null,
-                      onTap: () {
-                        _displayBottomSheet(context, index);
-                      },
-                      iconData: Icons.camera_alt,
+          Padding(
+              padding: const EdgeInsets.symmetric(vertical: 25),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(4, (index) {
+                  return GestureDetector(
+                    onTap: () {
+                      _displayBottomSheet(context, index);
+                    },
+                    child: SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: selectedImages[index] != null
+                          ? Image.file(selectedImages[index]!)
+                          : InkWell(
+                              // Use InkWell for tap gestures
+                              onTap: () {
+                                _displayBottomSheet(context, index);
+                              },
+                              child: const Icon(
+                                  Icons.camera_alt), // Use the Icon widget
+                            ),
                     ),
-            );
-          })),
+                  );
+                }),
+              )),
           const Sidetext(
             text: 'Read our shooting tips',
             onPressed: null,
             textcolor: Colors.blue,
           ),
-          const SizedBox(height: 30),
-          Container(
-            decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(color: Colors.black, width: 3.0), // Top border
-                bottom: BorderSide(
-                    color: Colors.black, width: 3.0), // Bottom border
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 25),
+            child: Container(
+              decoration: const BoxDecoration(
+                border: Border(
+                  top:
+                      BorderSide(color: Colors.black, width: 3.0), // Top border
+                  bottom: BorderSide(
+                      color: Colors.black, width: 3.0), // Bottom border
+                ),
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: TabBar(
-                controller:
-                    _tabController, // You'll need to define _tabController
-                tabs: const [
-                  Tab(text: 'Info'),
-                  Tab(text: 'Attributes'),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: TabBar(
+                  controller:
+                      _tabController, // You'll need to define _tabController
+                  tabs: const [
+                    Tab(text: 'Info'),
+                    Tab(text: 'Attributes'),
+                  ],
+                ),
               ),
             ),
           ),
@@ -268,7 +233,7 @@ class ListitempageState extends State<Listitempage>
                               .then((selectedData) async {
                             if (selectedData != null) {
                               setState(() {
-                                productTypeController.text =
+                                myControllers['productType']!.text =
                                     selectedData.id.toString();
                                 productTypeSelected = selectedData;
                                 fetchData();
@@ -287,14 +252,14 @@ class ListitempageState extends State<Listitempage>
                         },
                       ),
                       UnderlineTextField(
-                        controller: descriptionController,
+                        controller: myControllers['description']!,
                         hintText: 'Enter Description',
                         labelText: 'Enter Description',
                         padding: const EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 16.0),
                       ),
                       UnderlineTextField(
-                        controller: priceController,
+                        controller: myControllers['price']!,
                         hintText: 'Item Price',
                         labelText: 'Enter Price',
                         padding: const EdgeInsets.symmetric(
@@ -302,16 +267,26 @@ class ListitempageState extends State<Listitempage>
                       ),
                     ],
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 100.0),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 100.0),
                     child: Row(children: [
-                      LargeWhiteButton(onPressed: null, text: 'Save to Drafts'),
+                      const LargeWhiteButton(
+                          onPressed: null, text: 'Save to Drafts'),
                       LargeBlackButton(
-                        onPressed: null,
+                        onPressed: () async {
+                          print("asd");
+                          // print(myControllers['price']!.text);
+                          // print(myControllers['description']!.text);
+                          // print(myControllers['productType']!.text);
+
+                          final response = await productController.addListing(
+                              controllers: myControllers,
+                              product_images: selectedImages);
+                        },
                         text: 'Post Listing',
                         fontsize: 20,
-                        padding: EdgeInsets.all(15),
-                        margin: EdgeInsets.symmetric(horizontal: 0),
+                        padding: const EdgeInsets.all(15),
+                        margin: const EdgeInsets.symmetric(horizontal: 0),
                       )
                     ]),
                   ),
@@ -321,7 +296,7 @@ class ListitempageState extends State<Listitempage>
                 if (variations.isNotEmpty)
                   FutureBuilder<List<VariationModel>>(
                     future: variationController.getVariantsByProductType(
-                        int.parse(productTypeController.text)),
+                        int.parse(myControllers['productType']!.text)),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         // Data is still loading

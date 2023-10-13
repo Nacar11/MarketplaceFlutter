@@ -73,54 +73,54 @@ class _SignUpPageState extends State<SignUpPagephone> {
                 headerText: "What is your phone number?              ",
                 text: "A verification will be sent to your number",
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  // Dropdown for country codes
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: DropdownButton<String>(
-                      value: selectedCountryCode,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedCountryCode = newValue!;
-                        });
-                      },
-                      items: countryCodes.map((String code) {
-                        return DropdownMenuItem<String>(
-                          value: code,
-                          child: Text(code),
-                        );
-                      }).toList(),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Row(
+                  children: [
+                    // Dropdown for country codes
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropdownButton<String>(
+                        value: selectedCountryCode,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedCountryCode = newValue!;
+                          });
+                        },
+                        items: countryCodes.map((String code) {
+                          return DropdownMenuItem<String>(
+                            value: code,
+                            child: Text(code),
+                          );
+                        }).toList(),
+                      ),
                     ),
-                  ),
-                  // Phone number text field
-                  Expanded(
-                    child: ValidatorField(
-                      controller: phonecontrol,
-                      hintText: 'Phone Number',
-                      labelText: 'Enter Phone Number',
-                      obscureText: false,
-                      validator: (value) {
-                        RegExp phonePattern = RegExp(r'^9\d{9}$');
-                        if (value == null || value.isEmpty) {
-                          return 'Phone Number is required';
-                        } else if (!phonePattern.hasMatch(value)) {
-                          return 'Please Enter A Valid Phone Number';
-                        }
-                        return null;
-                      },
-                      onChanged: (value) {
-                        setState(() {
-                          isPhoneValid = _formKey.currentState != null &&
-                              _formKey.currentState!.validate();
-                        });
-                      },
+                    // Phone number text field
+                    Expanded(
+                      child: ValidatorField(
+                        controller: phonecontrol,
+                        hintText: 'Phone Number',
+                        labelText: 'Enter Phone Number',
+                        obscureText: false,
+                        validator: (value) {
+                          RegExp phonePattern = RegExp(r'^9\d{9}$');
+                          if (value == null || value.isEmpty) {
+                            return 'Phone Number is required';
+                          } else if (!phonePattern.hasMatch(value)) {
+                            return 'Please Enter A Valid Phone Number';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            isPhoneValid = _formKey.currentState != null &&
+                                _formKey.currentState!.validate();
+                          });
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )
             ]),
           ),

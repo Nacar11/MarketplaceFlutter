@@ -61,12 +61,15 @@ class FrontpageState extends State<Frontpage> {
     final response = await authController.loginGoogle(userData?.email);
     // print(response);
     if (response == 0) {
+      await GoogleSignAPI.logout();
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => const SignUpPagename(socialLogin: true)));
     } else if (response == 1) {
+      await GoogleSignAPI.logout();
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => const Navigation(welcomeMessage: true)));
     } else {
+      await GoogleSignAPI.logout();
       showErrorHandlingSnackBar(context, 'Error Logging In', 'error');
     }
   }
@@ -91,16 +94,16 @@ class FrontpageState extends State<Frontpage> {
             child: Center(
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 50,
-                  ),
                   // Big Logo-like Text
-                  const Text(
-                    "Market Place",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 32, // Adjust the font size as needed
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 50),
+                    child: Text(
+                      "UKAYKO.PH",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 32, // Adjust the font size as needed
+                      ),
                     ),
                   ),
                   //logo
@@ -113,13 +116,16 @@ class FrontpageState extends State<Frontpage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           GoogleButton(onTap: () => googlebutton(context)),
-                          const SizedBox(height: 20), // Add spacing if needed
-                          ElevatedButton(
-                              onPressed: () {
-                                fbbutton();
-                              },
-                              child: const Text('asd')),
-                          const SizedBox(height: 20),
+                          // Add spacing if needed
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20, bottom: 20),
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  fbbutton();
+                                },
+                                child: const Text('asd')),
+                          ),
+
                           LargeBlackButton(
                               padding: const EdgeInsets.all(20),
                               margin:
@@ -135,65 +141,69 @@ class FrontpageState extends State<Frontpage> {
 
                           // Add any other properties or styling to the button here
 
-                          const SizedBox(height: 20),
-                          RichText(
-                            text: TextSpan(
-                              text: "Already have an account? ",
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: "Sign in",
-                                  style: const TextStyle(
-                                    color: Colors
-                                        .blue, // Make "Sign in" text blue and clickable
-                                    decoration: TextDecoration.underline,
-                                    fontSize: 20,
-                                  ),
-                                  // Add onPressed function here for sign-in action
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      signInButton(context);
-                                      // Handle the "Sign in" button click action here
-                                      // For example, navigate to the sign-in screen
-                                    },
-                                  //signup
-                                  //login
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: RichText(
+                              text: TextSpan(
+                                text: "Already have an account? ",
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
                                 ),
-                              ],
+                                children: [
+                                  TextSpan(
+                                    text: "Sign in",
+                                    style: const TextStyle(
+                                      color: Colors
+                                          .blue, // Make "Sign in" text blue and clickable
+                                      decoration: TextDecoration.underline,
+                                      fontSize: 20,
+                                    ),
+                                    // Add onPressed function here for sign-in action
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        signInButton(context);
+                                        // Handle the "Sign in" button click action here
+                                        // For example, navigate to the sign-in screen
+                                      },
+                                    //signup
+                                    //login
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          const SizedBox(height: 70),
-                          RichText(
-                            text: TextSpan(
-                              text: "By continuing you agree to our ",
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: "Terms of Service",
-                                  style: const TextStyle(
-                                    color: Colors
-                                        .black, // Make "Sign in" text blue and clickable
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  // Add onPressed function here for sign-in action
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      signInButton(context);
-                                      // Handle the "Sign in" button click action here
-                                      // For example, navigate to the sign-in screen
-                                    },
+
+                          Padding(
+                            padding: const EdgeInsets.only(top: 70, bottom: 20),
+                            child: RichText(
+                              text: TextSpan(
+                                text: "By continuing you agree to our ",
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
                                 ),
-                              ],
+                                children: [
+                                  TextSpan(
+                                    text: "Terms of Service",
+                                    style: const TextStyle(
+                                      color: Colors
+                                          .black, // Make "Sign in" text blue and clickable
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    // Add onPressed function here for sign-in action
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        signInButton(context);
+                                        // Handle the "Sign in" button click action here
+                                        // For example, navigate to the sign-in screen
+                                      },
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          const SizedBox(height: 20),
                         ],
                       ),
                     ),

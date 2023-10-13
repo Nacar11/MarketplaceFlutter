@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 // import 'package:get/get.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/controllers/productController.dart';
@@ -30,10 +31,12 @@ class SeemoreState extends State<Seemore> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 10),
-          Container(
-            height: 1,
-            color: Colors.grey,
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Container(
+              height: 1,
+              color: Colors.grey,
+            ),
           ),
           FutureBuilder<List<ProductCategoryModel>>(
             future: controller

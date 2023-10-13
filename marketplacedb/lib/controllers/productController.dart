@@ -1,11 +1,13 @@
 // ignore_for_file: file_names, avoid_print, prefer_interpolation_to_compose_strings, unnecessary_cast
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:marketplacedb/constants/constant.dart';
+import 'package:marketplacedb/models/VariantsModel.dart';
 import 'dart:convert';
 import 'package:marketplacedb/networks/interceptor.dart';
-
+import 'dart:io';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/models/ProductTypeModel.dart';
 
@@ -62,6 +64,36 @@ class ProductController extends GetxController {
       return productTypes; // Return the productTypes when they are available
     } else {
       throw Exception('Failed to load product types'); // Handle the error case
+    }
+  }
+
+  Future<void> addListing({
+    required List<File?> product_images,
+    required Map<String, TextEditingController> controllers,
+    // required List<VariationModel> variations
+  }) async {
+    try {
+      isLoading.value = true;
+      var data = {
+        'product_images': product_images,
+        'product_id': controllers['productType']!.text,
+        'price': controllers['price']!.text,
+        'description': controllers['description']!.text
+        // 'variations': variations
+      };
+      print(data);
+      var response = await AuthInterceptor().post(
+        Uri.parse('${url}productItem'),
+        headers: {
+          'Accept': 'application/json',
+        },
+        body: data,
+      );
+
+      print(response.body);
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
     }
   }
 }

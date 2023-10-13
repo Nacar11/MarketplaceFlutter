@@ -46,35 +46,32 @@ class _SignInPageState extends State<SignInPage> {
       body: Column(
         children: [
           const Text(
-            "Get Started",
+            "UKAYKO.PH  ",
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
           ),
-          const SizedBox(
-            height: 40,
-          ),
-          const Text(
-            "Hi we've missed you, welcome back",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+          const Padding(
+            padding: EdgeInsets.only(top: 40),
+            child: Text(
+              "Hi we've missed you, welcome back",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          MyTextField(
-            controller: emailcontrol,
-            hintText: 'Email',
-            labelText: 'Enter your Email',
-            obscureText: false,
-          ),
-          const SizedBox(
-            height: 20,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: MyTextField(
+              controller: emailcontrol,
+              hintText: 'Email',
+              labelText: 'Enter your Email',
+              obscureText: false,
+            ),
           ),
           MyTextField(
             controller: passwordcontrol,
@@ -82,16 +79,16 @@ class _SignInPageState extends State<SignInPage> {
             labelText: 'Enter your Password',
           ),
           const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text("Forgot Password?"),
-              ],
+            padding: EdgeInsets.only(bottom: 20),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text("Forgot Password?"),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 20,
           ),
           Obx(() {
             return Stack(

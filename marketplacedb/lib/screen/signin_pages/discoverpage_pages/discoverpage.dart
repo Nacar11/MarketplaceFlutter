@@ -57,99 +57,64 @@ class DiscoverpageState extends State<Discoverpage> {
               height: 3, // Adjust the height to make the line thicker
               color: Colors.grey, // Adjust the color as needed
             ),
-            FutureBuilder<List<ProductCategoryModel>>(
-              future: controller
-                  .getProductCategories(), // Replace with your actual fetch method
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: SizedBox(
-                      width: 50.0, // Adjust the size as needed
-                      height: 50.0, // Adjust the size as needed
-                      child: CircularProgressIndicator(
-                        strokeWidth: 3.0, // Adjust the stroke width as needed
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            Colors.blue), // Set the desired color
-                      ),
-                    ),
-                  ); // Display a loading indicator
-                } else if (snapshot.hasError) {
-                  return Text(
-                      'Error: ${snapshot.error}'); // Display an error message
-                } else {
-                  return Column(
-                    children: [
-                      for (final category in productCategoryList)
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(11.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Headertext(
-                                      text: category.category_name ?? 'Error',
+            Center(
+              child: FutureBuilder<List<ProductCategoryModel>>(
+                future: controller
+                    .getProductCategories(), // Replace with your actual fetch method
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator(
+                      strokeWidth: 3.0, // Adjust the stroke width as needed
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          Colors.blue), // Set the desired color
+                    );
+                    // Display a loading indicator
+                  } else if (snapshot.hasError) {
+                    return Text(
+                        'Error: ${snapshot.error}'); // Display an error message
+                  } else {
+                    return Column(
+                      children: [
+                        for (final category in productCategoryList)
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(11.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Headertext(
+                                        text: category.category_name ?? 'Error',
+                                      ),
                                     ),
-                                  ),
-                                  Sidetext(
-                                    text: 'see all',
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Seemore(category: category)));
-                                    },
-                                    textcolor:
-                                        Colors.blue, // Set the desired color
-                                  ),
-                                ],
+                                    Sidetext(
+                                      text: 'see all',
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) => Seemore(
+                                                    category: category)));
+                                      },
+                                      textcolor:
+                                          Colors.blue, // Set the desired color
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            const Homepagecon(),
-                            const Homepagecon(),
-                          ],
-                        ),
-                    ],
-                  );
-                }
-              },
+                              const Homepagecon(),
+                              const Homepagecon(),
+                            ],
+                          ),
+                      ],
+                    );
+                  }
+                },
+              ),
             ),
 
-            // const Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: <Widget>[
-            //     Padding(
-            //       padding: EdgeInsets.all(8.0),
-            //       child: Headertext(text: 'Our Picks'),
-            //     ),
-            //     // Sidetext(text: 'see more'),
-            //   ],
-            // ),
-            // const Homepagecon(),
-            // const Womenswear(),
-            // const Homepagecon(),
-            // const Womenswear(),
-
-//  Column(
-//   children: [
-//     for (final category in productCategoryList)
-//       ExpansionTile(
-//         title: Text(category.category_name ?? "asd"),
-//         children: [
-//           for (final subcategory in category.children ?? [])
-//             ListTile(
-//               title: Text(subcategory.category_name ?? "Unnamed Subcategory"),
-//               onTap: () {
-//                 // Handle the tap on the subcategory here
-//               },
-//             ),
-//         ],
-//       ),
-//   ],
-// )
             FutureBuilder<List<ProductCategoryModel>>(
               future: controller
                   .getProductCategories(), // Replace with your data fetching function

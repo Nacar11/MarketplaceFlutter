@@ -69,20 +69,20 @@ class _SignUpPageState extends State<SignUpPageUsername> {
                       text:
                           "This will be the primary name other users will see.",
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    MyUsernameField(
-                      controller: usernameControl,
-                      hintText: 'Username',
-                      labelText: 'Enter Username',
-                      onChanged: (value) {
-                        setState(() {
-                          isUsernameValid = _formKey.currentState != null &&
-                              _formKey.currentState!.validate();
-                          print(isUsernameValid);
-                        });
-                      },
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: MyUsernameField(
+                        controller: usernameControl,
+                        hintText: 'Username',
+                        labelText: 'Enter Username',
+                        onChanged: (value) {
+                          setState(() {
+                            isUsernameValid = _formKey.currentState != null &&
+                                _formKey.currentState!.validate();
+                            print(isUsernameValid);
+                          });
+                        },
+                      ),
                     ),
                   ],
                 ),
