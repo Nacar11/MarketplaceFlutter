@@ -64,112 +64,171 @@ class _SignUpPageState extends State<SignUpPagebirthdate> {
     super.dispose();
   }
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color.fromARGB(255, 215, 205, 205),
       appBar: AppBar(
         title: const Text("Sign Up"),
         backgroundColor: const Color.fromARGB(255, 215, 205, 205),
       ),
-      body: ListView(children: [
-        Column(
-          children: [
-            const Center(
-              child: Headertext(text: 'Get Started'),
-            ),
-            const MyContainer(
-              headerText: "What's your Date of Birth?              ",
-              text: "this will not be shown without your permission",
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(28.0),
-              child: Center(
-                child: Row(
-                  children: [
-                    const Text("Select Gender"),
-                    Radio(
-                      value: "Male",
-                      groupValue: _valueGender,
-                      onChanged: (value) {
-                        setState(() {
-                          _valueGender = value!;
-                        });
-                      },
-                    ),
-                    const Text("Male"),
-                    Radio(
-                      value: "Female",
-                      groupValue: _valueGender,
-                      onChanged: (value) {
-                        setState(() {
-                          _valueGender = value!;
-                        });
-                      },
-                    ),
-                    const Text("Female"),
-                  ],
+      body: Stack(
+        children: [
+          Form(
+            key: _formKey,
+            child: Column(children: [
+              const Center(
+                child: Headertext(text: 'Get Started'),
+              ),
+              const MyContainer(
+                headerText: "What's your Date of Birth?              ",
+                text: "this will not be shown without your permission",
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(28.0),
+                child: Center(
+                  child: Row(
+                    children: [
+                      const Text("Select Gender"),
+                      Radio(
+                        value: "Male",
+                        groupValue: _valueGender,
+                        onChanged: (value) {
+                          setState(() {
+                            _valueGender = value!;
+                          });
+                        },
+                      ),
+                      const Text("Male"),
+                      Radio(
+                        value: "Female",
+                        groupValue: _valueGender,
+                        onChanged: (value) {
+                          setState(() {
+                            _valueGender = value!;
+                          });
+                        },
+                      ),
+                      const Text("Female"),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: TextField(
-                  readOnly: true, // Disable text input
-                  controller: textcontrol,
-                  decoration: const InputDecoration(
-                      icon: Icon(Icons.calendar_today_rounded),
-                      labelText: "Date of Birth"),
-                  onTap: () async {
-                    pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(1960),
-                        lastDate: DateTime(2101));
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: TextField(
+                    readOnly: true, // Disable text input
+                    controller: textcontrol,
+                    decoration: const InputDecoration(
+                        icon: Icon(Icons.calendar_today_rounded),
+                        labelText: "Date of Birth"),
+                    onTap: () async {
+                      pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1960),
+                          lastDate: DateTime(2101));
 
-                    if (pickedDate != null) {
-                      textcontrol.text =
-                          DateFormat('yyyy-MM-dd').format(pickedDate!);
-                      setState(() {
-                        isDateSelected = true;
-                      });
-                    }
-                  }),
-            ),
-            const SizedBox(height: 190),
-            Stack(children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Continue(
-                          onTap: () {
-                            if (isDateSelected && _valueGender.isNotEmpty) {
-                              final formattedDate =
-                                  DateFormat('yyyy-MM-dd').format(pickedDate!);
-                              authController.storeLocalData(
-                                  'date_of_birth', formattedDate);
-                              authController.storeLocalData(
-                                  'gender', _valueGender);
-
-                              continuebutton2(context);
-                            }
-                          },
-                          isDisabled: !isDateSelected || _valueGender.isEmpty),
-                    ),
-                  ],
-                ),
+                      if (pickedDate != null) {
+                        textcontrol.text =
+                            DateFormat('yyyy-MM-dd').format(pickedDate!);
+                        setState(() {
+                          isDateSelected = true;
+                        });
+                      }
+                    }),
               ),
             ]),
-          ],
-        ),
-      ]),
+          ),
+          Positioned(
+            bottom: 20, // Adjust this value as needed
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Continue(
+                  onTap: () {
+                    if (isDateSelected && _valueGender.isNotEmpty) {
+                      final formattedDate =
+                          DateFormat('yyyy-MM-dd').format(pickedDate!);
+                      authController.storeLocalData(
+                          'date_of_birth', formattedDate);
+                      authController.storeLocalData('gender', _valueGender);
+
+                      continuebutton2(context);
+                    }
+                  },
+                  isDisabled: !isDateSelected || _valueGender.isEmpty),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
+
+
+
+
+
+
+
+// TextField(
+//                     readOnly: true, // Disable text input
+//                     controller: textcontrol,
+//                     decoration: const InputDecoration(
+//                         icon: Icon(Icons.calendar_today_rounded),
+//                         labelText: "Date of Birth"),
+//                     onTap: () async {
+//                       final currentDate = DateTime.now();
+//                       final pickedDate = await showDatePicker(
+//                           context: context,
+//                           initialDate: currentDate,
+//                           firstDate: DateTime(1960),
+//                           lastDate: DateTime(2101));
+
+//                       if (pickedDate != null) {
+//                         int age = currentDate.year - pickedDate.year;
+
+//                         if (currentDate.month < pickedDate.month ||
+//                             (currentDate.month == pickedDate.month &&
+//                                 currentDate.day < pickedDate.day)) {
+//                           age--;
+//                         }
+
+//                         if (age >= 13) {
+//                           textcontrol.text =
+//                               DateFormat('yyyy-MM-dd').format(pickedDate);
+//                           setState(() {
+//                             isDateSelected = true;
+//                           });
+//                         } else if (age == 12) {
+//                           // User is exactly 12 years old; you can handle this case if needed
+//                           // e.g., show a message that they'll be 13 soon.
+//                         } else {
+//                           // Show an error or prompt the user to select a valid date
+//                           showDialog(
+//                             context: context,
+//                             builder: (context) {
+//                               return AlertDialog(
+//                                 title: Text("Invalid Date of Birth"),
+//                                 content: Text(
+//                                     "You must be at least 13 years old to use this app."),
+//                                 actions: <Widget>[
+//                                   TextButton(
+//                                     onPressed: () {
+//                                       Navigator.of(context).pop();
+//                                     },
+//                                     child: Text("OK"),
+//                                   ),
+//                                 ],
+//                               );
+//                             },
+//                           );
+//                         }
+//                       }
+//                     }),

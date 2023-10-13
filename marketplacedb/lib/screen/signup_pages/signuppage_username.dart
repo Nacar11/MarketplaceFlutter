@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/config/containers.dart';
@@ -161,7 +161,7 @@ class MyUsernameField extends StatelessWidget {
           if (value == null || value.isEmpty) {
             return 'Username is required';
           } else if (!usernamePattern.hasMatch(value)) {
-            return 'Username must contain at least one number, and is unique';
+            return 'Username must contain at least one number,\n and is unique';
           }
 
           return null;

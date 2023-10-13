@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/containers.dart';
@@ -17,28 +19,23 @@ class SignUpPagephone extends StatefulWidget {
 final authController = AuthenticationController();
 
 class _SignUpPageState extends State<SignUpPagephone> {
-  final textcontrol = TextEditingController();
+  final phonecontrol = TextEditingController();
 
   bool isNameEmpty = true;
 
   // Define a list of country codes
   List<String> countryCodes = ['+63']; // Add more codes as needed
   String selectedCountryCode = '+63'; // Set a default value
+  bool isPhoneValid = true;
 
   @override
   void initState() {
     super.initState();
-    // Listen for changes in the text field and update isNameEmpty accordingly.
-    textcontrol.addListener(() {
-      setState(() {
-        isNameEmpty = textcontrol.text.isEmpty;
-      });
-    });
   }
 
   void continuebutton3(BuildContext context) {
     final storage = GetStorage();
-    if (storage.read('signInMethod')) {
+    if (storage.read('signInMethod') != null) {
       Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => const SignUpPagePassword()));
     } else {
@@ -50,89 +47,101 @@ class _SignUpPageState extends State<SignUpPagephone> {
   @override
   void dispose() {
     // Dispose the controller when the widget is removed.
-    textcontrol.dispose();
+
     super.dispose();
   }
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-      appBar: AppBar(
-        title: const Text("Sign Up"),
+        resizeToAvoidBottomInset: false,
         backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-      ),
-      body: ListView(children: [
-        Column(
-          children: [
-            const Center(
-              child: Headertext(text: 'Get Started'),
-            ),
-            const MyContainer(
-              headerText: "What is your phone number?              ",
-              text: "A verification will be sent to your number",
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: [
-                // Dropdown for country codes
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: DropdownButton<String>(
-                    value: selectedCountryCode,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedCountryCode = newValue!;
-                      });
-                    },
-                    items: countryCodes.map((String code) {
-                      return DropdownMenuItem<String>(
-                        value: code,
-                        child: Text(code),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                // Phone number text field
-                Expanded(
-                  child: MyTextField(
-                    controller: textcontrol,
-                    hintText: 'Phone Number',
-                    labelText: 'Enter your Phone Number',
-                    obscureText: false,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 360),
-            Stack(children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Continue(
-                        onTap: () {
-                          if (!isNameEmpty) {
-                            authController.storeLocalData(
-                                'contact_number', textcontrol.text);
-                            continuebutton3(context);
-                          }
-                        },
-                        isDisabled: isNameEmpty,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ]),
-          ],
+        appBar: AppBar(
+          title: const Text("Sign Up"),
+          backgroundColor: const Color.fromARGB(255, 215, 205, 205),
         ),
-      ]),
-    );
+        body: Stack(children: [
+          Form(
+            key: _formKey,
+            child: Column(children: [
+              const Center(
+                child: Headertext(text: 'Get Started'),
+              ),
+              const MyContainer(
+                headerText: "What is your phone number?              ",
+                text: "A verification will be sent to your number",
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  // Dropdown for country codes
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DropdownButton<String>(
+                      value: selectedCountryCode,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedCountryCode = newValue!;
+                        });
+                      },
+                      items: countryCodes.map((String code) {
+                        return DropdownMenuItem<String>(
+                          value: code,
+                          child: Text(code),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  // Phone number text field
+                  Expanded(
+                    child: ValidatorField(
+                      controller: phonecontrol,
+                      hintText: 'Phone Number',
+                      labelText: 'Enter Phone Number',
+                      obscureText: false,
+                      validator: (value) {
+                        RegExp phonePattern = RegExp(r'^9\d{9}$');
+                        if (value == null || value.isEmpty) {
+                          return 'Phone Number is required';
+                        } else if (!phonePattern.hasMatch(value)) {
+                          return 'Please Enter A Valid Phone Number';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          isPhoneValid = _formKey.currentState != null &&
+                              _formKey.currentState!.validate();
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              )
+            ]),
+          ),
+          Positioned(
+              bottom: 20, // Adjust this value as needed
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Continue(
+                  onTap: () async {
+                    if (isNameEmpty) {
+                      authController.storeLocalData(
+                          'contact_number', phonecontrol.text);
+                      final storage = GetStorage();
+                      print(storage.read('contact_number'));
+                      continuebutton3(context);
+                    }
+                  },
+                  isDisabled: !isPhoneValid,
+                ),
+              ))
+        ]));
   }
 }

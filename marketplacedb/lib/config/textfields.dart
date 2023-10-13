@@ -133,3 +133,49 @@ class UnderlineTextField extends StatelessWidget {
     );
   }
 }
+
+class ValidatorField extends StatelessWidget {
+  const ValidatorField({
+    Key? key,
+    required this.controller,
+    this.obscureText = false,
+    this.hintText,
+    this.labelText,
+    this.validator,
+    this.onChanged,
+  }) : super(key: key);
+
+  final bool obscureText;
+  final TextEditingController controller;
+  final String? hintText;
+  final String? labelText;
+  final String? Function(String?)? validator;
+  final ValueChanged<String>? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+      child: TextFormField(
+        controller: controller,
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          labelText: labelText,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Color.fromARGB(255, 0, 0, 0),
+              width: 2.0,
+            ),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          hintText: hintText,
+        ),
+        validator: validator,
+        onChanged: onChanged,
+      ),
+    );
+  }
+}

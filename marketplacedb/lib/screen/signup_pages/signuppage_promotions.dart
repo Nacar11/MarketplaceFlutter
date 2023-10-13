@@ -48,9 +48,9 @@ class _SignUpPageState extends State<SignUpPagepromotion> {
         title: const Text("Sign Up"),
         backgroundColor: const Color.fromARGB(255, 215, 205, 205),
       ),
-      body: ListView(children: [
-        Column(
-          children: [
+      body: Stack(
+        children: [
+          Column(children: [
             const Center(
               child: Headertext(text: 'Get Started'),
             ),
@@ -84,48 +84,36 @@ class _SignUpPageState extends State<SignUpPagepromotion> {
                 const Text('Subscribe to newsletters'),
               ]),
             ]),
-            const SizedBox(height: 260),
-            Stack(children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Obx(() {
-                        if (authController.isLoading.value) {
-                          return const CircularProgressIndicator(); // Display a circular progress indicator when isLoading is true
-                        } else {
-                          return Continue(
-                            onTap: () async {
-                              authController.storeLocalData(
-                                  'is_subscribe_to_promotions',
-                                  ischeckedpromotions);
-                              authController.storeLocalData(
-                                  'is_subscribe_to_newsletters',
-                                  ischeckednewsletters);
-                              var response = await authController.register();
-                              if (response == 0) {
-                                continuebutton7(context, true);
-                              } else {
-                                print(response);
-                              }
-                            },
+          ]),
+          Positioned(
+            bottom: 20, // Adjust this value as needed
+            left: 0,
+            right: 0,
+            child: Obx(() {
+              if (authController.isLoading.value) {
+                return const CircularProgressIndicator(); // Display a circular progress indicator when isLoading is true
+              } else {
+                return Continue(
+                  onTap: () async {
+                    authController.storeLocalData(
+                        'is_subscribe_to_promotions', ischeckedpromotions);
+                    authController.storeLocalData(
+                        'is_subscribe_to_newsletters', ischeckednewsletters);
+                    var response = await authController.register();
+                    if (response == 0) {
+                      continuebutton7(context, true);
+                    } else {
+                      print(response);
+                    }
+                  },
 
-                            isDisabled:
-                                false, // Pass the isNameEmpty variable here
-                          );
-                        }
-                      }),
-                    )
-                  ],
-                ),
-              ),
-            ]),
-          ],
-        ),
-      ]),
+                  isDisabled: false, // Pass the isNameEmpty variable here
+                );
+              }
+            }),
+          )
+        ],
+      ),
     );
   }
 }

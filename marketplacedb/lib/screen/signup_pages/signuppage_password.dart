@@ -33,116 +33,75 @@ class _SignUpPagePasswordState extends State<SignUpPagePassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color.fromARGB(255, 215, 205, 205),
       appBar: AppBar(
         title: const Text("Sign Up"),
         backgroundColor: const Color.fromARGB(255, 215, 205, 205),
       ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          children: [
-            Column(
-              children: [
-                const Center(
-                  child: Headertext(text: 'Get Started'),
-                ),
-                const MyContainer(
-                  headerText: "Please input a password.              ",
-                  text: "Password must be at least 8 characters.",
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                MyPasswordField(
-                  controller: passwordControl,
-                  hintText: 'Password',
-                  labelText: 'Enter Password',
-                  onChanged: (value) {
-                    setState(() {
-                      isPasswordValid = _formKey.currentState != null &&
-                          _formKey.currentState!.validate();
-                    });
+      body: Stack(
+        children: [
+          Form(
+            key: _formKey,
+            child: Column(children: [
+              const Center(
+                child: Headertext(text: 'Get Started'),
+              ),
+              const MyContainer(
+                headerText: "Please input a password.              ",
+                text: "Password must be at least 8 characters.",
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ValidatorField(
+                controller: passwordControl,
+                hintText: 'Password',
+                labelText: 'Enter Password',
+                obscureText: true,
+                validator: (value) {
+                  RegExp passwordPattern =
+                      RegExp(r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$');
+                  if (value == null || value.isEmpty) {
+                    return 'Password is required';
+                  } else if (!passwordPattern.hasMatch(value)) {
+                    return 'Password must contain at least one number,\none uppercase letter, one lowercase letter,\nand be at least 8 characters long';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  setState(() {
+                    isPasswordValid = _formKey.currentState != null &&
+                        _formKey.currentState!.validate();
+                  });
+                },
+              )
+              // MyPasswordField(
+              //   controller: passwordControl,
+              //   hintText: 'Password',
+              //   labelText: 'Enter Password',
+              //   onChanged: (value) {
+              //     setState(() {
+              //       isPasswordValid = _formKey.currentState != null &&
+              //           _formKey.currentState!.validate();
+              //     });
+              //   },
+              // ),
+            ]),
+          ),
+          Positioned(
+              bottom: 20, // Adjust this value as needed
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Continue(
+                  onTap: () {
+                    continueButton(context);
                   },
+                  isDisabled: !isPasswordValid,
                 ),
-                Stack(
-                  children: [
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 20),
-                            child: Continue(
-                              onTap: () {
-                                continueButton(context);
-                              },
-                              isDisabled: !isPasswordValid,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class MyPasswordField extends StatelessWidget {
-  const MyPasswordField({
-    Key? key,
-    required this.controller,
-    this.hintText,
-    this.labelText,
-    this.onChanged,
-  }) : super(key: key);
-
-  final TextEditingController controller;
-  final String? hintText;
-  final String? labelText;
-  final ValueChanged<String>? onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: TextFormField(
-        controller: controller,
-        obscureText: true,
-        decoration: InputDecoration(
-          labelText: labelText,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color.fromARGB(255, 0, 0, 0),
-              width: 2.0,
-            ),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          hintText: hintText,
-        ),
-        validator: (value) {
-          RegExp passwordPattern =
-              RegExp(r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$');
-
-          if (value == null || value.isEmpty) {
-            return 'Password is required';
-          } else if (!passwordPattern.hasMatch(value)) {
-            return 'Password must contain at least one number, one uppercase letter, one lowercase letter, and be at least 8 characters long';
-          }
-
-          return null;
-        },
-        onChanged: onChanged,
+              ))
+        ],
       ),
     );
   }

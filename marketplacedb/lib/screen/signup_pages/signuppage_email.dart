@@ -18,18 +18,14 @@ class SignUpPageemail extends StatefulWidget {
 final authController = AuthenticationController();
 
 class _SignUpPageState extends State<SignUpPageemail> {
-  final textcontrol = TextEditingController();
-  bool isNameEmpty = true;
+  final emailcontrol = TextEditingController();
+
+  bool isEmailValid = true;
 
   @override
   void initState() {
     super.initState();
     // Listen for changes in the text field and update isNameEmpty accordingly.
-    textcontrol.addListener(() {
-      setState(() {
-        isNameEmpty = textcontrol.text.isEmpty;
-      });
-    });
   }
 
   void continuebutton5(BuildContext context) {
@@ -40,72 +36,81 @@ class _SignUpPageState extends State<SignUpPageemail> {
   @override
   void dispose() {
     // Dispose the controller when the widget is removed.
-    textcontrol.dispose();
+
     super.dispose();
   }
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color.fromARGB(255, 215, 205, 205),
       appBar: AppBar(
         title: const Text("Sign Up"),
         backgroundColor: const Color.fromARGB(255, 215, 205, 205),
       ),
-      body: ListView(children: [
-        Column(
-          children: [
-            const Center(
-              child: Headertext(text: 'Get Started'),
-            ),
-            const MyContainer(
-              headerText: "What is your email?              ",
-              text: "notifications and transactions will be sent to your email",
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            MyTextField(
-              controller: textcontrol,
-              hintText: 'E-mail',
-              labelText: 'Enter your E-mail',
-              obscureText: false,
-            ),
-            const SizedBox(height: 340),
-            Stack(children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Continue(
-                        onTap: () async {
-                          if (!isNameEmpty) {
-                            var response = await authController.checkEmail(
-                                email: textcontrol.text);
-
-                            if (response['message'] == null) {
-                              authController.storeLocalData(
-                                  'email', textcontrol.text);
-                              continuebutton5(context);
-                            } else {
-                              final text = response['message'];
-                              showErrorHandlingSnackBar(context, text, 'error');
-                            }
-                          }
-                        },
-                        isDisabled:
-                            isNameEmpty, // Pass the isNameEmpty variable here
-                      ),
-                    ),
-                  ],
-                ),
+      body: Stack(children: [
+        Form(
+            key: _formKey,
+            child: Column(children: [
+              const Center(
+                child: Headertext(text: 'Get Started'),
               ),
-            ]),
-          ],
-        ),
+              const MyContainer(
+                headerText: "What is your email?              ",
+                text:
+                    "notifications and transactions will be sent to your email",
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ValidatorField(
+                controller: emailcontrol,
+                hintText: 'Email',
+                labelText: 'Enter Email',
+                obscureText: false,
+                validator: (value) {
+                  RegExp emailPattern = RegExp(r'^[a-zA-Z\s.]+@gmail\.com$');
+                  if (value == null || value.isEmpty) {
+                    return 'Email is required';
+                  } else if (!emailPattern.hasMatch(value)) {
+                    return 'Email must be valid';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  setState(() {
+                    isEmailValid = _formKey.currentState != null &&
+                        _formKey.currentState!.validate();
+                  });
+                },
+              ),
+            ])),
+        Positioned(
+          bottom: 20, // Adjust this value as needed
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Continue(
+              onTap: () async {
+                if (!isEmailValid) {
+                  var response =
+                      await authController.checkEmail(email: emailcontrol.text);
+
+                  if (response['message'] == null) {
+                    authController.storeLocalData('email', emailcontrol.text);
+                    continuebutton5(context);
+                  } else {
+                    final text = response['message'];
+                    showErrorHandlingSnackBar(context, text, 'error');
+                  }
+                }
+              },
+              isDisabled: !isEmailValid, // Pass the isNameEmpty variable here
+            ),
+          ),
+        )
       ]),
     );
   }

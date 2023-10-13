@@ -26,6 +26,8 @@ class SignUpPagenameState extends State<SignUpPagename> {
   final firstnamecontroller = TextEditingController();
   final lastnamecontroller = TextEditingController();
   final authController = AuthenticationController();
+  bool isFirstnameValid = true;
+  bool isLastnameValid = true;
 
   bool isNameEmpty = true;
 
@@ -58,71 +60,99 @@ class SignUpPagenameState extends State<SignUpPagename> {
     super.dispose();
   }
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color.fromARGB(255, 215, 205, 205),
       appBar: AppBar(
         title: const Text("Sign Up"),
         backgroundColor: const Color.fromARGB(255, 215, 205, 205),
       ),
-      body: ListView(
+      body: Stack(
         children: [
-          const Center(
-            child: Headertext(text: 'Get Started'),
-          ),
-          const MyContainer(
-            headerText: "Hello, tell us about yourself              ",
-            text: "so we can personalize your account",
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          MyTextField(
-            controller: firstnamecontroller,
-            hintText: 'First name',
-            labelText: 'Enter your First name',
-            obscureText: false,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          MyTextField(
-            controller: lastnamecontroller,
-            hintText: 'Last name',
-            labelText: 'Enter your Last name',
-            obscureText: false,
-          ),
-          const SizedBox(height: 270),
-          Stack(
-            children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Continue(
-                        onTap: () {
-                          if (!isNameEmpty) {
-                            authController.test();
-                            authController.storeLocalData(
-                                'first_name', firstnamecontroller.text);
-                            authController.storeLocalData(
-                                'last_name', lastnamecontroller.text);
-                            authController.test();
-                            continuebutton(context);
-                          }
-                        },
-                        isDisabled:
-                            !isNameEmpty, // Pass the isNameEmpty variable here
-                      ),
-                    ),
-                  ],
+          Form(
+              key: _formKey,
+              child: Column(children: [
+                const Center(
+                  child: Headertext(text: 'Get Started'),
                 ),
+                const MyContainer(
+                  headerText: "Hello, tell us about yourself              ",
+                  text: "so we can personalize your account",
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ValidatorField(
+                  controller: firstnamecontroller,
+                  hintText: 'Firstname',
+                  labelText: 'Enter Firstname',
+                  obscureText: false,
+                  validator: (value) {
+                    RegExp firstnamePattern = RegExp(r'^[a-zA-Z\s]+$');
+                    if (value == null || value.isEmpty) {
+                      return 'First name is required';
+                    } else if (!firstnamePattern.hasMatch(value)) {
+                      return 'First name should not have special characters';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      isFirstnameValid = _formKey.currentState != null &&
+                          _formKey.currentState!.validate();
+                    });
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ValidatorField(
+                  controller: lastnamecontroller,
+                  hintText: 'Lastname',
+                  labelText: 'Enter Lastname',
+                  obscureText: false,
+                  validator: (value) {
+                    RegExp lastnamePattern = RegExp(r'^[a-zA-Z\s]+$');
+                    if (value == null || value.isEmpty) {
+                      return 'Lastname is required';
+                    } else if (!lastnamePattern.hasMatch(value)) {
+                      return 'Lastname should not have special characters';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      isLastnameValid = _formKey.currentState != null &&
+                          _formKey.currentState!.validate();
+                    });
+                  },
+                ),
+              ])),
+          Positioned(
+            bottom: 20, // Adjust this value as needed
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Continue(
+                onTap: () {
+                  if (isFirstnameValid && isLastnameValid) {
+                    authController.test();
+                    authController.storeLocalData(
+                        'first_name', firstnamecontroller.text);
+                    authController.storeLocalData(
+                        'last_name', lastnamecontroller.text);
+                    authController.test();
+                    continuebutton(context);
+                  }
+                },
+                isDisabled: isFirstnameValid,
+                // Pass the isNameEmpty variable here
               ),
-            ],
+            ),
           )
         ],
       ),
