@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, file_names
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -68,17 +68,18 @@ class TypePageState extends State<TypePage> {
                   children: [
                     for (final productType in productTypes)
                       InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                Filterpage(productType: productType.id!),
-                          ));
-                        },
-                        child: ListTile(
-                          title: Text(productType.name ??
-                              "Error on Handling API Responses"),
-                        ),
-                      )
+  onTap: () {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => Filterpage(
+        productType: productType.id!,
+        productTypeName: productType.name ?? "Error on Handling API Responses",
+      ),
+    ));
+  },
+  child: ListTile(
+    title: Text(productType.name ?? "Error on Handling API Responses"),
+  ),
+)
                   ],
                 );
               }

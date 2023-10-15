@@ -13,16 +13,19 @@ import 'package:marketplacedb/models/ProductItemModel.dart';
 final controller = Get.put<ProductController>(ProductController());
 
 class Filterpage extends StatefulWidget {
-  final int productType; // Add this line
+  final int productType;
+  final String productTypeName; // Add this line
 
   const Filterpage({
     Key? key,
-    required this.productType, // Add this parameter
+    required this.productType,
+    required this.productTypeName, // Add this parameter
   }) : super(key: key);
 
   @override
   // ignore: no_logic_in_create_state
-  State<Filterpage> createState() => FilterpageState(productType: productType);
+  State<Filterpage> createState() => FilterpageState(
+      productType: productType, productTypeName: productTypeName);
 }
 
 final searchController = TextEditingController();
@@ -30,7 +33,8 @@ final searchController = TextEditingController();
 class FilterpageState extends State<Filterpage> {
   int index = 0;
   final int productType;
-  FilterpageState({required this.productType});
+  final String productTypeName;
+  FilterpageState({required this.productType, required this.productTypeName});
 
   void submitSearch() {
     final query = searchController.text;
@@ -51,6 +55,9 @@ class FilterpageState extends State<Filterpage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.productTypeName),
+        ),
         body: FutureBuilder<List<ProductItemModel>>(
             future: controller.getProductItemsByProductType(
                 productType: productType),
@@ -66,56 +73,59 @@ class FilterpageState extends State<Filterpage> {
                 return Text(
                     'Error: ${snapshot.error}'); // Display an error message
               } else {
-                return ListView(
-                  children: <Widget>[
-                    for (final item in snapshot.data!)
-                      Column(
-                        children: <Widget>[
-                          Container(
-                            height:
-                                3, // Adjust the height to make the line thicker
-                            color: Colors.grey, // Adjust the color as needed
+                return GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3, // Number of items per row
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index < snapshot.data!.length) {
+                      final item = snapshot.data![index];
+                      // Check if there is an image URL
+                      final hasImage = item.product_images != null &&
+                          item.product_images!.isNotEmpty &&
+                          item.product_images![0].product_image != null;
+
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 40),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: Stack(
+                            children: [
+                              if (hasImage)
+                                Image.network(
+                                  item.product_images![0]
+                                      .product_image!, // Use the actual URL property
+                                  width: 150, // Set the desired width
+                                  height: 150, // Set the desired height
+                                  fit: BoxFit.cover, // Adjust the fit as needed
+                                ),
+                              Positioned(
+                                bottom:
+                                    0, // Adjust as needed to position the text
+                                left:
+                                    0, // Adjust as needed to position the text
+                                child: Container(
+                                  color: Colors.black.withOpacity(
+                                      0.7), // Background color for price text
+                                  padding: EdgeInsets.all(8),
+                                  child: Text(
+                                    'Php ${item.price!.toStringAsFixed(2)}',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Headertext(text: item.SKU ?? 'asd'),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Headertext(
-                                      text: item.product!.name ?? 'asd'),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Headertext(
-                                      text:
-                                          'Php ${item.price!.toStringAsFixed(2)}'),
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    for (final product_image
-                                        in item.product_images!)
-                                      Image.network(
-                                        product_image
-                                            .product_image!, // Replace with the actual URL property
-                                        width: 100, // Set the desired width
-                                        height: 100, // Set the desired height
-                                        fit: BoxFit
-                                            .cover, // Adjust the fit as needed
-                                      ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                  ],
+                        ),
+                      );
+                    } else {
+                      return Container(); // Placeholder for items that are beyond the list length
+                    }
+                  },
+                  itemCount: snapshot.data!.length,
                 );
               }
             }),
