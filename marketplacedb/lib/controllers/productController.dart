@@ -11,6 +11,7 @@ import 'package:marketplacedb/networks/interceptor.dart';
 import 'dart:io';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/models/ProductTypeModel.dart';
+import 'package:get_storage/get_storage.dart';
 
 class ProductController extends GetxController {
   var productCategoryList = <ProductCategoryModel>[].obs;
@@ -73,14 +74,23 @@ class ProductController extends GetxController {
   Future<void> imageUpload(List<File?> imageFiles) async {
     final uri = Uri.parse(
         '${url}imageUpload'); // Replace with your Laravel endpoint URL
-
     final request = http.MultipartRequest('POST', uri);
+    final storage = GetStorage();
+    final token = storage.read('token');
 
-    request.headers['Accept'] = 'application/json';
+    final headers = {
+      'Accept': 'application/json',
+      'Authorization':
+          'Bearer $token', // Replace with your authentication token
+    };
+
+    headers.forEach((key, value) {
+      request.headers[key] = value;
+    });
+
     for (int i = 0; i < imageFiles.length; i++) {
       final file = imageFiles[i];
 
-      // Check if the element is not null before adding it to the request
       if (file != null) {
         request.files.add(http.MultipartFile(
           'File${i}', // This should match the parameter name in your Laravel controller

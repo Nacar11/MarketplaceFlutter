@@ -6,7 +6,6 @@ class AuthInterceptor extends http.BaseClient {
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) async {
-    // Get the token from SharedPreferences
     String? token = getTokenFromStorage();
 
     if (token != null) {

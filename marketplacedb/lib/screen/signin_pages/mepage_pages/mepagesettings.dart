@@ -8,8 +8,6 @@ import 'package:marketplacedb/config/snackbar.dart';
 // import 'package:get/get.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
-
 class Mepagesettings extends StatefulWidget {
   const Mepagesettings({Key? key}) : super(key: key);
 
