@@ -30,10 +30,6 @@ class ImageUploadProvider extends GetConnect {
 
     final request = http.MultipartRequest('POST', uri);
 
-    // Convert bytes to a string
-
-    // Print the string representation of the image content for debugging
-    print('Image Content: $imageFile');
     request.headers['Accept'] = 'application/json';
     request.files.add(http.MultipartFile(
       'File', // This should match the parameter name in your Laravel controller

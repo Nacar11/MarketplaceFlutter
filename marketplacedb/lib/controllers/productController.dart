@@ -70,6 +70,41 @@ class ProductController extends GetxController {
     }
   }
 
+  Future<void> imageUpload(List<File?> imageFiles) async {
+    final uri = Uri.parse(
+        '${url}imageUpload'); // Replace with your Laravel endpoint URL
+
+    final request = http.MultipartRequest('POST', uri);
+
+    request.headers['Accept'] = 'application/json';
+    for (int i = 0; i < imageFiles.length; i++) {
+      final file = imageFiles[i];
+
+      // Check if the element is not null before adding it to the request
+      if (file != null) {
+        request.files.add(http.MultipartFile(
+          'File${i}', // This should match the parameter name in your Laravel controller
+          http.ByteStream.fromBytes(file.readAsBytesSync()),
+          file.lengthSync(),
+          filename: 'image.jpg', // You can change the filename if needed
+        ));
+      }
+    }
+    try {
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      final jsonResponse = json.decode(response.body);
+      print(jsonResponse);
+      if (response.statusCode == 200) {
+        print('File uploaded successfully');
+      } else {
+        print('File upload failed');
+      }
+    } catch (e) {
+      print('Error uploading file: $e');
+    }
+  }
+
   Future<void> addListing({
     required List<File?> product_images,
     required Map<String, TextEditingController> controllers,

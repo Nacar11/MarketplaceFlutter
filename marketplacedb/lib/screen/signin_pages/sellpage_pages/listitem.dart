@@ -291,7 +291,9 @@ class ListitempageState extends State<Listitempage>
                           // final response = await productController.addListing(
                           //     controllers: myControllers,
                           //     product_images: selectedImages);
-                          imgController.uploadImage();
+                          // imgController.uploadImage();
+
+                          productController.imageUpload(selectedImages);
                         },
                         text: 'Post Listing',
                         fontsize: 20,
