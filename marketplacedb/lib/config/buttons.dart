@@ -141,13 +141,16 @@ class LargeWhiteButton extends StatelessWidget {
   final Function()? onPressed;
   final bool isDisabled;
   final String text;
+  final EdgeInsetsGeometry margin;
 
-  const LargeWhiteButton({
-    super.key,
-    required this.onPressed,
-    required this.text,
-    this.isDisabled = false, // Default to not disabled
-  });
+  const LargeWhiteButton(
+      {super.key,
+      required this.onPressed,
+      required this.text,
+      this.isDisabled = false,
+      this.margin =
+          const EdgeInsets.symmetric(horizontal: 10) // Default to not disabled
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +159,7 @@ class LargeWhiteButton extends StatelessWidget {
       child: Container(
         width: 150,
         height: 60,
-        margin: const EdgeInsets.symmetric(horizontal: 40),
+        margin: margin,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black, width: 2),
           color: isDisabled

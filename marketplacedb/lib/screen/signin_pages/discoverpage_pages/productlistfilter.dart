@@ -1,5 +1,5 @@
 // ignore_for_file: unused_import
-
+import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/productitempage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // import 'package:marketplacedb/config/icons.dart';
@@ -9,6 +9,7 @@ import 'package:marketplacedb/config/Customappbar.dart';
 import 'package:marketplacedb/controllers/productController.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/models/ProductItemModel.dart';
+import 'package:marketplacedb/screen/signin_pages/sellpage_pages/listitem.dart';
 
 final controller = Get.put<ProductController>(ProductController());
 
@@ -60,7 +61,8 @@ class FilterpageState extends State<Filterpage> {
         ),
         body: FutureBuilder<List<ProductItemModel>>(
             future: controller.getProductItemsByProductType(
-                productType: productType),
+              productType: productType,
+            ),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator(
@@ -74,8 +76,8 @@ class FilterpageState extends State<Filterpage> {
                     'Error: ${snapshot.error}'); // Display an error message
               } else {
                 return GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, // Number of items per row
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, // Number of items per row
                   ),
                   itemBuilder: (BuildContext context, int index) {
                     if (index < snapshot.data!.length) {
@@ -88,38 +90,58 @@ class FilterpageState extends State<Filterpage> {
                       return Padding(
                         padding: const EdgeInsets.only(top: 40),
                         child: Padding(
-                          padding: EdgeInsets.only(left: 20),
-                          child: Stack(
-                            children: [
-                              if (hasImage)
-                                Image.network(
-                                  item.product_images![0]
-                                      .product_image!, // Use the actual URL property
-                                  width: 150, // Set the desired width
-                                  height: 150, // Set the desired height
-                                  fit: BoxFit.cover, // Adjust the fit as needed
-                                ),
-                              Positioned(
-                                bottom:
-                                    0, // Adjust as needed to position the text
-                                left:
-                                    0, // Adjust as needed to position the text
-                                child: Container(
-                                  color: Colors.black.withOpacity(
-                                      0.7), // Background color for price text
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    'Php ${item.price!.toStringAsFixed(2)}',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
+                            padding: const EdgeInsets.only(left: 20),
+                            child: Material(
+                              color: Colors
+                                  .transparent, // Make the Material widget transparent
+                              child: InkWell(
+                                onTap: () {
+                                  final product = Product(
+                                    imageUrls: item.product_images!
+                                        .map((image) => image.product_image!)
+                                        .toList(),
+                                    price: item.price!,
+                                  );
+
+                                  // Perform the desired action when tapped
+                                  // For example, navigate to a new page
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ProductItemPage(
+                                        product: product,
+                                      ),
                                     ),
-                                  ),
+                                  );
+                                },
+                                child: Stack(
+                                  children: [
+                                    if (hasImage)
+                                      Image.network(
+                                        item.product_images![0].product_image!,
+                                        width: 200,
+                                        height: 200,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    Positioned(
+                                      bottom: 0,
+                                      left: 0,
+                                      child: Container(
+                                        color: Colors.black.withOpacity(0.7),
+                                        padding: const EdgeInsets.all(8),
+                                        child: Text(
+                                          'Php ${item.price!.toStringAsFixed(2)}',
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
+                            )),
                       );
                     } else {
                       return Container(); // Placeholder for items that are beyond the list length

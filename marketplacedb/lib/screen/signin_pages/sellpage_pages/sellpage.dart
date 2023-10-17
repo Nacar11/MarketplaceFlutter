@@ -241,9 +241,9 @@ class _FirstOptionMenuState extends State<FirstOptionMenu> {
           isDisabled: userController.isLoading.value,
           text: "List an Item and Start Selling",
           onPressed: () async {
-            var response = await userController.UserHasAddress();
-            print(response);
-            if (response) {
+            // var response = await userController.UserHasAddress();
+            // print(response == 0);
+            if (0 == 1) {
               goToListAnItem(context);
             } else {
               goToListAnItem(context);

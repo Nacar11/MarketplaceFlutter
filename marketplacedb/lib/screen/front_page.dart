@@ -45,8 +45,8 @@ class FrontpageState extends State<Frontpage> {
   }
 
   void fbbutton() async {
-    // await FacebookAuth.instance.login(permissions: ['public_profile', 'email']);
-    await GoogleSignAPI.logout();
+    await FacebookAuth.instance.login(permissions: ['public_profile', 'email']);
+    // await GoogleSignAPI.logout();
   }
 
   void signupButton(BuildContext context) {

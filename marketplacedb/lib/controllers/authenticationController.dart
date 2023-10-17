@@ -51,25 +51,52 @@ class AuthenticationController extends GetxController {
         'email': email,
         'password': password,
       };
-      var response = await http.post(
-        Uri.parse('${url}login'),
-        headers: {
-          'Accept': 'application/json',
-        },
-        body: data,
-      );
-      var jsonObject = jsonDecode(response.body);
-      if (jsonObject['message'] == "Authorized") {
-        isLoading.value = false;
+      final urlRequest =
+          http.MultipartRequest('POST', Uri.parse('${url}login'));
 
-        storage.write('token', jsonObject['access_token']);
-        storage.write('username', jsonObject['username']);
-        storage.read('token');
-        return 0;
-      } else {
+      urlRequest.fields['email'] = email;
+      urlRequest.fields['password'] = password;
+
+      try {
+        final streamedResponse = await urlRequest.send();
+        final response = await http.Response.fromStream(streamedResponse);
+        final jsonResponse = json.decode(response.body);
+        print(jsonResponse);
+
+        if (jsonResponse['message'] == "Authorized") {
+          isLoading.value = false;
+
+          storage.write('token', jsonResponse['access_token']);
+          storage.write('username', jsonResponse['username']);
+          storage.read('token');
+          return 0;
+        } else {
+          isLoading.value = false;
+          return jsonResponse['errors'];
+        }
+      } catch (e) {
         isLoading.value = false;
-        return jsonObject['errors'];
+        print(e);
       }
+      //   var response = await http.post(
+      //     Uri.parse('${url}login'),
+      //     headers: {
+      //       'Accept': 'application/json',
+      //     },
+      //     body: data,
+      //   );
+      //   var jsonObject = jsonDecode(response.body);
+      //   if (jsonObject['message'] == "Authorized") {
+      //     isLoading.value = false;
+
+      //     storage.write('token', jsonObject['access_token']);
+      //     storage.write('username', jsonObject['username']);
+      //     storage.read('token');
+      //     return 0;
+      //   } else {
+      //     isLoading.value = false;
+      //     return jsonObject['errors'];
+      //   }
     } catch (e) {
       print(e);
       isLoading.value = false;

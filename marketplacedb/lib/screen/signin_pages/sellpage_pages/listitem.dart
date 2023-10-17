@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously, unused_import, unused_local_variable
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -8,11 +7,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/textfields.dart';
+import 'package:marketplacedb/controllers/imageController.dart';
 // import 'package:marketplacedb/constants/constant.dart';
 // import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/models/ProductTypeModel.dart';
 import 'package:marketplacedb/models/VariantsOptionsModel.dart';
-
 import 'package:marketplacedb/controllers/variationController.dart';
 import 'package:marketplacedb/controllers/productController.dart';
 import 'package:marketplacedb/models/VariantsModel.dart';
@@ -20,6 +19,8 @@ import 'package:marketplacedb/models/VariantsModel.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/categorylist.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/variationoptions.dart';
 import 'dart:io';
+
+final imgController = ImageController();
 
 final variationController = VariationController();
 final productController = Get.put<ProductController>(ProductController());
@@ -94,7 +95,7 @@ class ListitempageState extends State<Listitempage>
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      _pickfromGallery(index, ImageSource.camera);
+                      pickImage(index, ImageSource.camera);
                       // Implement the action for "Take a Photo" here
                       Navigator.pop(context); // Close the bottom sheet
                     },
@@ -107,7 +108,7 @@ class ListitempageState extends State<Listitempage>
                 padding: const EdgeInsets.only(top: 20),
                 child: ElevatedButton(
                   onPressed: () {
-                    _pickfromGallery(index, ImageSource.gallery);
+                    pickImage(index, ImageSource.gallery);
                     Navigator.pop(context); // Close the bottom sheet
                   },
                   child: const Text("Pick Image from Gallery"),
@@ -184,6 +185,12 @@ class ListitempageState extends State<Listitempage>
                   );
                 }),
               )),
+          ElevatedButton(
+              onPressed: () {
+                print('selected multiple image');
+                imgController.selectMultipleImages();
+              },
+              child: const Text('Pick an Image')),
           const Sidetext(
             text: 'Read our shooting tips',
             onPressed: null,
@@ -271,17 +278,20 @@ class ListitempageState extends State<Listitempage>
                     padding: const EdgeInsets.only(top: 100.0),
                     child: Row(children: [
                       const LargeWhiteButton(
-                          onPressed: null, text: 'Save to Drafts'),
+                        onPressed: null,
+                        text: 'Save to Drafts',
+                        margin: EdgeInsets.symmetric(horizontal: 40),
+                      ),
                       LargeBlackButton(
                         onPressed: () async {
-                          print("asd");
                           // print(myControllers['price']!.text);
                           // print(myControllers['description']!.text);
                           // print(myControllers['productType']!.text);
 
-                          final response = await productController.addListing(
-                              controllers: myControllers,
-                              product_images: selectedImages);
+                          // final response = await productController.addListing(
+                          //     controllers: myControllers,
+                          //     product_images: selectedImages);
+                          imgController.uploadImage();
                         },
                         text: 'Post Listing',
                         fontsize: 20,
@@ -419,7 +429,7 @@ class ListitempageState extends State<Listitempage>
         ]));
   }
 
-  Future<void> _pickfromGallery(int index, ImageSource source) async {
+  Future<void> pickImage(int index, ImageSource source) async {
     try {
       final pickedFile = await ImagePicker().pickImage(source: source);
       if (pickedFile != null) {
