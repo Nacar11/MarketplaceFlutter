@@ -293,7 +293,8 @@ class ListitempageState extends State<Listitempage>
                           //     product_images: selectedImages);
                           // imgController.uploadImage();
 
-                          productController.imageUpload(selectedImages);
+                          productController.imageUpload(
+                              selectedImages, myControllers);
                         },
                         text: 'Post Listing',
                         fontsize: 20,

@@ -71,7 +71,8 @@ class ProductController extends GetxController {
     }
   }
 
-  Future<void> imageUpload(List<File?> imageFiles) async {
+  Future<void> imageUpload(List<File?> imageFiles,
+      Map<String, TextEditingController> controllers) async {
     final uri = Uri.parse(
         '${url}imageUpload'); // Replace with your Laravel endpoint URL
     final request = http.MultipartRequest('POST', uri);
@@ -100,6 +101,10 @@ class ProductController extends GetxController {
         ));
       }
     }
+
+    request.fields['product_id'] = controllers['productType']!.text;
+    request.fields['price'] = controllers['price']!.text;
+    request.fields['description'] = controllers['description']!.text;
     try {
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);

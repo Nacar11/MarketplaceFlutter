@@ -28,7 +28,7 @@ class ProductItemModel {
     product_id = json['product_id'];
     user_id = json['user_id'];
     SKU = json['SKU'];
-    price = json['price'];
+    price = json['price']?.toDouble();
     description = json['description'];
     if (json['product_images'] != null) {
       product_images = (json['product_images'] as List)
