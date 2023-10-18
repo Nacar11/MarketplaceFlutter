@@ -13,20 +13,20 @@ import 'package:flutter/services.dart';
 import 'package:marketplacedb/screen/signin_pages/messagespage_pages/messagepage.dart';
 
 class Navigation extends StatefulWidget {
-  final bool? welcomeMessage;
+  final String? hasSnackbar;
 
-  const Navigation({Key? key, this.welcomeMessage}) : super(key: key);
+  const Navigation({Key? key, this.hasSnackbar}) : super(key: key);
   @override
   // ignore: no_logic_in_create_state
   State<Navigation> createState() =>
       // ignore: no_logic_in_create_state
-      NavigationState(welcomeMessage: welcomeMessage ?? false);
+      NavigationState(hasSnackbar: hasSnackbar ?? '');
 }
 
 class NavigationState extends State<Navigation> {
-  final bool welcomeMessage;
+  final String? hasSnackbar;
   final productController = ProductController();
-  NavigationState({required this.welcomeMessage});
+  NavigationState({required this.hasSnackbar});
 
   int index = 0;
   final screens = [
@@ -42,9 +42,18 @@ class NavigationState extends State<Navigation> {
     super.initState();
     final storage = GetStorage();
     print(storage.read('token'));
-    if (welcomeMessage) {
+    if (hasSnackbar != '') {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        showWelcomeMessageSnackBar();
+        switch (hasSnackbar) {
+          case 'welcomeMessage':
+            showWelcomeMessageSnackBar();
+            break;
+          case 'listingAdded':
+            showSuccessSnackBar(
+                context, 'Your Product has been Listed!', 'Success');
+            break;
+          default:
+        }
       });
     }
   }

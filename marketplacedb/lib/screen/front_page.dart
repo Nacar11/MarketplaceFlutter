@@ -67,7 +67,8 @@ class FrontpageState extends State<Frontpage> {
     } else if (response == 1) {
       await GoogleSignAPI.logout();
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const Navigation(welcomeMessage: true)));
+          builder: (context) =>
+              const Navigation(hasSnackbar: 'welcomeMessage')));
     } else {
       await GoogleSignAPI.logout();
       showErrorHandlingSnackBar(context, 'Error Logging In', 'error');

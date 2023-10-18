@@ -7,7 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/textfields.dart';
-import 'package:marketplacedb/controllers/imageController.dart';
 // import 'package:marketplacedb/constants/constant.dart';
 // import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/models/ProductTypeModel.dart';
@@ -15,15 +14,14 @@ import 'package:marketplacedb/models/VariantsOptionsModel.dart';
 import 'package:marketplacedb/controllers/variationController.dart';
 import 'package:marketplacedb/controllers/productController.dart';
 import 'package:marketplacedb/models/VariantsModel.dart';
+import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 // import 'package:marketplacedb/models/VariantsOptionsModel.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/categorylist.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/variationoptions.dart';
 import 'dart:io';
 
-final imgController = ImageController();
-
 final variationController = VariationController();
-final productController = Get.put<ProductController>(ProductController());
+final productController = ProductController();
 
 class Listitempage extends StatefulWidget {
   const Listitempage({
@@ -185,12 +183,6 @@ class ListitempageState extends State<Listitempage>
                   );
                 }),
               )),
-          ElevatedButton(
-              onPressed: () {
-                print('selected multiple image');
-                imgController.selectMultipleImages();
-              },
-              child: const Text('Pick an Image')),
           const Sidetext(
             text: 'Read our shooting tips',
             onPressed: null,
@@ -284,18 +276,16 @@ class ListitempageState extends State<Listitempage>
                       ),
                       LargeBlackButton(
                         onPressed: () async {
-                          // print(myControllers['price']!.text);
-                          // print(myControllers['description']!.text);
-                          // print(myControllers['productType']!.text);
-
-                          // final response = await productController.addListing(
-                          //     controllers: myControllers,
-                          //     product_images: selectedImages);
-                          // imgController.uploadImage();
-
-                          productController.imageUpload(
+                          var response = await productController.imageUpload(
                               selectedImages, myControllers);
+                          if (response == 1) {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => const Navigation(
+                                        hasSnackbar: 'listingAdded')));
+                          } else {}
                         },
+                        isDisabled: productController.isLoading.value,
                         text: 'Post Listing',
                         fontsize: 20,
                         padding: const EdgeInsets.all(15),
