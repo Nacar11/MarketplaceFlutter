@@ -1,9 +1,12 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_username.dart';
+import 'package:marketplacedb/screen/signup_pages/signuppage_emailcode.dart';
+
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:marketplacedb/config/snackbar.dart';
@@ -30,7 +33,7 @@ class _SignUpPageState extends State<SignUpPageemail> {
 
   void continuebutton5(BuildContext context) {
     Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => const SignUpPageUsername()));
+        MaterialPageRoute(builder: (context) => const SignUpPageEmailcode()));
   }
 
   @override
@@ -101,7 +104,22 @@ class _SignUpPageState extends State<SignUpPageemail> {
 
                   if (response['message'] == null) {
                     authController.storeLocalData('email', emailcontrol.text);
-                    continuebutton5(context);
+                    final code = await authController
+                        .getEmailVerificationCode(emailcontrol.text);
+                    if (code['success'] != null) {
+                      String successValue = code['success'].toString();
+                      print(successValue);
+                      print(successValue.runtimeType);
+                      final storage = GetStorage();
+                      storage.write('emailVerificationCode', successValue);
+                      print('ASD ${storage.read('emailVerificationCode')}');
+                      continuebutton5(context);
+                    } else {
+                      showErrorHandlingSnackBar(
+                          context,
+                          "Error on Passing Verification Code, Please Try Again.",
+                          'error');
+                    }
                   } else {
                     final text = response['message'];
                     showErrorHandlingSnackBar(context, text, 'error');

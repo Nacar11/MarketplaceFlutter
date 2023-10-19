@@ -19,6 +19,7 @@ import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/categorylist.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/variationoptions.dart';
 import 'dart:io';
+import 'package:marketplacedb/config/snackbar.dart';
 
 final variationController = VariationController();
 final productController = ProductController();
@@ -283,7 +284,12 @@ class ListitempageState extends State<Listitempage>
                                 MaterialPageRoute(
                                     builder: (context) => const Navigation(
                                         hasSnackbar: 'listingAdded')));
-                          } else {}
+                          } else {
+                            showErrorHandlingSnackBar(
+                                context,
+                                "Adding Item Failed, Please Try Again.",
+                                'error');
+                          }
                         },
                         isDisabled: productController.isLoading.value,
                         text: 'Post Listing',

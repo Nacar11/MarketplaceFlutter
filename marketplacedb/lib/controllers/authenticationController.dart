@@ -210,13 +210,35 @@ class AuthenticationController extends GetxController {
           'Accept': 'application/json',
         },
       );
-      // await GoogleSignAPI.logout();
       final storage = GetStorage();
       print('ASD ${storage.read('token')}'); //
       await storage.erase();
       print(storage.read('token')); //
       var jsonObject = jsonDecode(response.body);
       isLoading.value = false;
+      return jsonObject;
+    } catch (e) {
+      print(e);
+      isLoading.value = false;
+    }
+  }
+
+  Future getEmailVerificationCode(String email) async {
+    try {
+      isLoading.value = true;
+      var data = {
+        'email': email,
+      };
+      var response = await AuthInterceptor().post(
+        Uri.parse('${url}getEmailVerificationCode'),
+        headers: {
+          'Accept': 'application/json',
+        },
+        body: data,
+      );
+      var jsonObject = jsonDecode(response.body);
+      isLoading.value = false;
+      print(jsonObject);
       return jsonObject;
     } catch (e) {
       print(e);
