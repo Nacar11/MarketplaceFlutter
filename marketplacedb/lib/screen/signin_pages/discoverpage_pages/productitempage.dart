@@ -2,26 +2,31 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/config/containers.dart';
+import 'package:marketplacedb/config/snackbar.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/config/Customappbar.dart';
 import 'package:marketplacedb/controllers/productController.dart';
+import 'package:marketplacedb/controllers/shoppingCartController.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/models/ProductItemModel.dart';
+import 'package:marketplacedb/screen/signin_pages/navigation.dart';
+import 'package:marketplacedb/screen/signin_pages/shoppingcart.dart';
 
 final controller = Get.put<ProductController>(ProductController());
+final shoppingcartcontroller = ShoppingCartController();
 
 class ProductItemPage extends StatefulWidget {
-  final Product product;
+  final ProductItemModel product;
 
   const ProductItemPage({Key? key, required this.product}) : super(key: key);
 
   @override
   // ignore: no_logic_in_create_state
-  State<ProductItemPage> createState() => ProductItemPageState(
-        product: product,
-      );
+  State<ProductItemPage> createState() =>
+      ProductItemPageState(product: product);
 }
 
 @override
@@ -30,11 +35,21 @@ void dispose() {
 }
 
 class ProductItemPageState extends State<ProductItemPage> {
-  final Product product;
+  final ProductItemModel product;
   int currentIndex = 0;
   CarouselController carouselController = CarouselController();
 
   ProductItemPageState({required this.product});
+
+  bool productOwner() {
+    final storage = GetStorage();
+
+    if (storage.read('userID') == product.user_id) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +73,9 @@ class ProductItemPageState extends State<ProductItemPage> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: CarouselSlider(
-                items: product.imageUrls.map((imageUrl) {
+                items: product.product_images!.map((imageUrl) {
                   return Image.network(
-                    imageUrl,
+                    imageUrl.product_image!,
                     width: 400,
                     height: 250,
                     fit: BoxFit.cover,
@@ -83,7 +98,7 @@ class ProductItemPageState extends State<ProductItemPage> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: product.imageUrls.asMap().entries.map((entry) {
+              children: product.product_images!.asMap().entries.map((entry) {
                 int index = entry.key;
                 return Container(
                   width: 10,
@@ -98,20 +113,44 @@ class ProductItemPageState extends State<ProductItemPage> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Text('Price: Php ${product.price.toStringAsFixed(2)}',
+              child: Text('Price: Php ${product.price!.toStringAsFixed(2)}',
                   style: const TextStyle(fontSize: 20)),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 100.0),
-              child: Row(children: [
-                LargeWhiteButton(
-                  onPressed: null,
-                  text: 'Add to Cart',
-                  margin: EdgeInsets.symmetric(horizontal: 35),
-                ),
-                LargeWhiteButton(onPressed: null, text: 'Bid/Offer'),
-              ]),
-            ),
+            if (!productOwner())
+              Padding(
+                padding: EdgeInsets.only(top: 100.0),
+                child: Row(children: [
+                  LargeWhiteButton(
+                    onPressed: () async {
+                      print(product.id);
+                      print(product.id.runtimeType);
+                      final response = await shoppingcartcontroller
+                          .addtoCart(product.id!.toString());
+
+                      if (response == 'success') {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) =>
+                              const Navigation(hasSnackbar: 'addedTocart'),
+                        ));
+                      } else {
+                        showErrorHandlingSnackBar(
+                          context,
+                          'Error Adding to Cart, Please Try Again',
+                          'error',
+                        );
+                      }
+                    },
+                    text: 'Add to Cart',
+                    margin: const EdgeInsets.symmetric(horizontal: 35),
+                  ),
+                  const LargeWhiteButton(onPressed: null, text: 'Bid/Offer'),
+                ]),
+              )
+            else
+              const Text(
+                'You are the Owner of this Item',
+                style: TextStyle(fontSize: 20),
+              )
             // You can display other product details here
           ],
         ));

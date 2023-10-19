@@ -96,12 +96,12 @@ class FilterpageState extends State<Filterpage> {
                                   .transparent, // Make the Material widget transparent
                               child: InkWell(
                                 onTap: () {
-                                  final product = Product(
-                                    imageUrls: item.product_images!
-                                        .map((image) => image.product_image!)
-                                        .toList(),
-                                    price: item.price!,
-                                  );
+                                  // final product = ProductItemModel(
+                                  //   product_images: item.product_images!
+                                  //       .map((image) => image.product_image!)
+                                  //       .toList(),
+                                  //   price: item.price!,
+                                  // );
 
                                   // Perform the desired action when tapped
                                   // For example, navigate to a new page
@@ -109,7 +109,7 @@ class FilterpageState extends State<Filterpage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => ProductItemPage(
-                                        product: product,
+                                        product: item,
                                       ),
                                     ),
                                   );

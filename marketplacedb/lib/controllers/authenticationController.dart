@@ -68,6 +68,8 @@ class AuthenticationController extends GetxController {
 
           storage.write('token', jsonResponse['access_token']);
           storage.write('username', jsonResponse['username']);
+          storage.write('userID', jsonResponse['user_id']);
+
           storage.read('token');
           return 0;
         } else {
@@ -190,6 +192,8 @@ class AuthenticationController extends GetxController {
         print(jsonObject['access_token']);
         storage.write('token', jsonObject['access_token']);
         storage.write('username', jsonObject['username']);
+        storage.write('userID', jsonObject['user_id']);
+
         return 0;
       } else {
         isLoading.value = false;

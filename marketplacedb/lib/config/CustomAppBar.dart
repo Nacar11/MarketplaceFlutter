@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:marketplacedb/screen/signin_pages/shoppingcart.dart';
 
 class CustomappBar extends StatefulWidget {
   const CustomappBar({Key? key}) : super(key: key);
@@ -25,6 +26,11 @@ class CustomappBarState extends State<CustomappBar> {
       context: context,
       delegate: CustomSearchDelegate(initialQuery: query), // Pass the query
     );
+  }
+
+  void shoppingcartButton(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const Shoppingcart()));
   }
 
   @override
@@ -54,7 +60,7 @@ class CustomappBarState extends State<CustomappBar> {
               Icons.shopping_cart,
             ), // Add the shopping cart icon
             onPressed: () {
-              // Handle the shopping cart action here
+              shoppingcartButton(context);
             },
           ),
         ],

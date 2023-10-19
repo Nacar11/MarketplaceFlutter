@@ -38,8 +38,8 @@ class DiscoverpageState extends State<Discoverpage> {
 
   @override
   void dispose() {
-    searchController.dispose();
-    controller.dispose();
+    // searchController.dispose();
+    // controller.dispose();
     super.dispose();
   }
 
@@ -63,10 +63,12 @@ class DiscoverpageState extends State<Discoverpage> {
                     .getProductCategories(), // Replace with your actual fetch method
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator(
-                      strokeWidth: 3.0, // Adjust the stroke width as needed
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                          Colors.blue), // Set the desired color
+                    return const Padding(
+                      padding: EdgeInsets.fromLTRB(110.0, 110.0, 110.0, 0.0),
+                      child: CircularProgressIndicator(
+                        strokeWidth: 4.0, // Adjust the stroke width as needed
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                      ),
                     );
                     // Display a loading indicator
                   } else if (snapshot.hasError) {

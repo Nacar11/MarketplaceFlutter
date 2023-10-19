@@ -98,7 +98,6 @@ class _SignUpPageState extends State<SignUpPageemail> {
             child: Continue(
               onTap: () async {
                 if (isEmailValid) {
-                  print("asd");
                   var response =
                       await authController.checkEmail(email: emailcontrol.text);
 
@@ -108,11 +107,9 @@ class _SignUpPageState extends State<SignUpPageemail> {
                         .getEmailVerificationCode(emailcontrol.text);
                     if (code['success'] != null) {
                       String successValue = code['success'].toString();
-                      print(successValue);
-                      print(successValue.runtimeType);
+
                       final storage = GetStorage();
                       storage.write('emailVerificationCode', successValue);
-                      print('ASD ${storage.read('emailVerificationCode')}');
                       continuebutton5(context);
                     } else {
                       showErrorHandlingSnackBar(

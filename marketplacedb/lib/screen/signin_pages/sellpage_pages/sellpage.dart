@@ -245,7 +245,7 @@ class _FirstOptionMenuState extends State<FirstOptionMenu> {
             if (response == true) {
               goToListAnItem(context);
             } else {
-              goToBillingAddress(context);
+              goToListAnItem(context);
             }
           }),
     ]);

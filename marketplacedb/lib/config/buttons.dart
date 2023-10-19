@@ -121,16 +121,16 @@ class LargeBlackButton extends StatelessWidget {
               : Colors.black, // Change the background color
         ),
         child: Center(
-          child: Text(
-            isDisabled ? '' : text,
-            style: TextStyle(
-              color: isDisabled
-                  ? Colors.black
-                  : Colors.white, // Change the text color
-              fontWeight: FontWeight.bold,
-              fontSize: fontsize,
-            ),
-          ),
+          child: isDisabled
+              ? const CircularProgressIndicator()
+              : Text(
+                  text,
+                  style: TextStyle(
+                    color: Colors.white, // Change the text color
+                    fontWeight: FontWeight.bold,
+                    fontSize: fontsize,
+                  ),
+                ),
         ),
       ),
     );

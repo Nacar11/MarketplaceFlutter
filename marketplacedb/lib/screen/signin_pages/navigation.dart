@@ -2,8 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/config/icons.dart';
+import 'package:marketplacedb/controllers/userController.dart';
 import 'package:marketplacedb/screen/signin_pages/homepage.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/discoverpage.dart';
+import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddress.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/sellpage.dart';
 import 'package:marketplacedb/screen/signin_pages/mepage_pages/mepage.dart';
 import 'package:marketplacedb/controllers/productController.dart';
@@ -11,6 +13,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/snackbar.dart';
 import 'package:flutter/services.dart';
 import 'package:marketplacedb/screen/signin_pages/messagespage_pages/messagepage.dart';
+
+final userController = UserController();
+bool billing = false;
 
 class Navigation extends StatefulWidget {
   final String? hasSnackbar;
@@ -42,6 +47,8 @@ class NavigationState extends State<Navigation> {
     super.initState();
     final storage = GetStorage();
     print(storage.read('token'));
+    print(storage.read('userID'));
+
     if (hasSnackbar != '') {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         switch (hasSnackbar) {
@@ -51,6 +58,9 @@ class NavigationState extends State<Navigation> {
           case 'listingAdded':
             showSuccessSnackBar(
                 context, 'Your Product has been Listed!', 'Success');
+            break;
+          case 'addedTocart':
+            showSuccessSnackBar(context, 'Item added to Cart!', 'Success');
             break;
           default:
         }
@@ -71,6 +81,10 @@ class NavigationState extends State<Navigation> {
     super.dispose();
   }
 
+  void fetchBilling() async {
+    billing = await userController.UserHasAddress();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -84,9 +98,27 @@ class NavigationState extends State<Navigation> {
             child: Scaffold(
           bottomNavigationBar: NavigationBar(
               selectedIndex: index,
-              onDestinationSelected: (index) =>
-                  setState(() => this.index = index),
+              onDestinationSelected: (index) {
+                if (index == 2) {
+                  if (billing == true) {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const BillingAddress(),
+                    ));
+                  } else {
+                    // Set the index to 2 when billing is true
+                    setState(() {
+                      this.index = 2;
+                    });
+                  }
+                } else {
+                  setState(() {
+                    this.index = index;
+                  });
+                }
+              },
               destinations: const [
+                // if(index==2){
+                // },
                 NavigationDestination(icon: PentagonIcon(), label: 'home'),
                 NavigationDestination(
                     icon: Icon(Icons.search), label: 'Discover'),

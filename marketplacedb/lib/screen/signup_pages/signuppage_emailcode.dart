@@ -47,7 +47,7 @@ class SignUpPageEmailCodeState extends State<SignUpPageEmailcode> {
                   ),
                   const MyContainer(
                     headerText: "Enter the code              ",
-                    text: "We've sent a 6-digit code to your number",
+                    text: "We've sent a 6-digit code to your e-mail",
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20),

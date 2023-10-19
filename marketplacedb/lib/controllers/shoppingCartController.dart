@@ -1,0 +1,64 @@
+// ignore_for_file: file_names, avoid_print, non_constant_identifier_names, await_only_futures, unused_import
+
+import 'dart:convert';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:marketplacedb/models/ShoppingCartModel.dart';
+import 'package:marketplacedb/models/shoppingCartItemModel.dart';
+import 'package:marketplacedb/networks/googleSignIn.dart';
+import 'package:marketplacedb/networks/interceptor.dart';
+import 'package:marketplacedb/constants/constant.dart';
+import 'package:get_storage/get_storage.dart';
+
+class ShoppingCartController extends GetxController {
+  final isLoading = false.obs;
+  final token = ''.obs;
+  var shoppingCartItemList = <ShoppingCartItemModel>[].obs;
+
+  void storeLocalData(String key, value) async {
+    final storage = GetStorage();
+    await storage.write(key, value);
+  }
+
+  Future<String> addtoCart(String id) async {
+    var data = {'product_item_id': id};
+    try {
+      print(data);
+      isLoading.value = true;
+      var response = await AuthInterceptor().post(
+        Uri.parse('${url}addToCart'),
+        headers: {
+          'Accept': 'application/json',
+        },
+        body: data,
+      );
+
+      var jsonObject = jsonDecode(response.body);
+      print(jsonObject);
+      isLoading.value = false;
+      return jsonObject['message'];
+    } catch (e) {
+      print(e);
+      isLoading.value = false;
+      return 'fail';
+    }
+  }
+
+  Future<ShoppingCartModel> getshoppingcartitem() async {
+    final storage = GetStorage();
+    final userID = storage.read('userID');
+    final response = await AuthInterceptor()
+        .get(Uri.parse(url + "getShoppingCartByUser/${userID}"));
+
+    // print('${jsonDecode(response.body).runtimeType}');
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> result = jsonDecode(response.body);
+      print(result);
+      final ShoppingCartModel shoppingCart = ShoppingCartModel.fromJson(result);
+
+      return shoppingCart;
+    } else {
+      throw Exception('Failed to load shopping cart data');
+    }
+  }
+}
