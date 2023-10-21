@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print
+// ignore_for_file: use_build_context_synchronously, avoid_print, no_logic_in_create_state
 
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/config/containers.dart';
@@ -15,7 +15,6 @@ class SignUpPageUsername extends StatefulWidget {
       : super(key: key);
 
   @override
-  // ignore: no_logic_in_create_state
   State<SignUpPageUsername> createState() =>
       _SignUpPageState(emailVerifiedSnackbar: emailVerifiedSnackbar ?? false);
 }

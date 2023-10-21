@@ -5,6 +5,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:flutter/gestures.dart';
+import 'package:marketplacedb/constants/constant.dart';
 import 'package:marketplacedb/networks/googleSignIn.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_name.dart';
@@ -13,6 +14,7 @@ import 'package:marketplacedb/screen/signin_page.dart';
 import 'package:marketplacedb/config/snackbar.dart';
 import 'package:flutter/services.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
+import 'package:http/http.dart' as http;
 
 final authController = AuthenticationController();
 
@@ -46,7 +48,13 @@ class FrontpageState extends State<Frontpage> {
 
   void fbbutton() async {
     await FacebookAuth.instance.login(permissions: ['public_profile', 'email']);
-    // await GoogleSignAPI.logout();
+    await GoogleSignAPI.logout();
+
+    // print('asdasdaaaaaa');
+    // final response = await http.get(
+    //   Uri.parse('https://192.168.254.102:8080/api/test'),
+    // );
+    // print(response.body);
   }
 
   void signupButton(BuildContext context) {
@@ -95,19 +103,16 @@ class FrontpageState extends State<Frontpage> {
             child: Center(
               child: Column(
                 children: [
-                  // Big Logo-like Text
                   const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 50),
-                    child: Text(
-                      "UKAYKO.PH",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 32, // Adjust the font size as needed
-                      ),
+                    padding: EdgeInsets.only(top: 40),
+                    child: SizedBox(
+                      width: 250,
+                      height: 250,
+                      child: Image(
+                          image: AssetImage('flutter_images/UkaykoLogo.png')),
                     ),
                   ),
-                  //logo
+
                   //welcome
                   //google
                   Expanded(

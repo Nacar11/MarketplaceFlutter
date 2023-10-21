@@ -20,7 +20,7 @@ final authController = AuthenticationController();
 
 void signinbutton(BuildContext context, bool? welcomeMessage) {
   Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => Navigation(hasSnackbar: 'welcomeMessage')));
+      builder: (context) => const Navigation(hasSnackbar: 'welcomeMessage')));
 }
 
 class _SignInPageState extends State<SignInPage> {

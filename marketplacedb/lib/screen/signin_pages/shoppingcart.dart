@@ -1,7 +1,10 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/controllers/shoppingCartController.dart';
 import 'package:marketplacedb/models/ShoppingCartModel.dart';
+import 'package:marketplacedb/models/shoppingCartItemModel.dart';
 
 final controller = Get.put<ShoppingCartController>(ShoppingCartController());
 
@@ -36,7 +39,7 @@ class ShoppingcartState extends State<Shoppingcart> {
                     color: Colors.grey,
                   ),
                 ),
-                FutureBuilder<ShoppingCartModel>(
+                FutureBuilder<ShoppingCartModel?>(
                   future: controller
                       .getshoppingcartitem(), // Replace with your actual fetch method
                   builder: (context, snapshot) {
@@ -48,18 +51,21 @@ class ShoppingcartState extends State<Shoppingcart> {
                     } else {
                       return Column(
                         children: [
-                          for (final item
-                              in snapshot.data!.shopping_cart_items ?? [])
+                          for (final item in snapshot.data!.items!)
                             InkWell(
                               onTap: () {
-                                print(item.id);
+                                print(item);
 
                                 // Handle the click action
                               },
-                              child: ListTile(
-                                title: Text(item.category_name ??
-                                    "Error on Handling API Responses"),
-                              ),
+                              child: Column(children: [
+                                ListTile(
+                                  title: Text(item.id.toString()),
+                                ),
+                                ListTile(
+                                  title: Text(item.product_item!.SKU ?? 'asd'),
+                                ),
+                              ]),
                             )
                         ],
                       );

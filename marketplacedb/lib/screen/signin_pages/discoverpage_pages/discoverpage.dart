@@ -4,6 +4,7 @@ import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/productController.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
+import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/productTypepage.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/see_more.dart';
 import 'package:marketplacedb/config/Customappbar.dart';
 
@@ -116,7 +117,6 @@ class DiscoverpageState extends State<Discoverpage> {
                 },
               ),
             ),
-
             FutureBuilder<List<ProductCategoryModel>>(
               future: controller
                   .getProductCategories(), // Replace with your data fetching function
@@ -141,7 +141,15 @@ class DiscoverpageState extends State<Discoverpage> {
                                 ListTile(
                                   title: Text(subcategory.category_name ??
                                       "Unnamed Subcategory"),
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => TypePage(
+                                          productCategoryId: subcategory.id!,
+                                          categoryName:
+                                              subcategory.category_name!),
+                                    ));
+                                  },
                                 ),
                           ],
                         ),
@@ -150,33 +158,6 @@ class DiscoverpageState extends State<Discoverpage> {
                 }
               },
             )
-            // Center(
-            //     child: Padding(
-            //   padding: const EdgeInsets.all(16.0),
-            //   child: DropdownButton(
-            //     hint: const Text('Jewelry'),
-            //     dropdownColor: Colors.grey,
-            //     icon: const Icon(Icons.arrow_drop_down),
-            //     iconSize: 36,
-            //     isExpanded: true,
-            //     style: const TextStyle(
-            //       color: Colors.black,
-            //       fontSize: 22,
-            //     ),
-            //     value: valueChoose,
-            //     onChanged: (newValue) {
-            //       setState(() {
-            //         valueChoose = newValue as String;
-            //       });
-            //     },
-            //     items: listItem.map((valueItem) {
-            //       return DropdownMenuItem(
-            //         value: valueItem,
-            //         child: Text(valueItem),
-            //       );
-            //     }).toList(),
-            //   ),
-            // )),
           ],
         ),
       ),

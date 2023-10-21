@@ -3,6 +3,7 @@
 import 'package:marketplacedb/models/ProductItemModel.dart';
 
 class ShoppingCartItemModel {
+  int? id;
   int? cart_id;
   int? product_item_id;
   ProductItemModel? product_item;
@@ -10,13 +11,17 @@ class ShoppingCartItemModel {
 // Define children property
 
   ShoppingCartItemModel(
-      {required this.cart_id,
+      {required this.id,
+      required this.cart_id,
       required this.product_item_id,
       required this.product_item});
 
   ShoppingCartItemModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     cart_id = json['cart_id'];
     product_item_id = json['product_item_id'];
-    product_item = json['product_item'];
+    if (json['product_item'] != null) {
+      product_item = ProductItemModel.fromJson(json['product_item']);
+    }
   }
 }

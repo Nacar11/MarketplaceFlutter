@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:marketplacedb/models/ProductItemModel.dart';
 import 'package:marketplacedb/models/ShoppingCartModel.dart';
 import 'package:marketplacedb/models/shoppingCartItemModel.dart';
 import 'package:marketplacedb/networks/googleSignIn.dart';
@@ -44,19 +45,49 @@ class ShoppingCartController extends GetxController {
     }
   }
 
-  Future<ShoppingCartModel> getshoppingcartitem() async {
+  Future<ShoppingCartModel>? getshoppingcartitem() async {
     final storage = GetStorage();
     final userID = storage.read('userID');
     final response = await AuthInterceptor()
-        .get(Uri.parse(url + "getShoppingCartByUser/${userID}"));
+        .get(Uri.parse("${url}getShoppingCartByUser/$userID"));
 
-    // print('${jsonDecode(response.body).runtimeType}');
     if (response.statusCode == 200) {
       final Map<String, dynamic> result = jsonDecode(response.body);
-      print(result);
-      final ShoppingCartModel shoppingCart = ShoppingCartModel.fromJson(result);
+      print(response.body);
 
+      final ShoppingCartModel shoppingCart = ShoppingCartModel.fromJson(result);
+      print(shoppingCart.id);
+      for (var item in shoppingCart.items!) {
+        print(item.product_item_id);
+      }
       return shoppingCart;
+    } else {
+      throw Exception('Failed to load shopping cart data');
+    }
+  }
+
+  Future<List<ShoppingCartItemModel>?> getCartItemsForUser() async {
+    final response =
+        await AuthInterceptor().get(Uri.parse("${url}getCartItemsForUser"));
+
+    print(jsonDecode(response.body));
+    // print('${jsonDecode(response.body).runtimeType}');
+    if (response.statusCode == 200) {
+      final List<dynamic> result = jsonDecode(response.body);
+      final List<ShoppingCartItemModel> shoppingCartItem = result.map((e) {
+        // Parse the "productItem" data and create a ProductItemModel instance
+        final productItemData = e['productItem'];
+        final ProductItemModel productItem =
+            ProductItemModel.fromJson(productItemData);
+        print(productItemData);
+        // Create a ShoppingCartItemModel instance and set the "productItem" property
+        final shoppingCartItemModel = ShoppingCartItemModel.fromJson(e);
+        shoppingCartItemModel.product_item = productItem;
+
+        return shoppingCartItemModel;
+      }).toList();
+
+      return shoppingCartItem;
     } else {
       throw Exception('Failed to load shopping cart data');
     }

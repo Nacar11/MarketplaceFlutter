@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, file_names
+// ignore_for_file: unused_import, file_names, no_logic_in_create_state, avoid_print, use_build_context_synchronously
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,7 +24,6 @@ class ProductItemPage extends StatefulWidget {
   const ProductItemPage({Key? key, required this.product}) : super(key: key);
 
   @override
-  // ignore: no_logic_in_create_state
   State<ProductItemPage> createState() =>
       ProductItemPageState(product: product);
 }
@@ -118,7 +117,7 @@ class ProductItemPageState extends State<ProductItemPage> {
             ),
             if (!productOwner())
               Padding(
-                padding: EdgeInsets.only(top: 100.0),
+                padding: const EdgeInsets.only(top: 100.0),
                 child: Row(children: [
                   LargeWhiteButton(
                     onPressed: () async {
