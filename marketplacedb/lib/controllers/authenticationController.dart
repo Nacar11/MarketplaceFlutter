@@ -250,6 +250,29 @@ class AuthenticationController extends GetxController {
     }
   }
 
+  Future getSMSVerificationCode(String contact_number) async {
+    try {
+      isLoading.value = true;
+      var data = {
+        'contact_number': contact_number,
+      };
+      var response = await AuthInterceptor().post(
+        Uri.parse('${url}SMSVerificationCode'),
+        headers: {
+          'Accept': 'application/json',
+        },
+        body: data,
+      );
+      var jsonObject = jsonDecode(response.body);
+      isLoading.value = false;
+      print(jsonObject);
+      return jsonObject;
+    } catch (e) {
+      print(e);
+      isLoading.value = false;
+    }
+  }
+
   Future loginGoogle(String? email) async {
     try {
       var data = {'email': email};

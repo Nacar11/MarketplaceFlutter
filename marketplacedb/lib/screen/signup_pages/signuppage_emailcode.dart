@@ -86,8 +86,6 @@ class SignUpPageEmailCodeState extends State<SignUpPageEmailcode> {
                           "Verification Code is not Correct, Please Check your Email.",
                           'error');
                     }
-
-                    // continueButton(context);
                   },
                   isDisabled: !isCodeValid,
                 ),

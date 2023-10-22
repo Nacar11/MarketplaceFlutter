@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
+import 'package:marketplacedb/config/snackbar.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_code.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
@@ -131,12 +132,22 @@ class _SignUpPageState extends State<SignUpPagephone> {
               child: Center(
                 child: Continue(
                   onTap: () async {
-                    if (isNameEmpty) {
-                      authController.storeLocalData(
-                          'contact_number', phonecontrol.text);
+                    final code = await authController
+                        .getSMSVerificationCode("+63${phonecontrol.text}");
+                    if (code['success'] != null) {
+                      String successValue = code['success'].toString();
+
                       final storage = GetStorage();
+                      storage.write('SMSVerificationCode', successValue);
+                      authController.storeLocalData(
+                          'contact_number', "+63${phonecontrol.text}");
                       print(storage.read('contact_number'));
                       continuebutton3(context);
+                    } else {
+                      showErrorHandlingSnackBar(
+                          context,
+                          "Error on Passing SMS Text Verification Code, Please Try Again.",
+                          'error');
                     }
                   },
                   isDisabled: !isPhoneValid,

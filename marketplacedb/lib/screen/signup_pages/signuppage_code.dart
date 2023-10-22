@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
+import 'package:marketplacedb/config/snackbar.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_email.dart';
 import 'package:marketplacedb/config/textfields.dart';
 
@@ -18,8 +20,9 @@ class SignUpPageCodeState extends State<SignUpPagecode> {
   void continueButton(BuildContext context) {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       // Handle code validation logic here
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const SignUpPageemail()));
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              const SignUpPageemail(smsVerifiedSnackbar: true)));
     }
   }
 
@@ -69,7 +72,19 @@ class SignUpPageCodeState extends State<SignUpPagecode> {
               child: Center(
                 child: Continue(
                   onTap: () {
-                    continueButton(context);
+                    final storage = GetStorage();
+                    print(codeControl.text.runtimeType);
+                    print(storage.read('SMSVerificationCode').runtimeType);
+                    if (codeControl.text ==
+                        storage.read('SMSVerificationCode')) {
+                      continueButton(context);
+                    } else {
+                      showErrorHandlingSnackBar(
+                          context,
+                          "Verification Code is not Correct, Please Check your SMS.",
+                          'error');
+                    }
+                    // continueButton(context);
                   },
                   isDisabled: !isCodeValid,
                 ),

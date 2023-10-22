@@ -11,23 +11,37 @@ import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:marketplacedb/config/snackbar.dart';
 
 class SignUpPageemail extends StatefulWidget {
-  const SignUpPageemail({Key? key}) : super(key: key);
+  final bool? smsVerifiedSnackbar;
+
+  const SignUpPageemail({Key? key, this.smsVerifiedSnackbar}) : super(key: key);
 
   @override
-  State<SignUpPageemail> createState() => _SignUpPageState();
+  State<SignUpPageemail> createState() =>
+      // ignore: no_logic_in_create_state
+      _SignUpPageState(smsVerifiedSnackbar: smsVerifiedSnackbar ?? false);
 }
 
 final authController = AuthenticationController();
 
 class _SignUpPageState extends State<SignUpPageemail> {
+  final bool smsVerifiedSnackbar;
   final emailcontrol = TextEditingController();
-
+  _SignUpPageState({required this.smsVerifiedSnackbar});
   bool isEmailValid = true;
 
   @override
   void initState() {
     super.initState();
-    // Listen for changes in the text field and update isNameEmpty accordingly.
+    if (smsVerifiedSnackbar) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        showVerificationSuccessSnackBar();
+      });
+    }
+  }
+
+  void showVerificationSuccessSnackBar() async {
+    showSuccessSnackBar(
+        context, "Phone Number Successfully Verified", 'success');
   }
 
   void continuebutton5(BuildContext context) {
