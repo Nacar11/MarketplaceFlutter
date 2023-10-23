@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/containers.dart';

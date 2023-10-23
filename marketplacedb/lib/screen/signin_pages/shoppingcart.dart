@@ -1,7 +1,8 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unused_import
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/controllers/shoppingCartController.dart';
 import 'package:marketplacedb/models/ShoppingCartModel.dart';
 import 'package:marketplacedb/models/shoppingCartItemModel.dart';
@@ -19,6 +20,7 @@ class Shoppingcart extends StatefulWidget {
 }
 
 class ShoppingcartState extends State<Shoppingcart> {
+  Map<int, bool> itemCheckedState = {};
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,8 +42,8 @@ class ShoppingcartState extends State<Shoppingcart> {
                   ),
                 ),
                 FutureBuilder<ShoppingCartModel?>(
-                  future: controller
-                      .getshoppingcartitem(), // Replace with your actual fetch method
+                  future: controller.getshoppingcartitem(),
+                  // Replace with your actual fetch method
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CircularProgressIndicator(); // Display a loading indicator
@@ -51,22 +53,81 @@ class ShoppingcartState extends State<Shoppingcart> {
                     } else {
                       return Column(
                         children: [
-                          for (final item in snapshot.data!.items!)
-                            InkWell(
-                              onTap: () {
-                                print(item);
-
-                                // Handle the click action
-                              },
-                              child: Column(children: [
-                                ListTile(
-                                  title: Text(item.id.toString()),
+                          for (final item in snapshot.data!.items!) ...[
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                              ),
+                              child: Container(
+                                width: 400,
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  border: Border.all(width: 2.0),
                                 ),
-                                ListTile(
-                                  title: Text(item.product_item!.SKU ?? 'asd'),
+                                child: InkWell(
+                                  onTap: () {
+                                    print(item);
+                                    // Handle the click action
+                                  },
+                                  child: Row(
+                                    children: [
+                                      // Checkbox on the left side of the image
+                                      Checkbox(
+                                        value:
+                                            itemCheckedState[item.id] ?? false,
+                                        onChanged: (bool? value) {
+                                          setState(() {
+                                            itemCheckedState[item.id!] =
+                                                value ?? false;
+                                          });
+                                        },
+                                      ),
+                                      // Image on the left side of the container
+                                      Image.network(
+                                        item.product_item!.product_images?[0]
+                                                .product_image ??
+                                            'sdf',
+                                        width: 80,
+                                        height: 80,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      const SizedBox(
+                                        width: 16,
+                                      ),
+                                      // ID and Price in a column
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 50),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text('ID: ${item.id.toString()}'),
+                                            Text(
+                                                'Price: ${item.product_item!.price.toString()}'),
+                                          ],
+                                        ),
+                                      ),
+                                      // ElevatedButton on the right side
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            if (itemCheckedState[item.id] ==
+                                                true) {}
+                                          },
+                                          child: const Text('Checkout'),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                          onTap: null,
+                                          child: const Icon(Icons.delete)),
+                                    ],
+                                  ),
                                 ),
-                              ]),
-                            )
+                              ),
+                            ),
+                          ],
                         ],
                       );
                     }

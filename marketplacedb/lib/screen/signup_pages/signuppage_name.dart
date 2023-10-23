@@ -91,7 +91,7 @@ class SignUpPagenameState extends State<SignUpPagename> {
                 child: ValidatorField(
                   controller: firstnamecontroller,
                   hintText: 'Firstname',
-                  labelText: 'Enter Firstname',
+                  labelText: 'Enter First Name',
                   obscureText: false,
                   validator: (value) {
                     RegExp firstnamePattern = RegExp(r'^[a-zA-Z\s]+$');
@@ -119,7 +119,7 @@ class SignUpPagenameState extends State<SignUpPagename> {
                 child: ValidatorField(
                   controller: lastnamecontroller,
                   hintText: 'Lastname',
-                  labelText: 'Enter Lastname',
+                  labelText: 'Enter Last Name',
                   obscureText: false,
                   validator: (value) {
                     RegExp lastnamePattern = RegExp(r'^[a-zA-Z\s]+$');
