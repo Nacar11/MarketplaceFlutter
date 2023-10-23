@@ -6,6 +6,7 @@ import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/controllers/shoppingCartController.dart';
 import 'package:marketplacedb/models/ShoppingCartModel.dart';
 import 'package:marketplacedb/models/shoppingCartItemModel.dart';
+import 'package:marketplacedb/screen/signin_pages/order_pages/checkout.dart';
 
 final controller = Get.put<ShoppingCartController>(ShoppingCartController());
 
@@ -17,6 +18,11 @@ class Shoppingcart extends StatefulWidget {
   @override
   // ignore: no_logic_in_create_state
   State<Shoppingcart> createState() => ShoppingcartState();
+}
+
+void checkoutButton(BuildContext context, ShoppingCartItemModel item) {
+  Navigator.of(context)
+      .push(MaterialPageRoute(builder: (context) => CheckoutPage(item: item)));
 }
 
 class ShoppingcartState extends State<Shoppingcart> {
@@ -113,8 +119,7 @@ class ShoppingcartState extends State<Shoppingcart> {
                                             horizontal: 10),
                                         child: ElevatedButton(
                                           onPressed: () {
-                                            if (itemCheckedState[item.id] ==
-                                                true) {}
+                                            checkoutButton(context, item);
                                           },
                                           child: const Text('Checkout'),
                                         ),
