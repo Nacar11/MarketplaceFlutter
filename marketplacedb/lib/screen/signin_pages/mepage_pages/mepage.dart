@@ -1,11 +1,17 @@
+// ignore_for_file: unused_import, body_might_complete_normally_nullable
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:marketplacedb/controllers/productController.dart';
+import 'package:marketplacedb/models/ProductItemModel.dart';
 import 'package:marketplacedb/screen/signin_pages/mepage_pages/mepagesettings.dart';
 import 'package:marketplacedb/controllers/userController.dart';
+
 // import 'package:marketplacedb/config/textfields.dart';
+final controller = ProductController();
 
 class Mepage extends StatefulWidget {
   const Mepage({Key? key}) : super(key: key);
-
   @override
   State<Mepage> createState() => MepageState();
 }
@@ -65,7 +71,7 @@ class MepageState extends State<Mepage> with SingleTickerProviderStateMixin {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
+                  padding: const EdgeInsets.only(top: 5.0),
                   child: TabBar(
                     controller:
                         _tabController, // You'll need to define _tabController
@@ -76,6 +82,12 @@ class MepageState extends State<Mepage> with SingleTickerProviderStateMixin {
                     ],
                   ),
                 ),
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: const [FirstOptionMenu(), Text('Test'), Text('Test')],
               ),
             ),
           ],
@@ -104,6 +116,72 @@ class CircularProfilePicture extends StatelessWidget {
       child: ClipOval(
         child: Image(image: imageAsset, fit: BoxFit.cover),
       ),
+    );
+  }
+}
+
+class FirstOptionMenu extends StatefulWidget {
+  const FirstOptionMenu({Key? key}) : super(key: key);
+  @override
+  State<FirstOptionMenu> createState() => _FirstOptionMenuState();
+}
+
+class _FirstOptionMenuState extends State<FirstOptionMenu> {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<ProductItemModel>>(
+      future: controller.getProductItemsByUser(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 3.0,
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+            ),
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          final items = snapshot.data!;
+
+          return GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3, // 4 items per row
+
+              mainAxisSpacing: 0.0,
+              crossAxisSpacing: 0.0,
+            ),
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              final item = items[index];
+              final imageUrl = item.product_images![0].product_image;
+
+              // Add padding around each image
+
+              return Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Column(
+                  children: [
+                    if (imageUrl != null)
+                      Image.network(
+                        imageUrl,
+                        width: 125, // Customize the size as needed
+                        height: 125,
+                        fit: BoxFit.cover,
+                      ),
+
+                    // Container(
+                    //   width: 120,
+                    //   height: 100,
+                    //   color: Colors.blue,
+                    // )
+                  ],
+                ),
+              );
+            },
+          );
+        }
+      },
     );
   }
 }

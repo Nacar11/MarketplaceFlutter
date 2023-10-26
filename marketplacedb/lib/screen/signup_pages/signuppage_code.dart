@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unused_import
 
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -74,19 +74,19 @@ class SignUpPageCodeState extends State<SignUpPagecode> {
               child: Center(
                 child: Continue(
                   onTap: () {
-                    final storage = GetStorage();
-                    print(codeControl.text.runtimeType);
-                    print(storage.read('SMSVerificationCode').runtimeType);
-                    if (codeControl.text ==
-                        storage.read('SMSVerificationCode')) {
-                      continueButton(context);
-                    } else {
-                      showErrorHandlingSnackBar(
-                          context,
-                          "Verification Code is not Correct, Please Check your SMS.",
-                          'error');
-                    }
-                    // continueButton(context);
+                    // final storage = GetStorage();
+                    // print(codeControl.text.runtimeType);
+                    // print(storage.read('SMSVerificationCode').runtimeType);
+                    // if (codeControl.text ==
+                    //     storage.read('SMSVerificationCode')) {
+                    //   continueButton(context);
+                    // } else {
+                    //   showErrorHandlingSnackBar(
+                    //       context,
+                    //       "Verification Code is not Correct, Please Check your SMS.",
+                    //       'error');
+                    // }
+                    continueButton(context);
                   },
                   isDisabled: !isCodeValid,
                 ),

@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, use_build_context_synchronously
+// ignore_for_file: avoid_print, use_build_context_synchronously, unused_import
 
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -9,6 +9,7 @@ import 'package:marketplacedb/screen/signup_pages/signuppage_code.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_password.dart';
+import 'package:marketplacedb/screen/signup_pages/signuppage_username.dart';
 
 class SignUpPagephone extends StatefulWidget {
   const SignUpPagephone({Key? key}) : super(key: key);
@@ -38,7 +39,7 @@ class _SignUpPageState extends State<SignUpPagephone> {
     final storage = GetStorage();
     if (storage.read('signInMethod') != null) {
       Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const SignUpPagePassword()));
+          MaterialPageRoute(builder: (context) => const SignUpPageUsername()));
     } else {
       Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => const SignUpPagecode()));
@@ -132,23 +133,23 @@ class _SignUpPageState extends State<SignUpPagephone> {
               child: Center(
                 child: Continue(
                   onTap: () async {
-                    final code = await authController
-                        .getSMSVerificationCode("+63${phonecontrol.text}");
-                    if (code['success'] != null) {
-                      String successValue = code['success'].toString();
+                    // final code = await authController
+                    //     .getSMSVerificationCode("+63${phonecontrol.text}");
+                    // if (code['success'] != null) {
+                    //   String successValue = code['success'].toString();
 
-                      final storage = GetStorage();
-                      storage.write('SMSVerificationCode', successValue);
-                      authController.storeLocalData(
-                          'contact_number', "+63${phonecontrol.text}");
-                      print(storage.read('contact_number'));
-                      continuebutton3(context);
-                    } else {
-                      showErrorHandlingSnackBar(
-                          context,
-                          "Error on Passing SMS Text Verification Code, Please Try Again.",
-                          'error');
-                    }
+                    final storage = GetStorage();
+                    // storage.write('SMSVerificationCode', successValue);
+                    authController.storeLocalData(
+                        'contact_number', "+63${phonecontrol.text}");
+                    print(storage.read('contact_number'));
+                    continuebutton3(context);
+                    // } else {
+                    //   showErrorHandlingSnackBar(
+                    //       context,
+                    //       "Error on Passing SMS Text Verification Code, Please Try Again.",
+                    //       'error');
+                    // }
                   },
                   isDisabled: !isPhoneValid,
                 ),

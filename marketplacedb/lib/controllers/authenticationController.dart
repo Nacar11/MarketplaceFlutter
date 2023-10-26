@@ -65,7 +65,7 @@ class AuthenticationController extends GetxController {
 
         if (jsonResponse['message'] == "Authorized") {
           isLoading.value = false;
-
+          storage.erase();
           storage.write('token', jsonResponse['access_token']);
           storage.write('username', jsonResponse['username']);
           storage.write('userID', jsonResponse['user_id']);
@@ -178,6 +178,9 @@ class AuthenticationController extends GetxController {
                 : 'false',
         'gender': storage.read('gender'),
       };
+      data.forEach((key, value) {
+        print('$key: ${value.runtimeType}');
+      });
 
       var response = await http.post(
         Uri.parse('${url}register'),
@@ -298,6 +301,44 @@ class AuthenticationController extends GetxController {
         storage.erase();
         storage.write('token', jsonObject['access_token']);
         storage.write('username', jsonObject['username']);
+        storage.write('userID', jsonObject['user_id']);
+
+        return 1;
+      } else {
+        return 2;
+      }
+    } catch (e) {
+      print(e);
+      isLoading.value = false;
+    }
+  }
+
+  Future loginFacebook(String? email) async {
+    try {
+      var data = {'email': email};
+      isLoading.value = true;
+      var response = await AuthInterceptor().post(
+        Uri.parse('${url}facebook/callback'),
+        headers: {
+          'Accept': 'application/json',
+        },
+        body: data,
+      );
+
+      var jsonObject = jsonDecode(response.body);
+
+      if (jsonObject['message'] == 'registerFirst') {
+        final storage = GetStorage();
+        storage.write('email', email);
+        storage.write('signInMethod', 'facebook');
+        isLoading.value = false;
+        return 0;
+      } else if (jsonObject['message'] == 'Success') {
+        final storage = GetStorage();
+        storage.erase();
+        storage.write('token', jsonObject['access_token']);
+        storage.write('username', jsonObject['username']);
+        storage.write('userID', jsonObject['user_id']);
         return 1;
       } else {
         return 2;

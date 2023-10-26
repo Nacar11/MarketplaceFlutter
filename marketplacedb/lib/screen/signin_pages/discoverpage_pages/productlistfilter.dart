@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, avoid_print
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/productitempage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

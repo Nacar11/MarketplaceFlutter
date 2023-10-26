@@ -5,7 +5,7 @@ import 'package:marketplacedb/config/icons.dart';
 import 'package:marketplacedb/controllers/userController.dart';
 import 'package:marketplacedb/screen/signin_pages/homepage.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/discoverpage.dart';
-import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddress.dart';
+import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddressSetup.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/sellpage.dart';
 import 'package:marketplacedb/screen/signin_pages/mepage_pages/mepage.dart';
 import 'package:marketplacedb/controllers/productController.dart';
@@ -15,7 +15,6 @@ import 'package:flutter/services.dart';
 import 'package:marketplacedb/screen/signin_pages/messagespage_pages/messagepage.dart';
 
 final userController = UserController();
-bool billing = false;
 
 class Navigation extends StatefulWidget {
   final String? hasSnackbar;
@@ -81,10 +80,6 @@ class NavigationState extends State<Navigation> {
     super.dispose();
   }
 
-  void fetchBilling() async {
-    billing = await userController.UserHasAddress();
-  }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -98,14 +93,14 @@ class NavigationState extends State<Navigation> {
             child: Scaffold(
           bottomNavigationBar: NavigationBar(
               selectedIndex: index,
-              onDestinationSelected: (index) {
+              onDestinationSelected: (index) async {
+                final hasBilling = await userController.UserHasAddress();
                 if (index == 2) {
-                  if (billing == true) {
+                  if (hasBilling == false) {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const BillingAddress(),
+                      builder: (context) => const BillingAddressSetUp(),
                     ));
                   } else {
-                    // Set the index to 2 when billing is true
                     setState(() {
                       this.index = 2;
                     });

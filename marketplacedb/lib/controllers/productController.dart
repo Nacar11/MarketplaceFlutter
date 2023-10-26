@@ -128,49 +128,6 @@ class ProductController extends GetxController {
     }
   }
 
-  // Future<void> addListing({
-  //   required List<File?> product_images,
-  //   required Map<String, TextEditingController> controllers,
-  // }) async {
-  //   try {
-  //     isLoading.value = true;
-
-  //     http.MultipartRequest request = http.MultipartRequest(
-  //       'POST',
-  //       Uri.parse('${url}productItem'),
-  //     );
-
-  //     // Add the product images to the request
-  //     for (var image in product_images) {
-  //       if (image != null) {
-  //         File _file = File(image.path);
-  //         request.files.add(http.MultipartFile(
-  //             'image', _file.readAsBytes().asStream(), _file.lengthSync(),
-  //             filename: _file.path.split('/').last));
-  //       }
-  //     }
-
-  //     // Add other fields to the request
-  //     request.fields['product_id'] = controllers['productType']!.text;
-  //     request.fields['price'] = controllers['price']!.text;
-  //     request.fields['description'] = controllers['description']!.text;
-
-  //     // final authInterceptor = AuthInterceptor();
-
-  //     http.StreamedResponse response = await request.send();
-
-  //     // Process the response if needed
-  //     print(response);
-
-  //     // print(response.body);
-
-  //     isLoading.value = false;
-  //   } catch (e) {
-  //     isLoading.value = false;
-  //     print(e);
-  //   }
-  // }
-
   Future<List<ProductItemModel>> getProductItems() async {
     final response =
         await AuthInterceptor().get(Uri.parse(url + "productItems"));
@@ -195,6 +152,24 @@ class ProductController extends GetxController {
         .get(Uri.parse(url + "getProductItemsByProductType/$productType"));
 
     print(response.body);
+    if (response.statusCode == 200) {
+      final List<dynamic> result =
+          jsonDecode(response.body); // Parse JSON as a List
+      print(result);
+      final List<ProductItemModel> itemList = result
+          .map((e) => ProductItemModel.fromJson(e) as ProductItemModel)
+          .toList();
+
+      productItemList.assignAll(itemList);
+    }
+    return productItemList;
+  }
+
+  Future<List<ProductItemModel>> getProductItemsByUser() async {
+    final response =
+        await AuthInterceptor().get(Uri.parse(url + "/getProductItemsByUser"));
+
+    // print(response.body);
     if (response.statusCode == 200) {
       final List<dynamic> result =
           jsonDecode(response.body); // Parse JSON as a List

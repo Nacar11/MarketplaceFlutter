@@ -3,13 +3,16 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:marketplacedb/models/CountryModel.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/constants/constant.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddress.dart';
 
 class UserController extends GetxController {
   final isLoading = false.obs;
   final token = ''.obs;
+  var countryList = <CountryModel>[].obs;
 
   Future UserHasAddress() async {
     try {
@@ -29,5 +32,34 @@ class UserController extends GetxController {
       print(e);
       isLoading.value = false;
     }
+  }
+
+  Future<List<CountryModel>> getCountries() async {
+    final response = await AuthInterceptor().get(Uri.parse("${url}countries"));
+    if (response.statusCode == 200) {
+      isLoading.value = false;
+      final List<dynamic> result = jsonDecode(response.body);
+      final List<CountryModel> itemList =
+          result.map((e) => CountryModel.fromJson(e)).toList();
+
+      countryList.assignAll(itemList);
+    }
+
+    return countryList;
+  }
+
+  Future<dynamic> addBillingAddress(data) async {
+    final response = await AuthInterceptor().get(Uri.parse("${url}addAddress"));
+    print(response.body);
+    if (response.statusCode == 200) {
+      isLoading.value = false;
+      // final List<dynamic> result = jsonDecode(response.body);
+      // final List<CountryModel> itemList =
+      //     result.map((e) => CountryModel.fromJson(e)).toList();
+
+      // countryList.assignAll(itemList);
+    }
+
+    return countryList;
   }
 }

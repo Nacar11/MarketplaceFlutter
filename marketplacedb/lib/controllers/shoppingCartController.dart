@@ -51,6 +51,8 @@ class ShoppingCartController extends GetxController {
     final response = await AuthInterceptor()
         .get(Uri.parse("${url}getShoppingCartByUser/$userID"));
 
+    print(response.body);
+
     if (response.statusCode == 200) {
       final Map<String, dynamic> result = jsonDecode(response.body);
       print(response.body);

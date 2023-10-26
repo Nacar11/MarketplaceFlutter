@@ -29,7 +29,10 @@ class MepagesettingsState extends State<Mepagesettings> {
           ListTile(
             title: TextButton(
               onPressed: () async {
-                print('asd');
+                // final storage = GetStorage();
+                // print('ASD ${storage.read('token')}'); //
+                // await storage.erase();
+
                 var response = await authController.logout();
                 if (response['message'] == 'Logged out Successfully') {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(

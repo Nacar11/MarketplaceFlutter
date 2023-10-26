@@ -7,13 +7,11 @@ import 'package:get/get.dart';
 
 import 'package:marketplacedb/screen/signin_page.dart';
 import 'package:marketplacedb/config/textfields.dart';
+import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 
-void continuebutton7(BuildContext context, bool? welcomeMessage) {
-  Navigator.of(context).pushNamedAndRemoveUntil(
-    '/navigation',
-    (Route<dynamic> route) => false,
-    arguments: welcomeMessage, // Pass the optional argument using RouteSettings
-  );
+void signUpbutton(BuildContext context, bool? welcomeMessage) {
+  Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) => const Navigation(hasSnackbar: 'welcomeMessage')));
 }
 
 class SignUpPagepromotion extends StatefulWidget {
@@ -93,21 +91,26 @@ class _SignUpPageState extends State<SignUpPagepromotion> {
               if (authController.isLoading.value) {
                 return const CircularProgressIndicator(); // Display a circular progress indicator when isLoading is true
               } else {
-                return Continue(
-                  onTap: () async {
+                return LargeBlackButton(
+                  text: "Sign Up",
+                  fontsize: 24,
+                  padding: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  onPressed: () async {
                     authController.storeLocalData(
                         'is_subscribe_to_promotions', ischeckedpromotions);
                     authController.storeLocalData(
                         'is_subscribe_to_newsletters', ischeckednewsletters);
                     var response = await authController.register();
                     if (response == 0) {
-                      continuebutton7(context, true);
+                      signUpbutton(context, true);
                     } else {
                       print(response);
                     }
                   },
 
-                  isDisabled: false, // Pass the isNameEmpty variable here
+                  isDisabled: authController
+                      .isLoading.value, // Pass the isNameEmpty variable here
                 );
               }
             }),

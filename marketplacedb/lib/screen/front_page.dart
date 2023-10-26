@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, unused_import
+// ignore_for_file: use_build_context_synchronously, unused_import, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -42,21 +42,51 @@ class FrontpageState extends State<Frontpage> {
     }
   }
 
+  Future initStorage() async {
+    final storage = GetStorage();
+    await storage.erase();
+    // Get all keys in the storage
+    final allKeys = storage.getKeys();
+    print('asdad');
+    // Loop through all keys and print the key and its corresponding value
+    for (var key in allKeys) {
+      final value = storage.read(key);
+      print('$key: $value');
+    }
+  }
+
   void showLogoutSnackBar() async {
     showSuccessSnackBar(context, "Successfully Logged Out", 'success');
   }
 
   void fbbutton() async {
-    final data = await FacebookAuth.instance
-        .login(permissions: ['public_profile', 'email']);
-    print(data);
-    // await GoogleSignAPI.logout();
+    await FacebookAuth.instance
+        .login(permissions: ['public_profile', 'email']).then((value) async {
+      final data = await FacebookAuth.instance.getUserData();
+      print(data);
 
-    // print('asdasdaaaaaa');
-    // final response = await http.get(
-    //   Uri.parse('https://192.168.254.102:8080/api/test'),
-    // );
-    // print(response.body);
+      // final fb = FacebookLogin();
+      // final res = await fb.logIn(permissions: [
+      //   FacebookPermission.publicProfile,
+      //   FacebookPermission.email,
+      // ]);
+      // print(res);
+
+      final response = await authController.loginFacebook((data['email']));
+      if (response == 0) {
+        await FacebookAuth.instance.logOut();
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const SignUpPagename(socialLogin: true)));
+      } else if (response == 1) {
+        await FacebookAuth.instance.logOut();
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                const Navigation(hasSnackbar: 'welcomeMessage')));
+      } else {
+        FacebookAuth.instance.logOut();
+        showErrorHandlingSnackBar(context, 'Error Logging In', 'error');
+      }
+    });
   }
 
   void signupButton(BuildContext context) {
@@ -127,11 +157,11 @@ class FrontpageState extends State<Frontpage> {
                           // Add spacing if needed
                           Padding(
                             padding: const EdgeInsets.only(top: 20, bottom: 20),
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  fbbutton();
-                                },
-                                child: const Text('asd')),
+                            child: FBButton(
+                              onTap: () {
+                                fbbutton();
+                              },
+                            ),
                           ),
 
                           LargeBlackButton(
@@ -142,6 +172,7 @@ class FrontpageState extends State<Frontpage> {
                               text: "Sign Up",
                               isDisabled: false,
                               onPressed: () async {
+                                await initStorage();
                                 signupButton(
                                   context,
                                 );

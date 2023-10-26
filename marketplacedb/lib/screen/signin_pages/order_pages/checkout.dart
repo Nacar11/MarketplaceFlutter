@@ -1,9 +1,13 @@
+// ignore_for_file: no_logic_in_create_state
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/shoppingCartController.dart';
 import 'package:marketplacedb/models/shoppingCartItemModel.dart';
+
+import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 
 class CheckoutPage extends StatefulWidget {
   final ShoppingCartItemModel item;
@@ -71,9 +75,41 @@ class CheckoutPageState extends State<CheckoutPage> {
                   child: Headertext(text: 'Shipping Address'))
             ]),
           ),
-          MyTextField(
-            controller: shipping,
-            hintText: 'Add Your Address',
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Navigation(),
+                ),
+              );
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  border: Border.all(
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    width: 2.0,
+                  ),
+                ),
+                child: const Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(15.0),
+                      child: Text(
+                        'Address',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
           const Padding(
               padding: EdgeInsets.only(top: 20, bottom: 10),
