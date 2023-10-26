@@ -24,7 +24,6 @@ class ShoppingCartController extends GetxController {
   Future<String> addtoCart(String id) async {
     var data = {'product_item_id': id};
     try {
-      print(data);
       isLoading.value = true;
       var response = await AuthInterceptor().post(
         Uri.parse('${url}addToCart'),
@@ -35,7 +34,7 @@ class ShoppingCartController extends GetxController {
       );
 
       var jsonObject = jsonDecode(response.body);
-      print(jsonObject);
+
       isLoading.value = false;
       return jsonObject['message'];
     } catch (e) {
@@ -51,17 +50,12 @@ class ShoppingCartController extends GetxController {
     final response = await AuthInterceptor()
         .get(Uri.parse("${url}getShoppingCartByUser/$userID"));
 
-    print(response.body);
-
     if (response.statusCode == 200) {
       final Map<String, dynamic> result = jsonDecode(response.body);
-      print(response.body);
 
       final ShoppingCartModel shoppingCart = ShoppingCartModel.fromJson(result);
-      print(shoppingCart.id);
-      for (var item in shoppingCart.items!) {
-        print(item.product_item_id);
-      }
+
+      for (var item in shoppingCart.items!) {}
       return shoppingCart;
     } else {
       throw Exception('Failed to load shopping cart data');
@@ -72,7 +66,6 @@ class ShoppingCartController extends GetxController {
     final response =
         await AuthInterceptor().get(Uri.parse("${url}getCartItemsForUser"));
 
-    print(jsonDecode(response.body));
     // print('${jsonDecode(response.body).runtimeType}');
     if (response.statusCode == 200) {
       final List<dynamic> result = jsonDecode(response.body);
@@ -81,7 +74,7 @@ class ShoppingCartController extends GetxController {
         final productItemData = e['productItem'];
         final ProductItemModel productItem =
             ProductItemModel.fromJson(productItemData);
-        print(productItemData);
+
         // Create a ShoppingCartItemModel instance and set the "productItem" property
         final shoppingCartItemModel = ShoppingCartItemModel.fromJson(e);
         shoppingCartItemModel.product_item = productItem;
@@ -90,6 +83,20 @@ class ShoppingCartController extends GetxController {
       }).toList();
 
       return shoppingCartItem;
+    } else {
+      throw Exception('Failed to load shopping cart data');
+    }
+  }
+
+  Future<dynamic> deleteShoppingCartItem(int item_id, int cart_id) async {
+    print(item_id);
+    print(cart_id);
+    final response = await AuthInterceptor().delete(
+        Uri.parse("${url}deleteShoppingCartItemByCart/$item_id/$cart_id"));
+
+    print(jsonDecode(response.body));
+    if (response.statusCode == 200) {
+      return true;
     } else {
       throw Exception('Failed to load shopping cart data');
     }

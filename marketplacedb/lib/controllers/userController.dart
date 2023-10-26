@@ -49,17 +49,26 @@ class UserController extends GetxController {
   }
 
   Future<dynamic> addBillingAddress(data) async {
-    final response = await AuthInterceptor().get(Uri.parse("${url}addAddress"));
-    print(response.body);
-    if (response.statusCode == 200) {
+    try {
+      isLoading.value = true;
+      final response = await AuthInterceptor().post(
+        Uri.parse('${url}addAddress'),
+        headers: {
+          'Accept': 'application/json',
+        },
+        body: data,
+      );
+      print(response.body);
+      if (response.statusCode == 200) {
+        isLoading.value = false;
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
       isLoading.value = false;
-      // final List<dynamic> result = jsonDecode(response.body);
-      // final List<CountryModel> itemList =
-      //     result.map((e) => CountryModel.fromJson(e)).toList();
-
-      // countryList.assignAll(itemList);
+      print(e);
+      return false;
     }
-
-    return countryList;
   }
 }

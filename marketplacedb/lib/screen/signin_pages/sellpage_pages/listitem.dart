@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, use_build_context_synchronously, unused_import, unused_local_variable
+// ignore_for_file: avoid_print, use_build_context_synchronously, unused_import, unused_local_variable,
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -25,16 +25,20 @@ final variationController = VariationController();
 final productController = ProductController();
 
 class Listitempage extends StatefulWidget {
-  const Listitempage({
-    Key? key,
-  }) : super(key: key);
+  final String? hasSnackbar;
+  const Listitempage({Key? key, this.hasSnackbar}) : super(key: key);
 
   @override
-  State<Listitempage> createState() => ListitempageState();
+  State<Listitempage> createState() =>
+      // ignore: no_logic_in_create_state
+      ListitempageState(hasSnackbar: hasSnackbar ?? '');
 }
 
 class ListitempageState extends State<Listitempage>
     with SingleTickerProviderStateMixin {
+  final String? hasSnackbar;
+  ListitempageState({required this.hasSnackbar});
+
   late TabController _tabController;
 
   ProductTypeModel? productTypeSelected;
@@ -53,6 +57,16 @@ class ListitempageState extends State<Listitempage>
   void initState() {
     super.initState();
     fetchData();
+    if (hasSnackbar != '') {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        switch (hasSnackbar) {
+          case 'billingAddressSuccess':
+            showSuccessSnackBar(context, 'Billing Address Added', 'Success');
+            break;
+          default:
+        }
+      });
+    }
     _tabController = TabController(length: 2, vsync: this);
   }
 
@@ -132,7 +146,9 @@ class ListitempageState extends State<Listitempage>
           leading: IconButton(
             icon: const Icon(Icons.close),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const Navigation(),
+              ));
             },
           ),
           title: const Center(

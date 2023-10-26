@@ -72,7 +72,6 @@ class ShoppingcartState extends State<Shoppingcart> {
                                 ),
                                 child: InkWell(
                                   onTap: () {
-                                    print(item);
                                     // Handle the click action
                                   },
                                   child: Row(
@@ -125,7 +124,16 @@ class ShoppingcartState extends State<Shoppingcart> {
                                         ),
                                       ),
                                       GestureDetector(
-                                          onTap: null,
+                                          onTap: () async {
+                                            final response = await controller
+                                                .deleteShoppingCartItem(
+                                                    item.id!, item.cart_id!);
+                                            if (response == true) {
+                                              //successsnackbar
+                                              setState(() {});
+                                              controller.getshoppingcartitem();
+                                            }
+                                          },
                                           child: const Icon(Icons.delete)),
                                     ],
                                   ),

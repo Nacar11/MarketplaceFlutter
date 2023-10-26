@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
+import 'package:marketplacedb/config/snackbar.dart';
 import 'package:marketplacedb/models/CountryModel.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/listitem.dart';
 import 'package:marketplacedb/config/textfields.dart';
@@ -16,51 +17,54 @@ class BillingAddress extends StatefulWidget {
 }
 
 class BillingAddressState extends State<BillingAddress> {
-  final unitnumber = TextEditingController();
-  final addressline1 = TextEditingController();
-  final addressline2 = TextEditingController();
-  final city = TextEditingController();
-  final stateprovince = TextEditingController();
-  final postalcode = TextEditingController();
-  final country = TextEditingController();
+  Map<String, TextEditingController> myControllers = {
+    "unitNumber": TextEditingController(),
+    "addressLine1": TextEditingController(),
+    "addressLine2": TextEditingController(),
+    "city": TextEditingController(),
+    "stateProvince": TextEditingController(),
+    "postalCode": TextEditingController(),
+  };
+
   final authController = AuthenticationController();
   CountryModel? selectedCountry;
 
-  bool isNameEmpty = true;
+  bool isBillingEmpty = true;
 
   @override
   void initState() {
     super.initState();
-    country.addListener(() {
-      setState(() {
-        if (country.text.isEmpty &&
-            postalcode.text.isEmpty &&
-            stateprovince.text.isEmpty &&
-            city.text.isEmpty &&
-            addressline1.text.isEmpty) {
-          isNameEmpty = true;
-        } else {
-          isNameEmpty = false;
-        }
-      });
-    });
+    for (final controller in myControllers.values) {
+      controller.addListener(updateBillingEmptyStatus);
+    }
     // Listen for changes in the text field and update isNameEmpty accordingly.
   }
 
   void billingaddressbutton(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const Listitempage()));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) =>
+            const Listitempage(hasSnackbar: 'billingAddressSuccess')));
+  }
+
+  void updateBillingEmptyStatus() {
+    setState(() {
+      isBillingEmpty =
+          myControllers.values.any((controller) => controller.text.isEmpty);
+    });
   }
 
   @override
   void dispose() {
-    // Dispose the controller when the widget is removed.
-
+    for (final controller in myControllers.values) {
+      controller.removeListener(updateBillingEmptyStatus);
+      controller.dispose();
+    }
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    bool isButtonDisabled = isBillingEmpty || selectedCountry == null;
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 215, 205, 205),
       appBar: AppBar(
@@ -80,7 +84,7 @@ class BillingAddressState extends State<BillingAddress> {
                 SliverList(
                   delegate: SliverChildListDelegate([
                     UnderlineTextField(
-                      controller: unitnumber,
+                      controller: myControllers['unitNumber']!,
                       hintText: 'Enter your Unit No.',
                       labelText: 'Unit No.',
                       obscureText: false,
@@ -90,7 +94,7 @@ class BillingAddressState extends State<BillingAddress> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       child: UnderlineTextField(
-                        controller: addressline1,
+                        controller: myControllers['addressLine1']!,
                         hintText: 'Enter your Address',
                         labelText: 'Address Line 1',
                         obscureText: false,
@@ -99,7 +103,7 @@ class BillingAddressState extends State<BillingAddress> {
                       ),
                     ),
                     UnderlineTextField(
-                      controller: addressline2,
+                      controller: myControllers['addressLine2']!,
                       hintText: 'Enter your 2nd Address',
                       labelText: 'Address Line 2 (optional)',
                       obscureText: false,
@@ -109,7 +113,7 @@ class BillingAddressState extends State<BillingAddress> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       child: UnderlineTextField(
-                        controller: city,
+                        controller: myControllers['city']!,
                         hintText: 'Enter your City',
                         labelText: 'City',
                         obscureText: false,
@@ -118,7 +122,7 @@ class BillingAddressState extends State<BillingAddress> {
                       ),
                     ),
                     UnderlineTextField(
-                      controller: stateprovince,
+                      controller: myControllers['stateProvince']!,
                       hintText: 'Enter your State, Province, or Region',
                       labelText: 'State, province or region',
                       obscureText: false,
@@ -128,7 +132,7 @@ class BillingAddressState extends State<BillingAddress> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       child: UnderlineTextField(
-                        controller: postalcode,
+                        controller: myControllers['postalCode']!,
                         hintText: 'Enter your Zip or Postal Code',
                         labelText: 'Zip or Postal Code',
                         obscureText: false,
@@ -149,6 +153,7 @@ class BillingAddressState extends State<BillingAddress> {
                             });
                           }
                         });
+                        print(selectedCountry?.id);
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
@@ -182,13 +187,34 @@ class BillingAddressState extends State<BillingAddress> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       child: Continue(
-                        onTap: () {
-                          if (!isNameEmpty) {
-                            billingaddressbutton(context);
+                        onTap: () async {
+                          if (!isButtonDisabled) {
+                            Map<String, String> data = {
+                              "unit_number": myControllers["unitNumber"]!.text,
+                              "address_line_1":
+                                  myControllers["addressLine1"]!.text,
+                              "address_line_2":
+                                  myControllers["addressLine2"]!.text,
+                              "city": myControllers["city"]!.text,
+                              "region": myControllers["stateProvince"]!.text,
+                              "postal_code": myControllers["postalCode"]!.text,
+                              "country_id": selectedCountry!.id.toString(),
+                            };
+                            var response =
+                                await controller.addBillingAddress(data);
+                            print(response);
+                            if (response == true) {
+                              billingaddressbutton(context);
+                            } else {
+                              showErrorHandlingSnackBar(
+                                  context,
+                                  'Error on Adding User Address, Please Try Again.',
+                                  'error');
+                            }
                           }
                         },
                         isDisabled:
-                            isNameEmpty, // Pass the isNameEmpty variable here
+                            isButtonDisabled, // Pass the isNameEmpty variable here
                       ),
                     ),
                   ]),
