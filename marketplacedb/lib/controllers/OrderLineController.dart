@@ -41,22 +41,17 @@ class OrderLineController extends GetxController {
 
   Future<List<OrderLineModel>> getOrderLine() async {
     final response =
-        await AuthInterceptor().get(Uri.parse("${url}getOrderLinesByID"));
+        await AuthInterceptor().get(Uri.parse(url + "getOrderLinesByID"));
+
     if (response.statusCode == 200) {
-      final responseBody = jsonDecode(response.body);
+      print(response.body);
+      final List<dynamic> result =
+          jsonDecode(response.body); // Parse JSON as a List
+      print(result);
+      final List<OrderLineModel> itemList =
+          result.map((e) => OrderLineModel.fromJson(e)).toList();
 
-      if (responseBody.containsKey('message')) {
-        if (responseBody['message'] == 'Success') {
-          final List<dynamic> result = responseBody['data'];
-          final List<OrderLineModel> itemList =
-              result.map((e) => OrderLineModel.fromJson(e)).toList();
-          orderLineList.assignAll(itemList);
-        } else if (responseBody['message'] == 'Error') {
-          orderLineList.clear();
-        }
-      }
-
-      isLoading.value = false;
+      orderLineList.assignAll(itemList);
     }
     return orderLineList;
   }

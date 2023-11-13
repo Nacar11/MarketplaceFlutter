@@ -53,12 +53,26 @@ class UserController extends GetxController {
   Future<List<BillingAddressModel>> getAddress() async {
     final response = await AuthInterceptor().get(Uri.parse("${url}getAddress"));
     if (response.statusCode == 200) {
-      isLoading.value = false;
-      final List<dynamic> result = jsonDecode(response.body);
-      final List<BillingAddressModel> itemList =
-          result.map((e) => BillingAddressModel.fromJson(e)).toList();
+      final responseBody = jsonDecode(response.body);
 
-      addressList.assignAll(itemList);
+      if (responseBody.containsKey('message')) {
+        if (responseBody['message'] == 'Success') {
+          final List<dynamic> result = responseBody['data'];
+          final List<BillingAddressModel> itemList =
+              result.map((e) => BillingAddressModel.fromJson(e)).toList();
+          addressList.assignAll(itemList);
+        } else if (responseBody['message'] == 'Error') {
+          addressList.clear();
+        }
+      }
+      isLoading.value = false;
+
+      // isLoading.value = false;
+      // final List<dynamic> result = jsonDecode(response.body);
+      // final List<BillingAddressModel> itemList =
+      //     result.map((e) => BillingAddressModel.fromJson(e)).toList();
+
+      // addressList.assignAll(itemList);
     }
 
     return addressList;

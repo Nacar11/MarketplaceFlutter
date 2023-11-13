@@ -23,8 +23,8 @@ class BillingAddressModel {
   BillingAddressModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     unit_number = json['unit_number'];
-    address_line_1 = json['line_address_1'];
-    address_line_2 = json['line_address_2'];
+    address_line_1 = json['address_line_1'];
+    address_line_2 = json['address_line_2'];
     city = json['city'];
     region = json['region'];
     postal_code = json['postal_code'];

@@ -68,6 +68,10 @@ class AuthenticationController extends GetxController {
           storage.erase();
           storage.write('token', jsonResponse['access_token']);
           storage.write('username', jsonResponse['username']);
+          storage.write('first_name', jsonResponse['first_name']);
+          storage.write('last_name', jsonResponse['last_name']);
+          storage.write('contact_number', jsonResponse['contact_number']);
+          storage.write('email', jsonResponse['email']);
           storage.write('userID', jsonResponse['user_id']);
 
           storage.read('token');
@@ -195,6 +199,10 @@ class AuthenticationController extends GetxController {
         print(jsonObject['access_token']);
         storage.write('token', jsonObject['access_token']);
         storage.write('username', jsonObject['username']);
+        storage.write('first_name', jsonObject['first_name']);
+        storage.write('last_name', jsonObject['last_name']);
+        storage.write('contact_number', jsonObject['contact_number']);
+        storage.write('email', jsonObject['email']);
         storage.write('userID', jsonObject['user_id']);
 
         return 0;

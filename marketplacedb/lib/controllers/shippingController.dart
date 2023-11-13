@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:marketplacedb/models/shippingMethodModel.dart';
+import 'package:marketplacedb/models/ShippingMethodModel.dart';
 
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/constants/constant.dart';
@@ -14,29 +14,6 @@ class ShippingController extends GetxController {
   final token = ''.obs;
 
   var shippingmethodList = <ShippingMethodModel>[].obs;
-
-  // Future<List<ShippingMethodModel>> getShippingMethods() async {
-
-  //   final response =
-  //       await AuthInterceptor().get(Uri.parse("${url}getShippingMethods"));
-  //   if (response.statusCode == 200) {
-  //     final responseBody = jsonDecode(response.body);
-
-  //     if (responseBody.containsKey('message')) {
-  //       if (responseBody['message'] == 'Success') {
-  //         final List<dynamic> result = responseBody['data'];
-  //         final List<ShippingMethodModel> itemList =
-  //             result.map((e) => ShippingMethodModel.fromJson(e)).toList();
-  //         shippingmethodList.assignAll(itemList);
-  //       } else if (responseBody['message'] == 'Error') {
-  //         shippingmethodList.clear();
-  //       }
-  //     }
-
-  //     isLoading.value = false;
-  //   }
-  //   return shippingmethodList;
-  // }
 
   Future<List<ShippingMethodModel>> getShippingMethods() async {
     final response =
