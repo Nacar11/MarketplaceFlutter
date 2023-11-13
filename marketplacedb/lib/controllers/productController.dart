@@ -167,10 +167,10 @@ class ProductController extends GetxController {
 
   Future<List<ProductItemModel>> getProductItemsByUser() async {
     final response =
-        await AuthInterceptor().get(Uri.parse(url + "/getProductItemsByUser"));
+        await AuthInterceptor().get(Uri.parse(url + "getProductItemsByUser"));
 
-    // print(response.body);
     if (response.statusCode == 200) {
+      print(response.body);
       final List<dynamic> result =
           jsonDecode(response.body); // Parse JSON as a List
       print(result);

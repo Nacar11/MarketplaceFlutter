@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/OrderLineController.dart';
+import 'package:marketplacedb/controllers/paymentMethodController.dart';
 import 'package:marketplacedb/controllers/shoppingCartController.dart';
 import 'package:marketplacedb/models/BillingAddressModel.dart';
 import 'package:marketplacedb/models/PaymentMethodModel.dart';
@@ -14,9 +15,13 @@ import 'package:marketplacedb/models/ShoppingCartItemModel.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/addresslist.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/methodlist.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final OrderLineController order_controller =
     Get.put<OrderLineController>(OrderLineController());
+
+final PaymentMethodController payment_method_controller =
+    Get.put<PaymentMethodController>(PaymentMethodController());
 
 class CheckoutPage extends StatefulWidget {
   final ShoppingCartItemModel item;
@@ -206,8 +211,21 @@ class CheckoutPageState extends State<CheckoutPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     LargeWhiteButton(
-                      onPressed: () {
-                        // Handle the check out button action
+                      onPressed: () async {
+                        var data = {
+                          'currency': 'PHP',
+                          "amount": item.product_item!.price.toString()
+                        };
+                        var response = await payment_method_controller
+                            .paymentRequest(data);
+                        if (response is String) {
+                          Uri uri =
+                              Uri.parse(response); // Convert String to Uri
+                          await launchUrl(uri);
+                        } else {
+                          // Handle the case where the response is not a valid URL
+                          print('Invalid URL or unable to launch the URL');
+                        }
                       },
                       text: 'Check Out',
                     ),
