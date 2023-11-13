@@ -1,4 +1,5 @@
 // ignore_for_file: unused_import, avoid_print
+import 'package:marketplacedb/config/snackbar.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/productitempage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,28 +15,37 @@ import 'package:marketplacedb/screen/signin_pages/sellpage_pages/listitem.dart';
 final controller = Get.put<ProductController>(ProductController());
 
 class Filterpage extends StatefulWidget {
+  final String? hasSnackbar;
   final int productType;
   final String productTypeName; // Add this line
 
-  const Filterpage({
-    Key? key,
-    required this.productType,
-    required this.productTypeName, // Add this parameter
-  }) : super(key: key);
+  const Filterpage(
+      {Key? key,
+      required this.productType,
+      required this.productTypeName,
+      this.hasSnackbar // Add this parameter
+      })
+      : super(key: key);
 
   @override
   // ignore: no_logic_in_create_state
   State<Filterpage> createState() => FilterpageState(
-      productType: productType, productTypeName: productTypeName);
+      productType: productType,
+      productTypeName: productTypeName,
+      hasSnackbar: hasSnackbar ?? '');
 }
 
 final searchController = TextEditingController();
 
 class FilterpageState extends State<Filterpage> {
+  final String? hasSnackbar;
   int index = 0;
   final int productType;
   final String productTypeName;
-  FilterpageState({required this.productType, required this.productTypeName});
+  FilterpageState(
+      {required this.productType,
+      required this.productTypeName,
+      this.hasSnackbar});
 
   void submitSearch() {
     final query = searchController.text;
@@ -108,11 +118,22 @@ class FilterpageState extends State<Filterpage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => ProductItemPage(
-                                        product: item,
-                                      ),
-                                    ),
-                                  );
+                                        builder: (context) => ProductItemPage(
+                                              product: item,
+                                            )),
+                                  ).then((selectedData) async {
+                                    if (selectedData != true) {
+                                      setState(() {
+                                        controller.getProductItemsByProductType(
+                                          productType: productType,
+                                        );
+                                        showSuccessSnackBar(
+                                            context,
+                                            'Your Product has been deleted.',
+                                            'Success');
+                                      });
+                                    }
+                                  });
                                 },
                                 child: Stack(
                                   children: [

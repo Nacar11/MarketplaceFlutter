@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/controllers/shoppingCartController.dart';
 import 'package:marketplacedb/models/ShoppingCartModel.dart';
-import 'package:marketplacedb/models/shoppingCartItemModel.dart';
+import 'package:marketplacedb/models/ShoppingCartItemModel.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/checkout.dart';
 
 final controller = Get.put<ShoppingCartController>(ShoppingCartController());
@@ -23,6 +23,10 @@ class Shoppingcart extends StatefulWidget {
 void checkoutButton(BuildContext context, ShoppingCartItemModel item) {
   Navigator.of(context)
       .push(MaterialPageRoute(builder: (context) => CheckoutPage(item: item)));
+}
+
+void onGooglePayResult(dynamic paymentResult) {
+  debugPrint(paymentResult.toString());
 }
 
 class ShoppingcartState extends State<Shoppingcart> {

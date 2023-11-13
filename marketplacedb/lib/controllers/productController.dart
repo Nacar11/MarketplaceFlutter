@@ -182,4 +182,18 @@ class ProductController extends GetxController {
     }
     return productItemList;
   }
+
+  Future<dynamic> deleteListing(int item_id) async {
+    print(item_id);
+
+    final response = await AuthInterceptor()
+        .delete(Uri.parse("${url}deleteListingByID/${item_id}"));
+
+    print(jsonDecode(response.body));
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('Failed to delete item data');
+    }
+  }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 // import 'package:marketplacedb/config/containers.dart';
@@ -14,27 +16,53 @@ class BillingAddressSetUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-        appBar: AppBar(
-          title: const Text(""),
-          backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-        ),
-        body: ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const BillingAddress(),
-            ));
-          },
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
+      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.transparent,
+      appBar:
+          AppBar(title: const Text(""), backgroundColor: Colors.transparent),
+      body: Stack(
+        children: <Widget>[
+          // Background Image
+          const Positioned.fill(
+            child: AspectRatio(
+              aspectRatio: 10 / 5, // You can adjust the aspect ratio as needed
+              child: Image(
+                image: AssetImage('flutter_images/billing.jpg'),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-          child: const Text(
-            "Set Up your Billing Address",
-            style: TextStyle(fontSize: 18),
+          const Positioned(
+              bottom: 430,
+              left: 20,
+              child: Text(
+                'Start Selling your Items in \nUkayco.Ph',
+                style: TextStyle(fontSize: 20),
+              )),
+          Positioned(
+            bottom: 360,
+            left: 10,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const BillingAddress(),
+                ));
+              },
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+              child: const Text(
+                "Set Up your Billing Address",
+                style: TextStyle(fontSize: 15),
+              ),
+            ),
           ),
-        ));
+        ],
+      ),
+    );
   }
 }

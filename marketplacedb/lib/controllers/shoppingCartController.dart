@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:marketplacedb/models/ProductItemModel.dart';
 import 'package:marketplacedb/models/ShoppingCartModel.dart';
-import 'package:marketplacedb/models/shoppingCartItemModel.dart';
+import 'package:marketplacedb/models/ShoppingCartItemModel.dart';
 import 'package:marketplacedb/networks/googleSignIn.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/constants/constant.dart';

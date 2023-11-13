@@ -1,3 +1,5 @@
+// ignore_for_file: no_logic_in_create_state, duplicate_ignore, avoid_print, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 import 'package:marketplacedb/config/containers.dart';
@@ -10,13 +12,18 @@ import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/listofcountry.dart';
 
 class BillingAddress extends StatefulWidget {
-  const BillingAddress({Key? key}) : super(key: key);
+  final String? navigation;
+  const BillingAddress({Key? key, this.navigation}) : super(key: key);
 
   @override
-  State<BillingAddress> createState() => BillingAddressState();
+  // ignore: no_logic_in_create_state
+  State<BillingAddress> createState() =>
+      BillingAddressState(navigation: navigation ?? '');
 }
 
 class BillingAddressState extends State<BillingAddress> {
+  final String? navigation;
+  BillingAddressState({required this.navigation});
   Map<String, TextEditingController> myControllers = {
     "unitNumber": TextEditingController(),
     "addressLine1": TextEditingController(),
@@ -48,8 +55,11 @@ class BillingAddressState extends State<BillingAddress> {
 
   void updateBillingEmptyStatus() {
     setState(() {
-      isBillingEmpty =
-          myControllers.values.any((controller) => controller.text.isEmpty);
+      isBillingEmpty = myControllers.values
+          .where((controller) =>
+              controller !=
+              myControllers['addressLine2']) // Exclude optionalController
+          .any((controller) => controller.text.isEmpty);
     });
   }
 
@@ -73,10 +83,10 @@ class BillingAddressState extends State<BillingAddress> {
       ),
       body: Column(
         children: [
-          const Headertext(text: 'Start Selling'),
+          const Headertext(text: 'Start Selling/Buying'),
           const MyContainer(
             headerText: "Add your Billing Address",
-            text: "We need this info for you to be a seller",
+            text: "We need this info for you to be a seller/customer",
           ),
           Expanded(
             child: CustomScrollView(
@@ -144,7 +154,7 @@ class BillingAddressState extends State<BillingAddress> {
                       onTap: () {
                         Navigator.of(context)
                             .push(MaterialPageRoute(
-                          builder: (context) => ListOfCountryPage(),
+                          builder: (context) => const ListOfCountryPage(),
                         ))
                             .then((selectedData) async {
                           if (selectedData != null) {
@@ -170,7 +180,7 @@ class BillingAddressState extends State<BillingAddress> {
                             child: Row(
                               children: <Widget>[
                                 Padding(
-                                  padding: EdgeInsets.all(15.0),
+                                  padding: const EdgeInsets.all(15.0),
                                   child: Text(
                                     selectedCountry?.name ?? 'Country Code',
                                     style: const TextStyle(
@@ -204,7 +214,11 @@ class BillingAddressState extends State<BillingAddress> {
                                 await controller.addBillingAddress(data);
                             print(response);
                             if (response == true) {
-                              billingaddressbutton(context);
+                              if (widget.navigation == 'pop') {
+                                Navigator.of(context).pop(true);
+                              } else {
+                                billingaddressbutton(context);
+                              }
                             } else {
                               showErrorHandlingSnackBar(
                                   context,

@@ -12,6 +12,7 @@ import 'package:marketplacedb/controllers/productController.dart';
 import 'package:marketplacedb/controllers/shoppingCartController.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/models/ProductItemModel.dart';
+import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/productlistfilter.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/shoppingcart.dart';
 
@@ -146,9 +147,27 @@ class ProductItemPageState extends State<ProductItemPage> {
                 ]),
               )
             else
-              const Text(
-                'You are the Owner of this Item',
-                style: TextStyle(fontSize: 20),
+              Column(
+                children: [
+                  const Text(
+                    'You are the Owner of this Item',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: LargeWhiteButton(
+                      onPressed: () async {
+                        final response =
+                            await controller.deleteListing(product.id!);
+                        if (response == true) {
+                          // Delete was successful, now pop the current page and pass data back
+                          Navigator.of(context).pop({'listingDeleted': true});
+                        }
+                      },
+                      text: 'Cancel Listing',
+                    ),
+                  ),
+                ],
               )
             // You can display other product details here
           ],

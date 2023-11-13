@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:marketplacedb/models/BillingAddressModel.dart';
 import 'package:marketplacedb/models/CountryModel.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/constants/constant.dart';
@@ -13,6 +14,7 @@ class UserController extends GetxController {
   final isLoading = false.obs;
   final token = ''.obs;
   var countryList = <CountryModel>[].obs;
+  var addressList = <BillingAddressModel>[].obs;
 
   Future UserHasAddress() async {
     try {
@@ -46,6 +48,20 @@ class UserController extends GetxController {
     }
 
     return countryList;
+  }
+
+  Future<List<BillingAddressModel>> getAddress() async {
+    final response = await AuthInterceptor().get(Uri.parse("${url}getAddress"));
+    if (response.statusCode == 200) {
+      isLoading.value = false;
+      final List<dynamic> result = jsonDecode(response.body);
+      final List<BillingAddressModel> itemList =
+          result.map((e) => BillingAddressModel.fromJson(e)).toList();
+
+      addressList.assignAll(itemList);
+    }
+
+    return addressList;
   }
 
   Future<dynamic> addBillingAddress(data) async {
