@@ -133,23 +133,23 @@ class _SignUpPageState extends State<SignUpPagephone> {
               child: Center(
                 child: Continue(
                   onTap: () async {
-                    // final code = await authController
-                    //     .getSMSVerificationCode("+63${phonecontrol.text}");
-                    // if (code['success'] != null) {
-                    //   String successValue = code['success'].toString();
+                    final code = await authController
+                        .getSMSVerificationCode("+63${phonecontrol.text}");
+                    if (code['success'] != null) {
+                      String successValue = code['success'].toString();
 
-                    final storage = GetStorage();
-                    // storage.write('SMSVerificationCode', successValue);
-                    authController.storeLocalData(
-                        'contact_number', "+63${phonecontrol.text}");
-                    print(storage.read('contact_number'));
-                    continuebutton3(context);
-                    // } else {
-                    //   showErrorHandlingSnackBar(
-                    //       context,
-                    //       "Error on Passing SMS Text Verification Code, Please Try Again.",
-                    //       'error');
-                    // }
+                      final storage = GetStorage();
+                      storage.write('SMSVerificationCode', successValue);
+                      authController.storeLocalData(
+                          'contact_number', "+63${phonecontrol.text}");
+                      print(storage.read('contact_number'));
+                      continuebutton3(context);
+                    } else {
+                      showErrorHandlingSnackBar(
+                          context,
+                          "Error on Passing SMS Text Verification Code, Please Try Again.",
+                          'error');
+                    }
                   },
                   isDisabled: !isPhoneValid,
                 ),
