@@ -25,7 +25,7 @@ class OrderLineModel {
     id = json['id'];
     user_id = json['user_id'];
     SKU = json['SKU'];
-    price = json['price']?.toDouble();
+    price = json['price'];
     payment_method_id = json['payment_method_id'];
     if (json['shipping'] != null) {
       shipping = ShippingMethodModel.fromJson(json['shipping']);

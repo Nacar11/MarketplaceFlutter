@@ -1,21 +1,21 @@
-// ignore_for_file: avoid_print, unused_import
+// ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/config/snackbar.dart';
-import 'package:marketplacedb/screen/signup_pages/signuppage_email.dart';
 import 'package:marketplacedb/config/textfields.dart';
+import 'package:marketplacedb/screen/signup_pages/signuppage_username.dart';
 
-class SignUpPagecode extends StatefulWidget {
-  const SignUpPagecode({Key? key}) : super(key: key);
+class SignUpPageCode extends StatefulWidget {
+  const SignUpPageCode({Key? key}) : super(key: key);
 
   @override
-  State<SignUpPagecode> createState() => SignUpPageCodeState();
+  State<SignUpPageCode> createState() => SignUpPageCodeState();
 }
 
-class SignUpPageCodeState extends State<SignUpPagecode> {
+class SignUpPageCodeState extends State<SignUpPageCode> {
   final codeControl = TextEditingController();
   bool isCodeValid = true;
 
@@ -24,7 +24,7 @@ class SignUpPageCodeState extends State<SignUpPagecode> {
       // Handle code validation logic here
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
-              const SignUpPageemail(smsVerifiedSnackbar: true)));
+              const SignUpPageUsername(emailVerifiedSnackbar: true)));
     }
   }
 
@@ -49,7 +49,7 @@ class SignUpPageCodeState extends State<SignUpPagecode> {
                   ),
                   const MyContainer(
                     headerText: "Enter the code              ",
-                    text: "We've sent a 6-digit code to your number",
+                    text: "We've sent a 6-digit code to your e-mail/phone",
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20),
@@ -74,19 +74,21 @@ class SignUpPageCodeState extends State<SignUpPagecode> {
               child: Center(
                 child: Continue(
                   onTap: () {
-                    // final storage = GetStorage();
-                    // print(codeControl.text.runtimeType);
-                    // print(storage.read('SMSVerificationCode').runtimeType);
-                    // if (codeControl.text ==
-                    //     storage.read('SMSVerificationCode')) {
-                    //   continueButton(context);
-                    // } else {
-                    //   showErrorHandlingSnackBar(
-                    //       context,
-                    //       "Verification Code is not Correct, Please Check your SMS.",
-                    //       'error');
-                    // }
-                    continueButton(context);
+                    final storage = GetStorage();
+                    print(codeControl.text.runtimeType);
+                    print(storage.read('emailVerificationCode').runtimeType);
+                    if (codeControl.text ==
+                        storage.read('emailVerificationCode')) {
+                      continueButton(context);
+                    } else if (codeControl.text ==
+                        storage.read('SMSVerificationCode')) {
+                      continueButton(context);
+                    } else {
+                      showErrorHandlingSnackBar(
+                          context,
+                          "Verification Code is not Correct, Please Check your Email/Phone.",
+                          'error');
+                    }
                   },
                   isDisabled: !isCodeValid,
                 ),

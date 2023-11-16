@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
-import 'package:marketplacedb/screen/signup_pages/signuppage_emailcode.dart';
+import 'package:marketplacedb/screen/signup_pages/signuppage_code.dart';
 
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:marketplacedb/config/snackbar.dart';
+import 'package:marketplacedb/screen/signup_pages/signuppage_phone.dart';
 
 class SignUpPageemail extends StatefulWidget {
   final bool? smsVerifiedSnackbar;
@@ -45,8 +46,8 @@ class _SignUpPageState extends State<SignUpPageemail> {
   }
 
   void continuebutton5(BuildContext context) {
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => const SignUpPageEmailcode()));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const SignUpPagephone()));
   }
 
   @override
@@ -86,7 +87,7 @@ class _SignUpPageState extends State<SignUpPageemail> {
                   labelText: 'Enter Email',
                   obscureText: false,
                   validator: (value) {
-                    RegExp emailPattern = RegExp(r'^[a-zA-Z\s.]+@gmail\.com$');
+                    RegExp emailPattern = RegExp(r'^.+@gmail\.com$');
                     if (value == null || value.isEmpty) {
                       return 'Email is required';
                     } else if (!emailPattern.hasMatch(value)) {
@@ -116,24 +117,25 @@ class _SignUpPageState extends State<SignUpPageemail> {
 
                   if (response['message'] == null) {
                     authController.storeLocalData('email', emailcontrol.text);
-                    final code = await authController
-                        .getEmailVerificationCode(emailcontrol.text);
-                    if (code['success'] != null) {
-                      String successValue = code['success'].toString();
+                    // final code = await authController
+                    //     .getEmailVerificationCode(emailcontrol.text);
+                    // if (code['success'] != null) {
+                    //   String successValue = code['success'].toString();
 
-                      final storage = GetStorage();
-                      storage.write('emailVerificationCode', successValue);
-                      continuebutton5(context);
-                    } else {
-                      showErrorHandlingSnackBar(
-                          context,
-                          "Error on Passing Verification Code, Please Try Again.",
-                          'error');
-                    }
-                  } else {
-                    final text = response['message'];
-                    showErrorHandlingSnackBar(context, text, 'error');
+                    //   final storage = GetStorage();
+                    //   storage.write('emailVerificationCode', successValue);
+                    continuebutton5(context);
+                    // } else {
+                    //   showErrorHandlingSnackBar(
+                    //       context,
+                    //       "Error on Passing Verification Code, Please Try Again.",
+                    //       'error');
+                    // }
                   }
+                  //else {
+                  //   final text = response['message'];
+                  //   showErrorHandlingSnackBar(context, text, 'error');
+                  // }
                 }
               },
               isDisabled: !isEmailValid, // Pass the isNameEmpty variable here

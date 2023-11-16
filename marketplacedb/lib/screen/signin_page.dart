@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/config/buttons.dart';
+import 'package:marketplacedb/screen/ForgotPass/ForgotPass.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 // import 'package:get_storage/get_storage.dart';
@@ -21,6 +22,11 @@ final authController = AuthenticationController();
 void signinbutton(BuildContext context, bool? welcomeMessage) {
   Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) => const Navigation(hasSnackbar: 'welcomeMessage')));
+}
+
+void forgotpassbutton(BuildContext context) {
+  Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => const ForgotPassPage()));
 }
 
 class _SignInPageState extends State<SignInPage> {
@@ -78,14 +84,19 @@ class _SignInPageState extends State<SignInPage> {
             hintText: 'Password',
             labelText: 'Enter your Password',
           ),
-          const Padding(
-            padding: EdgeInsets.only(bottom: 20),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 10),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text("Forgot Password?"),
+                  GestureDetector(
+                      onTap: () {
+                        forgotpassbutton(context);
+                      },
+                      child: const Text("Forgot Password?")),
                 ],
               ),
             ),

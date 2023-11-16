@@ -1,13 +1,16 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print, unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
+import 'package:marketplacedb/screen/signup_pages/signuppage_email.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_phone.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:intl/intl.dart';
+import 'package:marketplacedb/screen/signup_pages/signuppage_username.dart';
 
 class SignUpPagebirthdate extends StatefulWidget {
   const SignUpPagebirthdate({Key? key}) : super(key: key);
@@ -55,8 +58,14 @@ class _SignUpPageState extends State<SignUpPagebirthdate> {
   }
 
   void continuebutton2(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const SignUpPagephone()));
+    final storage = GetStorage();
+    if (storage.read('signInMethod') != null) {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const SignUpPageUsername()));
+    } else {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const SignUpPageemail()));
+    }
   }
 
   @override

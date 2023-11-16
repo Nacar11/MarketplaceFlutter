@@ -109,6 +109,31 @@ class AuthenticationController extends GetxController {
     }
   }
 
+  Future getUser({
+    required String email,
+  }) async {
+    try {
+      isLoading.value = true;
+      var data = {
+        'email': email,
+      };
+      var response = await AuthInterceptor().post(
+        Uri.parse('${url}getUserByEmail'),
+        headers: {
+          'Accept': 'application/json',
+        },
+        body: data,
+      );
+      print(response.body);
+      var jsonObject = jsonDecode(response.body);
+      print(jsonObject);
+      return jsonObject;
+    } catch (e) {
+      print(e);
+      isLoading.value = false;
+    }
+  }
+
   Future checkEmail({
     required String email,
   }) async {
