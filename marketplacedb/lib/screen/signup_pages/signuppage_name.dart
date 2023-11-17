@@ -145,8 +145,9 @@ class SignUpPagenameState extends State<SignUpPagename> {
             left: 0,
             right: 0,
             child: Center(
-              child: Continue(
-                  onTap: () {
+              child: LargeBlackButton(
+                  text: 'Continue',
+                  onPressed: () {
                     // print(isLastnameValid);
                     if (isFirstnameValid && isLastnameValid) {
                       print("asd");

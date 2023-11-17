@@ -109,36 +109,24 @@ class _SignUpPageState extends State<SignUpPageemail> {
           left: 0,
           right: 0,
           child: Center(
-            child: Continue(
-              onTap: () async {
+            child: LargeBlackButton(
+              text: 'Continue',
+              onPressed: () async {
                 if (isEmailValid) {
                   var response =
                       await authController.checkEmail(email: emailcontrol.text);
 
                   if (response['message'] == null) {
                     authController.storeLocalData('email', emailcontrol.text);
-                    // final code = await authController
-                    //     .getEmailVerificationCode(emailcontrol.text);
-                    // if (code['success'] != null) {
-                    //   String successValue = code['success'].toString();
-
-                    //   final storage = GetStorage();
-                    //   storage.write('emailVerificationCode', successValue);
                     continuebutton5(context);
-                    // } else {
-                    //   showErrorHandlingSnackBar(
-                    //       context,
-                    //       "Error on Passing Verification Code, Please Try Again.",
-                    //       'error');
-                    // }
+                  } else {
+                    showErrorHandlingSnackBar(
+                        context, "Email Already Taken", 'error');
                   }
-                  //else {
-                  //   final text = response['message'];
-                  //   showErrorHandlingSnackBar(context, text, 'error');
-                  // }
                 }
               },
-              isDisabled: !isEmailValid, // Pass the isNameEmpty variable here
+              isDisabled: !isEmailValid,
+              isLoading: authController.isLoading.value,
             ),
           ),
         )

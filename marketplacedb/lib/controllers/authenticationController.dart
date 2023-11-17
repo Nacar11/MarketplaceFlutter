@@ -125,12 +125,40 @@ class AuthenticationController extends GetxController {
         body: data,
       );
       print(response.body);
-      var jsonObject = jsonDecode(response.body);
-      print(jsonObject);
-      return jsonObject;
+      final jsonBody = jsonDecode(response.body);
+      if (jsonBody.containsKey('success')) {
+        print('asdad');
+        final storage = GetStorage();
+        storage.write('contact_number', jsonBody['success']);
+        storage.write('email', email);
+        return 0;
+      }
     } catch (e) {
       print(e);
       isLoading.value = false;
+    }
+  }
+
+  Future changePassword(
+      {required String email, required String newPassword}) async {
+    try {
+      final response = await AuthInterceptor().post(
+        Uri.parse('${url}changePass'),
+        body: {
+          'email': email,
+          'new_password': newPassword,
+        },
+      );
+      var jsonObject = jsonDecode(response.body);
+      if (jsonObject['message'] == "Password changed successfully") {
+        return 0;
+      } else {
+        // Handle other status codes (e.g., 404, 422, 500)
+        print('Failed to change password: ${response.body}');
+      }
+    } catch (e) {
+      // Handle any exceptions that occur
+      print('Exception while changing password: $e');
     }
   }
 
@@ -152,6 +180,7 @@ class AuthenticationController extends GetxController {
       print(response.body);
       var jsonObject = jsonDecode(response.body);
       print(jsonObject);
+      isLoading.value = false;
       return jsonObject;
     } catch (e) {
       print(e);
@@ -266,6 +295,7 @@ class AuthenticationController extends GetxController {
   Future getEmailVerificationCode(String email) async {
     try {
       isLoading.value = true;
+      print(isLoading.value);
       var data = {
         'email': email,
       };

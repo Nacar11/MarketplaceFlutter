@@ -122,15 +122,17 @@ class FilterpageState extends State<Filterpage> {
                                               product: item,
                                             )),
                                   ).then((selectedData) async {
-                                    if (selectedData != true) {
+                                    if (selectedData != null &&
+                                        selectedData == true) {
                                       setState(() {
                                         controller.getProductItemsByProductType(
                                           productType: productType,
                                         );
                                         showSuccessSnackBar(
-                                            context,
-                                            'Your Product has been deleted.',
-                                            'Success');
+                                          context,
+                                          'Your Product has been deleted.',
+                                          'Success',
+                                        );
                                       });
                                     }
                                   });

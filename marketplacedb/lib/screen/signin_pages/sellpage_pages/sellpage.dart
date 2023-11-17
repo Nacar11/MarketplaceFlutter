@@ -235,9 +235,6 @@ class _FirstOptionMenuState extends State<FirstOptionMenu> {
         ],
       ),
       LargeBlackButton(
-          padding: const EdgeInsets.all(20),
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          fontsize: 24,
           isDisabled: userController.isLoading.value,
           text: "List an Item and Start Selling",
           onPressed: () async {

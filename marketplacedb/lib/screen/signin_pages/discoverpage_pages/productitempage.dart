@@ -161,7 +161,7 @@ class ProductItemPageState extends State<ProductItemPage> {
                             await controller.deleteListing(product.id!);
                         if (response == true) {
                           // Delete was successful, now pop the current page and pass data back
-                          Navigator.of(context).pop({'listingDeleted': true});
+                          Navigator.of(context).pop({true});
                         }
                       },
                       text: 'Cancel Listing',

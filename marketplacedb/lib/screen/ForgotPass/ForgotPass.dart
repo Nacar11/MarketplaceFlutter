@@ -21,7 +21,7 @@ final authController = AuthenticationController();
 
 void signinbutton(BuildContext context) {
   Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const SignUpPageFPChoosecode()));
+      MaterialPageRoute(builder: (context) => const FPChoosecode()));
 }
 
 class _ForgotPassPageState extends State<ForgotPassPage> {
@@ -77,17 +77,10 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
           Stack(
             alignment: Alignment.center,
             children: [
-              LargeBlackButton(
-                padding: const EdgeInsets.all(20),
+              LargeWhiteButton(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
-                fontsize: 24,
                 text: "Submit",
-                isDisabled: authController.isLoading.value,
                 onPressed: () async {
-                  if (authController.isLoading.value) {
-                    return; // Prevent further actions while loading
-                  }
-
                   var response = await authController.getUser(
                     email: emailcontrol.text.trim(),
                   );

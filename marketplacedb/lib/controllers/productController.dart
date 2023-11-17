@@ -110,6 +110,7 @@ class ProductController extends GetxController {
     try {
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
+      print(response.body);
       final jsonResponse = json.decode(response.body);
       print(jsonResponse);
       if (response.statusCode == 200) {
@@ -118,11 +119,13 @@ class ProductController extends GetxController {
         return 1;
       } else {
         print('File upload failed');
+
         isLoading.value = false;
         return 0;
       }
     } catch (e) {
       print('Error uploading file: $e');
+
       isLoading.value = false;
       return 0;
     }
@@ -151,11 +154,10 @@ class ProductController extends GetxController {
     final response = await AuthInterceptor()
         .get(Uri.parse(url + "getProductItemsByProductType/$productType"));
 
-    print(response.body);
     if (response.statusCode == 200) {
       final List<dynamic> result =
           jsonDecode(response.body); // Parse JSON as a List
-      print(result);
+
       final List<ProductItemModel> itemList = result
           .map((e) => ProductItemModel.fromJson(e) as ProductItemModel)
           .toList();
@@ -189,7 +191,6 @@ class ProductController extends GetxController {
     final response = await AuthInterceptor()
         .delete(Uri.parse("${url}deleteListingByID/${item_id}"));
 
-    print(jsonDecode(response.body));
     if (response.statusCode == 200) {
       return true;
     } else {

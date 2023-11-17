@@ -94,18 +94,14 @@ class LargeBlackButton extends StatelessWidget {
   final Function()? onPressed;
   final bool isDisabled;
   final String text;
-  final double fontsize;
-  final EdgeInsetsGeometry padding; // Make padding required
-  final EdgeInsetsGeometry margin;
+  final bool isLoading;
 
   const LargeBlackButton({
     super.key,
     required this.onPressed,
     required this.text,
-    required this.fontsize,
-    required this.padding,
-    required this.margin,
     this.isDisabled = false, // Default to not disabled
+    this.isLoading = false,
   });
 
   @override
@@ -113,22 +109,22 @@ class LargeBlackButton extends StatelessWidget {
     return GestureDetector(
       onTap: isDisabled ? null : onPressed, // Conditionally set onTap
       child: Container(
-        padding: padding,
-        margin: margin,
+        padding: const EdgeInsets.all(20),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-          color: isDisabled
+          color: isDisabled || isLoading
               ? Colors.grey
               : Colors.black, // Change the background color
         ),
         child: Center(
-          child: isDisabled
+          child: isLoading
               ? const CircularProgressIndicator()
               : Text(
                   text,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white, // Change the text color
                     fontWeight: FontWeight.bold,
-                    fontSize: fontsize,
+                    fontSize: 24,
                   ),
                 ),
         ),

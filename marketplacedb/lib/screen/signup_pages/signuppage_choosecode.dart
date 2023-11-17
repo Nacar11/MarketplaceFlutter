@@ -100,20 +100,20 @@ class _SignUpPageState extends State<SignUpPageChoosecode> {
               ),
             ),
           ]),
-          Positioned(
+          Obx(() => Positioned(
               bottom: 20, // Adjust this value as needed
               left: 0,
               right: 0,
               child: LargeBlackButton(
+                  isDisabled: ischeckedType == '',
+                  isLoading: authController.isLoading.value,
                   text: "Continue",
-                  fontsize: 24,
-                  padding: const EdgeInsets.all(20),
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   onPressed: () async {
                     if (ischeckedType == "Email") {
                       final storage = GetStorage();
                       final code = await authController
                           .getEmailVerificationCode(storage.read('email'));
+
                       if (code['success'] != null) {
                         String successValue = code['success'].toString();
 
@@ -132,7 +132,7 @@ class _SignUpPageState extends State<SignUpPageChoosecode> {
                       }
                       continuebutton(context);
                     }
-                  }))
+                  })))
         ],
       ),
     );

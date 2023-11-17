@@ -4,33 +4,27 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
-import 'package:get/get.dart';
-
-import 'package:marketplacedb/screen/signin_page.dart';
 import 'package:marketplacedb/config/textfields.dart';
-import 'package:marketplacedb/screen/signin_pages/navigation.dart';
-import 'package:marketplacedb/screen/signup_pages/signuppage_code.dart';
+import 'package:marketplacedb/screen/ForgotPass/FPCode.dart';
+import 'package:marketplacedb/controllers/authenticationController.dart';
 
-void signUpbutton(BuildContext context, bool? welcomeMessage) {
-  Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => const Navigation(hasSnackbar: 'welcomeMessage')));
-}
-
-class SignUpPageFPChoosecode extends StatefulWidget {
-  const SignUpPageFPChoosecode({Key? key}) : super(key: key);
+class FPChoosecode extends StatefulWidget {
+  const FPChoosecode({Key? key}) : super(key: key);
 
   @override
-  State<SignUpPageFPChoosecode> createState() => _SignUpPageFPChoosecodeState();
+  State<FPChoosecode> createState() => _FPChoosecodeState();
 }
 
-class _SignUpPageFPChoosecodeState extends State<SignUpPageFPChoosecode> {
+final authController = AuthenticationController();
+
+class _FPChoosecodeState extends State<FPChoosecode> {
   String ischeckedType = '';
 
   bool isNameEmpty = true;
 
   void continuebutton(BuildContext context) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const SignUpPageCode()));
+        .push(MaterialPageRoute(builder: (context) => const FPCode()));
   }
 
   @override
@@ -50,18 +44,18 @@ class _SignUpPageFPChoosecodeState extends State<SignUpPageFPChoosecode> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 215, 205, 205),
       appBar: AppBar(
-        title: const Text("Sign Up"),
+        title: const Text("Forgot Password"),
         backgroundColor: const Color.fromARGB(255, 215, 205, 205),
       ),
       body: Stack(
         children: [
           Column(children: [
             const Center(
-              child: Headertext(text: 'Get Started'),
+              child: Headertext(text: 'Forgot Password'),
             ),
             const MyContainer(
               headerText:
-                  "We will send you a code to confirm registration              ",
+                  "We will send you a code to confirm Change Password              ",
               text: "would you like it via Email or Phone?",
             ),
             Padding(
@@ -106,9 +100,6 @@ class _SignUpPageFPChoosecodeState extends State<SignUpPageFPChoosecode> {
               right: 0,
               child: LargeBlackButton(
                   text: "Continue",
-                  fontsize: 24,
-                  padding: const EdgeInsets.all(20),
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   onPressed: () async {
                     if (ischeckedType == "Email") {
                       final storage = GetStorage();

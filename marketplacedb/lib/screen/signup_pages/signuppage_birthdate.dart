@@ -221,8 +221,9 @@ class _SignUpPageState extends State<SignUpPagebirthdate> {
             left: 0,
             right: 0,
             child: Center(
-              child: Continue(
-                  onTap: () {
+              child: LargeBlackButton(
+                  text: 'Continue',
+                  onPressed: () {
                     print(isDateSelected);
                     print(_valueGender);
                     if (isDateSelected && _valueGender != '') {

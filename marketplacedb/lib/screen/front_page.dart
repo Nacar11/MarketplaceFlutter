@@ -165,10 +165,6 @@ class FrontpageState extends State<Frontpage> {
                           ),
 
                           LargeBlackButton(
-                              padding: const EdgeInsets.all(20),
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              fontsize: 20,
                               text: "Sign Up",
                               isDisabled: false,
                               onPressed: () async {

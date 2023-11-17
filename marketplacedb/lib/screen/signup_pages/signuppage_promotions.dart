@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:get/get.dart';
+import 'package:marketplacedb/config/snackbar.dart';
 
 import 'package:marketplacedb/screen/signin_page.dart';
 import 'package:marketplacedb/config/textfields.dart';
@@ -84,37 +85,84 @@ class _SignUpPageState extends State<SignUpPagepromotion> {
             ),
           ]),
           Positioned(
-            bottom: 20, // Adjust this value as needed
-            left: 0,
-            right: 0,
-            child: Obx(() {
-              if (authController.isLoading.value) {
-                return const CircularProgressIndicator(); // Display a circular progress indicator when isLoading is true
-              } else {
-                return LargeBlackButton(
-                  text: "Sign Up",
-                  fontsize: 24,
-                  padding: const EdgeInsets.all(20),
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  onPressed: () async {
-                    authController.storeLocalData(
-                        'is_subscribe_to_promotions', ischeckedpromotions);
-                    authController.storeLocalData(
-                        'is_subscribe_to_newsletters', ischeckednewsletters);
-                    var response = await authController.register();
-                    if (response == 0) {
-                      signUpbutton(context, true);
-                    } else {
-                      print(response);
-                    }
-                  },
+              bottom: 20, // Adjust this value as needed
+              left: 0,
+              right: 0,
+              child:
+                  // Obx(() {
+                  //   if (authController.isLoading.value) {
+                  //     return Container(
+                  //       decoration: BoxDecoration(
+                  //         color: Colors.grey
+                  //             .withOpacity(0.5), // Adjust the color and opacity
+                  //         borderRadius:
+                  //             BorderRadius.circular(8.0), // Adjust the border radius
+                  //       ),
+                  //       padding: const EdgeInsets.all(12.0),
+                  //       child: const CircularProgressIndicator(),
+                  //     ); // Display a circular progress indicator when isLoading is true
+                  //   } else {
+                  //     return LargeBlackButton(
+                  //       text: "Sign Up",
+                  //       fontsize: 24,
+                  //       padding: const EdgeInsets.all(20),
+                  //       margin: const EdgeInsets.symmetric(horizontal: 20),
+                  //       onPressed: () async {
+                  //         authController.storeLocalData(
+                  //             'is_subscribe_to_promotions', ischeckedpromotions);
+                  //         authController.storeLocalData(
+                  //             'is_subscribe_to_newsletters', ischeckednewsletters);
+                  //         var response = await authController.register();
+                  //         if (response == 0) {
+                  //           signUpbutton(context, true);
+                  //         } else {
+                  //           print(response);
+                  //         }
+                  //       },
 
-                  isDisabled: authController
-                      .isLoading.value, // Pass the isNameEmpty variable here
+                  //       isDisabled: authController
+                  //           .isLoading.value, // Pass the isNameEmpty variable here
+                  //     );
+                  //   }
+                  // }),
+
+                  Obx(() {
+                return Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    LargeBlackButton(
+                      text: "Sign In",
+                      onPressed: () async {
+                        authController.storeLocalData(
+                            'is_subscribe_to_promotions', ischeckedpromotions);
+                        authController.storeLocalData(
+                            'is_subscribe_to_newsletters',
+                            ischeckednewsletters);
+
+                        var response = await authController.register();
+                        if (response == 0) {
+                          print("Success");
+                          signinbutton(context, true);
+                        } else {
+                          final text = response;
+                          showErrorHandlingSnackBar(context, text, 'error');
+                        }
+                      },
+                    ),
+                    if (authController.isLoading.value)
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey
+                              .withOpacity(0.5), // Adjust the color and opacity
+                          borderRadius: BorderRadius.circular(
+                              8.0), // Adjust the border radius
+                        ),
+                        padding: const EdgeInsets.all(12.0),
+                        child: const CircularProgressIndicator(),
+                      ),
+                  ],
                 );
-              }
-            }),
-          )
+              }))
         ],
       ),
     );

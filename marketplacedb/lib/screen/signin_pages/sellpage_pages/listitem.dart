@@ -309,9 +309,6 @@ class ListitempageState extends State<Listitempage>
                         },
                         isDisabled: productController.isLoading.value,
                         text: 'Post Listing',
-                        fontsize: 20,
-                        padding: const EdgeInsets.all(15),
-                        margin: const EdgeInsets.symmetric(horizontal: 0),
                       )
                     ]),
                   ),
