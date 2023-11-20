@@ -118,6 +118,8 @@ class _SignUpPageState extends State<SignUpPageChoosecode> {
                         String successValue = code['success'].toString();
 
                         storage.write('emailVerificationCode', successValue);
+                        storage.write('verifySnackbar', ischeckedType);
+                        print(storage.read('verifySnackbar'));
                       }
                       continuebutton(context);
                     } else if (ischeckedType == "Phone") {
@@ -129,6 +131,7 @@ class _SignUpPageState extends State<SignUpPageChoosecode> {
                       if (code['success'] != null) {
                         String successValue = code['success'].toString();
                         storage.write('SMSVerificationCode', successValue);
+                        storage.write('verifySnackbar', ischeckedType);
                       }
                       continuebutton(context);
                     }

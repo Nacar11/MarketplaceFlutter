@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print, no_logic_in_create_state
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/config/snackbar.dart';
@@ -10,20 +11,19 @@ import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 
 class SignUpPageUsername extends StatefulWidget {
-  final bool? emailVerifiedSnackbar;
-  const SignUpPageUsername({Key? key, this.emailVerifiedSnackbar})
-      : super(key: key);
+  final String? verifySnackbar;
+  const SignUpPageUsername({Key? key, this.verifySnackbar}) : super(key: key);
 
   @override
   State<SignUpPageUsername> createState() =>
-      _SignUpPageState(emailVerifiedSnackbar: emailVerifiedSnackbar ?? false);
+      _SignUpPageState(verifySnackbar: verifySnackbar ?? '');
 }
 
 final authController = AuthenticationController();
 
 class _SignUpPageState extends State<SignUpPageUsername> {
-  final bool emailVerifiedSnackbar;
-  _SignUpPageState({required this.emailVerifiedSnackbar});
+  final String verifySnackbar;
+  _SignUpPageState({required this.verifySnackbar});
 
   final usernameControl = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -32,9 +32,20 @@ class _SignUpPageState extends State<SignUpPageUsername> {
   @override
   void initState() {
     super.initState();
-    if (emailVerifiedSnackbar) {
+    if (verifySnackbar != '') {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        showVerificationSuccessSnackBar();
+        switch (verifySnackbar) {
+          case 'email':
+            showSuccessSnackBar(
+                context, "Email Successfully Verified", 'success');
+            break;
+          case 'text':
+            showSuccessSnackBar(
+                context, "Phone Number Successfully Verified", 'success');
+            break;
+          default:
+            0;
+        }
       });
     }
   }
@@ -100,28 +111,32 @@ class _SignUpPageState extends State<SignUpPageUsername> {
               ],
             ),
           ),
-          Positioned(
-            bottom: 20, // Adjust this value as needed
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Continue(
-                onTap: () async {
-                  if (isUsernameValid) {
-                    var response = await authController.checkUsername(
-                        username: usernameControl.text);
-                    print(response);
-                    if (response['message'] == null) {
-                      authController.storeLocalData(
-                          'username', usernameControl.text);
-                      continueButton(context);
-                    } else {
-                      final text = response['message'];
-                      showErrorHandlingSnackBar(context, text, 'error');
+          Obx(
+            () => Positioned(
+              bottom: 20, // Adjust this value as needed
+              left: 0,
+              right: 0,
+              child: Center(
+                child: LargeBlackButton(
+                  text: 'Continue',
+                  onPressed: () async {
+                    if (isUsernameValid) {
+                      var response = await authController.checkUsername(
+                          username: usernameControl.text);
+                      print(response);
+                      if (response['message'] == null) {
+                        authController.storeLocalData(
+                            'username', usernameControl.text);
+                        continueButton(context);
+                      } else {
+                        final text = response['message'];
+                        showErrorHandlingSnackBar(context, text, 'error');
+                      }
                     }
-                  }
-                },
-                isDisabled: !isUsernameValid,
+                  },
+                  isDisabled: !isUsernameValid,
+                  isLoading: authController.isLoading.value,
+                ),
               ),
             ),
           ),

@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
@@ -104,29 +105,31 @@ class _SignUpPageState extends State<SignUpPageemail> {
                 ),
               ),
             ])),
-        Positioned(
-          bottom: 20, // Adjust this value as needed
-          left: 0,
-          right: 0,
-          child: Center(
-            child: LargeBlackButton(
-              text: 'Continue',
-              onPressed: () async {
-                if (isEmailValid) {
-                  var response =
-                      await authController.checkEmail(email: emailcontrol.text);
+        Obx(
+          () => Positioned(
+            bottom: 20, // Adjust this value as needed
+            left: 0,
+            right: 0,
+            child: Center(
+              child: LargeBlackButton(
+                text: 'Continue',
+                onPressed: () async {
+                  if (isEmailValid) {
+                    var response = await authController.checkEmail(
+                        email: emailcontrol.text);
 
-                  if (response['message'] == null) {
-                    authController.storeLocalData('email', emailcontrol.text);
-                    continuebutton5(context);
-                  } else {
-                    showErrorHandlingSnackBar(
-                        context, "Email Already Taken", 'error');
+                    if (response['message'] == null) {
+                      authController.storeLocalData('email', emailcontrol.text);
+                      continuebutton5(context);
+                    } else {
+                      showErrorHandlingSnackBar(
+                          context, "Email Already Taken", 'error');
+                    }
                   }
-                }
-              },
-              isDisabled: !isEmailValid,
-              isLoading: authController.isLoading.value,
+                },
+                isDisabled: !isEmailValid,
+                isLoading: authController.isLoading.value,
+              ),
             ),
           ),
         )

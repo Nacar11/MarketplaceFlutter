@@ -148,18 +148,8 @@ class _SignUpPageState extends State<SignUpPagepromotion> {
                           showErrorHandlingSnackBar(context, text, 'error');
                         }
                       },
+                      isLoading: authController.isLoading.value,
                     ),
-                    if (authController.isLoading.value)
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey
-                              .withOpacity(0.5), // Adjust the color and opacity
-                          borderRadius: BorderRadius.circular(
-                              8.0), // Adjust the border radius
-                        ),
-                        padding: const EdgeInsets.all(12.0),
-                        child: const CircularProgressIndicator(),
-                      ),
                   ],
                 );
               }))

@@ -291,7 +291,8 @@ class ListitempageState extends State<Listitempage>
                         text: 'Save to Drafts',
                         margin: EdgeInsets.symmetric(horizontal: 40),
                       ),
-                      LargeBlackButton(
+                      LargeWhiteButton(
+                        margin: EdgeInsets.only(right: 30),
                         onPressed: () async {
                           var response = await productController.imageUpload(
                               selectedImages, myControllers);
@@ -448,6 +449,7 @@ class ListitempageState extends State<Listitempage>
         setState(() {
           selectedImages[index] = File(pickedFile.path);
           print(selectedImages[index]);
+          print('asd');
         });
       }
     } on PlatformException catch (e) {

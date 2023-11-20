@@ -125,8 +125,9 @@ class _SignUpPageState extends State<SignUpPagephone> {
               left: 0,
               right: 0,
               child: Center(
-                child: Continue(
-                  onTap: () async {
+                child: LargeBlackButton(
+                  text: 'Continue',
+                  onPressed: () async {
                     // final code = await authController
                     //     .getSMSVerificationCode("+63${phonecontrol.text}");
                     // if (code['success'] != null) {

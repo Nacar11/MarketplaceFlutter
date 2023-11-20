@@ -205,7 +205,7 @@ class AuthenticationController extends GetxController {
         body: data,
       );
       var jsonObject = jsonDecode(response.body);
-
+      isLoading.value = false;
       return jsonObject;
     } catch (e) {
       print(e);

@@ -21,10 +21,18 @@ class SignUpPageCodeState extends State<SignUpPageCode> {
 
   void continueButton(BuildContext context) {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-      // Handle code validation logic here
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) =>
-              const SignUpPageUsername(emailVerifiedSnackbar: true)));
+      final storage = GetStorage();
+      print(storage.read('verifySnackbar'));
+      print('asdsad');
+      if (storage.read('verifySnackbar') == 'Email') {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                const SignUpPageUsername(verifySnackbar: 'email')));
+      } else if (storage.read('verifySnackbar') == 'Phone') {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                const SignUpPageUsername(verifySnackbar: 'text')));
+      }
     }
   }
 
@@ -72,8 +80,9 @@ class SignUpPageCodeState extends State<SignUpPageCode> {
               left: 0,
               right: 0,
               child: Center(
-                child: Continue(
-                  onTap: () {
+                child: LargeBlackButton(
+                  text: 'Continue',
+                  onPressed: () {
                     final storage = GetStorage();
                     print(codeControl.text.runtimeType);
                     print(storage.read('emailVerificationCode').runtimeType);

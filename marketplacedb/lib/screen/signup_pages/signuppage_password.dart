@@ -95,8 +95,9 @@ class _SignUpPagePasswordState extends State<SignUpPagePassword> {
               left: 0,
               right: 0,
               child: Center(
-                child: Continue(
-                  onTap: () {
+                child: LargeBlackButton(
+                  text: 'Continue',
+                  onPressed: () {
                     continueButton(context);
                   },
                   isDisabled: !isPasswordValid,

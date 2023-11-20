@@ -14,6 +14,7 @@ class PaymentMethodController extends GetxController {
   final storage = GetStorage();
 
   Future paymentRequest(var data) async {
+    String jsonData = jsonEncode(data);
     var response = await http.post(
       Uri.parse('https://api.hit-pay.com/v1/payment-requests'),
       headers: {
@@ -21,8 +22,9 @@ class PaymentMethodController extends GetxController {
         "X-BUSINESS-API-KEY":
             "8ad0104877e8dba756b985778403cfb0bb23d3e303c06dc22b9feea964084ab4",
         "X-REQUESTED-WITH": "XMLHttpRequest",
+        "Content-Type": "application/json",
       },
-      body: data,
+      body: jsonData,
     );
 
     final responseBody = jsonDecode(response.body);

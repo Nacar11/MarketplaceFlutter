@@ -61,7 +61,7 @@ class _SignUpPageState extends State<SignUpPagebirthdate> {
     final storage = GetStorage();
     if (storage.read('signInMethod') != null) {
       Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const SignUpPageUsername()));
+          MaterialPageRoute(builder: (context) => const SignUpPagephone()));
     } else {
       Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => const SignUpPageemail()));

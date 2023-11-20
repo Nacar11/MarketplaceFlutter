@@ -16,6 +16,7 @@ import 'package:marketplacedb/models/ShoppingCartItemModel.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/addresslist.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/methodlist.dart';
+import 'package:marketplacedb/screen/signin_pages/order_pages/paymentOption.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final OrderLineController order_controller =
@@ -41,6 +42,7 @@ class CheckoutPageState extends State<CheckoutPage> {
   PaymentMethodModel? paymentmethod;
   BillingAddressModel? selectedAddress;
   ShippingMethodModel? shippingmethod;
+  String? selectedPaymentMethod;
 
   CheckoutPageState({required this.item});
   final shipping = TextEditingController();
@@ -201,6 +203,41 @@ class CheckoutPageState extends State<CheckoutPage> {
                   );
                 }
               },
+            ),
+            InkWell(
+              onTap: () async {
+                await Navigator.of(context)
+                    .push(MaterialPageRoute(
+                        builder: (context) => const PaymentOption()))
+                    .then((selectedData) async {
+                  print(selectedData);
+                  if (selectedData != null) {
+                    setState(() {
+                      selectedPaymentMethod = selectedData;
+                    });
+                  }
+                });
+              },
+              child: ListTile(
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Headertext(text: 'Payment option'),
+                    SizedBox(height: 4), // Adding some spacing between texts
+                    Text(
+                      selectedPaymentMethod ??
+                          'Select a payment method', // Show selected method or default text
+                      style: TextStyle(
+                          color: Colors.grey[600]), // Adjust styling as needed
+                    ),
+                  ],
+                ),
+                trailing: Icon(Icons.arrow_forward_outlined),
+              ),
+            ),
+            Container(
+              height: 2,
+              color: Colors.grey,
             ),
             const Padding(
                 padding: EdgeInsets.only(top: 20, bottom: 10),
