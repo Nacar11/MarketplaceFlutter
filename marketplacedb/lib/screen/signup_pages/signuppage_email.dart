@@ -2,10 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
-import 'package:marketplacedb/screen/signup_pages/signuppage_code.dart';
 
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';

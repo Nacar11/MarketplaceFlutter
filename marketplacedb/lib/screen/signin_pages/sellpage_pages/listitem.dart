@@ -292,7 +292,7 @@ class ListitempageState extends State<Listitempage>
                         margin: EdgeInsets.symmetric(horizontal: 40),
                       ),
                       LargeWhiteButton(
-                        margin: EdgeInsets.only(right: 30),
+                        margin: const EdgeInsets.only(right: 30),
                         onPressed: () async {
                           var response = await productController.imageUpload(
                               selectedImages, myControllers);

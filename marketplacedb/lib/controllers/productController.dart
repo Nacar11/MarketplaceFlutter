@@ -189,7 +189,7 @@ class ProductController extends GetxController {
     print(item_id);
 
     final response = await AuthInterceptor()
-        .delete(Uri.parse("${url}deleteListingByID/${item_id}"));
+        .delete(Uri.parse("${url}deleteListingByID/$item_id"));
 
     if (response.statusCode == 200) {
       return true;

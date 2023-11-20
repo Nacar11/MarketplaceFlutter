@@ -1,4 +1,4 @@
-// ignore_for_file: no_logic_in_create_state, unused_import, non_constant_identifier_names
+// ignore_for_file: no_logic_in_create_state, unused_import, non_constant_identifier_names, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +16,7 @@ import 'package:marketplacedb/models/ShoppingCartItemModel.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/addresslist.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/methodlist.dart';
-import 'package:marketplacedb/screen/signin_pages/order_pages/paymentOption.dart';
+import 'package:marketplacedb/screen/signin_pages/order_pages/paymentoption.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final OrderLineController order_controller =
@@ -67,8 +67,8 @@ class CheckoutPageState extends State<CheckoutPage> {
             ),
             ListTile(
               contentPadding:
-                  EdgeInsets.all(15), // Adjust the padding as needed
-              title: Text(
+                  const EdgeInsets.all(5), // Adjust the padding as needed
+              title: const Text(
                 'Shipping Address',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
@@ -80,7 +80,7 @@ class CheckoutPageState extends State<CheckoutPage> {
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.brown,
                 ),
-                child: Center(
+                child: const Center(
                   child: Text(
                     'OTHER',
                     style: TextStyle(color: Colors.white),
@@ -106,7 +106,7 @@ class CheckoutPageState extends State<CheckoutPage> {
                   selectedAddress != null
                       ? '${selectedAddress!.address_line_1},\n ${selectedAddress!.city}'
                       : 'Select Your Address',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -117,17 +117,18 @@ class CheckoutPageState extends State<CheckoutPage> {
               color: Colors.grey,
             ),
             Padding(
-              padding: const EdgeInsets.all(30.0),
+              padding: const EdgeInsets.all(25.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                        15), // Adjust the radius to change the roundness
                     child: Image.network(
                       item.product_item!.product_images?[0].product_image ??
                           'asd',
-                      width: 100,
-                      height: 100,
+                      width: 120,
+                      height: 120,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -160,33 +161,32 @@ class CheckoutPageState extends State<CheckoutPage> {
                         color: Colors.grey,
                       ),
                       ListTile(
-                        contentPadding: EdgeInsets.all(15),
+                        contentPadding: const EdgeInsets.all(15),
                         title: const Text(
                           'Shipping Method',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 25),
                         ),
                         trailing: shippingmethod == null
-                            ? Text('${snapshot.data?[0].price}')
+                            ? Text('P${snapshot.data?[0].price}')
                             : Text('P${shippingmethod?.price}'),
                         onTap: () async {
                           final selectedData = await Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Methodlist(),
+                              builder: (context) => const Methodlist(),
                             ),
                           );
                           if (selectedData != null) {
                             setState(() {
-                              print(selectedData);
                               shippingmethod = selectedData;
                             });
                           }
                         },
                         subtitle: Padding(
-                          padding: const EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.all(0),
                           child: shippingmethod == null
-                              ? Text('P${snapshot.data?[0].name}')
+                              ? Text('${snapshot.data?[0].name}')
                               : Text(
                                   '${shippingmethod?.name}',
                                   style: const TextStyle(
@@ -210,7 +210,6 @@ class CheckoutPageState extends State<CheckoutPage> {
                     .push(MaterialPageRoute(
                         builder: (context) => const PaymentOption()))
                     .then((selectedData) async {
-                  print(selectedData);
                   if (selectedData != null) {
                     setState(() {
                       selectedPaymentMethod = selectedData;
@@ -222,53 +221,19 @@ class CheckoutPageState extends State<CheckoutPage> {
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Headertext(text: 'Payment option'),
-                    SizedBox(height: 4), // Adding some spacing between texts
+                    const Headertext(text: 'Payment option'),
                     Text(
-                      selectedPaymentMethod ??
-                          'Select a payment method', // Show selected method or default text
-                      style: TextStyle(
-                          color: Colors.grey[600]), // Adjust styling as needed
+                      selectedPaymentMethod ?? 'Select a payment method',
+                      style: TextStyle(color: Colors.grey[600]),
                     ),
                   ],
                 ),
-                trailing: Icon(Icons.arrow_forward_outlined),
+                trailing: const Icon(Icons.arrow_forward_outlined),
               ),
             ),
             Container(
               height: 2,
               color: Colors.grey,
-            ),
-            const Padding(
-                padding: EdgeInsets.only(top: 20, bottom: 10),
-                child: Row(children: [
-                  Padding(
-                      padding: EdgeInsets.only(left: 30),
-                      child: Headertext(text: 'Payment Type'))
-                ])),
-            Column(
-              children: <Widget>[
-                // RadioListTile(
-                //   title: const Text('Paypal'),
-                //   value: 'Paypal',
-                //   groupValue: selectedPaymentType,
-                //   onChanged: (value) {
-                //     setState(() {
-                //       selectedPaymentType = value!;
-                //     });
-                //   },
-                // ),
-                RadioListTile(
-                  title: const Text('Gcash'),
-                  value: 'Gcash',
-                  groupValue: selectedPaymentType,
-                  onChanged: (value) {
-                    setState(() {
-                      selectedPaymentType = value!;
-                    });
-                  },
-                ),
-              ],
             ),
             Padding(
               padding: const EdgeInsets.only(top: 100),
@@ -292,7 +257,6 @@ class CheckoutPageState extends State<CheckoutPage> {
                         if (response is String) {
                           Uri uri = Uri.parse(response);
 
-                          print(response); // Convert String to Uri
                           await launchUrl(uri, mode: LaunchMode.inAppWebView);
                         } else {
                           // Handle the case where the response is not a valid URL

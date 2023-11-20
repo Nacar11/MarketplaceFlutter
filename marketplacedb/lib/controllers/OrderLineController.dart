@@ -41,7 +41,7 @@ class OrderLineController extends GetxController {
 
   Future<List<OrderLineModel>> getOrderLine() async {
     final response =
-        await AuthInterceptor().get(Uri.parse(url + "getOrderLinesByID"));
+        await AuthInterceptor().get(Uri.parse("${url}getOrderLinesByID"));
 
     if (response.statusCode == 200) {
       print(response.body);
@@ -56,11 +56,11 @@ class OrderLineController extends GetxController {
     return orderLineList;
   }
 
-  Future<dynamic> deleteOrderline(int item_id) async {
-    print(item_id);
+  Future<dynamic> deleteOrderline(int itemId) async {
+    print(itemId);
 
     final response = await AuthInterceptor()
-        .delete(Uri.parse("${url}deleteOrderLinesByID/$item_id"));
+        .delete(Uri.parse("${url}deleteOrderLinesByID/$itemId"));
 
     print(jsonDecode(response.body));
     if (response.statusCode == 200) {

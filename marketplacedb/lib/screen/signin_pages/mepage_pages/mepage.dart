@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/controllers/OrderLineController.dart';
 import 'package:marketplacedb/controllers/productController.dart';
 import 'package:marketplacedb/models/OrderLineModel.dart';
@@ -12,6 +13,7 @@ import 'package:marketplacedb/controllers/userController.dart';
 // import 'package:marketplacedb/config/textfields.dart';
 final productcontroller = ProductController();
 final ordercontroller = OrderLineController();
+final storage = GetStorage();
 
 class Mepage extends StatefulWidget {
   const Mepage({Key? key}) : super(key: key);
@@ -27,6 +29,7 @@ class MepageState extends State<Mepage> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
     _tabController = TabController(length: 3, vsync: this);
   }
 
@@ -232,7 +235,9 @@ class _SecondOptionMenuState extends State<SecondOptionMenu> {
               // Add padding around each image
 
               return InkWell(
-                onTap: () {},
+                onTap: () {
+                  print(storage.read('first_name'));
+                },
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: Column(

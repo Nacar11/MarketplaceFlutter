@@ -10,7 +10,6 @@ import 'package:marketplacedb/config/textfields.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:intl/intl.dart';
-import 'package:marketplacedb/screen/signup_pages/signuppage_username.dart';
 
 class SignUpPagebirthdate extends StatefulWidget {
   const SignUpPagebirthdate({Key? key}) : super(key: key);

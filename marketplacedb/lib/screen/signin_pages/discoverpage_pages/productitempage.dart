@@ -154,7 +154,7 @@ class ProductItemPageState extends State<ProductItemPage> {
                     style: TextStyle(fontSize: 20),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.only(top: 20),
                     child: LargeWhiteButton(
                       onPressed: () async {
                         final response =

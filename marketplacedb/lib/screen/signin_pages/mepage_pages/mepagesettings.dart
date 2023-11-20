@@ -8,6 +8,8 @@ import 'package:marketplacedb/config/snackbar.dart';
 // import 'package:get/get.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 
+final storage = GetStorage();
+
 class Mepagesettings extends StatefulWidget {
   const Mepagesettings({Key? key}) : super(key: key);
 
@@ -24,8 +26,8 @@ class MepagesettingsState extends State<Mepagesettings> {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const UserAccountsDrawerHeader(
-              accountName: Text('FnameLname'), accountEmail: Text('email.com')),
+          UserAccountsDrawerHeader(
+              accountName: Text('fname'), accountEmail: Text('email')),
           ListTile(
             title: TextButton(
               onPressed: () async {

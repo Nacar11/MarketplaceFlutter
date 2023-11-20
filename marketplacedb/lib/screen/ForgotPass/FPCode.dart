@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, file_names
 
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -7,7 +7,6 @@ import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/config/snackbar.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/screen/ForgotPass/ChangePass.dart';
-import 'package:marketplacedb/screen/signup_pages/signuppage_username.dart';
 
 class FPCode extends StatefulWidget {
   const FPCode({Key? key}) : super(key: key);

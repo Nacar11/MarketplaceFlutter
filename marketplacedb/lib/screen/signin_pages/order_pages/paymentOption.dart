@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:marketplacedb/config/textfields.dart';
-import 'package:marketplacedb/controllers/shippingController.dart';
-import 'package:marketplacedb/models/ShippingMethodModel.dart';
+// ignore_for_file: file_names
 
-final controller = Get.put<ShippingController>(ShippingController());
+import 'package:flutter/material.dart';
+
 String? paymentOption;
 
 class PaymentOption extends StatelessWidget {
