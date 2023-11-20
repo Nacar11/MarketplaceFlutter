@@ -22,12 +22,16 @@ final authController = AuthenticationController();
 class MepagesettingsState extends State<Mepagesettings> {
   @override
   Widget build(BuildContext context) {
+    String? firstname = storage.read('first_name');
+    String? lastname = storage.read('last_name');
+    String? email = storage.read('email');
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-              accountName: Text('fname'), accountEmail: Text('email')),
+              accountName: Text('$firstname $lastname'),
+              accountEmail: Text('$email')),
           ListTile(
             title: TextButton(
               onPressed: () async {

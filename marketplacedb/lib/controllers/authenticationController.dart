@@ -62,7 +62,6 @@ class AuthenticationController extends GetxController {
         final response = await http.Response.fromStream(streamedResponse);
         final jsonResponse = json.decode(response.body);
         print(jsonResponse);
-
         if (jsonResponse['message'] == "Authorized") {
           isLoading.value = false;
           storage.erase();

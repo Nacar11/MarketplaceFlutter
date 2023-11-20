@@ -235,9 +235,7 @@ class _SecondOptionMenuState extends State<SecondOptionMenu> {
               // Add padding around each image
 
               return InkWell(
-                onTap: () {
-                  print(storage.read('first_name'));
-                },
+                onTap: () {},
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: Column(
