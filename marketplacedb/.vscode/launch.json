@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+            "name": "Flutter (lib\\screen\\front_page.dart)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib\\screen\\front_page.dart"
+        },
+        {
+            "name": "Flutter (lib\\screen\\front_page.dart)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib\\screen\\front_page.dart"
+        }
+    ]
+}

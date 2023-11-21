@@ -5,6 +5,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:flutter/gestures.dart';
+import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/constants/constant.dart';
 import 'package:marketplacedb/networks/googleSignIn.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
@@ -122,6 +123,9 @@ class FrontpageState extends State<Frontpage> {
 
   @override
   Widget build(BuildContext context) {
+    final currentwidth = MediaQuery.of(context).size.width;
+    final currentheight = MediaQuery.of(context).size.height;
+
     return WillPopScope(
         onWillPop: () async {
           // Handle the back button press here
@@ -135,24 +139,36 @@ class FrontpageState extends State<Frontpage> {
             child: Center(
               child: Column(
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 40),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.05,
+                        bottom: MediaQuery.of(context).size.height *
+                            0.05), // 10% of screen height padding
                     child: SizedBox(
-                      width: 250,
-                      height: 250,
-                      child: Image(
-                          image: AssetImage('flutter_images/UkaykoLogo.png')),
+                      width: MediaQuery.of(context).size.width *
+                          0.5, // 60% of screen width
+                      height: MediaQuery.of(context).size.width *
+                          0.5, // 60% of screen width
+                      child: const Image(
+                        image: AssetImage('flutter_images/UkaykoLogo.png'),
+                        fit: BoxFit
+                            .contain, // You can adjust the fit property based on your needs
+                      ),
                     ),
                   ),
-
+                  // Headertext(
+                  //   text: 'width ${currentwidth.toString()}',
+                  // ),
+                  // Headertext(
+                  //   text: currentheight.toString(),
+                  // ),
                   //welcome
                   //google
                   Expanded(
                     child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
+                        alignment: Alignment.bottomCenter,
+                        child:
+                            Column(mainAxisSize: MainAxisSize.min, children: [
                           GoogleButton(onTap: () => googlebutton(context)),
                           // Add spacing if needed
                           Padding(
@@ -165,6 +181,7 @@ class FrontpageState extends State<Frontpage> {
                           ),
 
                           LargeBlackButton(
+                            
                               text: "Sign Up",
                               isDisabled: false,
                               onPressed: () async {
@@ -208,38 +225,37 @@ class FrontpageState extends State<Frontpage> {
                               ),
                             ),
                           ),
+                        ])),
+                  ),
 
-                          Padding(
-                            padding: const EdgeInsets.only(top: 70, bottom: 20),
-                            child: RichText(
-                              text: TextSpan(
-                                text: "By continuing you agree to our ",
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text: "Terms of Service",
-                                    style: const TextStyle(
-                                      color: Colors
-                                          .black, // Make "Sign in" text blue and clickable
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    // Add onPressed function here for sign-in action
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        signInButton(context);
-                                        // Handle the "Sign in" button click action here
-                                        // For example, navigate to the sign-in screen
-                                      },
-                                  ),
-                                ],
-                              ),
-                            ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 40),
+                    child: Expanded(
+                      child: RichText(
+                        text: TextSpan(
+                          text: "By continuing you agree to our ",
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
                           ),
-                        ],
+                          children: [
+                            TextSpan(
+                              text: "Terms of Service",
+                              style: const TextStyle(
+                                color: Color.fromRGBO(0, 0, 0,
+                                    1), // Make "Sign in" text blue and clickable
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              // Add onPressed function here for sign-in action
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  // Handle the "Sign in" button click action here
+                                  // For example, navigate to the sign-in screen
+                                },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

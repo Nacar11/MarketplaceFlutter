@@ -81,8 +81,8 @@ class SignUpPagenameState extends State<SignUpPagename> {
               child: Headertext(text: 'Get Started'),
             ),
             const MyContainer(
-              headerText: "Hello, tell us about yourself              ",
-              text: "so we can personalize your account",
+              headerText: "Hello! Tell us about yourself              ",
+              text: "This way we can personalize your account",
             ),
             Padding(
               padding: const EdgeInsets.only(top: 20),
