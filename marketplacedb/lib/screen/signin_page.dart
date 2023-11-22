@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/config/dimensions.dart';
+import 'package:marketplacedb/config/extractedWidgets/extractedwidgets.dart';
+import 'package:marketplacedb/config/extractedWidgets/signinProcess.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/screen/ForgotPass/ForgotPass.dart';
@@ -79,252 +81,52 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      if (constraints.maxWidth < mobileWidth) {
-        return WillPopScope(
-          onWillPop: () async {
-            backbutton(context);
-            return false;
-          },
-          child: Scaffold(
-            backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-            appBar: AppBar(
-              leading: InkWell(
-                onTap: () {
-                  backbutton(
-                      context); // Navigates back to the previous screen (e.g., HomePage)
-                },
-                child: const Icon(Icons.arrow_back),
-              ),
-              title: const Text("Sign In"),
-              backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-            ),
-            body: Column(
-              children: [
-                const Text(
-                  "UKAYKO.PH  ",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 40),
-                  child: Text(
-                    "Hi we've missed you, welcome back",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: MyTextField(
-                    controller: emailcontrol,
-                    hintText: 'Email',
-                    labelText: 'Enter your Email',
-                    obscureText: false,
-                  ),
-                ),
-                MyTextField(
-                  controller: passwordcontrol,
-                  hintText: 'Password',
-                  labelText: 'Enter your Password',
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25.0, vertical: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              forgotpassbutton(context);
-                            },
-                            child: const Text("Forgot Password?")),
-                      ],
-                    ),
-                  ),
-                ),
-                Obx(() {
-                  return Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      LargeBlackButton(
-                        text: "Sign In",
-                        isDisabled: authController.isLoading.value,
-                        onPressed: () async {
-                          if (authController.isLoading.value) {
-                            return; // Prevent further actions while loading
-                          }
-
-                          var response = await authController.login(
-                            email: emailcontrol.text.trim(),
-                            password: passwordcontrol.text.trim(),
-                          );
-
-                          if (response == 0) {
-                            print("Success");
-                            signinbutton(context, true);
-                          } else {
-                            final text = response;
-                            showErrorHandlingSnackBar(context, text, 'error');
-                          }
-                        },
-
-                        // Add any other properties or styling to the button here
-                      ),
-                      if (authController.isLoading.value)
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(
-                                0.5), // Adjust the color and opacity
-                            borderRadius: BorderRadius.circular(
-                                8.0), // Adjust the border radius
-                          ),
-                          padding: const EdgeInsets.all(12.0),
-                          child: const CircularProgressIndicator(),
-                        ),
-                    ],
-                  );
-                })
-              ],
-            ),
+    return WillPopScope(
+      onWillPop: () async {
+        backbutton(context);
+        return false;
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: const Color.fromARGB(255, 215, 205, 205),
+        appBar: AppBar(
+          leading: InkWell(
+            onTap: () {
+              backbutton(
+                  context); // Navigates back to the previous screen (e.g., HomePage)
+            },
+            child: const Icon(Icons.arrow_back),
           ),
-        );
-      } else {
-        return WillPopScope(
-          onWillPop: () async {
-            backbutton(context);
-            return false;
-          },
-          child: Scaffold(
-            backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-            appBar: AppBar(
-              leading: InkWell(
-                onTap: () {
-                  backbutton(
-                      context); // Navigates back to the previous screen (e.g., HomePage)
-                },
-                child: const Icon(Icons.arrow_back),
-              ),
-              title: const Text("Sign In"),
-              backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-            ),
-            body: Column(
-              children: [
-                Expanded(
-                  child: Column(children: [
-                    const Text(
-                      "UKAYKO.PH  ",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 40),
-                      child: Text(
-                        "Hi we've missed you, welcome back",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ]),
-                ),
-                Expanded(
-                  child: Column(children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: MyTextField(
-                        controller: emailcontrol,
-                        hintText: 'Email',
-                        labelText: 'Enter your Email',
-                        obscureText: false,
-                      ),
-                    ),
-                    MyTextField(
-                      controller: passwordcontrol,
-                      hintText: 'Password',
-                      labelText: 'Enter your Password',
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 25.0, vertical: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            GestureDetector(
-                                onTap: () {
-                                  forgotpassbutton(context);
-                                },
-                                child: const Text("Forgot Password?")),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ]),
-                ),
-                Expanded(
-                  child: Obx(() {
-                    return Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        LargeBlackButton(
-                          text: "Sign In",
-                          isDisabled: authController.isLoading.value,
-                          onPressed: () async {
-                            if (authController.isLoading.value) {
-                              return; // Prevent further actions while loading
-                            }
+          title: const Text("Sign In"),
+          backgroundColor: const Color.fromARGB(255, 215, 205, 205),
+        ),
+        body: MediaQuery.of(context).orientation == Orientation.portrait
+            ? const SignInProcess()
+            : ListView(children: const [SignInProcess()]),
+      ),
+    );
 
-                            var response = await authController.login(
-                              email: emailcontrol.text.trim(),
-                              password: passwordcontrol.text.trim(),
-                            );
-
-                            if (response == 0) {
-                              print("Success");
-                              signinbutton(context, true);
-                            } else {
-                              final text = response;
-                              showErrorHandlingSnackBar(context, text, 'error');
-                            }
-                          },
-
-                          // Add any other properties or styling to the button here
-                        ),
-                        if (authController.isLoading.value)
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey.withOpacity(
-                                  0.5), // Adjust the color and opacity
-                              borderRadius: BorderRadius.circular(
-                                  8.0), // Adjust the border radius
-                            ),
-                            padding: const EdgeInsets.all(12.0),
-                            child: const CircularProgressIndicator(),
-                          ),
-                      ],
-                    );
-                  }),
-                )
-              ],
-            ),
-          ),
-        );
-      }
-    });
+    // return WillPopScope(
+    //   onWillPop: () async {
+    //     backbutton(context);
+    //     return false;
+    //   },
+    //   child: Scaffold(
+    //     resizeToAvoidBottomInset: false,
+    //     backgroundColor: const Color.fromARGB(255, 215, 205, 205),
+    //     appBar: AppBar(
+    //       leading: InkWell(
+    //         onTap: () {
+    //           backbutton(
+    //               context); // Navigates back to the previous screen (e.g., HomePage)
+    //         },
+    //         child: const Icon(Icons.arrow_back),
+    //       ),
+    //       title: const Text("Sign In"),
+    //       backgroundColor: const Color.fromARGB(255, 215, 205, 205),
+    //     ),
+    //     body: ListView(children: [SignInProcess()]),
+    //   ),
+    // );
   }
 }
