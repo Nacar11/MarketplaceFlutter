@@ -77,7 +77,7 @@ class AuthenticationController extends GetxController {
           return 0;
         } else {
           isLoading.value = false;
-          return jsonResponse['errors'];
+          return jsonResponse['message'];
         }
       } catch (e) {
         isLoading.value = false;
@@ -178,7 +178,7 @@ class AuthenticationController extends GetxController {
       );
       print(response.body);
       var jsonObject = jsonDecode(response.body);
-      print(jsonObject);
+
       isLoading.value = false;
       return jsonObject;
     } catch (e) {
@@ -247,7 +247,7 @@ class AuthenticationController extends GetxController {
         body: data,
       );
       var jsonObject = jsonDecode(response.body);
-      if (jsonObject['message'] == "Success") {
+      if (jsonObject['message'] == "success") {
         isLoading.value = false;
         print(jsonObject['access_token']);
         storage.write('token', jsonObject['access_token']);
@@ -261,7 +261,7 @@ class AuthenticationController extends GetxController {
         return 0;
       } else {
         isLoading.value = false;
-        return jsonObject['errors'];
+        return jsonObject['message'];
       }
     } catch (e) {
       print(e);
