@@ -1,13 +1,7 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:get/get.dart';
-import 'package:marketplacedb/config/dimensions.dart';
-import 'package:marketplacedb/config/extractedWidgets/extractedwidgets.dart';
 import 'package:marketplacedb/config/extractedWidgets/signinProcess.dart';
-import 'package:marketplacedb/config/textfields.dart';
-import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/screen/ForgotPass/ForgotPass.dart';
 import 'package:marketplacedb/screen/front_page.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';

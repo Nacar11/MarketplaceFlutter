@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -29,8 +31,8 @@ class UkaykoLogo extends StatelessWidget {
   }
 }
 
-class signupProcess extends StatelessWidget {
-  const signupProcess({
+class SignupProcess extends StatelessWidget {
+  const SignupProcess({
     super.key,
   });
 

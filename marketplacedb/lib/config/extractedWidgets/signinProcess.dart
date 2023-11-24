@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, avoid_print, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/config/snackbar.dart';
@@ -22,6 +24,7 @@ class _SignInProcessState extends State<SignInProcess> {
   final passwordcontrol = TextEditingController();
   _SignInProcessState({required this.hasSnackbar});
 
+  @override
   void initState() {
     super.initState();
 
@@ -46,7 +49,7 @@ class _SignInProcessState extends State<SignInProcess> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Text(
+      const Text(
         "UKAYKO.PH  ",
         style: TextStyle(
           fontSize: 24,

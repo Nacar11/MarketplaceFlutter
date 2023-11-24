@@ -49,44 +49,41 @@ class FrontpageState extends State<Frontpage> {
           return false;
         },
         child: Scaffold(
-          backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-          body: LayoutBuilder(builder: (context, constraints) {
-            if (constraints.maxWidth < 768) {
-              return const SafeArea(
-                child: Center(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 40),
-                        child: UkaykoLogo(
-                          width: 250,
-                          height: 250,
-                        ),
+            backgroundColor: const Color.fromARGB(255, 215, 205, 205),
+            body: MediaQuery.of(context).orientation == Orientation.portrait
+                ? SafeArea(
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height * 0.01),
+                            child: UkaykoLogo(
+                              width: MediaQuery.of(context).size.height * 0.4,
+                              height: MediaQuery.of(context).size.height * 0.4,
+                            ),
+                          ),
+                          const SignupProcess(),
+                        ],
                       ),
-                      signupProcess(),
-                    ],
-                  ),
-                ),
-              );
-            } else {
-              return const SafeArea(
-                child: Center(
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 30),
-                        child: UkaykoLogo(
-                          width: 400,
-                          height: 400,
-                        ),
+                    ),
+                  )
+                : SafeArea(
+                    child: Center(
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: MediaQuery.of(context).size.height * 0.1),
+                            child: UkaykoLogo(
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              height: MediaQuery.of(context).size.width * 0.4,
+                            ),
+                          ),
+                          const SignupProcess(),
+                        ],
                       ),
-                      signupProcess(),
-                    ],
-                  ),
-                ),
-              );
-            }
-          }),
-        ));
+                    ),
+                  )));
   }
 }
