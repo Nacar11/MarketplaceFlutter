@@ -14,82 +14,75 @@ import 'package:get/get.dart';
 final controller = Get.put<ProductController>(ProductController());
 
 class ProductTypePage extends StatefulWidget {
-  final int productCategoryId;
   final String categoryName;
 
   const ProductTypePage({
     Key? key,
     required this.categoryName,
-    required this.productCategoryId,
   }) : super(key: key);
   @override
-  // ignore: no_logic_in_create_state
-  State<ProductTypePage> createState() => ProductTypePageState(
-      productCategoryId: productCategoryId, categoryName: categoryName);
+  State<ProductTypePage> createState() =>
+      // ignore: no_logic_in_create_state
+      ProductTypePageState(categoryName: categoryName);
 }
 
 class ProductTypePageState extends State<ProductTypePage> {
-  final int productCategoryId;
   final String categoryName;
-  final productController = ProductController();
-  ProductTypePageState(
-      {required this.productCategoryId, required this.categoryName});
+  ProductTypePageState({required this.categoryName});
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.categoryName,
-          style: const TextStyle(fontSize: 30),
-        ),
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Container(
-              height: 1,
-              color: Colors.grey,
-            ),
+        appBar: AppBar(
+          title: Text(
+            widget.categoryName,
+            style: const TextStyle(fontSize: 30),
           ),
-          FutureBuilder<List<ProductTypeModel>>(
-            future: controller.getProductTypeByCategoryId(widget
-                .productCategoryId), // Replace with your actual fetch method
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator(); // Display a loading indicator
-              } else if (snapshot.hasError) {
-                return Text(
-                    'Error: ${snapshot.error}'); // Display an error message
-              } else {
-                List<ProductTypeModel> productTypes = snapshot.data!;
-
-                return Column(
+        ),
+        body: Obx(() {
+          return controller.isLoading.value == true
+              ? const Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 4.0,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                  ),
+                )
+              : Column(
                   children: [
-                    for (final productType in productTypes)
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Filterpage(
-                              productType: productType.id!,
-                              productTypeName: productType.name ??
-                                  "Error on Handling API Responses",
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Container(
+                        height: 1,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    Column(
+                      children: [
+                        for (final productType in controller.productTypes)
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Filterpage(
+                                  productType: productType.id!,
+                                  productTypeName: productType.name ??
+                                      "Error on Handling API Responses",
+                                ),
+                              ));
+                            },
+                            child: ListTile(
+                              title: Text(productType.name ??
+                                  "Error on Handling API Responses"),
                             ),
-                          ));
-                        },
-                        child: ListTile(
-                          title: Text(productType.name ??
-                              "Error on Handling API Responses"),
-                        ),
-                      )
+                          )
+                      ],
+                    ),
                   ],
                 );
-              }
-            },
-          ),
-        ],
-      ),
-    );
+        }));
   }
 }

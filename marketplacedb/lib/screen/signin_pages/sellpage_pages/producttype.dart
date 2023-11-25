@@ -38,35 +38,36 @@ class ProductTypePageState extends State<ProductTypePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            widget.categoryName,
-            style: const TextStyle(fontSize: 30),
-          ),
+      appBar: AppBar(
+        title: Text(
+          widget.categoryName,
+          style: const TextStyle(fontSize: 30),
         ),
-        body: FutureBuilder<List<ProductTypeModel>>(
-          future: controller.getProductTypeByCategoryId(widget
-              .productCategoryId), // Replace 5 with the dynamic category ID
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator(); // Loading state
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}'); // Error state
-            } else {
-              List<ProductTypeModel> productTypes = snapshot.data!;
-              return Column(
-                children: [
-                  for (final productType in productTypes)
-                    ExpansiontileButton(
-                        text: (productType.name ??
-                            "Error on Handling API Responses"),
-                        onTap: () {
-                          Navigator.of(context).pop(productType);
-                        }),
-                ],
-              );
-            }
-          },
-        ));
+      ),
+      // body: FutureBuilder<List<ProductTypeModel>>(
+      //   future: controller.getProductTypeByCategoryId(widget
+      //       .productCategoryId), // Replace 5 with the dynamic category ID
+      //   builder: (context, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return const CircularProgressIndicator(); // Loading state
+      //     } else if (snapshot.hasError) {
+      //       return Text('Error: ${snapshot.error}'); // Error state
+      //     } else {
+      //       List<ProductTypeModel> productTypes = snapshot.data!;
+      //       return Column(
+      //         children: [
+      //           for (final productType in productTypes)
+      //             ExpansiontileButton(
+      //                 text: (productType.name ??
+      //                     "Error on Handling API Responses"),
+      //                 onTap: () {
+      //                   Navigator.of(context).pop(productType);
+      //                 }),
+      //         ],
+      //       );
+      //     }
+      //   },
+      //)
+    );
   }
 }

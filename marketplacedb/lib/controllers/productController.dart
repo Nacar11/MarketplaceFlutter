@@ -18,6 +18,7 @@ class ProductController extends GetxController {
   var productItemList = <ProductItemModel>[].obs;
 
   var productTypes = <ProductTypeModel>[].obs;
+  var productTypeID = Rxn<int>();
   final isLoading = false.obs;
   final token = ''.obs;
 
@@ -25,6 +26,8 @@ class ProductController extends GetxController {
   void onInit() {
     super.onInit();
     getProductCategories();
+    // getProductTypeByCategoryId(productTypeID!);
+   
   }
 
   Future test() async {
@@ -36,16 +39,25 @@ class ProductController extends GetxController {
 
   Future<List<ProductCategoryModel>> getProductCategories() async {
     isLoading.value = true;
-    final response = await http.get(Uri.parse(url + "product-category"));
-    var jsonObject = jsonDecode(response.body);
-    if (jsonObject['message'] == 'success') {
-      final List<dynamic> result = jsonObject['data']; // Parse JSON as a List
-      final List<ProductCategoryModel> categoryList =
-          result.map((e) => ProductCategoryModel.fromJson(e)).toList();
+    try {
+      final response = await http.get(Uri.parse(url + "product-category"));
+      var jsonObject = jsonDecode(response.body);
+      if (jsonObject['message'] == 'success') {
+        final List<dynamic> result = jsonObject['data'];
+        final List<ProductCategoryModel> categoryList =
+            result.map((e) => ProductCategoryModel.fromJson(e)).toList();
 
-      productCategoryList.assignAll(categoryList);
+        productCategoryList.assignAll(categoryList);
+      } else {
+        throw Exception('Failed to fetch data');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      // Handle error scenarios here as needed
+    } finally {
+      isLoading.value =
+          false; // Set isLoading to false when the operation completes
     }
-    isLoading.value = false;
     return productCategoryList;
   }
 
@@ -53,24 +65,28 @@ class ProductController extends GetxController {
 
   // }
 
-  Future<List<ProductTypeModel>> getProductTypeByCategoryId(
-      int categoryId) async {
+  Future<void> getProductTypeByCategoryId(int categoryId) async {
     isLoading.value = true;
-    final response = await AuthInterceptor()
-        .get(Uri.parse(url + "getProductTypesByCategory/$categoryId"));
-    var jsonObject = jsonDecode(response.body);
-    if (jsonObject['message'] == 'success') {
-      print(jsonObject['data']);
-      final List<dynamic> result = jsonObject['data']; // Parse JSON as a List
+    try {
+      final response = await AuthInterceptor()
+          .get(Uri.parse(url + "getProductTypesByCategory/$categoryId"));
+      var jsonObject = jsonDecode(response.body);
+      if (jsonObject['message'] == 'success') {
+        final List<dynamic> result = jsonObject['data'];
+        final List<ProductTypeModel> productTypesData = result
+            .map((e) => ProductTypeModel.fromJson(e) as ProductTypeModel)
+            .toList();
 
-      final List<ProductTypeModel> productTypes = result
-          .map((e) => ProductTypeModel.fromJson(e) as ProductTypeModel)
-          .toList();
+        // Update the observable list
+        productTypes.assignAll(productTypesData);
+      } else {
+        throw Exception('Failed to load product types');
+      }
+    } catch (e) {
+      print('Error fetching product types: $e');
+      // Handle error scenarios here as needed
+    } finally {
       isLoading.value = false;
-      return productTypes; // Return the productTypes when they are available
-    } else {
-      isLoading.value = false;
-      throw Exception('Failed to load product types'); // Handle the error case
     }
   }
 

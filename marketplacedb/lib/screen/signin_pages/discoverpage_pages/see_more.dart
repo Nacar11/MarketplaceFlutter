@@ -46,9 +46,9 @@ class SeemoreState extends State<Seemore> {
               for (final category in category.children ?? [])
                 InkWell(
                   onTap: () {
+                    controller.productTypeID = category.id;
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ProductTypePage(
-                          productCategoryId: category.id!,
                           categoryName: category.category_name!),
                     ));
                     // Handle the click action
