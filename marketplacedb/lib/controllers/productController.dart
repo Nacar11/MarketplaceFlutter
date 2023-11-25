@@ -35,17 +35,17 @@ class ProductController extends GetxController {
   }
 
   Future<List<ProductCategoryModel>> getProductCategories() async {
+    isLoading.value = true;
     final response = await http.get(Uri.parse(url + "product-category"));
-
-    if (response.statusCode == 200) {
-      final List<dynamic> result =
-          jsonDecode(response.body); // Parse JSON as a List
-
+    var jsonObject = jsonDecode(response.body);
+    if (jsonObject['message'] == 'success') {
+      final List<dynamic> result = jsonObject['data']; // Parse JSON as a List
       final List<ProductCategoryModel> categoryList =
           result.map((e) => ProductCategoryModel.fromJson(e)).toList();
 
       productCategoryList.assignAll(categoryList);
     }
+    isLoading.value = false;
     return productCategoryList;
   }
 
@@ -58,16 +58,18 @@ class ProductController extends GetxController {
     isLoading.value = true;
     final response = await AuthInterceptor()
         .get(Uri.parse(url + "getProductTypesByCategory/$categoryId"));
-
-    if (response.statusCode == 200) {
-      final List<dynamic> result =
-          jsonDecode(response.body); // Parse JSON as a List
+    var jsonObject = jsonDecode(response.body);
+    if (jsonObject['message'] == 'success') {
+      print(jsonObject['data']);
+      final List<dynamic> result = jsonObject['data']; // Parse JSON as a List
 
       final List<ProductTypeModel> productTypes = result
           .map((e) => ProductTypeModel.fromJson(e) as ProductTypeModel)
           .toList();
+      isLoading.value = false;
       return productTypes; // Return the productTypes when they are available
     } else {
+      isLoading.value = false;
       throw Exception('Failed to load product types'); // Handle the error case
     }
   }
@@ -132,6 +134,7 @@ class ProductController extends GetxController {
   }
 
   Future<List<ProductItemModel>> getProductItems() async {
+    isLoading.value = true;
     final response =
         await AuthInterceptor().get(Uri.parse(url + "productItems"));
 
@@ -146,11 +149,13 @@ class ProductController extends GetxController {
 
       productItemList.assignAll(itemList);
     }
+    isLoading.value = false;
     return productItemList;
   }
 
   Future<List<ProductItemModel>> getProductItemsByProductType(
       {required int productType}) async {
+    isLoading.value = true;
     final response = await AuthInterceptor()
         .get(Uri.parse(url + "getProductItemsByProductType/$productType"));
 
@@ -164,6 +169,7 @@ class ProductController extends GetxController {
 
       productItemList.assignAll(itemList);
     }
+    isLoading.value = false;
     return productItemList;
   }
 

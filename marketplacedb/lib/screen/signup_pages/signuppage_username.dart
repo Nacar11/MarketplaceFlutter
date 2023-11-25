@@ -124,13 +124,13 @@ class _SignUpPageState extends State<SignUpPageUsername> {
                       var response = await authController.checkUsername(
                           username: usernameControl.text);
                       print(response);
-                      if (response['message'] == null) {
+                      if (response['message'] == 'Username is available') {
                         authController.storeLocalData(
                             'username', usernameControl.text);
                         continueButton(context);
                       } else {
-                        final text = response['message'];
-                        showErrorHandlingSnackBar(context, text, 'error');
+                        showErrorHandlingSnackBar(
+                            context, response['message'], 'error');
                       }
                     }
                   },

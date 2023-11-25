@@ -41,38 +41,25 @@ class SeemoreState extends State<Seemore> {
               color: Colors.grey,
             ),
           ),
-          FutureBuilder<List<ProductCategoryModel>>(
-            future: controller
-                .getProductCategories(), // Replace with your actual fetch method
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator(); // Display a loading indicator
-              } else if (snapshot.hasError) {
-                return Text(
-                    'Error: ${snapshot.error}'); // Display an error message
-              } else {
-                return Column(
-                  children: [
-                    for (final category in category.children ?? [])
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => TypePage(
-                                productCategoryId: category.id!,
-                                categoryName: category.category_name!),
-                          ));
-                          // Handle the click action
-                        },
-                        child: ListTile(
-                          title: Text(category.category_name ??
-                              "Error on Handling API Responses"),
-                        ),
-                      )
-                  ],
-                );
-              }
-            },
-          ),
+          Column(
+            children: [
+              for (final category in category.children ?? [])
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ProductTypePage(
+                          productCategoryId: category.id!,
+                          categoryName: category.category_name!),
+                    ));
+                    // Handle the click action
+                  },
+                  child: ListTile(
+                    title: Text(category.category_name ??
+                        "Error on Handling API Responses"),
+                  ),
+                )
+            ],
+          )
         ],
       ),
     );

@@ -13,26 +13,27 @@ import 'package:get/get.dart';
 
 final controller = Get.put<ProductController>(ProductController());
 
-class TypePage extends StatefulWidget {
+class ProductTypePage extends StatefulWidget {
   final int productCategoryId;
   final String categoryName;
 
-  const TypePage({
+  const ProductTypePage({
     Key? key,
     required this.categoryName,
     required this.productCategoryId,
   }) : super(key: key);
   @override
   // ignore: no_logic_in_create_state
-  State<TypePage> createState() => TypePageState(
+  State<ProductTypePage> createState() => ProductTypePageState(
       productCategoryId: productCategoryId, categoryName: categoryName);
 }
 
-class TypePageState extends State<TypePage> {
+class ProductTypePageState extends State<ProductTypePage> {
   final int productCategoryId;
   final String categoryName;
   final productController = ProductController();
-  TypePageState({required this.productCategoryId, required this.categoryName});
+  ProductTypePageState(
+      {required this.productCategoryId, required this.categoryName});
 
   @override
   Widget build(BuildContext context) {

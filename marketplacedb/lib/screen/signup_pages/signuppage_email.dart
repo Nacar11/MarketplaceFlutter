@@ -116,12 +116,12 @@ class _SignUpPageState extends State<SignUpPageemail> {
                     var response = await authController.checkEmail(
                         email: emailcontrol.text);
 
-                    if (response['message'] == null) {
+                    if (response['message'] == 'Email is available') {
                       authController.storeLocalData('email', emailcontrol.text);
                       continuebutton5(context);
                     } else {
                       showErrorHandlingSnackBar(
-                          context, "Email Already Taken", 'error');
+                          context, response['message'], 'error');
                     }
                   }
                 },
