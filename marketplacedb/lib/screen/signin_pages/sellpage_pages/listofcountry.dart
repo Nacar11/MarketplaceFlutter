@@ -19,47 +19,42 @@ class ListOfCountryPage extends StatelessWidget {
           style: TextStyle(fontSize: 30),
         ),
       ),
-      body: ListView(children: [
-        Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Container(
-                height: 1,
-                color: Colors.grey,
-              ),
-            ),
-            FutureBuilder<List<CountryModel>>(
-              future: controller
-                  .getCountries(), // Replace with your actual fetch method
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator(); // Display a loading indicator
-                } else if (snapshot.hasError) {
-                  return Text(
-                      'Error: ${snapshot.error}'); // Display an error message
-                } else {
-                  List<CountryModel> countryList = snapshot.data!;
-                  return SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        for (final country in countryList)
-                          ListTile(
-                            title: Text(
-                                country.name ?? "Error API Response Handling"),
-                            onTap: () {
-                              Navigator.of(context).pop(country);
-                            },
-                          ),
-                      ],
+      body: Obx(() {
+        return controller.isLoading.value == true
+            ? const Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 4.0,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                ),
+              )
+            : ListView(children: [
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Container(
+                        height: 1,
+                        color: Colors.grey,
+                      ),
                     ),
-                  );
-                }
-              },
-            ),
-          ],
-        ),
-      ]),
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          for (final country in controller.countryList)
+                            ListTile(
+                              title: Text(country.name ??
+                                  "Error API Response Handling"),
+                              onTap: () {
+                                Navigator.of(context).pop(country);
+                              },
+                            ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ]);
+      }),
     );
   }
 }

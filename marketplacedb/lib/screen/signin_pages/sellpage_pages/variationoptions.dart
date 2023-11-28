@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:marketplacedb/controllers/productController.dart';
+import 'package:marketplacedb/controllers/products/ProductController.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/models/VariantsOptionsModel.dart';
 
@@ -54,6 +54,7 @@ class VariationOptionsPageState extends State<VariationOptionsPage> {
               ExpansiontileButton(
                   text: (option.value ?? "Error on Handling API Responses"),
                   onTap: () {
+                    // print(option.id);
                     Navigator.of(context).pop(option);
                   }),
           ],

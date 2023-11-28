@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:marketplacedb/constants/constant.dart';
 import 'package:marketplacedb/models/ProductItemModel.dart';
 import 'package:marketplacedb/models/VariantsModel.dart';
+import 'package:marketplacedb/models/VariantsOptionsModel.dart';
 import 'dart:convert';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'dart:io';
@@ -13,21 +14,18 @@ import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/models/ProductTypeModel.dart';
 import 'package:get_storage/get_storage.dart';
 
-class ProductController extends GetxController {
+class ProductItemController extends GetxController {
   var productCategoryList = <ProductCategoryModel>[].obs;
   var productItemList = <ProductItemModel>[].obs;
 
   var productTypes = <ProductTypeModel>[].obs;
-  var productTypeID = Rxn<int>();
+  int? productTypeID;
   final isLoading = false.obs;
   final token = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
-    getProductCategories();
-    // getProductTypeByCategoryId(productTypeID!);
-   
   }
 
   Future test() async {
@@ -37,61 +35,10 @@ class ProductController extends GetxController {
     print(response.body);
   }
 
-  Future<List<ProductCategoryModel>> getProductCategories() async {
-    isLoading.value = true;
-    try {
-      final response = await http.get(Uri.parse(url + "product-category"));
-      var jsonObject = jsonDecode(response.body);
-      if (jsonObject['message'] == 'success') {
-        final List<dynamic> result = jsonObject['data'];
-        final List<ProductCategoryModel> categoryList =
-            result.map((e) => ProductCategoryModel.fromJson(e)).toList();
-
-        productCategoryList.assignAll(categoryList);
-      } else {
-        throw Exception('Failed to fetch data');
-      }
-    } catch (e) {
-      print('Error fetching data: $e');
-      // Handle error scenarios here as needed
-    } finally {
-      isLoading.value =
-          false; // Set isLoading to false when the operation completes
-    }
-    return productCategoryList;
-  }
-
-  // Future<List<VariantsModel>> getVariantsByProductType() async {
-
-  // }
-
-  Future<void> getProductTypeByCategoryId(int categoryId) async {
-    isLoading.value = true;
-    try {
-      final response = await AuthInterceptor()
-          .get(Uri.parse(url + "getProductTypesByCategory/$categoryId"));
-      var jsonObject = jsonDecode(response.body);
-      if (jsonObject['message'] == 'success') {
-        final List<dynamic> result = jsonObject['data'];
-        final List<ProductTypeModel> productTypesData = result
-            .map((e) => ProductTypeModel.fromJson(e) as ProductTypeModel)
-            .toList();
-
-        // Update the observable list
-        productTypes.assignAll(productTypesData);
-      } else {
-        throw Exception('Failed to load product types');
-      }
-    } catch (e) {
-      print('Error fetching product types: $e');
-      // Handle error scenarios here as needed
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
-  Future<int> imageUpload(List<File?> imageFiles,
-      Map<String, TextEditingController> controllers) async {
+  Future<int> imageUpload(
+      List<File?> imageFiles,
+      Map<String, TextEditingController> controllers,
+      Map<int, VariationOptionModel> selectedOptions) async {
     isLoading.value = true;
     final uri =
         Uri.parse('${url}addListing'); // Replace with your Laravel endpoint URL
@@ -128,13 +75,27 @@ class ProductController extends GetxController {
     try {
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
-      print(response.body);
+
       final jsonResponse = json.decode(response.body);
-      print(jsonResponse);
-      if (response.statusCode == 200) {
-        print('File uploaded successfully');
-        isLoading.value = false;
-        return 1;
+
+      if (jsonResponse['message'] == 'success') {
+        print('asda');
+        print(jsonResponse['data']['id'].runtimeType);
+        final productConfigurationResponse = await addProductConfiguration(
+          selectedOptions,
+          jsonResponse['data']['id'],
+        );
+        if (productConfigurationResponse == 1) {
+          print('asdasdasa');
+          print('File uploaded successfully');
+          isLoading.value = false;
+          return 1;
+        } else {
+          print('Error on Product Configuration');
+
+          isLoading.value = false;
+          return 0;
+        }
       } else {
         print('File upload failed');
 
@@ -149,6 +110,24 @@ class ProductController extends GetxController {
     }
   }
 
+  Future<int> addProductConfiguration(
+      Map<int, VariationOptionModel> selectedOptions, int productItemID) async {
+    isLoading.value = true;
+    print('asdasdasa');
+    for (final entry in selectedOptions.entries) {
+      final variationOptionID = entry.value.id;
+
+      var data = {
+        'product_item_id': productItemID.toString(),
+        'variation_option_id': variationOptionID.toString(),
+      };
+      var response = await AuthInterceptor()
+          .post(Uri.parse(url + "product-configuration"), body: data);
+    }
+    isLoading.value = false;
+    return 1;
+  }
+
   Future<List<ProductItemModel>> getProductItems() async {
     isLoading.value = true;
     final response =
@@ -159,26 +138,6 @@ class ProductController extends GetxController {
       final List<dynamic> result =
           jsonDecode(response.body); // Parse JSON as a List
       print(result);
-      final List<ProductItemModel> itemList = result
-          .map((e) => ProductItemModel.fromJson(e) as ProductItemModel)
-          .toList();
-
-      productItemList.assignAll(itemList);
-    }
-    isLoading.value = false;
-    return productItemList;
-  }
-
-  Future<List<ProductItemModel>> getProductItemsByProductType(
-      {required int productType}) async {
-    isLoading.value = true;
-    final response = await AuthInterceptor()
-        .get(Uri.parse(url + "getProductItemsByProductType/$productType"));
-
-    if (response.statusCode == 200) {
-      final List<dynamic> result =
-          jsonDecode(response.body); // Parse JSON as a List
-
       final List<ProductItemModel> itemList = result
           .map((e) => ProductItemModel.fromJson(e) as ProductItemModel)
           .toList();
@@ -218,5 +177,25 @@ class ProductController extends GetxController {
     } else {
       throw Exception('Failed to delete item data');
     }
+  }
+
+  Future<List<ProductItemModel>> getProductItemsByProductType(
+      int productTypeID) async {
+    isLoading.value = true;
+    final response = await AuthInterceptor()
+        .get(Uri.parse(url + "getProductItemsByProductType/$productTypeID"));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> result =
+          jsonDecode(response.body); // Parse JSON as a List
+
+      final List<ProductItemModel> itemList = result
+          .map((e) => ProductItemModel.fromJson(e) as ProductItemModel)
+          .toList();
+
+      productItemList.assignAll(itemList);
+    }
+    isLoading.value = false;
+    return productItemList;
   }
 }

@@ -11,8 +11,8 @@ import 'package:marketplacedb/config/textfields.dart';
 // import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/models/ProductTypeModel.dart';
 import 'package:marketplacedb/models/VariantsOptionsModel.dart';
-import 'package:marketplacedb/controllers/variationController.dart';
-import 'package:marketplacedb/controllers/productController.dart';
+import 'package:marketplacedb/controllers/products/VariationController.dart';
+import 'package:marketplacedb/controllers/products/ProductItemController.dart';
 import 'package:marketplacedb/models/VariantsModel.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 // import 'package:marketplacedb/models/VariantsOptionsModel.dart';
@@ -22,7 +22,7 @@ import 'dart:io';
 import 'package:marketplacedb/config/snackbar.dart';
 
 final variationController = VariationController();
-final productController = ProductController();
+final productItemController = ProductItemController();
 
 class Listitempage extends StatefulWidget {
   final String? hasSnackbar;
@@ -81,15 +81,13 @@ class ListitempageState extends State<Listitempage>
   }
 
   Future<void> fetchData() async {
-    final data = await variationController.getVariantsByProductType(
+    await variationController.getVariantsByProductType(
       int.parse(myControllers['productType']!.text),
     );
-    setState(() {
-      variations = data;
-    });
-    for (var variation in variations) {
+
+    for (var variation in variationController.variationList) {
       for (var option in variation.variation_options!) {
-        print(option);
+        print(option.value);
       }
     }
   }
@@ -239,7 +237,6 @@ class ListitempageState extends State<Listitempage>
                       ExpansiontileButton(
                         text: productTypeSelected?.name ?? "Selected Product",
                         onTap: () {
-                          // Add your button's action here
                           Navigator.of(context)
                               .push(
                             MaterialPageRoute(
@@ -257,12 +254,6 @@ class ListitempageState extends State<Listitempage>
                                     variations.length, 'InitialValue');
                                 selectedOptions = {};
                               });
-                              // variations = await variationController
-                              //     .getVariantsByProductType(
-                              //         int.parse(productTypeController.text));
-                              // for (var variation in variations) {
-                              //   print(variation.name);
-                              // }
                             }
                           });
                         },
@@ -294,8 +285,14 @@ class ListitempageState extends State<Listitempage>
                       LargeWhiteButton(
                         margin: const EdgeInsets.only(right: 30),
                         onPressed: () async {
-                          var response = await productController.imageUpload(
-                              selectedImages, myControllers);
+                          selectedOptions.forEach((key, value) {
+                            print('Key: $key, Value: ${value.value}');
+                          });
+                          var response =
+                              await productItemController.imageUpload(
+                                  selectedImages,
+                                  myControllers,
+                                  selectedOptions);
                           if (response == 1) {
                             Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
@@ -308,55 +305,34 @@ class ListitempageState extends State<Listitempage>
                                 'error');
                           }
                         },
-                        isDisabled: productController.isLoading.value,
+                        isDisabled: productItemController.isLoading.value,
                         text: 'Post Listing',
                       )
                     ]),
                   ),
                 ], // Content for the "Manage" tab
               ),
-              ListView(children: [
-                if (variations.isNotEmpty)
-                  FutureBuilder<List<VariationModel>>(
-                    future: variationController.getVariantsByProductType(
-                        int.parse(myControllers['productType']!.text)),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        // Data is still loading
-                        return const Center(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 100.0),
-                            child: SizedBox(
-                              width: 50.0,
-                              height: 50.0,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 3.0,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.blue,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      } else if (snapshot.hasError) {
-                        // An error occurred while loading data
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        // Data has been loaded
-                        List<VariationModel> variations = snapshot.data ?? [];
-                        if (variations.isEmpty) {
-                          // Variations are empty
-                          return const Text('No data yet');
-                        } else {
-                          // Variations are not empty
-                          return Padding(
+              Obx(() {
+                return variationController.isLoading.value == true
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 4.0,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.blue),
+                        ),
+                      )
+                    : ListView(children: [
+                        if (variationController.variationList.isNotEmpty)
+                          Padding(
                               padding: const EdgeInsets.symmetric(
                                 vertical: 30,
                                 horizontal: 20,
                               ),
                               child: Column(
-                                children:
-                                    variations.asMap().entries.map((entry) {
+                                children: variationController.variationList
+                                    .asMap()
+                                    .entries
+                                    .map((entry) {
                                   final int index = entry.key;
                                   final VariationModel variation = entry.value;
                                   return Row(
@@ -366,7 +342,7 @@ class ListitempageState extends State<Listitempage>
                                           padding:
                                               const EdgeInsets.only(top: 10.0),
                                           child: Text(
-                                            variation.name ?? 'asd',
+                                            variation.name!,
                                             style: const TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold,
@@ -407,36 +383,33 @@ class ListitempageState extends State<Listitempage>
                                     ],
                                   );
                                 }).toList(),
-                              ));
-                        }
-                      }
-                    },
-                  )
-                else
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ListTile(
-                          title: Text(
-                            'NO PRODUCT TYPE LISTED',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
+                              ))
+                        else
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ListTile(
+                                  title: Text(
+                                    'NO PRODUCT TYPE LISTED',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    'Please select a product type to view additional information',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+
+                                // Add your specific widgets for Option 2 here
+                              ],
                             ),
                           ),
-                          subtitle: Text(
-                            'Please select a product type to view additional information',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-
-                        // Add your specific widgets for Option 2 here
-                      ],
-                    ),
-                  ),
-              ]),
+                      ]);
+              })
             ]),
           )
         ]));

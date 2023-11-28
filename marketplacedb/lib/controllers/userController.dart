@@ -16,6 +16,12 @@ class UserController extends GetxController {
   var countryList = <CountryModel>[].obs;
   var addressList = <BillingAddressModel>[].obs;
 
+
+@override
+  void onInit() {
+    super.onInit();
+    getCountries();
+  }
   Future UserHasAddress() async {
     try {
       isLoading.value = true;

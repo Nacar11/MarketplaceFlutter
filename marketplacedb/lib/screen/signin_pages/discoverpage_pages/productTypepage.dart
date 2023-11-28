@@ -4,14 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 // import 'package:get/get.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
-import 'package:marketplacedb/controllers/productController.dart';
+import 'package:marketplacedb/controllers/products/ProductController.dart';
+import 'package:marketplacedb/controllers/products/ProductItemController.dart';
+
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/productlistfilter.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/producttype.dart';
 import 'package:marketplacedb/models/ProductTypeModel.dart';
 
 import 'package:get/get.dart';
 
-final controller = Get.put<ProductController>(ProductController());
+final productTypecontroller = Get.put<ProductController>(ProductController());
+final productItemController =
+    Get.put<ProductItemController>(ProductItemController());
 
 class ProductTypePage extends StatefulWidget {
   final String categoryName;
@@ -63,12 +67,16 @@ class ProductTypePageState extends State<ProductTypePage> {
                     ),
                     Column(
                       children: [
-                        for (final productType in controller.productTypes)
+                        for (final productType
+                            in productTypecontroller.productTypes)
                           InkWell(
                             onTap: () {
+                              productItemController.productTypeID = productType.id;
+                              productItemController
+                                  .getProductItemsByProductType(
+                                      productType.id!);
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => Filterpage(
-                                  productType: productType.id!,
                                   productTypeName: productType.name ??
                                       "Error on Handling API Responses",
                                 ),

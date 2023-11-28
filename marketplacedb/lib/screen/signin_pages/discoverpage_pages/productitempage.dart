@@ -8,7 +8,7 @@ import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/snackbar.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/config/Customappbar.dart';
-import 'package:marketplacedb/controllers/productController.dart';
+import 'package:marketplacedb/controllers/products/ProductItemController.dart';
 import 'package:marketplacedb/controllers/shoppingCartController.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/models/ProductItemModel.dart';
@@ -16,7 +16,7 @@ import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/productlist
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/shoppingcart.dart';
 
-final controller = Get.put<ProductController>(ProductController());
+final controller = Get.put<ProductItemController>(ProductItemController());
 final shoppingcartcontroller = ShoppingCartController();
 
 class ProductItemPage extends StatefulWidget {
@@ -160,7 +160,8 @@ class ProductItemPageState extends State<ProductItemPage> {
                         final response =
                             await controller.deleteListing(product.id!);
                         if (response == true) {
-                          // Delete was successful, now pop the current page and pass data back
+                          productItemController.getProductItemsByProductType(
+                              productItemController.productTypeID!);
                           Navigator.of(context).pop({true});
                         }
                       },

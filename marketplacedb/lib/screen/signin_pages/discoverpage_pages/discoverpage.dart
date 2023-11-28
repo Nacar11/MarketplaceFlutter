@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/textfields.dart';
-import 'package:marketplacedb/controllers/productController.dart';
+import 'package:marketplacedb/controllers/products/ProductController.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/productTypepage.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/see_more.dart';
@@ -123,6 +123,7 @@ class DiscoverpageState extends State<Discoverpage> {
                                       onTap: () {
                                         controller.productTypeID =
                                             subcategory.id;
+                                        controller.getProductTypeByCategoryId();
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(
                                           builder: (context) => ProductTypePage(

@@ -38,8 +38,7 @@ class VariationController extends GetxController {
     }
   }
 
-  Future<List<VariationModel>> getVariantsByProductType(
-      int productTypeId) async {
+  Future<void> getVariantsByProductType(int productTypeId) async {
     try {
       isLoading.value = true;
       final response = await AuthInterceptor()
@@ -52,12 +51,9 @@ class VariationController extends GetxController {
       isLoading.value = false;
 
       variationList.assignAll(variations);
-
-      return variationList;
     } catch (e) {
       print(e);
       isLoading.value = false;
-      return [];
     }
   }
 }

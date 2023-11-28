@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 // import 'package:get/get.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
-import 'package:marketplacedb/controllers/productController.dart';
+import 'package:marketplacedb/controllers/products/ProductController.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/productTypepage.dart';
 
@@ -28,7 +28,7 @@ class SeemoreState extends State<Seemore> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          category.category_name ?? 'Default Category Name',
+          category.category_name!,
           style: const TextStyle(fontSize: 30),
         ),
       ),
@@ -47,6 +47,7 @@ class SeemoreState extends State<Seemore> {
                 InkWell(
                   onTap: () {
                     controller.productTypeID = category.id;
+                    controller.getProductTypeByCategoryId();
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ProductTypePage(
                           categoryName: category.category_name!),

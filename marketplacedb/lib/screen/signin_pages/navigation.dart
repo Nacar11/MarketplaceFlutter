@@ -8,7 +8,7 @@ import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/discoverpag
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddressSetup.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/sellpage.dart';
 import 'package:marketplacedb/screen/signin_pages/mepage_pages/mepage.dart';
-import 'package:marketplacedb/controllers/productController.dart';
+import 'package:marketplacedb/controllers/products/ProductController.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/snackbar.dart';
 import 'package:flutter/services.dart';
