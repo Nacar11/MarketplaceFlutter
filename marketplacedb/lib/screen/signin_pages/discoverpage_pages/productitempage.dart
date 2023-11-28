@@ -116,6 +116,17 @@ class ProductItemPageState extends State<ProductItemPage> {
               child: Text('Price: Php ${product.price!.toStringAsFixed(2)}',
                   style: const TextStyle(fontSize: 20)),
             ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (final configuration
+                    in product.product_configurations ?? [])
+                  Text(
+                    '${configuration.variationOption.value ?? 'N/A'}',
+                    style: const TextStyle(fontSize: 18),
+                  ),
+              ],
+            ),
             if (!productOwner())
               Padding(
                 padding: const EdgeInsets.only(top: 100.0),
@@ -157,12 +168,13 @@ class ProductItemPageState extends State<ProductItemPage> {
                     padding: const EdgeInsets.only(top: 20),
                     child: LargeWhiteButton(
                       onPressed: () async {
+                        print(product.id!);
                         final response =
                             await controller.deleteListing(product.id!);
                         if (response == true) {
                           productItemController.getProductItemsByProductType(
                               productItemController.productTypeID!);
-                          Navigator.of(context).pop({true});
+                          Navigator.of(context).pop(true);
                         }
                       },
                       text: 'Cancel Listing',

@@ -83,25 +83,6 @@ class AuthenticationController extends GetxController {
         isLoading.value = false;
         print(e);
       }
-      //   var response = await http.post(
-      //     Uri.parse('${url}login'),
-      //     headers: {
-      //       'Accept': 'application/json',
-      //     },
-      //     body: data,
-      //   );
-      //   var jsonObject = jsonDecode(response.body);
-      //   if (jsonObject['message'] == "Authorized") {
-      //     isLoading.value = false;
-
-      //     storage.write('token', jsonObject['access_token']);
-      //     storage.write('username', jsonObject['username']);
-      //     storage.read('token');
-      //     return 0;
-      //   } else {
-      //     isLoading.value = false;
-      //     return jsonObject['errors'];
-      //   }
     } catch (e) {
       print(e);
       isLoading.value = false;
@@ -352,7 +333,7 @@ class AuthenticationController extends GetxController {
       );
 
       var jsonObject = jsonDecode(response.body);
-
+      print(jsonObject);
       if (jsonObject['message'] == 'registerFirst') {
         final storage = GetStorage();
         storage.write('email', email);
@@ -360,10 +341,15 @@ class AuthenticationController extends GetxController {
         isLoading.value = false;
         return 0;
       } else if (jsonObject['message'] == 'Success') {
+        print('adsad');
         final storage = GetStorage();
         storage.erase();
         storage.write('token', jsonObject['access_token']);
         storage.write('username', jsonObject['username']);
+        storage.write('first_name', jsonObject['first_name']);
+        storage.write('last_name', jsonObject['last_name']);
+        storage.write('contact_number', jsonObject['contact_number']);
+        storage.write('email', jsonObject['email']);
         storage.write('userID', jsonObject['user_id']);
 
         return 1;
@@ -401,6 +387,10 @@ class AuthenticationController extends GetxController {
         storage.erase();
         storage.write('token', jsonObject['access_token']);
         storage.write('username', jsonObject['username']);
+        storage.write('first_name', jsonObject['first_name']);
+        storage.write('last_name', jsonObject['last_name']);
+        storage.write('contact_number', jsonObject['contact_number']);
+        storage.write('email', jsonObject['email']);
         storage.write('userID', jsonObject['user_id']);
         return 1;
       } else {

@@ -27,8 +27,8 @@ class ProductConfigurationModel {
     } else {
       productItem = null;
     }
-    if (json['variationOption'] != null) {
-      variationOption = VariationOptionModel.fromJson(json['variationOption']);
+    if (json['variation_option'] != null) {
+      variationOption = VariationOptionModel.fromJson(json['variation_option']);
     } else {
       variationOption = null;
     }

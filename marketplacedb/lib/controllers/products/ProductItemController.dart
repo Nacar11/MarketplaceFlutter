@@ -26,6 +26,7 @@ class ProductItemController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    getProductItemsByUser();
   }
 
   Future test() async {
@@ -121,7 +122,7 @@ class ProductItemController extends GetxController {
         'product_item_id': productItemID.toString(),
         'variation_option_id': variationOptionID.toString(),
       };
-      var response = await AuthInterceptor()
+      await AuthInterceptor()
           .post(Uri.parse(url + "product-configuration"), body: data);
     }
     isLoading.value = false;
@@ -149,6 +150,7 @@ class ProductItemController extends GetxController {
   }
 
   Future<List<ProductItemModel>> getProductItemsByUser() async {
+    isLoading.value = true;
     final response =
         await AuthInterceptor().get(Uri.parse(url + "getProductItemsByUser"));
 
@@ -163,6 +165,7 @@ class ProductItemController extends GetxController {
 
       productItemList.assignAll(itemList);
     }
+    isLoading.value = false;
     return productItemList;
   }
 

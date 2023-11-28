@@ -10,9 +10,9 @@ import 'package:marketplacedb/models/ProductItemModel.dart';
 import 'package:marketplacedb/screen/signin_pages/mepage_pages/mepagesettings.dart';
 import 'package:marketplacedb/controllers/userController.dart';
 
-// import 'package:marketplacedb/config/textfields.dart';
-final productcontroller = ProductItemController();
-final ordercontroller = OrderLineController();
+final productcontroller =
+    Get.put<ProductItemController>(ProductItemController());
+final ordercontroller = Get.put<OrderLineController>(OrderLineController());
 final storage = GetStorage();
 
 class Mepage extends StatefulWidget {
@@ -139,104 +139,29 @@ class FirstOptionMenu extends StatefulWidget {
 class _FirstOptionMenuState extends State<FirstOptionMenu> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<ProductItemModel>>(
-      future: productcontroller.getProductItemsByUser(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(
-              strokeWidth: 3.0,
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-            ),
-          );
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          final items = snapshot.data!;
+    return Obx(() {
+      return ordercontroller.isLoading.value == true
+          ? const Center(
+              child: CircularProgressIndicator(
+                strokeWidth: 4.0,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+              ),
+            )
+          : GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3, // 4 items per row
 
-          return GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3, // 4 items per row
+                mainAxisSpacing: 0.0,
+                crossAxisSpacing: 0.0,
+              ),
+              itemCount: productcontroller.productItemList.length,
+              itemBuilder: (context, index) {
+                final item = productcontroller.productItemList[index];
+                final imageUrl = item.product_images![0].product_image;
 
-              mainAxisSpacing: 0.0,
-              crossAxisSpacing: 0.0,
-            ),
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              final item = items[index];
-              final imageUrl = item.product_images![0].product_image;
+                // Add padding around each image
 
-              // Add padding around each image
-
-              return Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Column(
-                  children: [
-                    if (imageUrl != null)
-                      Image.network(
-                        imageUrl,
-                        width: 125, // Customize the size as needed
-                        height: 125,
-                        fit: BoxFit.cover,
-                      ),
-
-                    // Container(
-                    //   width: 120,
-                    //   height: 100,
-                    //   color: Colors.blue,
-                    // )
-                  ],
-                ),
-              );
-            },
-          );
-        }
-      },
-    );
-  }
-}
-
-class SecondOptionMenu extends StatefulWidget {
-  const SecondOptionMenu({Key? key}) : super(key: key);
-  @override
-  State<SecondOptionMenu> createState() => _SecondOptionMenuState();
-}
-
-class _SecondOptionMenuState extends State<SecondOptionMenu> {
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<OrderLineModel>>(
-      future: ordercontroller.getOrderLine(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(
-              strokeWidth: 3.0,
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-            ),
-          );
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          final items = snapshot.data!;
-
-          return GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3, // 4 items per row
-
-              mainAxisSpacing: 0.0,
-              crossAxisSpacing: 0.0,
-            ),
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              final item = items[index];
-              final imageUrl = item.product!.product_images?[0].product_image;
-
-              // Add padding around each image
-
-              return InkWell(
-                onTap: () {},
-                child: Padding(
+                return Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: Column(
                     children: [
@@ -255,12 +180,69 @@ class _SecondOptionMenuState extends State<SecondOptionMenu> {
                       // )
                     ],
                   ),
-                ),
-              );
-            },
-          );
-        }
-      },
-    );
+                );
+              },
+            );
+    });
+  }
+}
+
+class SecondOptionMenu extends StatefulWidget {
+  const SecondOptionMenu({Key? key}) : super(key: key);
+  @override
+  State<SecondOptionMenu> createState() => _SecondOptionMenuState();
+}
+
+class _SecondOptionMenuState extends State<SecondOptionMenu> {
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      return ordercontroller.isLoading.value == true
+          ? const Center(
+              child: CircularProgressIndicator(
+                strokeWidth: 4.0,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+              ),
+            )
+          : GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3, // 4 items per row
+
+                mainAxisSpacing: 0.0,
+                crossAxisSpacing: 0.0,
+              ),
+              itemCount: ordercontroller.orderLineList.length,
+              itemBuilder: (context, index) {
+                var item = ordercontroller.orderLineList[index];
+                final imageUrl = item.product!.product_images?[0].product_image;
+
+                // Add padding around each image
+
+                return InkWell(
+                  onTap: () {},
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Column(
+                      children: [
+                        if (imageUrl != null)
+                          Image.network(
+                            imageUrl,
+                            width: 125, // Customize the size as needed
+                            height: 125,
+                            fit: BoxFit.cover,
+                          ),
+
+                        // Container(
+                        //   width: 120,
+                        //   height: 100,
+                        //   color: Colors.blue,
+                        // )
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+    });
   }
 }

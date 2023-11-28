@@ -14,6 +14,12 @@ class OrderLineController extends GetxController {
   final isLoading = false.obs;
   final token = ''.obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    getOrderLine();
+  }
+
   var orderLineList = <OrderLineModel>[].obs;
 
   Future<String> addOrderline(String id) async {

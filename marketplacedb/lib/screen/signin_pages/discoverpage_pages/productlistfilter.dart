@@ -116,11 +116,13 @@ class FilterpageState extends State<Filterpage> {
                                               )),
                                     ).then((selectedData) async {
                                       print(selectedData);
-                                      showSuccessSnackBar(
-                                        context,
-                                        'Your Product has been deleted.',
-                                        'Success',
-                                      );
+                                      if (selectedData == true) {
+                                        showSuccessSnackBar(
+                                          context,
+                                          'Your Product has been deleted.',
+                                          'Success',
+                                        );
+                                      }
                                     });
                                   },
                                   child: Stack(
