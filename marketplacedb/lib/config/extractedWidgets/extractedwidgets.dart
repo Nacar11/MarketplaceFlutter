@@ -3,6 +3,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/config/snackbar.dart';
@@ -113,7 +114,7 @@ class SignupProcess extends StatelessWidget {
           children: [
             GoogleButton(onTap: () => googlebutton(context)),
             Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 20),
+              padding: EdgeInsets.only(top: 20.h, bottom: 20.h),
               child: FBButton(
                 onTap: () {
                   fbbutton(context);
@@ -129,7 +130,7 @@ class SignupProcess extends StatelessWidget {
               },
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 20),
+              padding: EdgeInsets.only(top: 20.h),
               child: RichText(
                 text: TextSpan(
                   text: "Already have an account? ",
@@ -140,10 +141,10 @@ class SignupProcess extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: "Sign in",
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.blue,
                         decoration: TextDecoration.underline,
-                        fontSize: 20,
+                        fontSize: 20.h,
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -155,21 +156,21 @@ class SignupProcess extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 40),
+              padding: EdgeInsets.only(top: 40.h),
               child: Expanded(
                 child: RichText(
                   text: TextSpan(
                     text: "By continuing you agree to our ",
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.black,
-                      fontSize: 15,
+                      fontSize: 15.h,
                     ),
                     children: [
                       TextSpan(
                         text: "Terms of Service",
-                        style: const TextStyle(
-                          color: Color.fromRGBO(0, 0, 0, 1),
-                          fontSize: 15,
+                        style: TextStyle(
+                          color: const Color.fromRGBO(0, 0, 0, 1),
+                          fontSize: 15.h,
                           fontWeight: FontWeight.bold,
                         ),
                         recognizer: TapGestureRecognizer()..onTap = () {},
@@ -185,4 +186,3 @@ class SignupProcess extends StatelessWidget {
     );
   }
 }
-

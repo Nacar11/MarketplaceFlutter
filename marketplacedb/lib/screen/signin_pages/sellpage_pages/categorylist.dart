@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:get/get.dart';
 
 import 'package:marketplacedb/controllers/products/ProductController.dart';

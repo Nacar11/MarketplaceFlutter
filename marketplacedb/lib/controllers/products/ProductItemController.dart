@@ -17,7 +17,7 @@ import 'package:get_storage/get_storage.dart';
 class ProductItemController extends GetxController {
   var productCategoryList = <ProductCategoryModel>[].obs;
   var productItemList = <ProductItemModel>[].obs;
-
+  var productItemListUser = <ProductItemModel>[].obs;
   var productTypes = <ProductTypeModel>[].obs;
   int? productTypeID;
   final isLoading = false.obs;
@@ -163,10 +163,10 @@ class ProductItemController extends GetxController {
           .map((e) => ProductItemModel.fromJson(e) as ProductItemModel)
           .toList();
 
-      productItemList.assignAll(itemList);
+      productItemListUser.assignAll(itemList);
     }
     isLoading.value = false;
-    return productItemList;
+    return productItemListUser;
   }
 
   Future<dynamic> deleteListing(int item_id) async {

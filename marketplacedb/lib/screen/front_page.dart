@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, unused_import, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/config/extractedWidgets/extractedwidgets.dart';
@@ -50,34 +51,18 @@ class FrontpageState extends State<Frontpage> {
         },
         child: Scaffold(
             backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-            body: MediaQuery.of(context).orientation == Orientation.portrait
-                ? SafeArea(
+            body: SafeArea(
                     child: Center(
                       child: Column(
                         children: [
                           Padding(
                             padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.01),
+                                top: MediaQuery.of(context).size.height *
+                                    0.01.h),
                             child: UkaykoLogo(
-                              width: MediaQuery.of(context).size.height * 0.4,
-                              height: MediaQuery.of(context).size.height * 0.4,
-                            ),
-                          ),
-                          const SignupProcess(),
-                        ],
-                      ),
-                    ),
-                  )
-                : SafeArea(
-                    child: Center(
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.height * 0.1),
-                            child: UkaykoLogo(
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              height: MediaQuery.of(context).size.width * 0.4,
+                              width: MediaQuery.of(context).size.height * 0.4.h,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.4.h,
                             ),
                           ),
                           const SignupProcess(),
@@ -85,5 +70,6 @@ class FrontpageState extends State<Frontpage> {
                       ),
                     ),
                   )));
+                
   }
 }

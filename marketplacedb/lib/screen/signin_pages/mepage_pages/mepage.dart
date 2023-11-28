@@ -1,14 +1,16 @@
-// ignore_for_file: unused_import,
+// ignore_for_file: unused_import,, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:marketplacedb/config/snackbar.dart';
 import 'package:marketplacedb/controllers/OrderLineController.dart';
 import 'package:marketplacedb/controllers/products/ProductItemController.dart';
 import 'package:marketplacedb/models/OrderLineModel.dart';
 import 'package:marketplacedb/models/ProductItemModel.dart';
 import 'package:marketplacedb/screen/signin_pages/mepage_pages/mepagesettings.dart';
 import 'package:marketplacedb/controllers/userController.dart';
+import 'package:marketplacedb/screen/signin_pages/mepage_pages/selling.dart';
 
 final productcontroller =
     Get.put<ProductItemController>(ProductItemController());
@@ -154,9 +156,9 @@ class _FirstOptionMenuState extends State<FirstOptionMenu> {
                 mainAxisSpacing: 0.0,
                 crossAxisSpacing: 0.0,
               ),
-              itemCount: productcontroller.productItemList.length,
+              itemCount: productcontroller.productItemListUser.length,
               itemBuilder: (context, index) {
-                final item = productcontroller.productItemList[index];
+                final item = productcontroller.productItemListUser[index];
                 final imageUrl = item.product_images![0].product_image;
 
                 // Add padding around each image
@@ -166,11 +168,31 @@ class _FirstOptionMenuState extends State<FirstOptionMenu> {
                   child: Column(
                     children: [
                       if (imageUrl != null)
-                        Image.network(
-                          imageUrl,
-                          width: 125, // Customize the size as needed
-                          height: 125,
-                          fit: BoxFit.cover,
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SellingPage(
+                                        product: item,
+                                      )),
+                            ).then((selectedData) async {
+                              print(selectedData);
+                              if (selectedData == true) {
+                                showSuccessSnackBar(
+                                  context,
+                                  'Your Product has been deleted.',
+                                  'Success',
+                                );
+                              }
+                            });
+                          },
+                          child: Image.network(
+                            imageUrl,
+                            width: 125, // Customize the size as needed
+                            height: 125,
+                            fit: BoxFit.cover,
+                          ),
                         ),
 
                       // Container(
