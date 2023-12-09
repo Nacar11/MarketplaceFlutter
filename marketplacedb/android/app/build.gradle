@@ -42,9 +42,9 @@ android {
 
     signingConfigs{
         debug{
-            keyAlias 'androidgoogledebugkey'
+            keyAlias 'upload'
             keyPassword 'android'
-            storeFile file('androidgoogledebugkey.jks')
+            storeFile file('mykey.jks')
             storePassword 'android'
         }
     }
