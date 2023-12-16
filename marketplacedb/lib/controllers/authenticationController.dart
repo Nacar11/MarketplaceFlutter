@@ -13,21 +13,40 @@ class AuthenticationController extends GetxController {
   final token = ''.obs;
   final storage = GetStorage();
 
-  void storeLocalData(String key, value) async {
-    final storage = GetStorage();
-    await storage.write(key, value);
+  Future<void> storeLocalData(String key, dynamic value) async {
+    if (value is String) {
+      String processedValue = value.trim();
+
+      if (key == 'first_name' || key == 'last_name' || key == 'username') {
+        processedValue = _capitalizeFirstLetter(processedValue);
+      }
+      // Store the cleaned value in local storage
+      await storage.write(key, processedValue);
+      print(storage.read(key));
+    } else {
+      // If the value is not a string (e.g., gender), directly store it without processing
+      await storage.write(key, value);
+      print(storage.read(key));
+    }
   }
 
-  String email = '';
-  String first_name = '';
-  String last_name = '';
-  String password = '';
-  String username = '';
-  String gender = '';
-  String date_of_birth = '';
-  String contact_number = '';
-  final is_subscribe_to_newsletter = false;
-  final is_subscribe_to_promotions = false;
+  String _capitalizeFirstLetter(String value) {
+    if (value.isNotEmpty) {
+      return value.substring(0, 1).toUpperCase() + value.substring(1);
+    }
+    return value;
+  }
+
+  // String email = '';
+  // String first_name = '';
+  // String last_name = '';
+  // String password = '';
+  // String username = '';
+  // String gender = '';
+  // String date_of_birth = '';
+  // String contact_number = '';
+  // final is_subscribe_to_newsletter = false;
+  // final is_subscribe_to_promotions = false;
 
   Future test() async {
     final storage = GetStorage();

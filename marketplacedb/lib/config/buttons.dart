@@ -1,5 +1,47 @@
 import 'package:flutter/material.dart';
 
+class SignUpProcessContinueFAB extends StatelessWidget {
+  final Function()? onPressed;
+  final bool isDisabled;
+  final String text;
+  final bool isLoading;
+
+  const SignUpProcessContinueFAB({
+    Key? key,
+    required this.onPressed,
+    required this.text,
+    this.isDisabled = false,
+    this.isLoading = false,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: isDisabled || isLoading ? null : onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: isDisabled || isLoading
+            ? Colors.grey
+            : const Color.fromRGBO(116, 78, 255, 1),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+      ),
+      child: Center(
+        child: isLoading
+            ? const CircularProgressIndicator()
+            : Text(
+                text,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14, // Adjust the font size as needed
+                ),
+              ),
+      ),
+    );
+  }
+}
+
 class GoogleButton extends StatelessWidget {
   final Function()? onTap;
 
@@ -15,24 +57,35 @@ class GoogleButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 65,
-        padding: const EdgeInsets.all(20),
-        margin: const EdgeInsets.symmetric(horizontal: 20),
-        decoration: const BoxDecoration(
-          color: Colors.white,
+        height: 70,
+        padding: const EdgeInsets.all(5),
+        margin: const EdgeInsets.symmetric(horizontal: 30),
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius:
+              BorderRadius.circular(10), // Adjust the radius value as needed
         ),
-        child: const Center(
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(
-              "Continue with Google",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image(
+              width: 24,
+              height: 24,
+              image: AssetImage('flutter_images/googleIcon.png'),
+              fit: BoxFit.contain,
+            ),
+            SizedBox(width: 10), // Adjust the space between icon and text
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                "Continue with Google",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -54,19 +107,29 @@ class FBButton extends StatelessWidget {
       child: Container(
         height: 65,
         padding: const EdgeInsets.all(20),
-        margin: const EdgeInsets.symmetric(horizontal: 20),
-        decoration: const BoxDecoration(
-          color: Color(0xFF1877F2),
+        margin: const EdgeInsets.symmetric(horizontal: 30),
+        decoration: BoxDecoration(
+          color: const Color(0xFF1877F2),
+          borderRadius:
+              BorderRadius.circular(10), // Adjust the radius value as needed
         ),
-        child: const Center(
-          child: Text(
-            "Continue with Facebook",
-            style: TextStyle(
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.facebook, // Replace this with your desired Facebook icon
               color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
+              size: 24,
             ),
-          ),
+            SizedBox(width: 10), // Adjust the space between icon and text
+            Text(
+              "Continue with Facebook",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+              ),
+            ),
+          ],
         ),
       ),
     );

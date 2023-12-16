@@ -84,7 +84,7 @@ class BillingAddressState extends State<BillingAddress> {
       body: Column(
         children: [
           const Headertext(text: 'Start Selling/Buying'),
-          const MyContainer(
+          const ContainerGuide(
             headerText: "Add your Billing Address",
             text: "We need this info for you to be a seller/customer",
           ),

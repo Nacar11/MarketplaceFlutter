@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
+import 'package:marketplacedb/config/extractedWidgets/signupProcess.dart';
 import 'package:marketplacedb/config/snackbar.dart';
-
 import 'package:marketplacedb/screen/signup_pages/signuppage_password.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
@@ -24,34 +24,16 @@ final authController = AuthenticationController();
 class _SignUpPageState extends State<SignUpPageUsername> {
   final String verifySnackbar;
   _SignUpPageState({required this.verifySnackbar});
+  bool isCheckedPromotions = false;
+  bool isCheckedNewsLetters = false;
 
   final usernameControl = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> usernameKey = GlobalKey<FormState>();
   bool isUsernameValid = false;
 
   @override
   void initState() {
     super.initState();
-    if (verifySnackbar != '') {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        switch (verifySnackbar) {
-          case 'email':
-            showSuccessSnackBar(
-                context, "Email Successfully Verified", 'success');
-            break;
-          case 'text':
-            showSuccessSnackBar(
-                context, "Phone Number Successfully Verified", 'success');
-            break;
-          default:
-            0;
-        }
-      });
-    }
-  }
-
-  void showVerificationSuccessSnackBar() async {
-    showSuccessSnackBar(context, "Email Successfully Verified", 'success');
   }
 
   void continueButton(BuildContext context) {
@@ -70,130 +52,152 @@ class _SignUpPageState extends State<SignUpPageUsername> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-      appBar: AppBar(
-        title: const Text("Sign Up"),
-        backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-      ),
-      body: Stack(
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      appBar: const SignUpAppBar(),
+      body: Column(
         children: [
-          Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                Column(
-                  children: [
-                    const Center(
-                      child: Headertext(text: 'Get Started'),
-                    ),
-                    const MyContainer(
-                      headerText: "Please enter a username.              ",
-                      text:
-                          "This will be the primary name other users will see.",
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: MyUsernameField(
-                        controller: usernameControl,
-                        hintText: 'Username',
-                        labelText: 'Enter Username',
-                        onChanged: (value) {
-                          setState(() {
-                            isUsernameValid = _formKey.currentState != null &&
-                                _formKey.currentState!.validate();
-                            print(isUsernameValid);
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 30.0),
+            child: ContainerGuide(
+              headerText: "Please enter your username              ",
+              text: "This will be your display name other users will see.",
             ),
           ),
-          Obx(
-            () => Positioned(
-              bottom: 20, // Adjust this value as needed
-              left: 0,
-              right: 0,
-              child: Center(
-                child: LargeBlackButton(
-                  text: 'Continue',
-                  onPressed: () async {
-                    if (isUsernameValid) {
-                      var response = await authController.checkUsername(
-                          username: usernameControl.text);
-                      print(response);
-                      if (response['message'] == 'Username is available') {
-                        authController.storeLocalData(
-                            'username', usernameControl.text);
-                        continueButton(context);
-                      } else {
-                        showErrorHandlingSnackBar(
-                            context, response['message'], 'error');
+          Column(children: [
+            Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Form(
+                  key: usernameKey,
+                  child: ValidatorField(
+                    controller: usernameControl,
+                    hintText: 'Username',
+                    labelText: 'Enter Username',
+                    validator: (value) {
+                      RegExp usernamePattern =
+                          RegExp(r'^[a-zA-Z0-9]*\d+[a-zA-Z0-9]*$');
+
+                      if (value == null || value.isEmpty) {
+                        return 'Username is required';
+                      } else if (!usernamePattern.hasMatch(value)) {
+                        return 'Username must contain at least one number,\n and is unique';
                       }
-                    }
-                  },
-                  isDisabled: !isUsernameValid,
-                  isLoading: authController.isLoading.value,
-                ),
+
+                      return null;
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        isUsernameValid = usernameKey.currentState != null &&
+                            usernameKey.currentState!.validate();
+                        print(isUsernameValid);
+                      });
+                    },
+                  ),
+                )),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Transform.scale(
+                            scale: 1.6,
+                            child: Checkbox(
+                              shape: const CircleBorder(),
+                              checkColor: Colors.white,
+                              activeColor: Colors.green,
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.padded,
+                              visualDensity: VisualDensity.standard,
+                              value: isCheckedPromotions,
+                              onChanged: (newBool) {
+                                setState(() {
+                                  isCheckedPromotions = newBool!;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        const Text(
+                          'Subscribe to Marketplace Promotions',
+                          style: TextStyle(
+                            fontSize: 16, // Adjust the font size as needed
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Transform.scale(
+                            scale: 1.6,
+                            child: Checkbox(
+                              shape: const CircleBorder(),
+                              checkColor: Colors.white,
+                              activeColor: Colors.green,
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.padded,
+                              visualDensity: VisualDensity.standard,
+                              value: isCheckedNewsLetters,
+                              onChanged: (newBool) {
+                                setState(() {
+                                  isCheckedNewsLetters = newBool!;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        const Text(
+                          'Subscribe to Marketplace Newsletters',
+                          style: TextStyle(
+                            fontSize: 16, // Adjust the font size as needed
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
+          ]),
         ],
       ),
-    );
-  }
-}
-
-class MyUsernameField extends StatelessWidget {
-  const MyUsernameField({
-    Key? key,
-    required this.controller,
-    this.hintText,
-    this.labelText,
-    this.onChanged,
-  }) : super(key: key);
-
-  final TextEditingController controller;
-  final String? hintText;
-  final String? labelText;
-  final ValueChanged<String>? onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: TextFormField(
-        controller: controller,
-        obscureText: false,
-        decoration: InputDecoration(
-          labelText: labelText,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color.fromARGB(255, 0, 0, 0),
-              width: 2.0,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Obx(() => Container(
+            height: 50,
+            margin: const EdgeInsets.all(10),
+            child: SignUpProcessContinueFAB(
+              text: "Continue",
+              isDisabled: !isUsernameValid,
+              isLoading: authController.isLoading.value,
+              onPressed: () async {
+                if (isUsernameValid) {
+                  var response = await authController.checkUsername(
+                      username: usernameControl.text);
+                  print(response);
+                  if (response['message'] == 'Username is available') {
+                    authController.storeLocalData(
+                        'is_subscribe_to_promotions', isCheckedPromotions);
+                    authController.storeLocalData(
+                        'is_subscribe_to_newsletters', isCheckedNewsLetters);
+                    authController.storeLocalData(
+                        'username', usernameControl.text);
+                    continueButton(context);
+                  } else {
+                    showErrorHandlingSnackBar(
+                        context, response['message'], 'error');
+                  }
+                }
+              },
             ),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          hintText: hintText,
-        ),
-        validator: (value) {
-          RegExp usernamePattern = RegExp(r'^[a-zA-Z0-9]*\d+[a-zA-Z0-9]*$');
-
-          if (value == null || value.isEmpty) {
-            return 'Username is required';
-          } else if (!usernamePattern.hasMatch(value)) {
-            return 'Username must contain at least one number,\n and is unique';
-          }
-
-          return null;
-        },
-        onChanged: onChanged,
-      ),
+          )),
     );
   }
 }

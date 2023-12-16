@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplacedb/screen/front_page.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,16 +17,21 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     final storage = GetStorage();
     return ScreenUtilInit(
       builder: (context, child) => MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'MarketPlace',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+          textTheme: GoogleFonts.montserratTextTheme(textTheme).copyWith(
+            bodyMedium: GoogleFonts.nunito(textStyle: textTheme.bodyMedium),
+          ),
+
+          // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          // useMaterial3: true,
         ),
         initialRoute: storage.read('token') == null
             ? '/frontpage'

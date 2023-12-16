@@ -15,14 +15,14 @@ void signUpbutton(BuildContext context, bool? welcomeMessage) {
       builder: (context) => const Navigation(hasSnackbar: 'welcomeMessage')));
 }
 
-class SignUpPagepromotion extends StatefulWidget {
-  const SignUpPagepromotion({Key? key}) : super(key: key);
+class SignUpPagePromotion extends StatefulWidget {
+  const SignUpPagePromotion({Key? key}) : super(key: key);
 
   @override
-  State<SignUpPagepromotion> createState() => _SignUpPageState();
+  State<SignUpPagePromotion> createState() => _SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPagepromotion> {
+class _SignUpPageState extends State<SignUpPagePromotion> {
   bool ischeckedpromotions = false;
   bool ischeckednewsletters = false;
   bool isNameEmpty = true;
@@ -53,7 +53,7 @@ class _SignUpPageState extends State<SignUpPagepromotion> {
             const Center(
               child: Headertext(text: 'Get Started'),
             ),
-            const MyContainer(
+            const ContainerGuide(
               headerText:
                   "Would you like to subcribe to our promotions and newsletters              ",
               text: "so you can get updated",

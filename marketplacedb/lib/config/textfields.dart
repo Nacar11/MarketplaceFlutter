@@ -1,5 +1,119 @@
 import 'package:flutter/material.dart';
 
+class ValidatorField extends StatelessWidget {
+  const ValidatorField({
+    Key? key,
+    required this.controller,
+    this.obscureText = false,
+    this.hintText,
+    this.labelText,
+    this.validator,
+    this.onChanged,
+  }) : super(key: key);
+
+  final bool obscureText;
+  final TextEditingController controller;
+  final String? hintText;
+  final String? labelText;
+  final String? Function(String?)? validator;
+  final ValueChanged<String>? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+      child: TextFormField(
+        controller: controller,
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          labelText: labelText,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Color.fromARGB(255, 0, 0, 0),
+              width: 2.0,
+            ),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          hintText: hintText,
+        ),
+        validator: validator,
+        onChanged: onChanged,
+      ),
+    );
+  }
+}
+
+class PasswordValidatorField extends StatefulWidget {
+  const PasswordValidatorField({
+    Key? key,
+    required this.controller,
+    this.obscureText = false,
+    this.hintText,
+    this.labelText,
+    this.validator,
+    this.onChanged,
+  }) : super(key: key);
+
+  final bool obscureText;
+  final TextEditingController controller;
+  final String? hintText;
+  final String? labelText;
+  final String? Function(String?)? validator;
+  final ValueChanged<String>? onChanged;
+
+  @override
+  PasswordValidatorFieldState createState() => PasswordValidatorFieldState();
+}
+
+class PasswordValidatorFieldState extends State<PasswordValidatorField> {
+  late bool _obscureText;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.obscureText;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+      child: TextFormField(
+        controller: widget.controller,
+        obscureText: _obscureText,
+        decoration: InputDecoration(
+          suffixIcon: IconButton(
+              onPressed: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                });
+              },
+              icon: _obscureText
+                  ? const Icon(Icons.visibility_off, color: Colors.grey)
+                  : const Icon(Icons.visibility, color: Colors.black)),
+          labelText: widget.labelText,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Color.fromARGB(255, 0, 0, 0),
+              width: 2.0,
+            ),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          hintText: widget.hintText,
+        ),
+        validator: widget.validator,
+        onChanged: widget.onChanged,
+      ),
+    );
+  }
+}
+
 class MyTextField extends StatelessWidget {
   const MyTextField({
     Key? key,
@@ -129,52 +243,6 @@ class UnderlineTextField extends StatelessWidget {
           labelText: labelText, // You can provide an optional label
           border: const UnderlineInputBorder(), // Add an underline border
         ),
-      ),
-    );
-  }
-}
-
-class ValidatorField extends StatelessWidget {
-  const ValidatorField({
-    Key? key,
-    required this.controller,
-    this.obscureText = false,
-    this.hintText,
-    this.labelText,
-    this.validator,
-    this.onChanged,
-  }) : super(key: key);
-
-  final bool obscureText;
-  final TextEditingController controller;
-  final String? hintText;
-  final String? labelText;
-  final String? Function(String?)? validator;
-  final ValueChanged<String>? onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: TextFormField(
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          labelText: labelText,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color.fromARGB(255, 0, 0, 0),
-              width: 2.0,
-            ),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          hintText: hintText,
-        ),
-        validator: validator,
-        onChanged: onChanged,
       ),
     );
   }

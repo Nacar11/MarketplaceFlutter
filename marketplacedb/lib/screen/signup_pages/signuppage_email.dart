@@ -46,7 +46,7 @@ class _SignUpPageState extends State<SignUpPageemail> {
 
   void continuebutton5(BuildContext context) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const SignUpPagephone()));
+        .push(MaterialPageRoute(builder: (context) => const SignUpPagePhone()));
   }
 
   @override
@@ -73,7 +73,7 @@ class _SignUpPageState extends State<SignUpPageemail> {
               const Center(
                 child: Headertext(text: 'Get Started'),
               ),
-              const MyContainer(
+              const ContainerGuide(
                 headerText: "What is your email?              ",
                 text:
                     "notifications and transactions will be sent to your email",

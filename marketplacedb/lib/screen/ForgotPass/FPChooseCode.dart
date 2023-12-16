@@ -53,7 +53,7 @@ class _FPChoosecodeState extends State<FPChoosecode> {
             const Center(
               child: Headertext(text: 'Forgot Password'),
             ),
-            const MyContainer(
+            const ContainerGuide(
               headerText:
                   "We will send you a code to confirm Change Password              ",
               text: "would you like it via Email or Phone?",

@@ -48,7 +48,7 @@ class FPCodeState extends State<FPCode> {
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 20),
-                    child: MyContainer(
+                    child: ContainerGuide(
                       headerText: "Enter the code              ",
                       text: "We've sent a 6-digit code to your e-mail/phone",
                     ),

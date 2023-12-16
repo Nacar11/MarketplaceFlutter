@@ -2,42 +2,49 @@
 
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
+import 'package:marketplacedb/config/extractedWidgets/signupProcess.dart';
 import 'package:marketplacedb/config/snackbar.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_choosecode.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
+import 'package:marketplacedb/screen/signup_pages/signuppage_code.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_password.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_username.dart';
 
-class SignUpPagephone extends StatefulWidget {
-  const SignUpPagephone({Key? key}) : super(key: key);
+class SignUpPagePhone extends StatefulWidget {
+  final bool? socialLogin;
+  const SignUpPagePhone({Key? key, this.socialLogin}) : super(key: key);
 
   @override
-  State<SignUpPagephone> createState() => _SignUpPageState();
+  State<SignUpPagePhone> createState() =>
+      // ignore: no_logic_in_create_state
+      _SignUpPagePhoneState(socialLogin: socialLogin ?? false);
 }
 
 final authController = AuthenticationController();
 
-class _SignUpPageState extends State<SignUpPagephone> {
-  final phonecontrol = TextEditingController();
+class _SignUpPagePhoneState extends State<SignUpPagePhone> {
+  final bool socialLogin;
+  _SignUpPagePhoneState({required this.socialLogin});
+  // final phoneNumberController = TextEditingController();
 
   bool isNameEmpty = true;
 
-  // Define a list of country codes
-  List<String> countryCodes = ['+63']; // Add more codes as needed
-  String selectedCountryCode = '+63'; // Set a default value
-  bool isPhoneValid = true;
+  String phoneNumberController = '';
+
+  bool isPhoneValid = false;
 
   @override
   void initState() {
     super.initState();
   }
 
-  void continuebutton3(BuildContext context) {
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => const SignUpPageChoosecode()));
+  void continueButton(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const SignUpPageCode()));
   }
 
   @override
@@ -47,108 +54,73 @@ class _SignUpPageState extends State<SignUpPagephone> {
     super.dispose();
   }
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-        appBar: AppBar(
-          title: const Text("Sign Up"),
-          backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-        ),
-        body: Stack(children: [
-          Form(
-            key: _formKey,
-            child: Column(children: [
-              const Center(
-                child: Headertext(text: 'Get Started'),
-              ),
-              const MyContainer(
-                headerText: "What is your phone number?              ",
-                text: "A verification will be sent to your number",
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Row(
-                  children: [
-                    // Dropdown for country codes
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: DropdownButton<String>(
-                        value: selectedCountryCode,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedCountryCode = newValue!;
-                          });
-                        },
-                        items: countryCodes.map((String code) {
-                          return DropdownMenuItem<String>(
-                            value: code,
-                            child: Text(code),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    // Phone number text field
-                    Expanded(
-                      child: ValidatorField(
-                        controller: phonecontrol,
-                        hintText: 'Phone Number',
-                        labelText: 'Enter Phone Number',
-                        obscureText: false,
-                        validator: (value) {
-                          RegExp phonePattern = RegExp(r'^9\d{9}$');
-                          if (value == null || value.isEmpty) {
-                            return 'Phone Number is required';
-                          } else if (!phonePattern.hasMatch(value)) {
-                            return 'Please Enter A Valid Phone Number';
-                          }
-                          return null;
-                        },
-                        onChanged: (value) {
-                          setState(() {
-                            isPhoneValid = _formKey.currentState != null &&
-                                _formKey.currentState!.validate();
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ]),
+      resizeToAvoidBottomInset: false,
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      appBar: const SignUpAppBar(),
+      body: Column(children: [
+        const Padding(
+          padding: EdgeInsets.only(top: 30.0),
+          child: ContainerGuide(
+            headerText: "Stay Connected! What's Your Phone Number?",
+            text:
+                "Your contact information helps us keep you updated with the latest offers and important notifications!",
           ),
-          Positioned(
-              bottom: 20, // Adjust this value as needed
-              left: 0,
-              right: 0,
-              child: Center(
-                child: LargeBlackButton(
-                  text: 'Continue',
-                  onPressed: () async {
-                    // final code = await authController
-                    //     .getSMSVerificationCode("+63${phonecontrol.text}");
-                    // if (code['success'] != null) {
-                    //   String successValue = code['success'].toString();
+        ),
+        const SizedBox(height: 40),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: IntlPhoneField(
+            decoration: const InputDecoration(
+              labelText: 'Phone Number',
+              border: OutlineInputBorder(
+                borderSide: BorderSide(),
+              ),
+            ),
+            initialCountryCode: 'PH',
+            onChanged: (phone) {
+              print(phone.completeNumber);
+              print(phone.completeNumber.length);
+              setState(() {
+                phoneNumberController = phone.completeNumber;
+                isPhoneValid = phone.completeNumber.length == 13;
+              });
+            },
+          ),
+        ),
+      ]),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Container(
+        height: 50,
+        margin: const EdgeInsets.all(10),
+        child: SignUpProcessContinueFAB(
+          text: "Continue",
+          isLoading: authController.isLoading.value,
+          isDisabled: !isPhoneValid,
+          onPressed: () async {
+            final code = await authController
+                .getSMSVerificationCode(phoneNumberController);
 
-                    //   final storage = GetStorage();
-                    //   storage.write('SMSVerificationCode', successValue);
-                    authController.storeLocalData(
-                        'contact_number', "+63${phonecontrol.text}");
-                    // print(storage.read('contact_number'));
-                    continuebutton3(context);
-                    // } else {
-                    //   showErrorHandlingSnackBar(
-                    //       context,
-                    //       "Error on Passing SMS Text Verification Code, Please Try Again.",
-                    //       'error');
-                    // }
-                  },
-                  isDisabled: !isPhoneValid,
-                ),
-              ))
-        ]));
+            if (code['success'] != null) {
+              String successValue = code['success'].toString();
+
+              final storage = GetStorage();
+              storage.write('SMSVerificationCode', successValue);
+              authController.storeLocalData(
+                  'contact_number', phoneNumberController);
+
+              continueButton(context);
+            } else {
+              showErrorHandlingSnackBar(
+                  context,
+                  "Error on Passing SMS Text Verification Code, Please Try Again.",
+                  'error');
+            }
+          },
+        ),
+      ),
+    );
   }
 }

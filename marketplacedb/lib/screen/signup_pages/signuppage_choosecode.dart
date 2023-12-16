@@ -59,7 +59,7 @@ class _SignUpPageState extends State<SignUpPageChoosecode> {
             const Center(
               child: Headertext(text: 'Get Started'),
             ),
-            const MyContainer(
+            const ContainerGuide(
               headerText:
                   "We will send you a code to confirm registration              ",
               text: "would you like it via Email or Phone?",

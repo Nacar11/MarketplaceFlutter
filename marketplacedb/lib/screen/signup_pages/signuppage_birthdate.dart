@@ -1,26 +1,24 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print, unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
-import 'package:marketplacedb/screen/signup_pages/signuppage_email.dart';
-import 'package:marketplacedb/screen/signup_pages/signuppage_phone.dart';
-import 'package:marketplacedb/config/textfields.dart';
+import 'package:marketplacedb/config/extractedWidgets/signupProcess.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:intl/intl.dart';
+import 'package:marketplacedb/screen/signup_pages/signuppage_username.dart';
 
-class SignUpPagebirthdate extends StatefulWidget {
-  const SignUpPagebirthdate({Key? key}) : super(key: key);
+class SignUpPageBirthDate extends StatefulWidget {
+  const SignUpPageBirthDate({Key? key}) : super(key: key);
 
   @override
-  State<SignUpPagebirthdate> createState() => _SignUpPageState();
+  State<SignUpPageBirthDate> createState() => _SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPagebirthdate> {
+class _SignUpPageState extends State<SignUpPageBirthDate> {
   final authController = AuthenticationController();
-  final textcontrol = TextEditingController();
+  final dateOfBirthController = TextEditingController();
   DateTime? pickedDate;
   String _valueGender = "";
   DateTime selectedDate = DateTime(2023, 9, 22, 12, 21);
@@ -51,194 +49,173 @@ class _SignUpPageState extends State<SignUpPagebirthdate> {
   void initState() {
     super.initState();
     isDateSelected = selectedDate != DateTime(2023, 9, 22, 12, 21);
-    textcontrol.addListener(() {
+    dateOfBirthController.addListener(() {
       setState(() {});
     });
   }
 
-  void continuebutton2(BuildContext context) {
-    final storage = GetStorage();
-    if (storage.read('signInMethod') != null) {
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const SignUpPagephone()));
-    } else {
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const SignUpPageemail()));
-    }
+  void continueButton(BuildContext context) {
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => const SignUpPageUsername()));
   }
 
   @override
   void dispose() {
     // Dispose the controller when the widget is removed.
-    textcontrol.dispose();
+    dateOfBirthController.dispose();
     super.dispose();
   }
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-      appBar: AppBar(
-        title: const Text("Sign Up"),
-        backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-      ),
-      body: Stack(
-        children: [
-          Form(
-            key: _formKey,
-            child: Column(children: [
-              const Center(
-                child: Headertext(text: 'Get Started'),
-              ),
-              const MyContainer(
-                headerText: "What's your Date of Birth?              ",
-                text: "this will not be shown without your permission",
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(28.0),
-                child: Center(
-                  child: Row(
-                    children: [
-                      const Text("Select Gender"),
-                      Radio(
-                        value: "Male",
-                        groupValue: _valueGender,
-                        onChanged: (value) {
-                          setState(() {
-                            _valueGender = value!;
-                          });
-                        },
-                      ),
-                      const Text("Male"),
-                      Radio(
-                        value: "Female",
-                        groupValue: _valueGender,
-                        onChanged: (value) {
-                          setState(() {
-                            _valueGender = value!;
-                          });
-                        },
-                      ),
-                      const Text("Female"),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: TextField(
-                  readOnly: true, // Disable text input
-                  controller: textcontrol,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.calendar_today_rounded),
-                    labelText: "Date of Birth",
-                  ),
-                  onTap: () async {
-                    final currentDate = DateTime.now();
-                    pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate: currentDate,
-                      firstDate: DateTime(1960),
-                      lastDate: DateTime(2101),
-                    );
-
-                    if (pickedDate != null) {
-                      if (pickedDate!.day != null) {
-                        textcontrol.text =
-                            DateFormat('yyyy-MM-dd').format(pickedDate!);
-                        setState(() {
-                          isDateSelected = true;
-                        });
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text("Please pick a date"),
-                              content:
-                                  const Text("Please select a day as well"),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text("OK"),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
-                      int age = currentDate.year - pickedDate!.year;
-
-                      if (currentDate.month < pickedDate!.month ||
-                          (currentDate.month == pickedDate!.month &&
-                              currentDate.day < pickedDate!.day)) {
-                        age--;
-                      }
-
-                      if (age >= 13) {
-                        setState(() {
-                          isDateSelected = true;
-                        });
-                      } else {
-                        setState(() {
-                          isDateSelected = false;
-                        });
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text("Invalid Date of Birth"),
-                              content: const Text(
-                                  "You must be at least 13 years old to use this app."),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text("OK"),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
-                    }
-                  },
-                ),
-              )
-            ]),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      appBar: const SignUpAppBar(),
+      body: Column(children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 30.0),
+          child: ContainerGuide(
+            headerText: "Please provide your Gender and Date of Birth",
+            text:
+                "To better tailor user experience, personalization, and verify compliance with legal age requirements",
           ),
-          Positioned(
-            bottom: 20, // Adjust this value as needed
-            left: 0,
-            right: 0,
-            child: Center(
-              child: LargeBlackButton(
-                  text: 'Continue',
-                  onPressed: () {
-                    print(isDateSelected);
-                    print(_valueGender);
-                    if (isDateSelected && _valueGender != '') {
-                      print("asdasdasdasdasdsda");
-
-                      authController.storeLocalData(
-                          'date_of_birth', textcontrol.text);
-                      authController.storeLocalData('gender', _valueGender);
-
-                      continuebutton2(context);
-                    }
+        ),
+        Padding(
+          padding: const EdgeInsets.all(28.0),
+          child: Center(
+            child: Row(
+              children: [
+                const Text("Select Gender"),
+                Radio(
+                  value: "Male",
+                  groupValue: _valueGender,
+                  onChanged: (value) {
+                    setState(() {
+                      _valueGender = value!;
+                    });
                   },
-                  isDisabled: !isDateSelected || _valueGender.isEmpty),
+                ),
+                const Text("Male"),
+                Radio(
+                  value: "Female",
+                  groupValue: _valueGender,
+                  onChanged: (value) {
+                    setState(() {
+                      _valueGender = value!;
+                    });
+                  },
+                ),
+                const Text("Female"),
+              ],
             ),
-          )
-        ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: TextField(
+            readOnly: true, // Disable text input
+            controller: dateOfBirthController,
+            decoration: const InputDecoration(
+              icon: Icon(Icons.calendar_today_rounded),
+              labelText: "Date of Birth",
+            ),
+            onTap: () async {
+              final currentDate = DateTime.now();
+              pickedDate = await showDatePicker(
+                context: context,
+                initialDate: currentDate,
+                firstDate: DateTime(1960),
+                lastDate: DateTime(2101),
+              );
+
+              if (pickedDate != null) {
+                if (pickedDate!.day != null) {
+                  dateOfBirthController.text =
+                      DateFormat('yyyy-MM-dd').format(pickedDate!);
+                  setState(() {
+                    isDateSelected = true;
+                  });
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("Please pick a date"),
+                        content: const Text("Please select a day as well"),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("OK"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+                int age = currentDate.year - pickedDate!.year;
+
+                if (currentDate.month < pickedDate!.month ||
+                    (currentDate.month == pickedDate!.month &&
+                        currentDate.day < pickedDate!.day)) {
+                  age--;
+                }
+
+                if (age >= 13) {
+                  setState(() {
+                    isDateSelected = true;
+                  });
+                } else {
+                  setState(() {
+                    isDateSelected = false;
+                  });
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("Invalid Date of Birth"),
+                        content: const Text(
+                            "You must be at least 13 years old to use this app."),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("OK"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              }
+            },
+          ),
+        )
+      ]),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Container(
+        height: 50,
+        margin: const EdgeInsets.all(10),
+        child: SignUpProcessContinueFAB(
+          text: "Continue",
+          isDisabled: !isDateSelected || _valueGender.isEmpty,
+          onPressed: () {
+            print(isDateSelected);
+            print(_valueGender);
+            if (isDateSelected && _valueGender != '') {
+              print("Ssdasdasdasdasdsda");
+
+              authController.storeLocalData(
+                  'date_of_birth', dateOfBirthController.text);
+              authController.storeLocalData('gender', _valueGender);
+              continueButton(context);
+            }
+          },
+        ),
       ),
     );
   }

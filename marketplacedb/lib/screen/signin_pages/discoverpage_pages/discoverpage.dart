@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:marketplacedb/config/CustomAppBar.dart';
 import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/controllers/products/ProductController.dart';
 import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/productTypepage.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/see_more.dart';
-import 'package:marketplacedb/config/Customappbar.dart';
 
 class CardItem {
   final String urlImage;
@@ -50,7 +50,7 @@ class DiscoverpageState extends State<Discoverpage> {
       child: Scaffold(
           appBar: const PreferredSize(
             preferredSize: Size.fromHeight(kToolbarHeight),
-            child: CustomappBar(),
+            child: SearchAppBar(),
           ),
           body: Obx(() {
             return controller.isLoading.value == true
