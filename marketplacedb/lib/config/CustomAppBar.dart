@@ -20,14 +20,6 @@ class SearchAppBarState extends State<SearchAppBar> {
   //   super.dispose();
   // }
 
-  void submitSearch() {
-    final query = searchController.text;
-    showSearch(
-      context: context,
-      delegate: CustomSearchDelegate(initialQuery: query), // Pass the query
-    );
-  }
-
   void shoppingCartButton(BuildContext context) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const Shoppingcart()));
@@ -38,187 +30,164 @@ class SearchAppBarState extends State<SearchAppBar> {
     return AppBar(
       backgroundColor: const Color.fromARGB(255, 116, 78, 255),
       automaticallyImplyLeading: false,
-      title: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            alignment: Alignment.center,
-            child: const Icon(Icons.search),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.shopping_cart),
+          onPressed: () {
+            shoppingCartButton(context);
+          },
+        )
+      ],
+      title: GestureDetector(
+        onTap: () {
+          showSearch(context: context, delegate: SearchAppBarDelegate());
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: Colors.black),
           ),
-          const SizedBox(width: 5),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.black), // Add border color
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          height: 40,
+          child: const Row(
+            children: [
+              Icon(
+                Icons.search, // Replace with your desired icon
+                color: Colors.grey, // Change icon color as needed
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              height: 40, // Set the height of the box
-              child: const Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Search for products or users',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.grey,
-                      ),
-                    ),
+              SizedBox(width: 8), // Adjust spacing between icon and text
+              Expanded(
+                child: Text(
+                  'Search for products or users',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey,
                   ),
-                  // You can add an icon here if needed
-                ],
+                ),
               ),
-            ),
+              // You can add an icon here if needed
+            ],
           ),
-          IconButton(
-            icon: const Icon(
-              Icons.shopping_cart,
-            ), // Add the shopping cart icon
-            onPressed: () {
-              shoppingCartButton(context);
-            },
-          ),
-        ],
+        ),
       ),
     );
   }
 }
-// class CustomappBar extends StatefulWidget {
-//   const CustomappBar({Key? key}) : super(key: key);
 
-//   @override
-//   State<CustomappBar> createState() => CustomappBarState();
-// }
-
-// final searchController = TextEditingController();
-
-// class CustomappBarState extends State<CustomappBar> {
-//   // @override
-//   // void dispose() {
-//   //   // Dispose of the controller when no longer needed to prevent memory leaks.
-//   //   searchController.dispose();
-//   //   super.dispose();
-//   // }
-
-//   void submitSearch() {
-//     final query = searchController.text;
-//     showSearch(
-//       context: context,
-//       delegate: CustomSearchDelegate(initialQuery: query), // Pass the query
-//     );
-//   }
-
-//   void shoppingCartButton(BuildContext context) {
-//     Navigator.of(context)
-//         .push(MaterialPageRoute(builder: (context) => const Shoppingcart()));
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return AppBar(
-//       backgroundColor: const Color.fromARGB(255, 215, 205, 205),
-//       automaticallyImplyLeading: false,
-//       title: Row(
-//         children: <Widget>[
-//           const Icon(Icons.search),
-//           const SizedBox(width: 8), // Add some spacing
-//           Expanded(
-//             child: TextField(
-//               controller: searchController,
-//               onSubmitted: (_) => submitSearch(),
-//               decoration: const InputDecoration(
-//                 hintText: 'Search for products or users',
-//                 border: InputBorder.none,
-//               ),
-//               style: const TextStyle(
-//                 fontSize: 15,
-//               ),
-//             ),
-//           ),
-//           IconButton(
-//             icon: const Icon(
-//               Icons.shopping_cart,
-//             ), // Add the shopping cart icon
-//             onPressed: () {
-//               shoppingCartButton(context);
-//             },
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-class CustomSearchDelegate extends SearchDelegate {
-  final String initialQuery;
-
-  CustomSearchDelegate({this.initialQuery = ''});
-  List<String> searchTerms = [
-    'jeans',
-    'shirt',
-    'polo',
-    'polo shirt',
-    'shoes',
-  ];
+class SearchAppBarDelegate extends SearchDelegate {
+  @override
+  Widget? buildLeading(BuildContext context) => IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () {
+          close(context, null);
+        },
+      );
 
   @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
+  List<Widget>? buildActions(BuildContext context) => [
+        IconButton(
+          icon: const Icon(Icons.clear),
           onPressed: () {
-            query = '';
+            if (query.isEmpty) {
+              close(context, null);
+            } else {
+              query = '';
+            }
           },
-          icon: const Icon(Icons.clear)),
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        close(context, null);
-      },
-      icon: const Icon(Icons.arrow_back),
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var clothes in searchTerms) {
-      if (clothes.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(clothes);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
-      },
-    );
-  }
+        )
+      ];
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var clothes in searchTerms) {
-      if (clothes.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(clothes);
-      }
-    }
+    List<String> suggestions = ['Tees', 'Dresses', 'Underwear'];
+
     return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
-      },
-    );
+        itemCount: suggestions.length,
+        itemBuilder: (context, index) {
+          final suggestion = suggestions[index];
+          return ListTile(
+            title: Text(suggestion),
+            onTap: () {
+              query = suggestion;
+            },
+          );
+        });
   }
+
+  @override
+  Widget buildResults(BuildContext context) => Center(
+      child: Text(query,
+          style: const TextStyle(fontSize: 64, fontWeight: FontWeight.bold)));
 }
+
+
+
+  // CustomSearchDelegate({this.initialQuery = ''});
+  // List<String> searchTerms = [
+  //   'jeans',
+  //   'shirt',
+  //   'polo',
+  //   'polo shirt',
+  //   'shoes',
+  // ];
+
+  // @override
+  // List<Widget> buildActions(BuildContext context) {
+  //   return [
+  //     IconButton(
+  //         onPressed: () {
+  //           query = '';
+  //         },
+  //         icon: const Icon(Icons.clear)),
+  //   ];
+  // }
+
+  // @override
+  // Widget buildLeading(BuildContext context) {
+  //   return IconButton(
+  //     onPressed: () {
+  //       close(context, null);
+  //     },
+  //     icon: const Icon(Icons.arrow_back),
+  //   );
+  // }
+
+  // @override
+  // Widget buildResults(BuildContext context) {
+  //   List<String> matchQuery = [];
+  //   for (var clothes in searchTerms) {
+  //     if (clothes.toLowerCase().contains(query.toLowerCase())) {
+  //       matchQuery.add(clothes);
+  //     }
+  //   }
+  //   return ListView.builder(
+  //     itemCount: matchQuery.length,
+  //     itemBuilder: (context, index) {
+  //       var result = matchQuery[index];
+  //       return ListTile(
+  //         title: Text(result),
+  //       );
+  //     },
+  //   );
+  // }
+
+  // @override
+  // Widget buildSuggestions(BuildContext context) {
+  //   List<String> matchQuery = [];
+  //   for (var clothes in searchTerms) {
+  //     if (clothes.toLowerCase().contains(query.toLowerCase())) {
+  //       matchQuery.add(clothes);
+  //     }
+  //   }
+  //   return ListView.builder(
+  //     itemCount: matchQuery.length,
+  //     itemBuilder: (context, index) {
+  //       var result = matchQuery[index];
+  //       return ListTile(
+  //         title: Text(result),
+  //       );
+  //     },
+  //   );
+  // }
+

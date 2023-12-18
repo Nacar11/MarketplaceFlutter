@@ -71,7 +71,7 @@ class GoogleButton extends StatelessWidget {
             Image(
               width: 24,
               height: 24,
-              image: AssetImage('flutter_images/googleIcon.png'),
+              image: AssetImage('assets/images/googleIcon.png'),
               fit: BoxFit.contain,
             ),
             SizedBox(width: 10), // Adjust the space between icon and text

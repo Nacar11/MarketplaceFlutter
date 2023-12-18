@@ -62,7 +62,7 @@ class MepageState extends State<Mepage> with SingleTickerProviderStateMixin {
                 Padding(
                   padding: EdgeInsetsDirectional.symmetric(horizontal: 20),
                   child: CircularProfilePicture(
-                    imageAsset: AssetImage('flutter_images/batman.png'),
+                    imageAsset: AssetImage('assets/images/batman.png'),
                   ),
                 ),
               ]),

@@ -84,7 +84,7 @@ class FrontpageState extends State<Frontpage> {
         .push(MaterialPageRoute(builder: (context) => const SignUpPageName()));
   }
 
-  Future googlebutton(BuildContext context) async {
+  Future googleButton(BuildContext context) async {
     // await GoogleSignAPI.logout();
     final userData = await GoogleSignAPI.login();
 
@@ -110,7 +110,7 @@ class FrontpageState extends State<Frontpage> {
         .push(MaterialPageRoute(builder: (context) => const SignInPage()));
   }
 
-  void fbbutton(BuildContext context) async {
+  void facebookButton(BuildContext context) async {
     await FacebookAuth.instance
         .login(permissions: ['public_profile', 'email']).then((value) async {
       final data = await FacebookAuth.instance.getUserData();
@@ -161,10 +161,10 @@ class FrontpageState extends State<Frontpage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    GoogleButton(onTap: () => googlebutton(context)),
+                    GoogleButton(onTap: () => googleButton(context)),
                     FBButton(
                       onTap: () {
-                        fbbutton(context);
+                        facebookButton(context);
                       },
                     ),
                   ],

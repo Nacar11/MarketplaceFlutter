@@ -7,7 +7,6 @@ import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/config/buttons.dart';
 import 'package:marketplacedb/config/extractedWidgets/signupProcess.dart';
 import 'package:marketplacedb/config/snackbar.dart';
-import 'package:marketplacedb/config/textfields.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_name.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_username.dart';
 
@@ -128,7 +127,7 @@ class SignUpPageCodeState extends State<SignUpPageCode> {
                       20), // Add spacing between RichText widgets and TextFormFields
 
               // RichText widget - "Didn't Receive anything? Resend Code"
-              GestureDetector(
+              InkWell(
                 onTap: () async {
                   final code = await authController
                       .getSMSVerificationCode(contactNumber);
