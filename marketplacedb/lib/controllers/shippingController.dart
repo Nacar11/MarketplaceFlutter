@@ -3,10 +3,10 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:marketplacedb/models/ShippingMethodModel.dart';
+import 'package:marketplacedb/data/models/ShippingMethodModel.dart';
 
 import 'package:marketplacedb/networks/interceptor.dart';
-import 'package:marketplacedb/constants/constant.dart';
+import 'package:marketplacedb/util/constants/constant.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ShippingController extends GetxController {

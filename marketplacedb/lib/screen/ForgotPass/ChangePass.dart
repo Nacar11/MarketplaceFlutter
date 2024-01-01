@@ -3,14 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:marketplacedb/config/textfields.dart';
-import 'package:marketplacedb/config/buttons.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/textfields.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/screen/ForgotPass/ForgotPass.dart';
 import 'package:marketplacedb/screen/signin_page.dart';
 
 import 'package:marketplacedb/controllers/authenticationController.dart';
 // import 'package:get_storage/get_storage.dart';
-import 'package:marketplacedb/config/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 
 class ChangePass extends StatefulWidget {
   const ChangePass({Key? key}) : super(key: key);

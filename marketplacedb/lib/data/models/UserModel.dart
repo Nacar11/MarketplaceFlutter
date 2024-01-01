@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
-import 'package:marketplacedb/models/ShoppingCartItemModel.dart';
+import 'package:marketplacedb/data/models/ShoppingCartItemModel.dart';
 
 class ShoppingCartModel {
   int? id;

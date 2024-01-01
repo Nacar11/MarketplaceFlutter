@@ -3,11 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:marketplacedb/config/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:marketplacedb/controllers/OrderLineController.dart';
 import 'package:marketplacedb/controllers/products/ProductItemController.dart';
-import 'package:marketplacedb/models/OrderLineModel.dart';
-import 'package:marketplacedb/models/ProductItemModel.dart';
+import 'package:marketplacedb/data/models/OrderLineModel.dart';
+import 'package:marketplacedb/data/models/ProductItemModel.dart';
 import 'package:marketplacedb/screen/signin_pages/mepage_pages/mepagesettings.dart';
 import 'package:marketplacedb/controllers/userController.dart';
 import 'package:marketplacedb/screen/signin_pages/mepage_pages/selling.dart';

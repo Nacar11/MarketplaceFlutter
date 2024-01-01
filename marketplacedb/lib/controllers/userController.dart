@@ -3,10 +3,10 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:marketplacedb/models/BillingAddressModel.dart';
-import 'package:marketplacedb/models/CountryModel.dart';
+import 'package:marketplacedb/data/models/BillingAddressModel.dart';
+import 'package:marketplacedb/data/models/CountryModel.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
-import 'package:marketplacedb/constants/constant.dart';
+import 'package:marketplacedb/util/constants/constant.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddress.dart';
 
@@ -16,12 +16,12 @@ class UserController extends GetxController {
   var countryList = <CountryModel>[].obs;
   var addressList = <BillingAddressModel>[].obs;
 
-
-@override
+  @override
   void onInit() {
     super.onInit();
     getCountries();
   }
+
   Future UserHasAddress() async {
     try {
       isLoading.value = true;

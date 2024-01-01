@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/controllers/products/ProductController.dart';
-import 'package:marketplacedb/config/buttons.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 
 final controller = Get.put<ProductController>(ProductController());
 

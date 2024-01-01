@@ -1,13 +1,13 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:marketplacedb/config/extractedWidgets/signinProcess.dart';
+import 'package:marketplacedb/common/widgets/screen_specific/signinProcess.dart';
 import 'package:marketplacedb/screen/ForgotPass/ForgotPass.dart';
 import 'package:marketplacedb/screen/front_page.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 // import 'package:get_storage/get_storage.dart';
-import 'package:marketplacedb/config/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 
 class SignInPage extends StatefulWidget {
   final String? hasSnackbar;
@@ -24,7 +24,7 @@ final authController = AuthenticationController();
 String changePassMessage = '';
 void backbutton(BuildContext context) {
   Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const Frontpage()));
+      MaterialPageRoute(builder: (context) => const FrontPage()));
 }
 
 void signinbutton(BuildContext context, bool? welcomeMessage) {

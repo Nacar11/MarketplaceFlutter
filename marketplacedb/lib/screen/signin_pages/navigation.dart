@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:marketplacedb/config/icons.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/icons.dart';
 import 'package:marketplacedb/controllers/userController.dart';
 import 'package:marketplacedb/screen/signin_pages/homepage.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/discoverpage.dart';
@@ -10,7 +10,7 @@ import 'package:marketplacedb/screen/signin_pages/sellpage_pages/sellpage.dart';
 import 'package:marketplacedb/screen/signin_pages/mepage_pages/mepage.dart';
 import 'package:marketplacedb/controllers/products/ProductController.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:marketplacedb/config/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:flutter/services.dart';
 import 'package:marketplacedb/screen/signin_pages/messagespage_pages/messagepage.dart';
 

@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, non_constant_identifier_names
-import 'package:marketplacedb/models/ProductItemModel.dart';
-import 'package:marketplacedb/models/ShippingMethodModel.dart';
+import 'package:marketplacedb/data/models/ProductItemModel.dart';
+import 'package:marketplacedb/data/models/ShippingMethodModel.dart';
 
 class OrderLineModel {
   int? id;

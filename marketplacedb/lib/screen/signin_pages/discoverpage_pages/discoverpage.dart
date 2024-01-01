@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:marketplacedb/config/CustomAppBar.dart';
-import 'package:marketplacedb/config/containers.dart';
-import 'package:marketplacedb/config/textfields.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/textfields.dart';
 import 'package:marketplacedb/controllers/products/ProductController.dart';
-import 'package:marketplacedb/models/ProductCategoryModel.dart';
+import 'package:marketplacedb/data/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/productTypepage.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/see_more.dart';
 

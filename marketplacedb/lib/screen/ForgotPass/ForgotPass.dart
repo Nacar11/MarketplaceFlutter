@@ -1,12 +1,12 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously, file_names
 
 import 'package:flutter/material.dart';
-import 'package:marketplacedb/config/textfields.dart';
-import 'package:marketplacedb/config/buttons.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/textfields.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/screen/ForgotPass/FPChooseCode.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 // import 'package:get_storage/get_storage.dart';
-import 'package:marketplacedb/config/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 
 class ForgotPassPage extends StatefulWidget {
   const ForgotPassPage({Key? key}) : super(key: key);

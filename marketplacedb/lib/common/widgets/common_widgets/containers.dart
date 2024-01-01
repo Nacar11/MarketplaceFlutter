@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:dotted_border/dotted_border.dart';
 
 class CardItem {
   final String urlImage;
@@ -258,50 +257,6 @@ Widget buildCard({
         ],
       ),
     );
-
-class DashedBorderContainerWithIcon extends StatelessWidget {
-  final Function()? onTap;
-  final File? selectedImage;
-  const DashedBorderContainerWithIcon(
-      {required this.selectedImage,
-      required this.onTap,
-      required this.iconData,
-      Key? key})
-      : super(key: key);
-  final IconData iconData;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      // () {
-      //   print('asd');
-      // },
-      child: SizedBox(
-        width: 80, // Set the desired width
-        height: 80, // Set the desired height
-        child: Container(
-          padding: const EdgeInsets.all(20), // Padding of the outer Container
-          child: DottedBorder(
-            color: Colors.black, // Color of dotted/dash line
-            strokeWidth: 1, // Thickness of dash/dots
-            dashPattern: const [
-              5,
-              5
-            ], // Dash patterns, 10 is dash width, 6 is space width
-            child: Center(
-              child: Icon(
-                iconData, // Replace with your desired icon
-                size: 30, // Adjust the size of the icon as needed
-                color: Colors.grey, // Set the color of the icon
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class ProductContainer extends StatelessWidget {
   const ProductContainer({required this.text, required this.fontsize, Key? key})

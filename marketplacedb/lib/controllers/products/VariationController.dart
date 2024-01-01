@@ -2,8 +2,8 @@
 
 import 'package:get/get.dart';
 // import 'package:http/http.dart' as http;
-import 'package:marketplacedb/constants/constant.dart';
-import 'package:marketplacedb/models/VariantsModel.dart';
+import 'package:marketplacedb/util/constants/constant.dart';
+import 'package:marketplacedb/data/models/VariantsModel.dart';
 import 'dart:convert';
 import 'package:marketplacedb/networks/interceptor.dart';
 

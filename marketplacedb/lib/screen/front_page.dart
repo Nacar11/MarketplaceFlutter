@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:marketplacedb/config/buttons.dart';
-import 'package:marketplacedb/config/containers.dart';
-import 'package:marketplacedb/config/textfields.dart';
-import 'package:marketplacedb/constants/constant.dart';
-import 'package:marketplacedb/config/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/textfields.dart';
+import 'package:marketplacedb/util/constants/constant.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:flutter/services.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:http/http.dart' as http;
@@ -21,23 +21,23 @@ import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_name.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_phone.dart';
 
-import '../config/extractedWidgets/Navigation.dart';
+import '../common/widgets/screen_specific/Navigation.dart';
 
 final authController = AuthenticationController();
 
-class Frontpage extends StatefulWidget {
+class FrontPage extends StatefulWidget {
   final bool? logoutMessage;
-  const Frontpage({Key? key, this.logoutMessage}) : super(key: key);
+  const FrontPage({Key? key, this.logoutMessage}) : super(key: key);
 
   @override
-  State<Frontpage> createState() =>
+  State<FrontPage> createState() =>
       // ignore: no_logic_in_create_state
-      FrontpageState(logoutMessage: logoutMessage ?? false);
+      FrontPageState(logoutMessage: logoutMessage ?? false);
 }
 
-class FrontpageState extends State<Frontpage> {
+class FrontPageState extends State<FrontPage> {
   final bool logoutMessage;
-  FrontpageState({required this.logoutMessage});
+  FrontPageState({required this.logoutMessage});
 
   @override
   void initState() {
@@ -53,7 +53,7 @@ class FrontpageState extends State<Frontpage> {
     showSuccessSnackBar(context, "Successfully Logged Out", 'success');
   }
 
-  Future<void> terms_of_services(BuildContext context) async {
+  Future<void> termsOfServices(BuildContext context) async {
     await showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -66,20 +66,7 @@ class FrontpageState extends State<Frontpage> {
     );
   }
 
-  Future initStorage() async {
-    final storage = GetStorage();
-    await storage.erase();
-    // Get all keys in the storage
-    final allKeys = storage.getKeys();
-    print('asdad');
-    // Loop through all keys and print the key and its corresponding value
-    for (var key in allKeys) {
-      final value = storage.read(key);
-      print('$key: $value');
-    }
-  }
-
-  void signupButton(BuildContext context) {
+  void signUpButton(BuildContext context) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const SignUpPageName()));
   }
@@ -189,7 +176,7 @@ class FrontpageState extends State<Frontpage> {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            terms_of_services(context);
+                            termsOfServices(context);
                           },
                       ),
                     ],

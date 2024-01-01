@@ -1,13 +1,13 @@
 // ignore_for_file: unused_element, use_build_context_synchronously, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:marketplacedb/config/containers.dart';
-import 'package:marketplacedb/config/buttons.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:get/get.dart';
-import 'package:marketplacedb/config/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 
 import 'package:marketplacedb/screen/signin_page.dart';
-import 'package:marketplacedb/config/textfields.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/textfields.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 
 void signUpbutton(BuildContext context, bool? welcomeMessage) {

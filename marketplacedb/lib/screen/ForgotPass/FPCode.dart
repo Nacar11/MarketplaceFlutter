@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:marketplacedb/config/containers.dart';
-import 'package:marketplacedb/config/buttons.dart';
-import 'package:marketplacedb/config/snackbar.dart';
-import 'package:marketplacedb/config/textfields.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/textfields.dart';
 import 'package:marketplacedb/screen/ForgotPass/ChangePass.dart';
 
 class FPCode extends StatefulWidget {

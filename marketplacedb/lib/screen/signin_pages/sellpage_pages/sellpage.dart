@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
-import 'package:marketplacedb/config/buttons.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 // import 'package:marketplacedb/config/tabbar.dart';
-import 'package:marketplacedb/config/textfields.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/textfields.dart';
 // import 'package:marketplacedb/config/containers.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddress.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/listitem.dart';

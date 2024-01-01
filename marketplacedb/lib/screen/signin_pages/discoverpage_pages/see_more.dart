@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 // import 'package:get/get.dart';
-import 'package:marketplacedb/models/ProductCategoryModel.dart';
+import 'package:marketplacedb/data/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/controllers/products/ProductController.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/productTypepage.dart';

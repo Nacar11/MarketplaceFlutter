@@ -1,9 +1,9 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print, unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
-import 'package:marketplacedb/config/containers.dart';
-import 'package:marketplacedb/config/buttons.dart';
-import 'package:marketplacedb/config/extractedWidgets/signupProcess.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
+import 'package:marketplacedb/common/widgets/screen_specific/signupProcess.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:intl/intl.dart';

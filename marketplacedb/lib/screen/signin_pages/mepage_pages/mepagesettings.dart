@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/screen/front_page.dart';
-import 'package:marketplacedb/config/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 
 // import 'package:get/get.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
@@ -42,7 +42,7 @@ class MepagesettingsState extends State<Mepagesettings> {
                 var response = await authController.logout();
                 if (response['message'] == 'Logged out Successfully') {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const Frontpage(logoutMessage: true),
+                    builder: (context) => const FrontPage(logoutMessage: true),
                   ));
                 } else {
                   showErrorHandlingSnackBar(

@@ -3,13 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 // import 'package:get/get.dart';
-import 'package:marketplacedb/models/ProductCategoryModel.dart';
+import 'package:marketplacedb/data/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/controllers/products/ProductController.dart';
 import 'package:marketplacedb/controllers/products/ProductItemController.dart';
 
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/productlistfilter.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/producttype.dart';
-import 'package:marketplacedb/models/ProductTypeModel.dart';
+import 'package:marketplacedb/data/models/ProductTypeModel.dart';
 
 import 'package:get/get.dart';
 
@@ -71,7 +71,8 @@ class ProductTypePageState extends State<ProductTypePage> {
                             in productTypecontroller.productTypes)
                           InkWell(
                             onTap: () {
-                              productItemController.productTypeID = productType.id;
+                              productItemController.productTypeID =
+                                  productType.id;
                               productItemController
                                   .getProductItemsByProductType(
                                       productType.id!);

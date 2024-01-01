@@ -1,17 +1,17 @@
 // ignore_for_file: unused_import, avoid_print
-import 'package:marketplacedb/config/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/productitempage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // import 'package:marketplacedb/config/icons.dart';
-import 'package:marketplacedb/config/containers.dart';
-import 'package:marketplacedb/config/textfields.dart';
-import 'package:marketplacedb/config/Customappbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/textfields.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
 import 'package:marketplacedb/controllers/products/ProductItemController.dart';
 import 'package:marketplacedb/controllers/products/ProductController.dart';
 
-import 'package:marketplacedb/models/ProductCategoryModel.dart';
-import 'package:marketplacedb/models/ProductItemModel.dart';
+import 'package:marketplacedb/data/models/ProductCategoryModel.dart';
+import 'package:marketplacedb/data/models/ProductItemModel.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/listitem.dart';
 
 final productItemController =

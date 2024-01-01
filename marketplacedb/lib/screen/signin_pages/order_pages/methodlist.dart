@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/controllers/shippingController.dart';
-import 'package:marketplacedb/models/ShippingMethodModel.dart';
+import 'package:marketplacedb/data/models/ShippingMethodModel.dart';
 
 final controller = Get.put<ShippingController>(ShippingController());
 

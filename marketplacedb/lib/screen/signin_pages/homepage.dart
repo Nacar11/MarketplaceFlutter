@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:marketplacedb/config/CustomAppBar.dart';
-import 'package:marketplacedb/config/extractedWidgets/Navigation.dart';
-import 'package:marketplacedb/config/shimmer/shimmer_progress.dart';
-import 'package:marketplacedb/constants/app_images.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
+import 'package:marketplacedb/common/widgets/screen_specific/Navigation.dart';
+import 'package:marketplacedb/util/constants/app_images.dart';
 // import 'package:marketplacedb/config/icons.dart';
 // import 'package:marketplacedb/config/containers.dart';
 // import 'package:marketplacedb/config/textfields.dart';

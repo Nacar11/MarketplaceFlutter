@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
-import 'package:marketplacedb/config/containers.dart';
-import 'package:marketplacedb/config/buttons.dart';
-import 'package:marketplacedb/config/extractedWidgets/signupProcess.dart';
-import 'package:marketplacedb/config/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
+import 'package:marketplacedb/common/widgets/screen_specific/signupProcess.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_birthdate.dart';
-import 'package:marketplacedb/config/textfields.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/textfields.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 
 class SignUpPageName extends StatefulWidget {

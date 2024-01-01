@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:marketplacedb/screen/front_page.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:marketplacedb/util/theme/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,27 +25,28 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'MarketPlace',
-        theme: ThemeData(
-          textTheme: GoogleFonts.montserratTextTheme(textTheme).copyWith(
-            bodyMedium: GoogleFonts.nunito(textStyle: textTheme.bodyMedium),
-          ),
+        themeMode: ThemeMode.system,
+        theme: MPAppTheme.lightTheme,
+        darkTheme: MPAppTheme.darkTheme,
 
-          // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          // useMaterial3: true,
-        ),
+        // theme: ThemeData(
+        //   textTheme: GoogleFonts.montserratTextTheme(textTheme).copyWith(
+        //     bodyMedium: GoogleFonts.nunito(textStyle: textTheme.bodyMedium),
+        //   ),
+
+        // ),
         initialRoute: storage.read('token') == null
             ? '/frontpage'
             : '/navigation', // Set initial route
         onGenerateRoute: (settings) {
-          // Define routes using onGenerateRoute
           switch (settings.name) {
             case '/frontpage':
-              return MaterialPageRoute(builder: (context) => const Frontpage());
+              return MaterialPageRoute(builder: (context) => const FrontPage());
             case '/navigation':
               return MaterialPageRoute(
                   builder: (context) => const Navigation());
             default:
-              return MaterialPageRoute(builder: (context) => const Frontpage());
+              return MaterialPageRoute(builder: (context) => const FrontPage());
           }
         },
       ),

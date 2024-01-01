@@ -1,9 +1,9 @@
 // ignore_for_file: file_names, avoid_print, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:marketplacedb/config/buttons.dart';
-import 'package:marketplacedb/config/snackbar.dart';
-import 'package:marketplacedb/config/textfields.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/textfields.dart';
 import 'package:marketplacedb/screen/signin_page.dart';
 import 'package:get/get.dart';
 

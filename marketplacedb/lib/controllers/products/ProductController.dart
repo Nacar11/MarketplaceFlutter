@@ -3,14 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:marketplacedb/constants/constant.dart';
-import 'package:marketplacedb/models/ProductItemModel.dart';
-import 'package:marketplacedb/models/VariantsModel.dart';
+import 'package:marketplacedb/util/constants/constant.dart';
+import 'package:marketplacedb/data/models/ProductItemModel.dart';
+import 'package:marketplacedb/data/models/VariantsModel.dart';
 import 'dart:convert';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'dart:io';
-import 'package:marketplacedb/models/ProductCategoryModel.dart';
-import 'package:marketplacedb/models/ProductTypeModel.dart';
+import 'package:marketplacedb/data/models/ProductCategoryModel.dart';
+import 'package:marketplacedb/data/models/ProductTypeModel.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ProductController extends GetxController {
@@ -88,6 +88,4 @@ class ProductController extends GetxController {
       isLoading.value = false;
     }
   }
-
-  
 }
