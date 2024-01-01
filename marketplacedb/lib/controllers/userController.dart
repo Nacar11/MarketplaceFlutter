@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:marketplacedb/data/models/BillingAddressModel.dart';
 import 'package:marketplacedb/data/models/CountryModel.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
-import 'package:marketplacedb/util/constants/constant.dart';
+import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddress.dart';
 

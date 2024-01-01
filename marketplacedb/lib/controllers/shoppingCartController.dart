@@ -8,7 +8,7 @@ import 'package:marketplacedb/data/models/ShoppingCartModel.dart';
 import 'package:marketplacedb/data/models/ShoppingCartItemModel.dart';
 import 'package:marketplacedb/networks/googleSignIn.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
-import 'package:marketplacedb/util/constants/constant.dart';
+import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ShoppingCartController extends GetxController {

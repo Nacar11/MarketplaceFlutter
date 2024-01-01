@@ -8,7 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/textfields.dart';
-import 'package:marketplacedb/util/constants/constant.dart';
+import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:flutter/services.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';

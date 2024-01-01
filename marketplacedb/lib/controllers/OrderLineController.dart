@@ -7,7 +7,7 @@ import 'package:marketplacedb/data/models/OrderLineModel.dart';
 import 'package:marketplacedb/data/models/shippingMethodModel.dart';
 
 import 'package:marketplacedb/networks/interceptor.dart';
-import 'package:marketplacedb/util/constants/constant.dart';
+import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:get_storage/get_storage.dart';
 
 class OrderLineController extends GetxController {
