@@ -51,7 +51,7 @@ class MPDeviceUtils {
     return kBottomNavigationBarHeight;
   }
 
-  static double appBarHeight() {
+  static double getAppBarHeight() {
     return kToolbarHeight;
   }
 

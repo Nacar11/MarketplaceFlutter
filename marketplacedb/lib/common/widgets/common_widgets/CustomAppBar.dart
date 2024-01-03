@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/shoppingcart.dart';
+import 'package:marketplacedb/util/constants/app_colors.dart';
 
 class SearchAppBar extends StatefulWidget {
   const SearchAppBar({Key? key}) : super(key: key);
@@ -28,7 +29,7 @@ class SearchAppBarState extends State<SearchAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: const Color.fromARGB(255, 116, 78, 255),
+      backgroundColor: MPColors.buttonPrimary,
       automaticallyImplyLeading: false,
       actions: [
         IconButton(
@@ -121,73 +122,32 @@ class SearchAppBarDelegate extends SearchDelegate {
           style: const TextStyle(fontSize: 64, fontWeight: FontWeight.bold)));
 }
 
+class SignUpAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const SignUpAppBar({Key? key}) : super(key: key);
 
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: const Text(
+        "Get Started",
+        style: TextStyle(
+          color: Color.fromARGB(255, 255, 255, 255),
+          fontWeight: FontWeight.bold, // Set the color to black
+        ),
+      ),
+      centerTitle: true,
+      leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(
+            Icons.arrow_back_sharp,
+          )),
+      backgroundColor: const Color.fromARGB(255, 116, 78, 255),
+      iconTheme: const IconThemeData(color: Colors.white),
+    );
+  }
 
-  // CustomSearchDelegate({this.initialQuery = ''});
-  // List<String> searchTerms = [
-  //   'jeans',
-  //   'shirt',
-  //   'polo',
-  //   'polo shirt',
-  //   'shoes',
-  // ];
-
-  // @override
-  // List<Widget> buildActions(BuildContext context) {
-  //   return [
-  //     IconButton(
-  //         onPressed: () {
-  //           query = '';
-  //         },
-  //         icon: const Icon(Icons.clear)),
-  //   ];
-  // }
-
-  // @override
-  // Widget buildLeading(BuildContext context) {
-  //   return IconButton(
-  //     onPressed: () {
-  //       close(context, null);
-  //     },
-  //     icon: const Icon(Icons.arrow_back),
-  //   );
-  // }
-
-  // @override
-  // Widget buildResults(BuildContext context) {
-  //   List<String> matchQuery = [];
-  //   for (var clothes in searchTerms) {
-  //     if (clothes.toLowerCase().contains(query.toLowerCase())) {
-  //       matchQuery.add(clothes);
-  //     }
-  //   }
-  //   return ListView.builder(
-  //     itemCount: matchQuery.length,
-  //     itemBuilder: (context, index) {
-  //       var result = matchQuery[index];
-  //       return ListTile(
-  //         title: Text(result),
-  //       );
-  //     },
-  //   );
-  // }
-
-  // @override
-  // Widget buildSuggestions(BuildContext context) {
-  //   List<String> matchQuery = [];
-  //   for (var clothes in searchTerms) {
-  //     if (clothes.toLowerCase().contains(query.toLowerCase())) {
-  //       matchQuery.add(clothes);
-  //     }
-  //   }
-  //   return ListView.builder(
-  //     itemCount: matchQuery.length,
-  //     itemBuilder: (context, index) {
-  //       var result = matchQuery[index];
-  //       return ListTile(
-  //         title: Text(result),
-  //       );
-  //     },
-  //   );
-  // }
-
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}

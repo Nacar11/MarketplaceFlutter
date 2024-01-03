@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
-import 'package:marketplacedb/common/widgets/screen_specific/signupProcess.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:intl/intl.dart';

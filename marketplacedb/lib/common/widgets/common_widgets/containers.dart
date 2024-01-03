@@ -1,13 +1,48 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:marketplacedb/util/constants/app_images.dart';
 
-class CardItem {
-  final String urlImage;
-
-  const CardItem({
-    required this.urlImage,
+class MarketplaceLogo extends StatelessWidget {
+  final double width;
+  final double height;
+  const MarketplaceLogo({
+    this.width = 100,
+    this.height = 100,
+    super.key,
   });
+
+  @override
+  Widget build(BuildContext context) {
+    return Image(
+      width: width,
+      height: height,
+      image: const AssetImage(ImagesUtils.appLogo),
+      fit: BoxFit.contain,
+    );
+  }
+}
+
+class GetStartedUpperText extends StatelessWidget
+    implements PreferredSizeWidget {
+  const GetStartedUpperText({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 20.0),
+      child: Center(
+        child: Text(
+          'Get Started',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 class TermsOfServicesContainer extends StatelessWidget {
@@ -285,4 +320,12 @@ class ProductContainer extends StatelessWidget {
       ),
     );
   }
+}
+
+class CardItem {
+  final String urlImage;
+
+  const CardItem({
+    required this.urlImage,
+  });
 }

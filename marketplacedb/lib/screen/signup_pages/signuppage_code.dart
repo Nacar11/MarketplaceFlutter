@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
-import 'package:marketplacedb/common/widgets/screen_specific/signupProcess.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_name.dart';
 import 'package:marketplacedb/screen/signup_pages/signuppage_username.dart';

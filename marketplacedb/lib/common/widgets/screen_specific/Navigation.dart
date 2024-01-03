@@ -5,26 +5,6 @@ import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_images.dart';
 import 'package:marketplacedb/controllers/inner_controllers/home_screen_controller.dart';
 
-class MarketplaceLogo extends StatelessWidget {
-  final double width;
-  final double height;
-  const MarketplaceLogo({
-    this.width = 100,
-    this.height = 100,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Image(
-      width: width,
-      height: height,
-      image: const AssetImage('assets/images/mp.png'),
-      fit: BoxFit.contain,
-    );
-  }
-}
-
 class HomeBannerImage extends StatelessWidget {
   const HomeBannerImage({
     super.key,
