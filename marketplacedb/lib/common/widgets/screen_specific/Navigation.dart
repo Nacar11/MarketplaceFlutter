@@ -1,8 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:marketplacedb/util/constants/app_colors.dart';
-import 'package:marketplacedb/util/constants/app_images.dart';
 import 'package:marketplacedb/controllers/inner_controllers/home_screen_controller.dart';
 
 class HomeBannerImage extends StatelessWidget {

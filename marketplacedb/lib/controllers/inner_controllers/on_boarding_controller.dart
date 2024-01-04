@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:marketplacedb/screen/front_page.dart';
 
 class OnBoardingController extends GetxController {
   static OnBoardingController get instance => Get.find();
@@ -17,7 +18,7 @@ class OnBoardingController extends GetxController {
 
   void nextPage() {
     if (currentPageIndex.value == 3) {
-      //Get.to(LoginScreen());
+      Get.to(() => const FrontPage());
     } else {
       int page = currentPageIndex.value + 1;
       pageController.jumpToPage(page);
@@ -25,6 +26,9 @@ class OnBoardingController extends GetxController {
   }
 
   void skipPage() {
+    if (currentPageIndex.value == 3) {
+      Get.to(() => const FrontPage());
+    }
     currentPageIndex.value = 3;
     pageController.jumpToPage(3);
   }

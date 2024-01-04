@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/textfields.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
 import 'package:marketplacedb/controllers/products/ProductController.dart';
 import 'package:marketplacedb/data/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/productTypepage.dart';

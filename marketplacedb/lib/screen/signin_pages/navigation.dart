@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/icons.dart';
 import 'package:marketplacedb/controllers/userController.dart';
 import 'package:marketplacedb/screen/signin_pages/homepage.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/discoverpage.dart';
@@ -114,7 +113,7 @@ class NavigationState extends State<Navigation> {
               destinations: const [
                 // if(index==2){
                 // },
-                NavigationDestination(icon: PentagonIcon(), label: 'home'),
+                NavigationDestination(icon: Icon(Icons.home), label: 'home'),
                 NavigationDestination(
                     icon: Icon(Icons.search), label: 'Discover'),
                 NavigationDestination(icon: Icon(Icons.home), label: 'Sell'),

@@ -1,8 +1,10 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/shoppingcart.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
+import 'package:marketplacedb/util/constants/app_strings.dart';
 
 class SearchAppBar extends StatefulWidget {
   const SearchAppBar({Key? key}) : super(key: key);
@@ -129,22 +131,24 @@ class SignUpAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: const Text(
-        "Get Started",
+        MPTexts.getStarted,
         style: TextStyle(
-          color: Color.fromARGB(255, 255, 255, 255),
-          fontWeight: FontWeight.bold, // Set the color to black
+          color: MPColors.textWhite,
+          // Set the color to black
         ),
       ),
       centerTitle: true,
       leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            Get.back();
           },
           icon: const Icon(
             Icons.arrow_back_sharp,
           )),
-      backgroundColor: const Color.fromARGB(255, 116, 78, 255),
-      iconTheme: const IconThemeData(color: Colors.white),
+      backgroundColor: MPColors.buttonPrimary,
+      iconTheme: const IconThemeData(
+        color: MPColors.light,
+      ),
     );
   }
 

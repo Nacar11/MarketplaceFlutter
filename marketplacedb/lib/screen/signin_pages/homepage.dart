@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
-import 'package:marketplacedb/common/widgets/screen_specific/Navigation.dart';
+import 'package:marketplacedb/common/widgets/screen_specific/navigation.dart';
 import 'package:marketplacedb/util/constants/app_images.dart';
 // import 'package:marketplacedb/config/icons.dart';
 // import 'package:marketplacedb/config/containers.dart';

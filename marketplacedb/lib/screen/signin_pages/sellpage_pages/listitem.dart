@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 // import 'package:permission_handler/permission_handler.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/textfields.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
 // import 'package:marketplacedb/constants/constant.dart';
 // import 'package:marketplacedb/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/data/models/ProductTypeModel.dart';

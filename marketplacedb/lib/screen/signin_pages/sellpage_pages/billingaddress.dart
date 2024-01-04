@@ -7,7 +7,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:marketplacedb/data/models/CountryModel.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/listitem.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/textfields.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/listofcountry.dart';
 

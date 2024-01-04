@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:marketplacedb/util/constants/app_colors.dart';
 
-class SignUpProcessContinueFAB extends StatelessWidget {
+class MPPrimaryButton extends StatelessWidget {
   final Function()? onPressed;
   final bool isDisabled;
   final String text;
   final bool isLoading;
 
-  const SignUpProcessContinueFAB({
+  const MPPrimaryButton({
     Key? key,
     required this.onPressed,
     required this.text,
@@ -20,8 +21,8 @@ class SignUpProcessContinueFAB extends StatelessWidget {
       onPressed: isDisabled || isLoading ? null : onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: isDisabled || isLoading
-            ? Colors.grey
-            : const Color.fromRGBO(116, 78, 255, 1),
+            ? MPColors.buttonDisabled
+            : MPColors.buttonPrimary,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),

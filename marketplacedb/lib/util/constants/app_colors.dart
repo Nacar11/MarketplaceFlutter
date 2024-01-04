@@ -34,7 +34,7 @@ class MPColors {
   static Color darkContainer = MPColors.white.withOpacity(0.1);
 
   //Button Colors
-  static const Color buttonPrimary = Color.fromARGB(255, 116, 78, 255);
+  static const Color buttonPrimary = Color.fromRGBO(116, 78, 255, 1);
   static const Color buttonSecondary = Color(0xFF6C757D);
   static const Color buttonDisabled = Color(0xFFC4C4C4);
 

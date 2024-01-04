@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_images.dart';
+import 'package:marketplacedb/util/constants/app_sizes.dart';
+import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
 class MarketplaceLogo extends StatelessWidget {
   final double width;
@@ -160,11 +163,12 @@ class ContainerGuide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = MPHelperFunctions.isDarkMode(context);
+
     return Container(
-      padding: const EdgeInsets.all(30),
-      margin: const EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.all(MPSizes.defaultSpace),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDarkMode ? MPColors.darkContainer : MPColors.lightContainer,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
@@ -178,27 +182,14 @@ class ContainerGuide extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            headerText,
-            style: const TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
-          const SizedBox(height: 30), // Add some spacing
+          Text(headerText, style: Theme.of(context).textTheme.headlineMedium),
+          const SizedBox(height: MPSizes.spaceBtwSections), // Add some spacing
 
           // Display either the rich text or plain text based on availability
           if (richText != null)
             richText!
           else if (text != null)
-            Text(
-              text!,
-              style: const TextStyle(
-                fontSize: 16,
-                color: Color.fromARGB(255, 112, 112, 112),
-              ),
-            ),
+            Text(text!, style: Theme.of(context).textTheme.bodyLarge),
         ],
       ),
     );

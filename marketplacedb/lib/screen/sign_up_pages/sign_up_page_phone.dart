@@ -1,17 +1,21 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously, unused_import
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:marketplacedb/common/styles/spacing_styles.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/textfields.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
+import 'package:marketplacedb/common/widgets/screen_specific/sign_up_pages/phone.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
-import 'package:marketplacedb/screen/signup_pages/signuppage_code.dart';
-import 'package:marketplacedb/screen/signup_pages/signuppage_password.dart';
-import 'package:marketplacedb/screen/signup_pages/signuppage_username.dart';
+import 'package:marketplacedb/screen/sign_up_pages/sign_up_page_code.dart';
+
+import 'package:marketplacedb/util/constants/app_sizes.dart';
+import 'package:marketplacedb/util/constants/app_strings.dart';
 
 class SignUpPagePhone extends StatefulWidget {
   final bool? socialLogin;
@@ -23,27 +27,18 @@ class SignUpPagePhone extends StatefulWidget {
       _SignUpPagePhoneState(socialLogin: socialLogin ?? false);
 }
 
-final authController = AuthenticationController();
+AuthenticationController authController = AuthenticationController.instance;
 
 class _SignUpPagePhoneState extends State<SignUpPagePhone> {
   final bool socialLogin;
   _SignUpPagePhoneState({required this.socialLogin});
-  // final phoneNumberController = TextEditingController();
-
   bool isNameEmpty = true;
-
   String phoneNumberController = '';
-
   bool isPhoneValid = false;
 
   @override
   void initState() {
     super.initState();
-  }
-
-  void continueButton(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const SignUpPageCode()));
   }
 
   @override
@@ -57,60 +52,45 @@ class _SignUpPagePhoneState extends State<SignUpPagePhone> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: const SignUpAppBar(),
-      body: Column(children: [
-        const Padding(
-          padding: EdgeInsets.only(top: 30.0),
-          child: ContainerGuide(
-            headerText: "Stay Connected! What's Your Phone Number?",
-            text:
-                "Your contact information helps us keep you updated with the latest offers and important notifications!",
+      body: Padding(
+        padding: MPSpacingStyle.signUpProcessPadding,
+        child: Column(children: [
+          const ContainerGuide(
+            headerText: MPTexts.phoneHeaderText,
+            text: MPTexts.phoneSubText,
           ),
-        ),
-        const SizedBox(height: 40),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: IntlPhoneField(
-            decoration: const InputDecoration(
-              labelText: 'Phone Number',
-              border: OutlineInputBorder(
-                borderSide: BorderSide(),
-              ),
-            ),
-            initialCountryCode: 'PH',
-            onChanged: (phone) {
-              print(phone.completeNumber);
-              print(phone.completeNumber.length);
+          const SizedBox(height: MPSizes.spaceBtwSections),
+          CustomPhoneField(
+            onChanged: (completePhoneNumber) {
               setState(() {
-                phoneNumberController = phone.completeNumber;
-                isPhoneValid = phone.completeNumber.length == 13;
+                print(completePhoneNumber);
+                phoneNumberController = completePhoneNumber;
+                isPhoneValid = completePhoneNumber.length == 13;
+                print(isPhoneValid);
               });
             },
           ),
-        ),
-      ]),
+        ]),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
-        height: 50,
-        margin: const EdgeInsets.all(10),
-        child: SignUpProcessContinueFAB(
-          text: "Continue",
+      floatingActionButton: SizedBox(
+        height: MPSizes.buttonHeight,
+        // margin: const EdgeInsets.all(10),
+        child: MPPrimaryButton(
+          text: MPTexts.continueText,
           isLoading: authController.isLoading.value,
           isDisabled: !isPhoneValid,
           onPressed: () async {
             final code = await authController
                 .getSMSVerificationCode(phoneNumberController);
-
             if (code['success'] != null) {
               String successValue = code['success'].toString();
-
               final storage = GetStorage();
               storage.write('SMSVerificationCode', successValue);
               authController.storeLocalData(
                   'contact_number', phoneNumberController);
-
-              continueButton(context);
+              Get.to(() => const SignUpPageCode());
             } else {
               showErrorHandlingSnackBar(
                   context,

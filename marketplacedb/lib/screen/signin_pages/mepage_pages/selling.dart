@@ -6,7 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/textfields.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
 import 'package:marketplacedb/controllers/products/ProductItemController.dart';
 import 'package:marketplacedb/controllers/shoppingCartController.dart';

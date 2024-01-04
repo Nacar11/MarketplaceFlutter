@@ -47,6 +47,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/promotion_banners/
+    - assets/images/logos/
     - assets/fonts/
     - assets/animations/
 

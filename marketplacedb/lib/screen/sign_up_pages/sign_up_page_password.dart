@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/textfields.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 
@@ -225,7 +225,7 @@ class _SignUpPagePasswordState extends State<SignUpPagePassword> {
           () => Container(
             height: 50,
             margin: const EdgeInsets.all(10),
-            child: SignUpProcessContinueFAB(
+            child: MPPrimaryButton(
               text: "Create Account",
               isLoading: authController.isLoading.value,
               isDisabled: !isPasswordValid,

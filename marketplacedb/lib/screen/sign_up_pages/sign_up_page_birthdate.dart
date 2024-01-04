@@ -7,7 +7,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:intl/intl.dart';
-import 'package:marketplacedb/screen/signup_pages/signuppage_username.dart';
+import 'package:marketplacedb/screen/sign_up_pages/sign_up_page_username.dart';
 
 class SignUpPageBirthDate extends StatefulWidget {
   const SignUpPageBirthDate({Key? key}) : super(key: key);
@@ -200,7 +200,7 @@ class _SignUpPageState extends State<SignUpPageBirthDate> {
       floatingActionButton: Container(
         height: 50,
         margin: const EdgeInsets.all(10),
-        child: SignUpProcessContinueFAB(
+        child: MPPrimaryButton(
           text: "Continue",
           isDisabled: !isDateSelected || _valueGender.isEmpty,
           onPressed: () {

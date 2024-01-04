@@ -12,6 +12,7 @@ class AuthenticationController extends GetxController {
   final isLoading = false.obs;
   final token = ''.obs;
   final storage = GetStorage();
+  static AuthenticationController get instance => Get.find();
 
   Future<void> storeLocalData(String key, dynamic value) async {
     if (value is String) {
@@ -377,6 +378,7 @@ class AuthenticationController extends GetxController {
       }
     } catch (e) {
       print(e);
+      print('asdasdas');
       isLoading.value = false;
     }
   }

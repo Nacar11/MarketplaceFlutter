@@ -7,8 +7,8 @@ import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
-import 'package:marketplacedb/screen/signup_pages/signuppage_name.dart';
-import 'package:marketplacedb/screen/signup_pages/signuppage_username.dart';
+import 'package:marketplacedb/screen/sign_up_pages/sign_up_page_name.dart';
+import 'package:marketplacedb/screen/sign_up_pages/sign_up_page_username.dart';
 
 class SignUpPageCode extends StatefulWidget {
   const SignUpPageCode({Key? key}) : super(key: key);
@@ -198,7 +198,7 @@ class SignUpPageCodeState extends State<SignUpPageCode> {
       floatingActionButton: Container(
         height: 50,
         margin: const EdgeInsets.all(10),
-        child: SignUpProcessContinueFAB(
+        child: MPPrimaryButton(
           text: "Continue",
           isLoading: authController.isLoading.value,
           isDisabled: !isCodeValid,

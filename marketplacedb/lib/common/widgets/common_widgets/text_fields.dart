@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:marketplacedb/util/constants/app_colors.dart';
+import 'package:marketplacedb/util/constants/app_sizes.dart';
+import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
 class ValidatorField extends StatelessWidget {
   const ValidatorField({
@@ -9,6 +12,7 @@ class ValidatorField extends StatelessWidget {
     this.labelText,
     this.validator,
     this.onChanged,
+    this.prefixIcon,
   }) : super(key: key);
 
   final bool obscureText;
@@ -17,31 +21,37 @@ class ValidatorField extends StatelessWidget {
   final String? labelText;
   final String? Function(String?)? validator;
   final ValueChanged<String>? onChanged;
+  final Icon? prefixIcon;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: TextFormField(
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          labelText: labelText,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+    final bool isDarkMode = MPHelperFunctions.isDarkMode(context);
+    return TextFormField(
+      controller: controller,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        prefixIcon: prefixIcon,
+        labelText: labelText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(MPSizes.borderRadiusMd),
+          borderSide: BorderSide(
+            color: isDarkMode
+                ? MPColors.lightContainer
+                : MPColors.black, // Border color in normal state
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color.fromARGB(255, 0, 0, 0),
-              width: 2.0,
-            ),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          hintText: hintText,
         ),
-        validator: validator,
-        onChanged: onChanged,
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: isDarkMode
+                ? MPColors.lightContainer
+                : MPColors.black, // Focused border color
+          ),
+          borderRadius: BorderRadius.circular(MPSizes.borderRadiusMd),
+        ),
+        hintText: hintText,
       ),
+      validator: validator,
+      onChanged: onChanged,
     );
   }
 }
@@ -50,11 +60,12 @@ class PasswordValidatorField extends StatefulWidget {
   const PasswordValidatorField({
     Key? key,
     required this.controller,
-    this.obscureText = false,
+    this.obscureText = true,
     this.hintText,
     this.labelText,
     this.validator,
     this.onChanged,
+    this.prefixIcon,
   }) : super(key: key);
 
   final bool obscureText;
@@ -63,6 +74,7 @@ class PasswordValidatorField extends StatefulWidget {
   final String? labelText;
   final String? Function(String?)? validator;
   final ValueChanged<String>? onChanged;
+  final Icon? prefixIcon;
 
   @override
   PasswordValidatorFieldState createState() => PasswordValidatorFieldState();
@@ -79,77 +91,44 @@ class PasswordValidatorFieldState extends State<PasswordValidatorField> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: TextFormField(
-        controller: widget.controller,
-        obscureText: _obscureText,
-        decoration: InputDecoration(
-          suffixIcon: IconButton(
-              onPressed: () {
-                setState(() {
-                  _obscureText = !_obscureText;
-                });
-              },
-              icon: _obscureText
-                  ? const Icon(Icons.visibility_off, color: Colors.grey)
-                  : const Icon(Icons.visibility, color: Colors.black)),
-          labelText: widget.labelText,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+    final bool isDarkMode = MPHelperFunctions.isDarkMode(context);
+    final Color iconColor =
+        isDarkMode ? MPColors.lightContainer : MPColors.black;
+    return TextFormField(
+      controller: widget.controller,
+      obscureText: _obscureText,
+      decoration: InputDecoration(
+        prefixIcon: widget.prefixIcon,
+        suffixIcon: IconButton(
+            onPressed: () {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
+            icon: _obscureText
+                ? Icon(Icons.visibility_off, color: iconColor)
+                : Icon(Icons.visibility, color: iconColor)),
+        labelText: widget.labelText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(MPSizes.borderRadiusMd),
+          borderSide: BorderSide(
+            color: isDarkMode
+                ? MPColors.lightContainer
+                : MPColors.black, // Border color in normal state
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color.fromARGB(255, 0, 0, 0),
-              width: 2.0,
-            ),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          hintText: widget.hintText,
         ),
-        validator: widget.validator,
-        onChanged: widget.onChanged,
-      ),
-    );
-  }
-}
-
-class MyTextField extends StatelessWidget {
-  const MyTextField({
-    Key? key,
-    required this.controller,
-    this.hintText,
-    this.labelText,
-    this.obscureText = true,
-  }) : super(key: key);
-
-  final TextEditingController controller;
-  final String? hintText;
-  final String? labelText;
-  final bool obscureText;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: TextField(
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          labelText: labelText, // Include label text
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: isDarkMode
+                ? MPColors.lightContainer
+                : MPColors.black, // Focused border color
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color.fromARGB(255, 0, 0, 0),
-              width: 2.0,
-            ),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          hintText: hintText,
+          borderRadius: BorderRadius.circular(MPSizes.borderRadiusMd),
         ),
+        hintText: widget.hintText,
       ),
+      validator: widget.validator,
+      onChanged: widget.onChanged,
     );
   }
 }
@@ -192,23 +171,6 @@ class Sidetext extends StatelessWidget {
 
         style:
             TextStyle(color: textcolor), // Use TextStyle to set the text color
-      ),
-    );
-  }
-}
-
-class MyText extends StatelessWidget {
-  final String text;
-
-  const MyText({Key? key, required this.text}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 18,
       ),
     );
   }
