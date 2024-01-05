@@ -9,6 +9,10 @@ class MPLocalStorage {
 
   MPLocalStorage._internal();
 
+  static Future<void> init() async {
+    await GetStorage.init(); // Initialize GetStorage
+  }
+
   final _storage = GetStorage();
 
   Future<void> saveData<T>(String key, T value) async {

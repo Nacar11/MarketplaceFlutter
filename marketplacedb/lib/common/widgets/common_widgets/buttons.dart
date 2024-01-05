@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
+import 'package:marketplacedb/util/constants/app_sizes.dart';
 
 class MPPrimaryButton extends StatelessWidget {
   final Function()? onPressed;
@@ -24,7 +25,8 @@ class MPPrimaryButton extends StatelessWidget {
             ? MPColors.buttonDisabled
             : MPColors.buttonPrimary,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius:
+              BorderRadius.all(Radius.circular(MPSizes.borderRadiusMd)),
         ),
       ),
       child: Center(

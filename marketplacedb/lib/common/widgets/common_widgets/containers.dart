@@ -185,7 +185,6 @@ class ContainerGuide extends StatelessWidget {
           Text(headerText, style: Theme.of(context).textTheme.headlineMedium),
           const SizedBox(height: MPSizes.spaceBtwSections), // Add some spacing
 
-          // Display either the rich text or plain text based on availability
           if (richText != null)
             richText!
           else if (text != null)

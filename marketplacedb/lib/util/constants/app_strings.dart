@@ -43,6 +43,16 @@ class MPTexts {
       "Stay Connected! What's Your Phone Number?";
   static const String phoneSubText =
       "Your contact information helps us keep you updated with the latest offers and important notifications!";
-
   static const String invalidNumberMessage = "Invalid Phone Number";
+  static const String codeHeaderText = "One-Time PIN";
+  static const String codeSubText =
+      "Please enter the one-time PIN(OTP) that we sent to ";
+  static const String nameHeaderText = "Tell us about Yourself";
+  static const String nameSubText =
+      "Help us personalize your experience by providing your name";
+
+  static const String differentNumberText1 = "Still Having Issues? ";
+  static const String differentNumberText2 = "Try a Different Number ";
+  static const String resendCodeText1 = "Didn't Receive anything? ";
+  static const String resendCodeText2 = "Resend Code";
 }

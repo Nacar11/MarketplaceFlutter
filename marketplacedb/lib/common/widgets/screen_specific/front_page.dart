@@ -22,7 +22,7 @@ Future googleButton(BuildContext context) async {
   // print(response);
   if (response == 0) {
     await GoogleSignAPI.logout();
-    Get.to(() => const SignUpPagePhone(socialLogin: true));
+    Get.to(() => const SignUpPagePhone());
   } else if (response == 1) {
     await GoogleSignAPI.logout();
     Get.to(() => const Navigation(hasSnackbar: 'welcomeMessage'));

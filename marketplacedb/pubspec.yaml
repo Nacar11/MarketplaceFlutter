@@ -29,6 +29,7 @@ dependencies:
   lottie: ^2.7.0
   smooth_page_indicator: ^1.1.0
   iconsax: ^0.0.8
+  pinput: ^3.0.1
 
 dev_dependencies:
   flutter_test:
