@@ -8,6 +8,7 @@ import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 
 import '../../common/widgets/screen_specific/sign_up_pages/code.dart';
+import '../../controllers/authenticationController.dart';
 
 class SignUpPageCode extends StatefulWidget {
   const SignUpPageCode({Key? key}) : super(key: key);
@@ -18,11 +19,12 @@ class SignUpPageCode extends StatefulWidget {
 
 class SignUpPageCodeState extends State<SignUpPageCode> {
   String? otpCode;
-
+  AuthenticationController authController = AuthenticationController.instance;
   bool isCodeValid = true;
 
   @override
   void dispose() {
+    // authController.dispose();
     super.dispose();
   }
 
@@ -41,18 +43,19 @@ class SignUpPageCodeState extends State<SignUpPageCode> {
           const SizedBox(height: MPSizes.spaceBtwSections),
           const CustomPinInput(),
           const SizedBox(height: MPSizes.spaceBtwSections),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              CustomResendCodeRichText(),
-              SizedBox(height: MPSizes.spaceBtwItems),
-              CustomDifferentNumberRichText(),
+              CustomResendCodeRichText(authController: authController),
+              const SizedBox(height: MPSizes.spaceBtwItems),
+              const CustomDifferentNumberRichText(),
             ],
           ),
         ]),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: const CustomSignUpContinue(),
+      floatingActionButton:
+          CustomSignUpContinue(authController: authController),
     );
   }
 }

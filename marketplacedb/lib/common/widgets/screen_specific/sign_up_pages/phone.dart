@@ -11,7 +11,6 @@ import 'package:marketplacedb/util/local_storage/local_storage.dart';
 AuthenticationController authController = AuthenticationController.instance;
 
 String phoneNumberController = '';
-bool isPhoneValid = false;
 
 class CustomPhoneField extends StatelessWidget {
   final Function(String) onValidityChanged;
@@ -43,32 +42,31 @@ class CustomSignUpContinue extends StatelessWidget {
   final bool isPhoneValid;
   const CustomSignUpContinue({
     Key? key,
-    required this.isPhoneValid, // Receive isPhoneValid in the constructor
+    required this.isPhoneValid,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: MPSizes.defaultSpace),
-      child: SizedBox(
-        height: MPSizes.buttonHeight,
-        child: MPPrimaryButton(
-            text: MPTexts.continueText,
-            isLoading: authController.isLoading.value,
-            isDisabled: !isPhoneValid,
-            onPressed: () async {
-              final code = await authController
-                  .getSMSVerificationCode(phoneNumberController);
-              if (code['success'] != null) {
-                String successValue = code['success'].toString();
-                MPLocalStorage localStorage = MPLocalStorage();
-                localStorage.saveData('SMSVerificationCode', successValue);
-                localStorage.saveData('contact_number', phoneNumberController);
+    return Obx(() => Container(
+          height: MPSizes.buttonHeight,
+          margin: const EdgeInsets.all(MPSizes.md),
+          child: MPPrimaryButton(
+              text: MPTexts.continueText,
+              isLoading: authController.isLoading.value,
+              isDisabled: !isPhoneValid,
+              onPressed: () async {
+                final code = await authController
+                    .getSMSVerificationCode(phoneNumberController);
+                if (code['success'] != null) {
+                  String successValue = code['success'].toString();
+                  MPLocalStorage localStorage = MPLocalStorage();
+                  localStorage.saveData('SMSVerificationCode', successValue);
+                  localStorage.saveData(
+                      'contact_number', phoneNumberController);
 
-                Get.to(() => const SignUpPageCode());
-              }
-            }),
-      ),
-    );
+                  Get.to(() => const SignUpPageCode());
+                }
+              }),
+        ));
   }
 }

@@ -17,6 +17,7 @@ class SignUpPagePhone extends StatefulWidget {
 }
 
 class _SignUpPagePhoneState extends State<SignUpPagePhone> {
+  bool isPhoneValid = false;
   @override
   void initState() {
     super.initState();
@@ -45,7 +46,6 @@ class _SignUpPagePhoneState extends State<SignUpPagePhone> {
               setState(() {
                 phoneNumberController = completePhoneNumber;
                 isPhoneValid = completePhoneNumber.length == 13;
-                print(isPhoneValid);
               });
             },
           ),

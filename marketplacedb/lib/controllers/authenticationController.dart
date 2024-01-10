@@ -7,6 +7,7 @@ import 'package:marketplacedb/networks/googleSignIn.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:marketplacedb/util/local_storage/local_storage.dart';
 
 class AuthenticationController extends GetxController {
   final isLoading = false.obs;
@@ -215,27 +216,27 @@ class AuthenticationController extends GetxController {
   }
 
   Future register() async {
-    final storage = await GetStorage();
+    MPLocalStorage localStorage = MPLocalStorage();
     try {
       isLoading.value = true;
 
       var data = {
-        'email': storage.read('email'),
-        'password': storage.read('password'),
-        'last_name': storage.read('first_name'),
-        'first_name': storage.read('first_name'),
-        'username': storage.read('username'),
-        'contact_number': storage.read('contact_number'),
-        'date_of_birth': storage.read('date_of_birth'),
+        'email': localStorage.readData('email'),
+        'password': localStorage.readData('password'),
+        'last_name': localStorage.readData('first_name'),
+        'first_name': localStorage.readData('first_name'),
+        'username': localStorage.readData('username'),
+        'contact_number': localStorage.readData('contact_number'),
+        'date_of_birth': localStorage.readData('date_of_birth'),
         'is_subscribe_to_newsletters':
-            (storage.read('is_subscribe_to_newsletters') ?? false)
+            (localStorage.readData('is_subscribe_to_newsletters') ?? false)
                 ? 'true'
                 : 'false',
         'is_subscribe_to_promotions':
-            (storage.read('is_subscribe_to_promotions') ?? false)
+            (localStorage.readData('is_subscribe_to_promotions') ?? false)
                 ? 'true'
                 : 'false',
-        'gender': storage.read('gender'),
+        'gender': localStorage.readData('gender'),
       };
       data.forEach((key, value) {
         print('$key: ${value.runtimeType}');
@@ -252,13 +253,9 @@ class AuthenticationController extends GetxController {
       if (jsonObject['message'] == "success") {
         isLoading.value = false;
         print(jsonObject['access_token']);
-        storage.write('token', jsonObject['access_token']);
-        storage.write('username', jsonObject['username']);
-        storage.write('first_name', jsonObject['first_name']);
-        storage.write('last_name', jsonObject['last_name']);
-        storage.write('contact_number', jsonObject['contact_number']);
-        storage.write('email', jsonObject['email']);
-        storage.write('userID', jsonObject['user_id']);
+        localStorage.saveData('token', jsonObject['access_token']);
+        localStorage.saveData('username', jsonObject['username']);
+        localStorage.saveData('userID', jsonObject['user_id']);
 
         return 0;
       } else {
@@ -296,7 +293,6 @@ class AuthenticationController extends GetxController {
   Future getEmailVerificationCode(String email) async {
     try {
       isLoading.value = true;
-      print(isLoading.value);
       var data = {
         'email': email,
       };

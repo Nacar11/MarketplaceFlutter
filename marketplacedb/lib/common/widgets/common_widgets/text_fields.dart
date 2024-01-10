@@ -49,6 +49,7 @@ class ValidatorField extends StatelessWidget {
           borderRadius: BorderRadius.circular(MPSizes.borderRadiusMd),
         ),
         hintText: hintText,
+        errorStyle: const TextStyle(fontSize: 12.0),
       ),
       validator: validator,
       onChanged: onChanged,

@@ -23,6 +23,8 @@ class MPTexts {
   static const String firstName = "First Name";
   static const String lastName = "Last Name";
   static const String email = "Email";
+  static const String male = "Male";
+  static const String female = "Female";
   static const String password = "Password";
   static const String newPassword = "New Password";
   static const String username = "Username";
@@ -33,12 +35,15 @@ class MPTexts {
   static const String loginDividerSignUpWith =
       "No Account Yet? Register with or Sign In Directly";
 
-  // --AUTHENTICATION FORM TEXTS
+  // --AUTHENTICATION HEADINGS TEXTS
   static const String loginTitle = "Welcome To Marketplace";
   static const String loginSubTitle =
       "Connect with People Around and Discover Limitless Choices";
+  static const String forgetPasswordTitle = "Forget Password";
+  static const String forgetPasswordSubTitle =
+      "Enter Your Email, and we will send you a Verification Code to re-new your password.";
 
-  // --CONTAINER GUIDE SIGNUP PROCESS
+  // --CONTAINER GUIDE SIGNUP TEXTS
   static const String phoneHeaderText =
       "Stay Connected! What's Your Phone Number?";
   static const String phoneSubText =
@@ -55,4 +60,42 @@ class MPTexts {
   static const String differentNumberText2 = "Try a Different Number ";
   static const String resendCodeText1 = "Didn't Receive anything? ";
   static const String resendCodeText2 = "Resend Code";
+
+  static const String birthDateHeaderText =
+      "Please provide your Gender and Date of Birth";
+  static const String birthDateSubText =
+      "To better tailor user experience, personalization, and verify compliance with legal age requirements";
+  static const String selectGender = "Select Gender:";
+  static const String usernameHeaderText = "Please enter your username";
+  static const String usernameSubText =
+      "This will be your display name other users will see.";
+  static const String passwordHeaderText = "Set a password";
+  static const String passwordSubText =
+      "Please create a secure password which includes the following criteria below.";
+  static const String enterPassword = "Enter Password";
+  static const String reEnterPassword = "Re-enter Password'";
+
+  // --REGEX VALIDATION TEXTS
+  static const String regexNoSpecialCharsAndNumbers = r'^[a-zA-Z\s]+$';
+  static const String regexNoNumbers = r'[0-9]';
+  static const String regexNoSpecialChars = r'^[a-zA-Z0-9\s]+$';
+//  r'[!@#$%^&*(),.?":{}|<>]';
+  static const String firstNameNoSpecialChars =
+      'First Name should not have special characters';
+  static const String lastNameNoSpecialChars =
+      'Last Name should not have special characters';
+  static const String firstNameRequired = 'First Name is Required';
+  static const String lastNameRequired = 'Last Name is Required';
+
+// --PASSWORD CONDITIONS
+  static const String passwordEightChars = "Contains at least 8 characters";
+  static const String passwordOneNumber = "Contains at least 1 Number";
+  static const String passwordSpecialChars =
+      "Contains at least 1 Special Character";
+  static const String passwordsMatch = "Passwords Match";
+
+// --SnackBars FlushBar Message
+  static const String signInCoupleMoreSteps =
+      'Sign in with just a couple more steps!';
+  static const String errorLoggingIn = 'Error Logging In';
 }

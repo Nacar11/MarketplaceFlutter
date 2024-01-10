@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:marketplacedb/screen/front_page.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/shoppingcart.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
@@ -141,6 +142,39 @@ class SignUpAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: IconButton(
           onPressed: () {
             Get.back();
+          },
+          icon: const Icon(
+            Icons.arrow_back_sharp,
+          )),
+      backgroundColor: MPColors.buttonPrimary,
+      iconTheme: const IconThemeData(
+        color: MPColors.light,
+      ),
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class SignUpAppBarBackToHomeScreen extends StatelessWidget
+    implements PreferredSizeWidget {
+  const SignUpAppBarBackToHomeScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: const Text(
+        MPTexts.getStarted,
+        style: TextStyle(
+          color: MPColors.textWhite,
+          // Set the color to black
+        ),
+      ),
+      centerTitle: true,
+      leading: IconButton(
+          onPressed: () {
+            Get.offAll(() => const FrontPage());
           },
           icon: const Icon(
             Icons.arrow_back_sharp,

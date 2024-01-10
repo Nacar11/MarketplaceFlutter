@@ -13,6 +13,7 @@ import 'package:pinput/pinput.dart';
 
 MPLocalStorage localStorage = MPLocalStorage();
 String contactNumber = localStorage.readData('contact_number');
+String? otpCode;
 
 RichText codeSubRichText(BuildContext context) {
   return RichText(
@@ -29,9 +30,6 @@ RichText codeSubRichText(BuildContext context) {
   );
 }
 
-String? otpCode;
-AuthenticationController authController = AuthenticationController.instance;
-
 class CustomPinInput extends StatelessWidget {
   const CustomPinInput({
     super.key,
@@ -42,7 +40,6 @@ class CustomPinInput extends StatelessWidget {
     return Pinput(
         length: 6,
         onCompleted: (code) {
-          print(code);
           otpCode = code;
         },
         defaultPinTheme: PinTheme(
@@ -86,8 +83,10 @@ class CustomDifferentNumberRichText extends StatelessWidget {
 class CustomResendCodeRichText extends StatelessWidget {
   const CustomResendCodeRichText({
     super.key,
+    required this.authController,
   });
 
+  final AuthenticationController authController;
   @override
   Widget build(BuildContext context) {
     return RichText(
@@ -119,32 +118,29 @@ class CustomResendCodeRichText extends StatelessWidget {
   }
 }
 
-void continueButton(BuildContext context) {
-  Get.to(() => const SignUpPageName());
-}
-
 class CustomSignUpContinue extends StatelessWidget {
   const CustomSignUpContinue({
     super.key,
+    required this.authController,
   });
-
+  final AuthenticationController authController;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 50,
-      margin: const EdgeInsets.all(10),
-      child: MPPrimaryButton(
-        text: MPTexts.continueText,
-        isLoading: authController.isLoading.value,
-        onPressed: () async {
-          if (otpCode == localStorage.readData('SMSVerificationCode')) {
-            continueButton(context);
-          } else {
-            showErrorHandlingSnackBar(
-                context, "Incorrect PIN, Please try again.", 'error');
-          }
-        },
-      ),
-    );
+    return Obx(() => Container(
+          height: MPSizes.buttonHeight,
+          margin: const EdgeInsets.all(MPSizes.md),
+          child: MPPrimaryButton(
+            text: MPTexts.continueText,
+            isLoading: authController.isLoading.value,
+            onPressed: () async {
+              if (otpCode == localStorage.readData('SMSVerificationCode')) {
+                Get.offAll(() => const SignUpPageName());
+              } else {
+                showErrorHandlingSnackBar(
+                    context, "Incorrect PIN, Please try again.", 'error');
+              }
+            },
+          ),
+        ));
   }
 }

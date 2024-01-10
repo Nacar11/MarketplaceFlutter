@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           // storage.clearAll();
           final isFirstTime = storage.readData('isFirstTime');
           if (isFirstTime != null) {
-            return '/frontpage';
+            return '/frontPage';
           } else {
             storage.clearAll();
             return '/OnBoardingScreen';
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
       }(),
       onGenerateRoute: (settings) {
         switch (settings.name) {
-          case '/frontpage':
+          case '/frontPage':
             return MaterialPageRoute(builder: (context) => const FrontPage());
           case '/navigation':
             return MaterialPageRoute(builder: (context) => const Navigation());

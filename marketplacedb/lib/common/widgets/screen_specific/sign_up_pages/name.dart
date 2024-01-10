@@ -1,39 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
-import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:marketplacedb/screen/sign_up_pages/sign_up_page_birthdate.dart';
+import 'package:marketplacedb/util/constants/app_animations.dart';
+import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
 
-AuthenticationController authController = AuthenticationController.instance;
-final GlobalKey<FormState> firstNameKey = GlobalKey<FormState>();
-final GlobalKey<FormState> lastNameKey = GlobalKey<FormState>();
-final firstNameController = TextEditingController();
-final lastNameController = TextEditingController();
 MPLocalStorage localStorage = MPLocalStorage();
-
-void continueButton(BuildContext context) {
-  Get.to(() => const SignUpPageBirthDate());
-}
 
 class CustomSignUpContinue extends StatelessWidget {
   const CustomSignUpContinue({
     super.key,
+    required this.firstNameController,
+    required this.lastNameController,
     required this.isFirstNameValid,
     required this.isLastNameValid,
   });
 
   final bool isFirstNameValid;
   final bool isLastNameValid;
+  final TextEditingController firstNameController;
+  final TextEditingController lastNameController;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
-      margin: const EdgeInsets.all(10),
+      height: MPSizes.buttonHeight,
+      margin: const EdgeInsets.all(MPSizes.md),
       child: MPPrimaryButton(
         text: MPTexts.continueText,
         isDisabled: !isFirstNameValid || !isLastNameValid,
@@ -43,12 +40,11 @@ class CustomSignUpContinue extends StatelessWidget {
                 'first_name',
                 MPHelperFunctions.capitalizeFirstLetter(
                     firstNameController.text));
-            print(localStorage.readData('first_name'));
             localStorage.saveData(
                 'last_name',
                 MPHelperFunctions.capitalizeFirstLetter(
                     lastNameController.text));
-            continueButton(context);
+            Get.to(() => const SignUpPageBirthDate());
           }
         },
       ),
@@ -56,69 +52,112 @@ class CustomSignUpContinue extends StatelessWidget {
   }
 }
 
-class LastNameForm extends StatelessWidget {
-  const LastNameForm({
-    super.key,
-    required this.onLastNameValidChanged,
-  });
+final firstNameFormKey = GlobalKey<FormState>();
+final lastNameFormKey = GlobalKey<FormState>();
 
+class NameFormFields extends StatelessWidget {
+  final TextEditingController firstNameController;
+  final TextEditingController lastNameController;
+  final Function(bool) onFirstNameValidChanged;
   final Function(bool) onLastNameValidChanged;
 
+  const NameFormFields({
+    Key? key,
+    required this.onFirstNameValidChanged,
+    required this.onLastNameValidChanged,
+    required this.firstNameController,
+    required this.lastNameController,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: lastNameKey,
-      child: ValidatorField(
-        controller: lastNameController,
-        labelText: MPTexts.lastName,
-        validator: (value) {
-          RegExp lastNamePattern = RegExp(r'^[a-zA-Z\s]+$');
-          if (value == null || value.isEmpty) {
-            return 'Last Name is required';
-          } else if (!lastNamePattern.hasMatch(value)) {
-            return 'Last Name should not have special characters';
-          }
-          return null;
-        },
-        onChanged: (value) {
-          bool isValid = lastNameKey.currentState != null &&
-              lastNameKey.currentState!.validate();
-          onLastNameValidChanged(isValid);
-        },
-      ),
+    return Column(
+      children: [
+        Form(
+          key: firstNameFormKey,
+          child: ValidatorField(
+            controller: firstNameController,
+            labelText: MPTexts.firstName,
+            validator: (value) {
+              RegExp firstNamePattern =
+                  RegExp(MPTexts.regexNoSpecialCharsAndNumbers);
+              if (value == null || value.isEmpty) {
+                return MPTexts.firstNameRequired;
+              } else if (!firstNamePattern.hasMatch(value)) {
+                return MPTexts.firstNameNoSpecialChars;
+              }
+              return null;
+            },
+            onChanged: (value) {
+              firstNameFormKey.currentState!.validate();
+              onFirstNameValidChanged(
+                  firstNameFormKey.currentState!.validate());
+            },
+          ),
+        ),
+        const SizedBox(height: MPSizes.spaceBtwInputFields),
+        Form(
+          key: lastNameFormKey,
+          child: ValidatorField(
+            controller: lastNameController,
+            labelText: MPTexts.lastName,
+            validator: (value) {
+              RegExp lastNamePattern = RegExp(MPTexts.regexNoSpecialChars);
+              if (value == null || value.isEmpty) {
+                return MPTexts.lastNameRequired;
+              } else if (!lastNamePattern.hasMatch(value)) {
+                return MPTexts.lastNameNoSpecialChars;
+              }
+              return null;
+            },
+            onChanged: (value) {
+              bool isValid = value.isNotEmpty &&
+                  lastNameController.text.trim().isNotEmpty &&
+                  lastNameFormKey.currentState!.validate();
+              onLastNameValidChanged(isValid);
+            },
+          ),
+        ),
+      ],
     );
   }
 }
 
-class FirstNameForm extends StatelessWidget {
-  const FirstNameForm({
-    super.key,
-    required this.onFirstNameValidChanged,
-  });
+class UserProfileAnimation extends StatefulWidget {
+  const UserProfileAnimation({
+    Key? key,
+  }) : super(key: key);
 
-  final Function(bool) onFirstNameValidChanged;
+  @override
+  UserProfileAnimationState createState() => UserProfileAnimationState();
+}
+
+class UserProfileAnimationState extends State<UserProfileAnimation>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController animationController;
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    animationController =
+        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    animationController.forward();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: firstNameKey,
-      child: ValidatorField(
-        controller: firstNameController,
-        labelText: MPTexts.firstName,
-        validator: (value) {
-          RegExp firstNamePattern = RegExp(r'^[a-zA-Z\s]+$');
-          if (value == null || value.isEmpty) {
-            return 'First Name is required';
-          } else if (!firstNamePattern.hasMatch(value)) {
-            return 'First Name should not have special characters';
-          }
-          return null;
-        },
-        onChanged: (value) {
-          bool isValid = firstNameKey.currentState != null &&
-              firstNameKey.currentState!.validate();
-          onFirstNameValidChanged(isValid);
-        },
+    return Container(
+      child: Lottie.asset(
+        AnimationsUtils.userProfile1,
+        width: MPHelperFunctions.screenWidth() * 0.6,
+        height: MPHelperFunctions.screenHeight() * 0.15,
+        controller: animationController,
       ),
     );
   }

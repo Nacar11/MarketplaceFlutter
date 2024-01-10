@@ -5,6 +5,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:marketplacedb/networks/googleSignIn.dart';
+import 'package:marketplacedb/screen/password_configuration/forget_password.dart';
 import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/screen/sign_up_pages/sign_up_page_phone.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
@@ -28,7 +29,7 @@ Future googleButton(BuildContext context) async {
     Get.to(() => const Navigation(hasSnackbar: 'welcomeMessage'));
   } else {
     await GoogleSignAPI.logout();
-    showErrorHandlingSnackBar(context, 'Error Logging In', 'error');
+    showErrorHandlingSnackBar(context, MPTexts.errorLoggingIn, 'error');
   }
 }
 
@@ -91,7 +92,11 @@ class LoginForgetPasswordRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-      TextButton(onPressed: () {}, child: const Text(MPTexts.forgetPassword)),
+      TextButton(
+          onPressed: () {
+            Get.to(() => const ForgetPasswordPage());
+          },
+          child: const Text(MPTexts.forgetPassword)),
     ]);
   }
 }
