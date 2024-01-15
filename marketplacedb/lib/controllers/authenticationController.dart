@@ -1,112 +1,67 @@
 // ignore_for_file: file_names, avoid_print, non_constant_identifier_names, await_only_futures, unused_import, unused_local_variable
 
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:marketplacedb/networks/googleSignIn.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
+import 'package:marketplacedb/screen/front_page.dart';
+import 'package:marketplacedb/screen/sign_up_pages/sign_up_page_phone.dart';
+import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
 
 class AuthenticationController extends GetxController {
   final isLoading = false.obs;
   final token = ''.obs;
-  final storage = GetStorage();
+
   static AuthenticationController get instance => Get.find();
+  MPLocalStorage localStorage = MPLocalStorage();
 
-  Future<void> storeLocalData(String key, dynamic value) async {
-    if (value is String) {
-      String processedValue = value.trim();
-
-      if (key == 'first_name' || key == 'last_name' || key == 'username') {
-        processedValue = _capitalizeFirstLetter(processedValue);
-      }
-      // Store the cleaned value in local storage
-      await storage.write(key, processedValue);
-      print(storage.read(key));
-    } else {
-      // If the value is not a string (e.g., gender), directly store it without processing
-      await storage.write(key, value);
-      print(storage.read(key));
-    }
-  }
-
-  String _capitalizeFirstLetter(String value) {
-    if (value.isNotEmpty) {
-      return value.substring(0, 1).toUpperCase() + value.substring(1);
-    }
-    return value;
-  }
-
-  // String email = '';
-  // String first_name = '';
-  // String last_name = '';
-  // String password = '';
-  // String username = '';
-  // String gender = '';
-  // String date_of_birth = '';
-  // String contact_number = '';
-  // final is_subscribe_to_newsletter = false;
-  // final is_subscribe_to_promotions = false;
-
-  Future test() async {
-    final storage = GetStorage();
-    print(storage.read('username'));
-    print(storage.read('last_name'));
-    print(storage.read('first_name'));
-    // print('asdasd');
-    // final response = await http.get(
-    //   Uri.parse(url + 'test'),
-    // );
-    // print(response.body);
+  Future<void> simulateLoading(Duration duration) async {
+    isLoading.value = true;
+    await Future.delayed(duration);
+    isLoading.value = false;
   }
 
   Future login({
+    required BuildContext context,
     required String email,
     required String password,
   }) async {
+    isLoading.value = true;
+    var data = {
+      'email': email,
+      'password': password,
+    };
+    final urlRequest = http.MultipartRequest('POST', Uri.parse('${url}login'));
+
+    urlRequest.fields['email'] = email;
+    urlRequest.fields['password'] = password;
+
     try {
-      isLoading.value = true;
-      var data = {
-        'email': email,
-        'password': password,
-      };
-      final urlRequest =
-          http.MultipartRequest('POST', Uri.parse('${url}login'));
-
-      urlRequest.fields['email'] = email;
-      urlRequest.fields['password'] = password;
-
-      try {
-        final streamedResponse = await urlRequest.send();
-        final response = await http.Response.fromStream(streamedResponse);
-        final jsonResponse = json.decode(response.body);
-        print(jsonResponse);
-        if (jsonResponse['message'] == "Authorized") {
-          isLoading.value = false;
-          storage.erase();
-          storage.write('token', jsonResponse['access_token']);
-          storage.write('username', jsonResponse['username']);
-          storage.write('first_name', jsonResponse['first_name']);
-          storage.write('last_name', jsonResponse['last_name']);
-          storage.write('contact_number', jsonResponse['contact_number']);
-          storage.write('email', jsonResponse['email']);
-          storage.write('userID', jsonResponse['user_id']);
-
-          storage.read('token');
-          return 0;
-        } else {
-          isLoading.value = false;
-          return jsonResponse['message'];
-        }
-      } catch (e) {
+      final streamedResponse = await urlRequest.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      final jsonResponse = json.decode(response.body);
+      print(jsonResponse['message']);
+      if (jsonResponse['message'] == 'success') {
+        token.value = jsonResponse['access_token'];
+        localStorage.saveData('token', jsonResponse['access_token']);
+        localStorage.saveData('username', jsonResponse['username']);
+        localStorage.saveData('userID', jsonResponse['user_id']);
         isLoading.value = false;
-        print(e);
+        Get.offAll(() => const Navigation(hasSnackbar: 'welcomeMessage'));
+      } else {
+        errorSnackBar(context, jsonResponse['message'], 'Error');
+        isLoading.value = false;
       }
     } catch (e) {
-      print(e);
       isLoading.value = false;
+      print(e);
     }
   }
 
@@ -143,6 +98,7 @@ class AuthenticationController extends GetxController {
   Future changePassword(
       {required String email, required String newPassword}) async {
     try {
+      isLoading.value = true;
       final response = await AuthInterceptor().post(
         Uri.parse('${url}changePass'),
         body: {
@@ -151,15 +107,11 @@ class AuthenticationController extends GetxController {
         },
       );
       var jsonObject = jsonDecode(response.body);
-      if (jsonObject['message'] == "Password changed successfully") {
-        return 0;
-      } else {
-        // Handle other status codes (e.g., 404, 422, 500)
-        print('Failed to change password: ${response.body}');
-      }
+      isLoading.value = false;
+      return jsonObject;
     } catch (e) {
-      // Handle any exceptions that occur
-      print('Exception while changing password: $e');
+      isLoading.value = false;
+      print('Error while changing password: $e');
     }
   }
 
@@ -215,8 +167,7 @@ class AuthenticationController extends GetxController {
     }
   }
 
-  Future register() async {
-    MPLocalStorage localStorage = MPLocalStorage();
+  Future register(BuildContext context) async {
     try {
       isLoading.value = true;
 
@@ -257,10 +208,12 @@ class AuthenticationController extends GetxController {
         localStorage.saveData('username', jsonObject['username']);
         localStorage.saveData('userID', jsonObject['user_id']);
 
-        return 0;
+        Get.offAll(() => const Navigation(hasSnackbar: 'welcomeMessage'));
       } else {
         isLoading.value = false;
-        return jsonObject['message'];
+
+        final text = jsonObject['message'];
+        errorSnackBar(context, text, 'error');
       }
     } catch (e) {
       print(e);
@@ -268,7 +221,7 @@ class AuthenticationController extends GetxController {
     }
   }
 
-  Future logout() async {
+  Future<void> logout(BuildContext context) async {
     try {
       isLoading.value = true;
       var response = await AuthInterceptor().get(
@@ -277,13 +230,20 @@ class AuthenticationController extends GetxController {
           'Accept': 'application/json',
         },
       );
-      final storage = GetStorage();
-      print('ASD ${storage.read('token')}'); //
-      await storage.erase();
-      print(storage.read('token')); //
+
       var jsonObject = jsonDecode(response.body);
       isLoading.value = false;
-      return jsonObject;
+      if (jsonObject['message'] == 'Logged out Successfully') {
+        localStorage.clearAll();
+        Get.offAll(() => const FrontPage(logoutMessage: true));
+      } else {
+        print(jsonObject['message']);
+        errorSnackBar(
+          context,
+          'Error Logging Out, Please Try Again',
+          'error',
+        );
+      }
     } catch (e) {
       print(e);
       isLoading.value = false;
@@ -336,7 +296,7 @@ class AuthenticationController extends GetxController {
     }
   }
 
-  Future loginGoogle(String? email) async {
+  Future loginGoogle(BuildContext context, String? email) async {
     try {
       var data = {'email': email};
       isLoading.value = true;
@@ -352,29 +312,25 @@ class AuthenticationController extends GetxController {
       print(jsonObject);
       if (jsonObject['message'] == 'registerFirst') {
         final storage = GetStorage();
-        storage.write('email', email);
-        storage.write('signInMethod', 'google');
+        localStorage.saveData('email', email);
+        localStorage.saveData('signInMethod', 'google');
         isLoading.value = false;
-        return 0;
-      } else if (jsonObject['message'] == 'Success') {
-        print('adsad');
-        final storage = GetStorage();
-        storage.erase();
-        storage.write('token', jsonObject['access_token']);
-        storage.write('username', jsonObject['username']);
-        storage.write('first_name', jsonObject['first_name']);
-        storage.write('last_name', jsonObject['last_name']);
-        storage.write('contact_number', jsonObject['contact_number']);
-        storage.write('email', jsonObject['email']);
-        storage.write('userID', jsonObject['user_id']);
-
-        return 1;
+        await GoogleSignAPI.logout();
+        Get.to(() => const SignUpPagePhone());
+      } else if (jsonObject['message'] == 'success') {
+        localStorage.clearAll();
+        localStorage.saveData('token', jsonObject['access_token']);
+        localStorage.saveData('username', jsonObject['username']);
+        localStorage.saveData('userID', jsonObject['user_id']);
+        isLoading.value = false;
+        await GoogleSignAPI.logout();
+        Get.to(() => const Navigation(hasSnackbar: 'welcomeMessage'));
       } else {
-        return 2;
+        isLoading.value = false;
+        errorSnackBar(context, MPTexts.errorLoggingIn, 'error');
       }
     } catch (e) {
       print(e);
-      print('asdasdas');
       isLoading.value = false;
     }
   }

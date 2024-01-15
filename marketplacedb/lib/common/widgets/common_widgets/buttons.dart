@@ -31,13 +31,19 @@ class MPPrimaryButton extends StatelessWidget {
       ),
       child: Center(
         child: isLoading
-            ? const CircularProgressIndicator()
+            ? const SizedBox(
+                width: MPSizes.iconMd, // Adjust the size as needed
+                height: MPSizes.iconMd, // Adjust the size as needed
+
+                child: CircularProgressIndicator(),
+              )
             : Text(
                 text,
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 14, // Adjust the font size as needed
+                  fontSize:
+                      MPSizes.fontSizeSm, // Adjust the font size as needed
                 ),
               ),
       ),

@@ -117,7 +117,7 @@ class FilterpageState extends State<Filterpage> {
                                     ).then((selectedData) async {
                                       print(selectedData);
                                       if (selectedData == true) {
-                                        showSuccessSnackBar(
+                                        successSnackBar(
                                           context,
                                           'Your Product has been deleted.',
                                           'Success',

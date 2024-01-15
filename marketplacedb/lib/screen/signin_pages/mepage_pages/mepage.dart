@@ -179,7 +179,7 @@ class _FirstOptionMenuState extends State<FirstOptionMenu> {
                             ).then((selectedData) async {
                               print(selectedData);
                               if (selectedData == true) {
-                                showSuccessSnackBar(
+                                successSnackBar(
                                   context,
                                   'Your Product has been deleted.',
                                   'Success',

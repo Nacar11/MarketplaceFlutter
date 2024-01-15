@@ -4,7 +4,6 @@ import 'package:lottie/lottie.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
 import 'package:marketplacedb/screen/sign_up_pages/sign_up_page_birthdate.dart';
-import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
@@ -123,18 +122,27 @@ class NameFormFields extends StatelessWidget {
   }
 }
 
-class UserProfileAnimation extends StatefulWidget {
-  const UserProfileAnimation({
+class AnimationContainer extends StatefulWidget {
+  const AnimationContainer({
     Key? key,
+    required this.animation,
+    required this.duration,
   }) : super(key: key);
 
+  final String animation;
+  final Duration duration;
   @override
-  UserProfileAnimationState createState() => UserProfileAnimationState();
+  AnimationContainerState createState() =>
+      // ignore: no_logic_in_create_state
+      AnimationContainerState(animation, duration);
 }
 
-class UserProfileAnimationState extends State<UserProfileAnimation>
+class AnimationContainerState extends State<AnimationContainer>
     with SingleTickerProviderStateMixin {
   late final AnimationController animationController;
+  final String animation;
+  final Duration duration;
+  AnimationContainerState(this.animation, this.duration);
 
   @override
   void dispose() {
@@ -145,8 +153,7 @@ class UserProfileAnimationState extends State<UserProfileAnimation>
   @override
   void initState() {
     super.initState();
-    animationController =
-        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    animationController = AnimationController(duration: duration, vsync: this);
     animationController.forward();
   }
 
@@ -154,7 +161,7 @@ class UserProfileAnimationState extends State<UserProfileAnimation>
   Widget build(BuildContext context) {
     return Container(
       child: Lottie.asset(
-        AnimationsUtils.userProfile1,
+        animation,
         width: MPHelperFunctions.screenWidth() * 0.6,
         height: MPHelperFunctions.screenHeight() * 0.15,
         controller: animationController,

@@ -8,8 +8,10 @@ import 'package:marketplacedb/common/styles/spacing_styles.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/screen_specific/front_page.dart';
+import 'package:marketplacedb/common/widgets/screen_specific/sign_up_pages/phone.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
+import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
@@ -42,7 +44,7 @@ class FrontPageState extends State<FrontPage> {
   }
 
   void showLogoutSnackBar() async {
-    showSuccessSnackBar(context, "Successfully Logged Out", 'success');
+    successSnackBar(context, "Successfully Logged Out", 'Success');
   }
 
   Future<void> termsOfServices(BuildContext context) async {
@@ -89,35 +91,36 @@ class FrontPageState extends State<FrontPage> {
   @override
   Widget build(BuildContext context) {
     final bool isDarkMode = MPHelperFunctions.isDarkMode(context);
-    return WillPopScope(
-      onWillPop: () async {
-        SystemNavigator.pop();
-        return false;
-      },
-      child: Scaffold(
-          body: SingleChildScrollView(
-              child: Padding(
-                  padding: MPSpacingStyle.paddingWithAppBarHeight,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const LoginHeader(),
-                      const SizedBox(height: MPSizes.spaceBtwSections / 2),
-                      LoginForm(
-                          emailController: emailController,
-                          passwordController: passwordController),
-                      const LoginForgetPasswordRow(),
-                      const SizedBox(height: MPSizes.spaceBtwItems),
-                      SizedBox(
-                          width: double.infinity,
-                          child: MPPrimaryButton(
-                              onPressed: () {}, text: MPTexts.signIn)),
-                      const SizedBox(height: MPSizes.spaceBtwSections * 1.5),
-                      MPDivider(isDarkMode: isDarkMode),
-                      const SizedBox(height: MPSizes.spaceBtwItems),
-                      const SocialLoginButtons(),
-                    ],
-                  )))),
-    );
+    return Scaffold(
+        body: SingleChildScrollView(
+            child: Padding(
+                padding: MPSpacingStyle.paddingWithAppBarHeight,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const LoginHeader(),
+                    const SizedBox(height: MPSizes.spaceBtwSections / 2),
+                    LoginForm(
+                        emailController: emailController,
+                        passwordController: passwordController),
+                    const LoginForgetPasswordRow(),
+                    const SizedBox(height: MPSizes.spaceBtwItems),
+                    SizedBox(
+                        width: double.infinity,
+                        child: Obx(() => MPPrimaryButton(
+                            isLoading: authController.isLoading.value,
+                            onPressed: () async {
+                              await controller.login(
+                                  context: context,
+                                  email: emailController.text,
+                                  password: passwordController.text);
+                            },
+                            text: MPTexts.signIn))),
+                    const SizedBox(height: MPSizes.spaceBtwSections * 1.5),
+                    MPDivider(isDarkMode: isDarkMode),
+                    const SizedBox(height: MPSizes.spaceBtwItems),
+                    const SocialLoginButtons(),
+                  ],
+                ))));
   }
 }

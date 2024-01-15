@@ -234,17 +234,17 @@ class _FirstOptionMenuState extends State<FirstOptionMenu> {
           ),
         ],
       ),
-      LargeBlackButton(
-          isDisabled: userController.isLoading.value,
-          text: "List an Item and Start Selling",
-          onPressed: () async {
-            var response = await userController.UserHasAddress();
-            if (response == true) {
-              goToListAnItem(context);
-            } else {
-              goToListAnItem(context);
-            }
-          }),
+      // LargeBlackButton(
+      //     isDisabled: userController.isLoading.value,
+      //     text: "List an Item and Start Selling",
+      //     onPressed: () async {
+      //       var response = await userController.UserHasAddress();
+      //       if (response == true) {
+      //         goToListAnItem(context);
+      //       } else {
+      //         goToListAnItem(context);
+      //       }
+      //     }),
     ]);
   }
 }

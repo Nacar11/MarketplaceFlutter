@@ -5,4 +5,6 @@ class AnimationsUtils {
   static const onboardingAnimation4 = 'assets/animations/4444.json';
 
   static const userProfile1 = 'assets/animations/userProfile.json';
+
+  static const success1 = 'assets/animations/successAnimation1.json';
 }

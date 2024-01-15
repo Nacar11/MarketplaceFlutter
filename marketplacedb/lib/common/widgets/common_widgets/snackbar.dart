@@ -4,42 +4,108 @@ import 'package:flutter/material.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:another_flushbar/flushbar_route.dart';
+import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:marketplacedb/util/constants/app_colors.dart';
+import 'package:marketplacedb/util/constants/app_sizes.dart';
+import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
-class CustomSnackBar extends StatefulWidget {
-  final String message;
-  const CustomSnackBar({Key? key, required this.message}) : super(key: key);
+// void showSuccessSnackBar(BuildContext context, String message, String type) {
+//   Flushbar(
+//     margin: const EdgeInsets.all(15),
+//     duration: const Duration(seconds: 1),
+//     message: message,
+//     flushbarPosition: FlushbarPosition.TOP,
+//     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+//     backgroundGradient: LinearGradient(
+//       colors: [Colors.green.shade800, Colors.greenAccent.shade700],
+//       stops: const [0.6, 1],
+//     ),
+//     boxShadows: const [
+//       BoxShadow(
+//         color: Colors.black45,
+//         offset: Offset(3, 3),
+//         blurRadius: 3,
+//       ),
+//     ],
+//     dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+//     forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+//     title: type == 'loginsuccess' ? 'Successfully Logged In' : 'Success',
+//   ).show(context);
+// }
 
-  @override
-  State<CustomSnackBar> createState() => CustomSnackBarState(message: message);
-}
+// void socialLoginSignUp(BuildContext context, String message, String type) {
+//   Flushbar(
+//     margin: const EdgeInsets.all(15),
+//     duration: const Duration(seconds: 3),
+//     message: message,
+//     flushbarPosition: FlushbarPosition.TOP,
+//     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+//     backgroundGradient: LinearGradient(
+//       colors: [Colors.green.shade800, Colors.greenAccent.shade700],
+//       stops: const [0.6, 1],
+//     ),
+//     boxShadows: const [
+//       BoxShadow(
+//         color: Colors.black45,
+//         offset: Offset(3, 3),
+//         blurRadius: 3,
+//       ),
+//     ],
+//     dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+//     forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+//     title: type == 'loginsuccess' ? 'Welcome!' : 'Success',
+//   ).show(context);
+// }
 
-class CustomSnackBarState extends State<CustomSnackBar> {
-  final String message;
+// void phoneNumberVerified(BuildContext context, String message, String type) {
+//   Flushbar(
+//     margin: const EdgeInsets.all(15),
+//     duration: const Duration(seconds: 3),
+//     message: message,
+//     flushbarPosition: FlushbarPosition.TOP,
+//     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+//     backgroundGradient: LinearGradient(
+//       colors: [Colors.green.shade800, Colors.greenAccent.shade700],
+//       stops: const [0.6, 1],
+//     ),
+//     boxShadows: const [
+//       BoxShadow(
+//         color: Colors.black45,
+//         offset: Offset(3, 3),
+//         blurRadius: 3,
+//       ),
+//     ],
+//     dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+//     forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+//     title: type == 'loginsuccess' ? 'Verified!' : 'Success',
+//   ).show(context);
+// }
 
-  CustomSnackBarState({required this.message});
-  @override
-  Widget build(BuildContext context) {
-    return SnackBar(
-      content: Text(message),
-      action: SnackBarAction(
-        label: 'Dismiss',
-        onPressed: () {},
-      ),
-    );
-  }
-}
-
-void showSuccessSnackBar(BuildContext context, String message, String type) {
+void errorSnackBar(BuildContext context, String message, String title) {
+  final bool isDarkMode = MPHelperFunctions.isDarkMode(context);
+  final Color backgroundColor =
+      isDarkMode ? MPColors.darkContainer : MPColors.white;
+  final Color textColor =
+      isDarkMode ? MPColors.textWhite : MPColors.textPrimary;
   Flushbar(
-    margin: const EdgeInsets.all(15),
+    backgroundColor: backgroundColor,
+    titleColor: textColor,
+    messageColor: textColor,
+    icon: const Icon(Icons.error, color: Colors.red),
+    margin: const EdgeInsets.all(MPSizes.sm),
     duration: const Duration(seconds: 1),
     message: message,
     flushbarPosition: FlushbarPosition.TOP,
-    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-    backgroundGradient: LinearGradient(
-      colors: [Colors.green.shade800, Colors.greenAccent.shade700],
-      stops: const [0.6, 1],
-    ),
+    borderRadius:
+        const BorderRadius.all(Radius.circular(MPSizes.borderRadiusMd)),
+    // backgroundGradient: const LinearGradient(
+    //   colors: [
+    //     Color.fromARGB(255, 255, 255, 255),
+    //     Color.fromARGB(255, 240, 186, 186)
+    //   ],
+    //   stops: [0.6, 1],
+    // ),
     boxShadows: const [
       BoxShadow(
         color: Colors.black45,
@@ -47,23 +113,29 @@ void showSuccessSnackBar(BuildContext context, String message, String type) {
         blurRadius: 3,
       ),
     ],
-    dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+    dismissDirection: FlushbarDismissDirection.VERTICAL,
     forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
-    title: type == 'loginsuccess' ? 'Successfully Logged In' : 'Success',
+    title: title,
   ).show(context);
 }
 
-void socialLoginSignUp(BuildContext context, String message, String type) {
+void successSnackBar(BuildContext context, String message, String title) {
+  final bool isDarkMode = MPHelperFunctions.isDarkMode(context);
+  final Color backgroundColor =
+      isDarkMode ? MPColors.darkContainer : MPColors.white;
+  final Color textColor =
+      isDarkMode ? MPColors.textWhite : MPColors.textPrimary;
   Flushbar(
-    margin: const EdgeInsets.all(15),
-    duration: const Duration(seconds: 3),
+    backgroundColor: backgroundColor,
+    titleColor: textColor,
+    messageColor: textColor,
+    icon: const Icon(Iconsax.copy_success, color: Colors.green),
+    margin: const EdgeInsets.all(MPSizes.sm),
+    duration: const Duration(seconds: 2),
     message: message,
     flushbarPosition: FlushbarPosition.TOP,
-    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-    backgroundGradient: LinearGradient(
-      colors: [Colors.green.shade800, Colors.greenAccent.shade700],
-      stops: const [0.6, 1],
-    ),
+    borderRadius:
+        const BorderRadius.all(Radius.circular(MPSizes.borderRadiusMd)),
     boxShadows: const [
       BoxShadow(
         color: Colors.black45,
@@ -71,57 +143,8 @@ void socialLoginSignUp(BuildContext context, String message, String type) {
         blurRadius: 3,
       ),
     ],
-    dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+    dismissDirection: FlushbarDismissDirection.VERTICAL,
     forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
-    title: type == 'loginsuccess' ? 'Welcome!' : 'Success',
+    title: title,
   ).show(context);
-}
-
-void phoneNumberVerified(BuildContext context, String message, String type) {
-  Flushbar(
-    margin: const EdgeInsets.all(15),
-    duration: const Duration(seconds: 3),
-    message: message,
-    flushbarPosition: FlushbarPosition.TOP,
-    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-    backgroundGradient: LinearGradient(
-      colors: [Colors.green.shade800, Colors.greenAccent.shade700],
-      stops: const [0.6, 1],
-    ),
-    boxShadows: const [
-      BoxShadow(
-        color: Colors.black45,
-        offset: Offset(3, 3),
-        blurRadius: 3,
-      ),
-    ],
-    dismissDirection: FlushbarDismissDirection.HORIZONTAL,
-    forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
-    title: type == 'loginsuccess' ? 'Verified!' : 'Success',
-  ).show(context);
-}
-
-void showErrorHandlingSnackBar(
-    BuildContext context, String message, String type) {
-  Flushbar(
-          margin: const EdgeInsets.all(15),
-          duration: const Duration(seconds: 1),
-          message: message,
-          flushbarPosition: FlushbarPosition.TOP,
-          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-          backgroundGradient: LinearGradient(
-            colors: [Colors.red.shade800, Colors.redAccent.shade700],
-            stops: const [0.6, 1],
-          ),
-          boxShadows: const [
-            BoxShadow(
-              color: Colors.black45,
-              offset: Offset(3, 3),
-              blurRadius: 3,
-            ),
-          ],
-          dismissDirection: FlushbarDismissDirection.HORIZONTAL,
-          forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
-          title: 'Error')
-      .show(context);
 }

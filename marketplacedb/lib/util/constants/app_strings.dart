@@ -41,7 +41,12 @@ class MPTexts {
       "Connect with People Around and Discover Limitless Choices";
   static const String forgetPasswordTitle = "Forget Password";
   static const String forgetPasswordSubTitle =
-      "Enter Your Email, and we will send you a Verification Code to re-new your password.";
+      "Enter Your Email and We Will Send You a Verification Code to Update Your Password.";
+  static const String resetPasswordTitle = "Reset Password";
+  static const String passwordChangeSuccessfulTitle =
+      "Password Changed Successfully";
+  static const String passwordChangeSuccessfulSubTitle =
+      "Navigating Back to Login Page...";
 
   // --CONTAINER GUIDE SIGNUP TEXTS
   static const String phoneHeaderText =
@@ -73,7 +78,7 @@ class MPTexts {
   static const String passwordSubText =
       "Please create a secure password which includes the following criteria below.";
   static const String enterPassword = "Enter Password";
-  static const String reEnterPassword = "Re-enter Password'";
+  static const String reEnterPassword = "Re-enter Password";
 
   // --REGEX VALIDATION TEXTS
   static const String regexNoSpecialCharsAndNumbers = r'^[a-zA-Z\s]+$';
@@ -94,8 +99,15 @@ class MPTexts {
       "Contains at least 1 Special Character";
   static const String passwordsMatch = "Passwords Match";
 
-// --SnackBars FlushBar Message
+// --SnackBars Message
   static const String signInCoupleMoreSteps =
       'Sign in with just a couple more steps!';
   static const String errorLoggingIn = 'Error Logging In';
+  static const String successLogin = 'Successfully Logged In';
+  static const String codeVerified = 'Code Verified!';
+  static const String changePassword = 'Change to a more secure password';
+  static const String otpResentSuccessful = 'OTP Resent Successfully';
+  static const String success = 'Success';
+  static const String productListed = 'Your Product has been Listed!';
+  static const String itemAddedToCart = 'Item added to Cart!';
 }

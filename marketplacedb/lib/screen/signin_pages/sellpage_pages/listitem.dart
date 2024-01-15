@@ -61,7 +61,7 @@ class ListitempageState extends State<Listitempage>
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         switch (hasSnackbar) {
           case 'billingAddressSuccess':
-            showSuccessSnackBar(context, 'Billing Address Added', 'Success');
+            successSnackBar(context, 'Billing Address Added', 'Success');
             break;
           default:
         }
@@ -299,7 +299,7 @@ class ListitempageState extends State<Listitempage>
                                     builder: (context) => const Navigation(
                                         hasSnackbar: 'listingAdded')));
                           } else {
-                            showErrorHandlingSnackBar(
+                            errorSnackBar(
                                 context,
                                 "Adding Item Failed, Please Try Again.",
                                 'error');

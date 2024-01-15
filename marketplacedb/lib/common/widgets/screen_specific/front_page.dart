@@ -1,37 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:marketplacedb/networks/googleSignIn.dart';
 import 'package:marketplacedb/screen/password_configuration/forget_password.dart';
-import 'package:marketplacedb/screen/signin_pages/navigation.dart';
-import 'package:marketplacedb/screen/sign_up_pages/sign_up_page_phone.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_images.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
-
-Future googleButton(BuildContext context) async {
-  // await GoogleSignAPI.logout();
-  AuthenticationController authenticationController =
-      AuthenticationController.instance;
-  final userData = await GoogleSignAPI.login();
-
-  final response = await authenticationController.loginGoogle(userData?.email);
-  // print(response);
-  if (response == 0) {
-    await GoogleSignAPI.logout();
-    Get.to(() => const SignUpPagePhone());
-  } else if (response == 1) {
-    await GoogleSignAPI.logout();
-    Get.to(() => const Navigation(hasSnackbar: 'welcomeMessage'));
-  } else {
-    await GoogleSignAPI.logout();
-    showErrorHandlingSnackBar(context, MPTexts.errorLoggingIn, 'error');
-  }
-}
 
 class LoginHeader extends StatelessWidget {
   const LoginHeader({
@@ -143,8 +120,12 @@ class SocialLoginButtons extends StatelessWidget {
               border: Border.all(color: MPColors.grey),
               borderRadius: BorderRadius.circular(100)),
           child: IconButton(
-              onPressed: () {
-                googleButton(context);
+              onPressed: () async {
+                AuthenticationController authenticationController =
+                    AuthenticationController.instance;
+                final userData = await GoogleSignAPI.login();
+                await authenticationController.loginGoogle(
+                    context, userData?.email);
               },
               icon: const Image(
                   width: MPSizes.iconMd,

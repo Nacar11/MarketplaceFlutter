@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:marketplacedb/common/styles/spacing_styles.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 
@@ -18,13 +19,21 @@ class SignUpPageCode extends StatefulWidget {
 }
 
 class SignUpPageCodeState extends State<SignUpPageCode> {
-  String? otpCode;
+  String otpCode = '';
   AuthenticationController authController = AuthenticationController.instance;
   bool isCodeValid = true;
 
+  void onTapFunction() async {
+    final code = await authController.getSMSVerificationCode(contactNumber);
+    if (code['success'] != null) {
+      String successValue = code['success'].toString();
+      localStorage.saveData('SMSVerificationCode', successValue);
+      successSnackBar(context, MPTexts.otpResentSuccessful, MPTexts.success);
+    }
+  }
+
   @override
   void dispose() {
-    // authController.dispose();
     super.dispose();
   }
 
@@ -41,12 +50,21 @@ class SignUpPageCodeState extends State<SignUpPageCode> {
             richText: codeSubRichText(context),
           ),
           const SizedBox(height: MPSizes.spaceBtwSections),
-          const CustomPinInput(),
+          CustomPinInput(
+            onOtpCompleted: (otp) {
+              setState(() {
+                otpCode = otp;
+              });
+            },
+          ),
           const SizedBox(height: MPSizes.spaceBtwSections),
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              CustomResendCodeRichText(authController: authController),
+              CustomResendCodeRichText(
+                authController: authController,
+                onTapFunction: onTapFunction,
+              ),
               const SizedBox(height: MPSizes.spaceBtwItems),
               const CustomDifferentNumberRichText(),
             ],
@@ -54,8 +72,8 @@ class SignUpPageCodeState extends State<SignUpPageCode> {
         ]),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton:
-          CustomSignUpContinue(authController: authController),
+      floatingActionButton: CustomSignUpContinue(
+          otpCode: otpCode, authController: authController),
     );
   }
 }

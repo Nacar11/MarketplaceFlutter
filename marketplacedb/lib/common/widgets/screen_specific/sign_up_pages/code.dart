@@ -13,7 +13,6 @@ import 'package:pinput/pinput.dart';
 
 MPLocalStorage localStorage = MPLocalStorage();
 String contactNumber = localStorage.readData('contact_number');
-String? otpCode;
 
 RichText codeSubRichText(BuildContext context) {
   return RichText(
@@ -31,7 +30,9 @@ RichText codeSubRichText(BuildContext context) {
 }
 
 class CustomPinInput extends StatelessWidget {
+  final Function(String) onOtpCompleted;
   const CustomPinInput({
+    required this.onOtpCompleted,
     super.key,
   });
 
@@ -40,7 +41,7 @@ class CustomPinInput extends StatelessWidget {
     return Pinput(
         length: 6,
         onCompleted: (code) {
-          otpCode = code;
+          onOtpCompleted(code);
         },
         defaultPinTheme: PinTheme(
             width: MPSizes.buttonWidth,
@@ -84,9 +85,11 @@ class CustomResendCodeRichText extends StatelessWidget {
   const CustomResendCodeRichText({
     super.key,
     required this.authController,
+    required this.onTapFunction,
   });
 
   final AuthenticationController authController;
+  final Function onTapFunction;
   @override
   Widget build(BuildContext context) {
     return RichText(
@@ -102,14 +105,7 @@ class CustomResendCodeRichText extends StatelessWidget {
                 .copyWith(color: MPColors.primary),
             recognizer: TapGestureRecognizer()
               ..onTap = () async {
-                final code =
-                    await authController.getSMSVerificationCode(contactNumber);
-                if (code['success'] != null) {
-                  String successValue = code['success'].toString();
-                  localStorage.saveData('SMSVerificationCode', successValue);
-                  showSuccessSnackBar(
-                      context, "OTP successfully Resent", 'Success');
-                }
+                onTapFunction();
               },
           ),
         ],
@@ -122,8 +118,10 @@ class CustomSignUpContinue extends StatelessWidget {
   const CustomSignUpContinue({
     super.key,
     required this.authController,
+    required this.otpCode,
   });
   final AuthenticationController authController;
+  final String otpCode;
   @override
   Widget build(BuildContext context) {
     return Obx(() => Container(
@@ -136,8 +134,10 @@ class CustomSignUpContinue extends StatelessWidget {
               if (otpCode == localStorage.readData('SMSVerificationCode')) {
                 Get.offAll(() => const SignUpPageName());
               } else {
-                showErrorHandlingSnackBar(
-                    context, "Incorrect PIN, Please try again.", 'error');
+                // showErrorHandlingSnackBar(
+                //     context, "Incorrect PIN, Please try again.", 'error');
+                errorSnackBar(
+                    context, 'Incorrect PIN, Please Try Again.', 'Invalid PIN');
               }
             },
           ),

@@ -220,7 +220,7 @@ class BillingAddressState extends State<BillingAddress> {
                                 billingaddressbutton(context);
                               }
                             } else {
-                              showErrorHandlingSnackBar(
+                              errorSnackBar(
                                   context,
                                   'Error on Adding User Address, Please Try Again.',
                                   'error');

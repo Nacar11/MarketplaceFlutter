@@ -6,14 +6,14 @@ import 'package:marketplacedb/util/constants/app_images.dart';
 // import 'package:marketplacedb/config/containers.dart';
 // import 'package:marketplacedb/config/textfields.dart';
 
-class Homepage extends StatefulWidget {
-  const Homepage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<Homepage> createState() => HomepageState();
+  State<HomePage> createState() => HomePageState();
 }
 
-class HomepageState extends State<Homepage> {
+class HomePageState extends State<HomePage> {
   int index = 0;
 
   // @override

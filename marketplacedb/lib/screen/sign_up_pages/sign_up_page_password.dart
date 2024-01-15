@@ -24,6 +24,13 @@ class _SignUpPagePasswordState extends State<SignUpPagePassword> {
   final GlobalKey<FormState> passwordKey = GlobalKey<FormState>();
   final GlobalKey<FormState> reEnterPasswordKey = GlobalKey<FormState>();
 
+  @override
+  void dispose() {
+    passwordController.dispose();
+    reEnterPasswordController.dispose();
+    super.dispose();
+  }
+
   void onPasswordChange(String password) {
     final numericRegex = RegExp(r'[0-9]');
     final specialCharRegex = RegExp(r'[!@#$%^&*(),.?":{}|<>]');

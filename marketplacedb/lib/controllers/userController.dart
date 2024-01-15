@@ -13,29 +13,32 @@ import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddress.
 class UserController extends GetxController {
   final isLoading = false.obs;
   final token = ''.obs;
+  final userHasAddressValue = false.obs;
   var countryList = <CountryModel>[].obs;
   var addressList = <BillingAddressModel>[].obs;
 
   @override
   void onInit() {
     super.onInit();
+    userData();
+    userHasAddress();
     getCountries();
   }
 
-  Future UserHasAddress() async {
+  void userData() async {
+    print('----------------------------');
+    print('USER CONTROLLER');
+  }
+
+  Future userHasAddress() async {
     try {
       isLoading.value = true;
       final response =
           await AuthInterceptor().get(Uri.parse("${url}userHasAddress"));
       var jsonObject = jsonDecode(response.body);
 
-      if (jsonObject['message'] == 'false') {
-        isLoading.value = false;
-        return false;
-      } else {
-        isLoading.value = false;
-        return true;
-      }
+      userHasAddressValue.value = jsonObject['message'];
+      isLoading.value = false;
     } catch (e) {
       print(e);
       isLoading.value = false;
@@ -72,13 +75,6 @@ class UserController extends GetxController {
         }
       }
       isLoading.value = false;
-
-      // isLoading.value = false;
-      // final List<dynamic> result = jsonDecode(response.body);
-      // final List<BillingAddressModel> itemList =
-      //     result.map((e) => BillingAddressModel.fromJson(e)).toList();
-
-      // addressList.assignAll(itemList);
     }
 
     return addressList;

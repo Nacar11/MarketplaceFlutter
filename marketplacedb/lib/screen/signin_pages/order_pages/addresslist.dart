@@ -59,8 +59,7 @@ class Addresslist extends StatelessWidget {
               ))
                   .then((selectedData) async {
                 if (selectedData == true) {
-                  showSuccessSnackBar(
-                      context, 'Billing Address Added', 'success');
+                  successSnackBar(context, 'Billing Address Added', 'success');
                 }
               });
             },

@@ -144,7 +144,7 @@ class ProductItemPageState extends State<ProductItemPage> {
                               const Navigation(hasSnackbar: 'addedTocart'),
                         ));
                       } else {
-                        showErrorHandlingSnackBar(
+                        errorSnackBar(
                           context,
                           'Error Adding to Cart, Please Try Again',
                           'error',

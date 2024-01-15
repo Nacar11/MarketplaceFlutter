@@ -19,14 +19,14 @@ class CardItem {
 final controller = Get.put<ProductController>(ProductController());
 List<ProductCategoryModel> productCategoryList = controller.productCategoryList;
 
-class Discoverpage extends StatefulWidget {
-  const Discoverpage({Key? key}) : super(key: key);
+class DiscoverPage extends StatefulWidget {
+  const DiscoverPage({Key? key}) : super(key: key);
 
   @override
-  State<Discoverpage> createState() => DiscoverpageState();
+  State<DiscoverPage> createState() => DiscoverPageState();
 }
 
-class DiscoverpageState extends State<Discoverpage> {
+class DiscoverPageState extends State<DiscoverPage> {
   final searchController = TextEditingController();
 
   @override

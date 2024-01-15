@@ -189,3 +189,24 @@ class SignUpAppBarBackToHomeScreen extends StatelessWidget
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
+
+class AppBarBackToHomeScreen extends StatelessWidget
+    implements PreferredSizeWidget {
+  const AppBarBackToHomeScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      leading: IconButton(
+          onPressed: () {
+            Get.offAll(() => const FrontPage());
+          },
+          icon: const Icon(
+            Icons.arrow_back_sharp,
+          )),
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}

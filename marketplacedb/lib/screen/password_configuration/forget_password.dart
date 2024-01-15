@@ -10,55 +10,87 @@ import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
 
-final emailController = TextEditingController();
-AuthenticationController authController = AuthenticationController.instance;
+class ForgetPasswordPage extends StatefulWidget {
+  const ForgetPasswordPage({Key? key}) : super(key: key);
 
-class ForgetPasswordPage extends StatelessWidget {
-  const ForgetPasswordPage({super.key});
+  @override
+  _ForgetPasswordPageState createState() => _ForgetPasswordPageState();
+}
+
+class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
+  bool isEmailValid = false;
+  AuthenticationController authController = AuthenticationController.instance;
+  late TextEditingController emailController;
+  MPLocalStorage localStorage = MPLocalStorage();
+  @override
+  void initState() {
+    emailController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
-        body: Padding(
-            padding: const EdgeInsets.all(MPSizes.defaultSpace),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(MPTexts.forgetPasswordTitle,
-                  style: Theme.of(context).textTheme.headlineMedium),
-              const SizedBox(height: MPSizes.spaceBtwItems),
-              Text(MPTexts.forgetPasswordSubTitle,
-                  style: Theme.of(context).textTheme.labelLarge),
-              const SizedBox(height: MPSizes.spaceBtwSections),
-              ValidatorField(
-                controller: emailController,
-                labelText: MPTexts.email,
-                prefixIcon: const Icon(Iconsax.direct_right),
-              ),
-              const SizedBox(height: MPSizes.spaceBtwSections),
-              Obx(() => MPPrimaryButton(
-                    text: "Continue",
-                    isLoading: authController.isLoading.value,
-                    onPressed: () async {
-                      var response = await authController
-                          .getEmailVerificationCode(emailController.text);
+      appBar: AppBar(),
+      body: Padding(
+        padding: const EdgeInsets.all(MPSizes.defaultSpace),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              MPTexts.forgetPasswordTitle,
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: MPSizes.spaceBtwItems),
+            Text(
+              MPTexts.forgetPasswordSubTitle,
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+            const SizedBox(height: MPSizes.spaceBtwSections),
+            ValidatorField(
+              onChanged: (value) {
+                //modify isEmailValid
+                setState(() {
+                  isEmailValid = value.contains("@") && value.isNotEmpty;
+                  print(isEmailValid);
+                });
+              },
+              controller: emailController,
+              labelText: MPTexts.email,
+              prefixIcon: const Icon(Iconsax.direct_right),
+            ),
+            const SizedBox(height: MPSizes.spaceBtwSections),
+            Obx(() => MPPrimaryButton(
+                  text: MPTexts.continueText,
+                  isDisabled: !isEmailValid,
+                  isLoading: authController.isLoading.value,
+                  onPressed: () async {
+                    var response = await authController
+                        .getEmailVerificationCode(emailController.text);
+                    print(response);
+                    if (response['message'] == 'success') {
+                      localStorage.saveData(
+                          'emailVerificationCode', response['code'].toString());
+                      localStorage.saveData(
+                          'emailResetPassword', emailController.text);
 
-                      if (response['message'] == 'success') {
-                        MPLocalStorage localStorage = MPLocalStorage();
-                        localStorage.saveData(
-                            'emailVerificationCode', response['code']);
-                        localStorage.saveData(
-                            'emailResetPassword', emailController.text);
-
-                        Get.to(
-                            () => const CodeVerificationForgetPasswordPage());
-                      } else {
-                        // ignore: use_build_context_synchronously
-                        showErrorHandlingSnackBar(
-                            context, response['message'], 'error');
-                      }
-                    },
-                  ))
-            ])));
+                      Get.to(() => const CodeVerificationForgetPasswordPage());
+                    } else {
+                      errorSnackBar(context, response['message'], 'Error');
+                      // showErrorHandlingSnackBar(
+                      //     context, response['message'], 'error');
+                    }
+                  },
+                ))
+          ],
+        ),
+      ),
+    );
   }
 }

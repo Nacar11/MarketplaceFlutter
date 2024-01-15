@@ -7,8 +7,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 
 // import 'package:get/get.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
-
-final storage = GetStorage();
+import 'package:marketplacedb/util/local_storage/local_storage.dart';
 
 class Mepagesettings extends StatefulWidget {
   const Mepagesettings({Key? key}) : super(key: key);
@@ -18,39 +17,23 @@ class Mepagesettings extends StatefulWidget {
 }
 
 final authController = AuthenticationController();
+MPLocalStorage localStorage = MPLocalStorage();
 
 class MepagesettingsState extends State<Mepagesettings> {
   @override
   Widget build(BuildContext context) {
-    String? firstname = storage.read('first_name');
-    String? lastname = storage.read('last_name');
-    String? email = storage.read('email');
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          UserAccountsDrawerHeader(
-              accountName: Text('$firstname $lastname'),
-              accountEmail: Text('$email')),
+          const UserAccountsDrawerHeader(
+              accountName: Text('TBD'), accountEmail: Text('TBD')),
           ListTile(
             title: TextButton(
               onPressed: () async {
-                // final storage = GetStorage();
-                // print('ASD ${storage.read('token')}'); //
-                // await storage.erase();
+                print('ASD ${localStorage.readData('token')}'); //
 
-                var response = await authController.logout();
-                if (response['message'] == 'Logged out Successfully') {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const FrontPage(logoutMessage: true),
-                  ));
-                } else {
-                  showErrorHandlingSnackBar(
-                    context,
-                    'Error Logging Out, Please Try Again',
-                    'error',
-                  );
-                }
+                await authController.logout(context);
               },
               child: const Text(
                 "Log Out",

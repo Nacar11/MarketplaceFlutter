@@ -133,8 +133,7 @@ class CustomSignUpContinue extends StatelessWidget {
                 localStorage.saveData('username', usernameController.text);
                 Get.to(() => const SignUpPagePassword());
               } else {
-                showErrorHandlingSnackBar(
-                    context, response['message'], 'error');
+                errorSnackBar(context, response['message'], 'error');
               }
             }
           },

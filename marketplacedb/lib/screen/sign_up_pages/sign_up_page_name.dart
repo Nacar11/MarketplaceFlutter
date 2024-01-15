@@ -6,6 +6,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:marketplacedb/common/widgets/screen_specific/sign_up_pages/name.dart';
+import 'package:marketplacedb/util/constants/app_animations.dart';
 
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
@@ -33,7 +34,7 @@ class SignUpPageNameState extends State<SignUpPageName> {
     lastNameController = TextEditingController();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      showWelcomeMessageSnackBar();
+      successSnackBar(context, MPTexts.signInCoupleMoreSteps, 'Welcome!');
     });
   }
 
@@ -42,10 +43,6 @@ class SignUpPageNameState extends State<SignUpPageName> {
     firstNameController.dispose();
     lastNameController.dispose();
     super.dispose();
-  }
-
-  void showWelcomeMessageSnackBar() {
-    phoneNumberVerified(context, MPTexts.signInCoupleMoreSteps, 'loginsuccess');
   }
 
   @override
@@ -61,7 +58,9 @@ class SignUpPageNameState extends State<SignUpPageName> {
             text: MPTexts.nameSubText,
           ),
           const SizedBox(height: MPSizes.spaceBtwInputFields),
-          const UserProfileAnimation(),
+          const AnimationContainer(
+              animation: AnimationsUtils.userProfile1,
+              duration: Duration(seconds: 2)),
           const SizedBox(height: MPSizes.spaceBtwInputFields),
           NameFormFields(
             firstNameController: firstNameController,

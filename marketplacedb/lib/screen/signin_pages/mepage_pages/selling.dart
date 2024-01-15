@@ -133,7 +133,7 @@ class SellingPageState extends State<SellingPage> {
                               const Navigation(hasSnackbar: 'addedTocart'),
                         ));
                       } else {
-                        showErrorHandlingSnackBar(
+                        errorSnackBar(
                           context,
                           'Error Adding to Cart, Please Try Again',
                           'error',

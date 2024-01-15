@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
-import 'package:marketplacedb/screen/signin_pages/navigation.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
 
@@ -103,14 +101,7 @@ class CustomSignUpContinue extends StatelessWidget {
             onPressed: () async {
               MPLocalStorage localStorage = MPLocalStorage();
               await localStorage.saveData('password', passwordController.text);
-              var response = await authController.register();
-              if (response == 0) {
-                Get.offAll(
-                    () => const Navigation(hasSnackbar: 'welcomeMessage'));
-              } else {
-                final text = response;
-                showErrorHandlingSnackBar(context, text, 'error');
-              }
+              await authController.register(context);
             },
           ),
         ));
