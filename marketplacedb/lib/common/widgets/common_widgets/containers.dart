@@ -1,52 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
-import 'package:marketplacedb/util/constants/app_images.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
-class MarketplaceLogo extends StatelessWidget {
-  final double width;
-  final double height;
-  const MarketplaceLogo({
-    this.width = 100,
-    this.height = 100,
-    super.key,
-  });
+// class MarketplaceLogo extends StatelessWidget {
+//   final double width;
+//   final double height;
+//   const MarketplaceLogo({
+//     this.width = 100,
+//     this.height = 100,
+//     super.key,
+//   });
 
-  @override
-  Widget build(BuildContext context) {
-    return Image(
-      width: width,
-      height: height,
-      image: const AssetImage(ImagesUtils.appLogo),
-      fit: BoxFit.contain,
-    );
-  }
-}
-
-class GetStartedUpperText extends StatelessWidget
-    implements PreferredSizeWidget {
-  const GetStartedUpperText({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 20.0),
-      child: Center(
-        child: Text(
-          'Get Started',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Image(
+//       width: width,
+//       height: height,
+//       image: const AssetImage(MPImages.appLogo),
+//       fit: BoxFit.contain,
+//     );
+//   }
+// }
 
 class TermsOfServicesContainer extends StatelessWidget {
   const TermsOfServicesContainer({Key? key, required this.bottomSheetHeight})

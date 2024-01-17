@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:marketplacedb/controllers/userController.dart';
+import 'package:marketplacedb/controllers/user_controller.dart';
 
 class Messagepage extends StatefulWidget {
   const Messagepage({Key? key}) : super(key: key);

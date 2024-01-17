@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:marketplacedb/controllers/userController.dart';
+import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:get/get.dart';
 
 final controller = Get.put<UserController>(UserController());

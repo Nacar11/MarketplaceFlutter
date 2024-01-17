@@ -1,5 +1,7 @@
-import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:marketplacedb/util/local_storage/local_storage.dart';
+
+MPLocalStorage localStorage = MPLocalStorage();
 
 class AuthInterceptor extends http.BaseClient {
   final http.Client _inner = http.Client();
@@ -16,7 +18,6 @@ class AuthInterceptor extends http.BaseClient {
   }
 
   String? getTokenFromStorage() {
-    final storage = GetStorage();
-    return storage.read('token');
+    return localStorage.readData('token');
   }
 }

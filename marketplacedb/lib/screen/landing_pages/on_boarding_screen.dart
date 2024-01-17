@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:marketplacedb/common/widgets/screen_specific/on_boarding_screen.dart';
+import 'package:marketplacedb/common/widgets/screen_specific/landing_pages/on_boarding_screen.dart';
 import 'package:marketplacedb/controllers/inner_controllers/on_boarding_controller.dart';
 import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';

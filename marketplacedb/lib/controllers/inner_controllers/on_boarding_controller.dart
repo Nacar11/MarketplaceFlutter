@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:marketplacedb/screen/front_page.dart';
+import 'package:marketplacedb/screen/landing_pages/front_page.dart';
 
 class OnBoardingController extends GetxController {
   static OnBoardingController get instance => Get.find();

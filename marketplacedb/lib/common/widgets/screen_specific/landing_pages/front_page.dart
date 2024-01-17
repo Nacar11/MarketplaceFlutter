@@ -20,7 +20,7 @@ class LoginHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Image(height: 150, image: AssetImage(ImagesUtils.appLogo)),
+        const Image(height: 150, image: AssetImage(MPImages.appLogo)),
         Text(MPTexts.loginTitle,
             style: Theme.of(context).textTheme.headlineMedium),
         const SizedBox(height: MPSizes.sm),
@@ -130,7 +130,7 @@ class SocialLoginButtons extends StatelessWidget {
               icon: const Image(
                   width: MPSizes.iconMd,
                   height: MPSizes.iconMd,
-                  image: AssetImage(ImagesUtils.googleIcon)))),
+                  image: AssetImage(MPImages.googleIcon)))),
       const SizedBox(width: MPSizes.spaceBtwItems),
       Container(
           decoration: BoxDecoration(
@@ -141,7 +141,7 @@ class SocialLoginButtons extends StatelessWidget {
               icon: const Image(
                   width: MPSizes.iconLg,
                   height: MPSizes.iconLg,
-                  image: AssetImage(ImagesUtils.facebookIcon))))
+                  image: AssetImage(MPImages.facebookIcon))))
     ]);
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
-import 'package:marketplacedb/controllers/userController.dart';
+import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:marketplacedb/data/models/BillingAddressModel.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddress.dart';
 

@@ -4,15 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/controllers/inner_controllers/navigation_controller.dart';
-import 'package:marketplacedb/controllers/userController.dart';
-import 'package:marketplacedb/screen/signin_pages/home_page.dart';
-import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/discover_page.dart';
+import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddressSetup.dart';
-import 'package:marketplacedb/screen/signin_pages/sellpage_pages/sellpage.dart';
-import 'package:marketplacedb/screen/signin_pages/mepage_pages/mepage.dart';
 import 'package:marketplacedb/controllers/products/ProductController.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
-import 'package:marketplacedb/screen/signin_pages/messagespage_pages/messagepage.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
 
@@ -34,14 +29,6 @@ class NavigationState extends State<Navigation> {
   final productController = Get.put(ProductController());
   final navigationController = Get.put(NavigationController());
   NavigationState({required this.hasSnackbar});
-
-  final screens = [
-    const HomePage(),
-    const DiscoverPage(),
-    const Sellpage(),
-    const Messagepage(),
-    const Mepage(),
-  ];
 
   @override
   void initState() {
@@ -74,6 +61,9 @@ class NavigationState extends State<Navigation> {
 
   @override
   void dispose() {
+    navigationController.dispose();
+    productController.dispose();
+    userController.dispose();
     super.dispose();
   }
 
@@ -83,9 +73,8 @@ class NavigationState extends State<Navigation> {
       bottomNavigationBar: NavigationBar(
           selectedIndex: navigationController.index.value,
           onDestinationSelected: (index) async {
-            await userController.userHasAddress();
             if (index == 2) {
-              if (userController.userHasAddressValue.value == true) {
+              if (userController.userHasAddressValue.value == false) {
                 Get.to(() => const BillingAddressSetUp());
               } else {
                 setState(() {
@@ -107,7 +96,8 @@ class NavigationState extends State<Navigation> {
             NavigationDestination(icon: Icon(Icons.person), label: 'Me'),
           ]),
       //
-      body: screens[navigationController.index.value],
+      body: Obx(
+          () => navigationController.screens[navigationController.index.value]),
     );
   }
 }

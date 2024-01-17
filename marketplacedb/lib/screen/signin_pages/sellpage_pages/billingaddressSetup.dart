@@ -1,14 +1,9 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:marketplacedb/config/containers.dart';
-// import 'package:marketplacedb/config/buttons.dart';
-// import 'package:marketplacedb/screen/signin_pages/sellpage_pages/listitem.dart';
-// import 'package:marketplacedb/config/textfields.dart';
-// import 'package:marketplacedb/controllers/authenticationController.dart';
 
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddress.dart';
+import 'package:marketplacedb/util/constants/app_images.dart';
 
 class BillingAddressSetUp extends StatelessWidget {
   const BillingAddressSetUp({Key? key}) : super(key: key);
@@ -25,9 +20,9 @@ class BillingAddressSetUp extends StatelessWidget {
           // Background Image
           const Positioned.fill(
             child: AspectRatio(
-              aspectRatio: 10 / 5, // You can adjust the aspect ratio as needed
+              aspectRatio: 10 / 5,
               child: Image(
-                image: AssetImage('flutter_images/billing.jpg'),
+                image: AssetImage(MPImages.promotion1),
                 fit: BoxFit.cover,
               ),
             ),

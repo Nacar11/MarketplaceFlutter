@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:marketplacedb/screen/front_page.dart';
-import 'package:marketplacedb/screen/on_boarding_screen.dart';
-import 'package:marketplacedb/screen/signin_pages/navigation.dart';
+import 'package:marketplacedb/screen/landing_pages/front_page.dart';
+import 'package:marketplacedb/screen/landing_pages/on_boarding_screen.dart';
+import 'package:marketplacedb/screen/landing_pages/navigation.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
 import 'package:marketplacedb/util/theme/theme.dart';
 

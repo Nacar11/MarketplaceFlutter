@@ -14,7 +14,7 @@ import 'package:marketplacedb/data/models/VariantsOptionsModel.dart';
 import 'package:marketplacedb/controllers/products/VariationController.dart';
 import 'package:marketplacedb/controllers/products/ProductItemController.dart';
 import 'package:marketplacedb/data/models/VariantsModel.dart';
-import 'package:marketplacedb/screen/signin_pages/navigation.dart';
+import 'package:marketplacedb/screen/landing_pages/navigation.dart';
 // import 'package:marketplacedb/models/VariantsOptionsModel.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/categorylist.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/variationoptions.dart';

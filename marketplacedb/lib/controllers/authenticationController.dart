@@ -7,9 +7,9 @@ import 'package:http/http.dart' as http;
 import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:marketplacedb/networks/googleSignIn.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
-import 'package:marketplacedb/screen/front_page.dart';
+import 'package:marketplacedb/screen/landing_pages/front_page.dart';
 import 'package:marketplacedb/screen/sign_up_pages/sign_up_page_phone.dart';
-import 'package:marketplacedb/screen/signin_pages/navigation.dart';
+import 'package:marketplacedb/screen/landing_pages/navigation.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
@@ -214,35 +214,6 @@ class AuthenticationController extends GetxController {
 
         final text = jsonObject['message'];
         errorSnackBar(context, text, 'error');
-      }
-    } catch (e) {
-      print(e);
-      isLoading.value = false;
-    }
-  }
-
-  Future<void> logout(BuildContext context) async {
-    try {
-      isLoading.value = true;
-      var response = await AuthInterceptor().get(
-        Uri.parse('${url}logout'),
-        headers: {
-          'Accept': 'application/json',
-        },
-      );
-
-      var jsonObject = jsonDecode(response.body);
-      isLoading.value = false;
-      if (jsonObject['message'] == 'Logged out Successfully') {
-        localStorage.clearAll();
-        Get.offAll(() => const FrontPage(logoutMessage: true));
-      } else {
-        print(jsonObject['message']);
-        errorSnackBar(
-          context,
-          'Error Logging Out, Please Try Again',
-          'error',
-        );
       }
     } catch (e) {
       print(e);

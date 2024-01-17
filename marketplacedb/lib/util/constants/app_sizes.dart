@@ -12,6 +12,9 @@ class MPSizes {
   static const double iconMd = 24.0;
   static const double iconLg = 32.0;
 
+// Circular Badge Size
+  static const double circularBadgeSize = 20.0;
+
   //Font Sizes
   static const double fontSizeSm = 14.0;
   static const double fontSizeMd = 16.0;
