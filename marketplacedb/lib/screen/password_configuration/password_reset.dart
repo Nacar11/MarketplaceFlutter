@@ -4,7 +4,7 @@ import 'package:marketplacedb/common/styles/spacing_styles.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
-import 'package:marketplacedb/common/widgets/screen_specific/sign_up_pages/password.dart';
+import 'package:marketplacedb/screen/sign_up_pages/password/password_widgets.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:marketplacedb/screen/password_configuration/change_success.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';

@@ -3,25 +3,45 @@ import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
-// class MarketplaceLogo extends StatelessWidget {
-//   final double width;
-//   final double height;
-//   const MarketplaceLogo({
-//     this.width = 100,
-//     this.height = 100,
-//     super.key,
-//   });
+class MPCircularContainer extends StatelessWidget {
+  const MPCircularContainer({
+    super.key,
+    this.child,
+    this.width = 400,
+    this.height = 400,
+    this.radius = MPSizes.cardRadiusLg,
+    this.margin,
+    this.padding,
+    this.borderColor = MPColors.borderPrimary,
+    this.showBorder = false,
+    this.backgroundColor = Colors.white,
+  });
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Image(
-//       width: width,
-//       height: height,
-//       image: const AssetImage(MPImages.appLogo),
-//       fit: BoxFit.contain,
-//     );
-//   }
-// }
+  final double? width;
+  final double? height;
+  final double radius;
+  final bool showBorder;
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
+  final Widget? child;
+  final Color backgroundColor;
+  final Color borderColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: width,
+        height: height,
+        margin: margin,
+        padding: padding,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(radius),
+          border: showBorder ? Border.all(color: borderColor) : null,
+          color: backgroundColor,
+        ),
+        child: child);
+  }
+}
 
 class TermsOfServicesContainer extends StatelessWidget {
   const TermsOfServicesContainer({Key? key, required this.bottomSheetHeight})

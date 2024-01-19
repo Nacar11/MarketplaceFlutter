@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:marketplacedb/common/styles/spacing_styles.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
-import 'package:marketplacedb/common/widgets/screen_specific/sign_up_pages/phone.dart';
+import 'package:marketplacedb/screen/sign_up_pages/phone/phone_widgets.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 

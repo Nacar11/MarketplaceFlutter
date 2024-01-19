@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
-import 'package:marketplacedb/screen/sign_up_pages/sign_up_page_birthdate.dart';
+import 'package:marketplacedb/screen/sign_up_pages/birthdate/sign_up_page_birthdate.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';

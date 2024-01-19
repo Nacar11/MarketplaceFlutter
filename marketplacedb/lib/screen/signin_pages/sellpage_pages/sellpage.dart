@@ -10,6 +10,7 @@ import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddress.
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/listitem.dart';
 import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/draft.dart';
+import 'package:marketplacedb/util/constants/app_images.dart';
 
 class Sellpage extends StatefulWidget {
   const Sellpage({Key? key}) : super(key: key);
@@ -56,7 +57,7 @@ class SellpageState extends State<Sellpage>
                     ),
                     child: CircleAvatar(
                       radius: 55,
-                      backgroundImage: AssetImage('flutter_images/batman.png'),
+                      backgroundImage: AssetImage(MPImages.dressFemale),
                     ),
                   ),
                 ],
@@ -234,17 +235,12 @@ class _FirstOptionMenuState extends State<FirstOptionMenu> {
           ),
         ],
       ),
-      // LargeBlackButton(
-      //     isDisabled: userController.isLoading.value,
-      //     text: "List an Item and Start Selling",
-      //     onPressed: () async {
-      //       var response = await userController.UserHasAddress();
-      //       if (response == true) {
-      //         goToListAnItem(context);
-      //       } else {
-      //         goToListAnItem(context);
-      //       }
-      //     }),
+      LargeBlackButton(
+          isDisabled: userController.isLoading.value,
+          text: "List an Item and Start Selling",
+          onPressed: () async {
+            goToListAnItem(context);
+          }),
     ]);
   }
 }

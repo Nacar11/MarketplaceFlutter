@@ -13,7 +13,7 @@ import 'package:marketplacedb/controllers/shoppingCartController.dart';
 import 'package:marketplacedb/data/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/data/models/ProductItemModel.dart';
 import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/productlistfilter.dart';
-import 'package:marketplacedb/screen/landing_pages/navigation.dart';
+import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/shoppingcart.dart';
 
 final controller = Get.put<ProductItemController>(ProductItemController());

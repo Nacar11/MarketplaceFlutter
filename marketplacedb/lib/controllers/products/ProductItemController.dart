@@ -15,10 +15,10 @@ import 'package:marketplacedb/data/models/ProductTypeModel.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ProductItemController extends GetxController {
-  var productCategoryList = <ProductCategoryModel>[].obs;
+  static ProductItemController get instance => Get.find();
   var productItemList = <ProductItemModel>[].obs;
   var productItemListUser = <ProductItemModel>[].obs;
-  var productTypes = <ProductTypeModel>[].obs;
+
   int? productTypeID;
   final isLoading = false.obs;
   final token = ''.obs;
@@ -27,6 +27,7 @@ class ProductItemController extends GetxController {
   void onInit() {
     super.onInit();
     getProductItemsByUser();
+    getProductItems();
   }
 
   Future test() async {
@@ -34,6 +35,25 @@ class ProductItemController extends GetxController {
       Uri.parse(url + 'test'),
     );
     print(response.body);
+  }
+
+  Future<void> getProductItems() async {
+    isLoading.value = true;
+    final response =
+        await AuthInterceptor().get(Uri.parse(url + "productItems"));
+    print('-------------------------------------');
+
+    if (response.statusCode == 200) {
+      final List<dynamic> result = jsonDecode(response.body);
+
+      final List<ProductItemModel> itemList = result
+          .map((e) => ProductItemModel.fromJson(e) as ProductItemModel)
+          .toList();
+
+      productItemList.assignAll(itemList);
+      print(productItemList[0].description);
+    }
+    isLoading.value = false;
   }
 
   Future<int> imageUpload(
@@ -129,36 +149,15 @@ class ProductItemController extends GetxController {
     return 1;
   }
 
-  Future<List<ProductItemModel>> getProductItems() async {
-    isLoading.value = true;
-    final response =
-        await AuthInterceptor().get(Uri.parse(url + "productItems"));
-
-    // print(response.body);
-    if (response.statusCode == 200) {
-      final List<dynamic> result =
-          jsonDecode(response.body); // Parse JSON as a List
-      print(result);
-      final List<ProductItemModel> itemList = result
-          .map((e) => ProductItemModel.fromJson(e) as ProductItemModel)
-          .toList();
-
-      productItemList.assignAll(itemList);
-    }
-    isLoading.value = false;
-    return productItemList;
-  }
-
   Future<List<ProductItemModel>> getProductItemsByUser() async {
     isLoading.value = true;
     final response =
         await AuthInterceptor().get(Uri.parse(url + "getProductItemsByUser"));
 
     if (response.statusCode == 200) {
-      print(response.body);
-      final List<dynamic> result =
-          jsonDecode(response.body); // Parse JSON as a List
-      print(result);
+      // print(response.body);
+      final List<dynamic> result = jsonDecode(response.body);
+      // print(result);
       final List<ProductItemModel> itemList = result
           .map((e) => ProductItemModel.fromJson(e) as ProductItemModel)
           .toList();

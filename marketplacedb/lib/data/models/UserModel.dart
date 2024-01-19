@@ -37,6 +37,6 @@ class UserModel {
     gender = json['gender'];
     json['is_subscribe_to_newsletters'] == 1;
     json['is_subscribe_to_promotions'] == 1;
-    profile_photo_url = json['profile_photo_url'];
+    profile_photo_url = json['profile_photo_path'];
   }
 }

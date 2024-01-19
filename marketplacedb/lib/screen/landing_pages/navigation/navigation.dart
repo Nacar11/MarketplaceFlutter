@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/controllers/inner_controllers/navigation_controller.dart';
+import 'package:marketplacedb/controllers/products/ProductItemController.dart';
 import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddressSetup.dart';
 import 'package:marketplacedb/controllers/products/ProductController.dart';
@@ -27,6 +28,7 @@ class NavigationState extends State<Navigation> {
   final userController = Get.put(UserController());
   final String? hasSnackbar;
   final productController = Get.put(ProductController());
+  final productItemController = Get.put(ProductItemController());
   final navigationController = Get.put(NavigationController());
   NavigationState({required this.hasSnackbar});
 
@@ -61,9 +63,10 @@ class NavigationState extends State<Navigation> {
 
   @override
   void dispose() {
+    productItemController.dispose();
     navigationController.dispose();
     productController.dispose();
-    userController.dispose();
+
     super.dispose();
   }
 

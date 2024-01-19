@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/custom_shapes/custom_curved_edge_widget.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_images.dart';
@@ -31,17 +32,26 @@ class MPPrimaryHeaderContainer extends StatelessWidget {
             top: -150,
             right: -300,
             child: MPCircularContainer(
+                width: 400,
+                height: 400,
+                radius: 400,
                 backgroundColor: MPColors.white.withOpacity(0.1)),
           ),
           Positioned(
               bottom: -250,
               right: -300,
               child: MPCircularContainer(
+                  width: 400,
+                  height: 400,
+                  radius: 400,
                   backgroundColor: MPColors.white.withOpacity(0.1))),
           Positioned(
               top: -300,
               left: -200,
               child: MPCircularContainer(
+                  width: 400,
+                  height: 400,
+                  radius: 400,
                   backgroundColor: MPColors.white.withOpacity(0.1))),
           child
         ]),
@@ -229,20 +239,20 @@ class MPVerticalImageText extends StatelessWidget {
   }
 }
 
-class HomeBannerImage extends StatelessWidget {
-  const HomeBannerImage({
+class MPRoundedImage extends StatelessWidget {
+  const MPRoundedImage({
     Key? key,
     this.border,
     this.padding,
     this.onPressed,
     this.width,
     this.height,
-    this.applyImageRadius = true,
+    this.applyImageRadius = false,
     required this.imageUrl,
     this.boxFit = BoxFit.contain,
-    this.backgroundColor = Colors.lightBlue,
+    this.backgroundColor = MPColors.light,
     this.isNetworkImage = false,
-    this.borderRadius = 100,
+    this.borderRadius = MPSizes.xl,
   }) : super(key: key);
 
   final double? width, height;
@@ -258,7 +268,7 @@ class HomeBannerImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.symmetric(horizontal: MPSizes.sm),
       child: GestureDetector(
         onTap: onPressed,
         child: Container(
@@ -266,14 +276,10 @@ class HomeBannerImage extends StatelessWidget {
             height: height,
             padding: padding,
             decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.black,
-                  width: 2.0,
-                ),
-                borderRadius: BorderRadius.circular(100)),
+                borderRadius: BorderRadius.circular(borderRadius)),
             child: ClipRRect(
                 borderRadius: applyImageRadius
-                    ? BorderRadius.circular(MPSizes.xl)
+                    ? BorderRadius.circular(borderRadius)
                     : BorderRadius.zero,
                 child: Image(
                     image: isNetworkImage
@@ -282,41 +288,6 @@ class HomeBannerImage extends StatelessWidget {
                     fit: boxFit))),
       ),
     );
-  }
-}
-
-class MPCircularContainer extends StatelessWidget {
-  const MPCircularContainer({
-    super.key,
-    this.child,
-    this.width = 400,
-    this.height = 400,
-    this.radius = 400,
-    this.margin,
-    this.padding = 0,
-    this.backgroundColor = Colors.white,
-  });
-
-  final double? width;
-  final double? height;
-  final double radius;
-  final EdgeInsets? margin;
-  final double padding;
-  final Widget? child;
-  final Color backgroundColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        width: width,
-        height: height,
-        margin: margin,
-        padding: EdgeInsets.all(padding),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(radius),
-          color: backgroundColor,
-        ),
-        child: child);
   }
 }
 
@@ -333,8 +304,9 @@ class HomePageBannerSlider extends StatelessWidget {
     return Column(children: [
       CarouselSlider(
         items: banners
-            .map((url) => HomeBannerImage(
+            .map((url) => MPRoundedImage(
                   imageUrl: url,
+                  applyImageRadius: true,
                   width: 400,
                   height: 400,
                 ))

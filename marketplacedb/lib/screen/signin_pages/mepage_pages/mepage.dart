@@ -35,7 +35,6 @@ class MepageState extends State<Mepage> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    userController.dispose();
     _tabController.dispose();
     super.dispose();
   }

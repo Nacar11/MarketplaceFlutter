@@ -15,9 +15,10 @@ class MPColors {
   };
 
   // App Basic Colors
-  static const Color primary = Color.fromARGB(255, 90, 158, 236);
-  static const Color secondary = Color.fromARGB(255, 36, 73, 75);
+  static const Color primary = Color.fromRGBO(116, 78, 255, 1);
+  static const Color secondary = Color.fromARGB(255, 90, 158, 236);
   static const Color accent = Color(0xFF3FACAD);
+  static const Color sale = Color.fromARGB(255, 238, 240, 122);
 
   //Text Colors
   static const Color textPrimary = Color(0xFF333333);
@@ -37,6 +38,10 @@ class MPColors {
   static const Color buttonPrimary = Color.fromRGBO(116, 78, 255, 1);
   static const Color buttonSecondary = Color(0xFF6C757D);
   static const Color buttonDisabled = Color(0xFFC4C4C4);
+
+//Border Colors
+  static const Color borderPrimary = Color(0xFFD9D9D9);
+  static const Color borderSecondary = Color(0xFFE6E6E6);
 
   //Neutral Shades
   static const Color black = Color(0xFF232323);

@@ -13,7 +13,7 @@ import 'package:marketplacedb/data/models/BillingAddressModel.dart';
 import 'package:marketplacedb/data/models/PaymentMethodModel.dart';
 import 'package:marketplacedb/data/models/ShippingMethodModel.dart';
 import 'package:marketplacedb/data/models/ShoppingCartItemModel.dart';
-import 'package:marketplacedb/screen/landing_pages/navigation.dart';
+import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/addresslist.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/methodlist.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/paymentoption.dart';

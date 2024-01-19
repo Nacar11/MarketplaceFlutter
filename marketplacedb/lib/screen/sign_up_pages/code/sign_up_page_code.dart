@@ -8,8 +8,8 @@ import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 
-import '../../common/widgets/screen_specific/sign_up_pages/code.dart';
-import '../../controllers/authenticationController.dart';
+import 'code_widgets.dart';
+import '../../../controllers/authenticationController.dart';
 
 class SignUpPageCode extends StatefulWidget {
   const SignUpPageCode({Key? key}) : super(key: key);

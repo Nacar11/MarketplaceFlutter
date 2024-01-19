@@ -5,13 +5,13 @@ import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 
 import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
-import 'package:marketplacedb/common/widgets/screen_specific/sign_up_pages/name.dart';
+import 'package:marketplacedb/screen/sign_up_pages/name/name_widgets.dart';
 import 'package:marketplacedb/util/constants/app_animations.dart';
 
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 
-import '../../controllers/authenticationController.dart';
+import '../../../controllers/authenticationController.dart';
 
 class SignUpPageName extends StatefulWidget {
   const SignUpPageName({Key? key}) : super(key: key);

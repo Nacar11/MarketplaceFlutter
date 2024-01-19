@@ -9,7 +9,7 @@ import 'package:marketplacedb/data/models/BillingAddressModel.dart';
 import 'package:marketplacedb/data/models/CountryModel.dart';
 import 'package:marketplacedb/data/models/UserModel.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
-import 'package:marketplacedb/screen/landing_pages/front_page.dart';
+import 'package:marketplacedb/screen/landing_pages/front_page/front_page.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddress.dart';
@@ -41,9 +41,10 @@ class UserController extends GetxController {
       Map<String, dynamic> jsonObject = jsonDecode(response.body);
       Map<String, dynamic> userDataJson = jsonObject['userData'];
       print(userDataJson);
+      // print()
       UserModel userModel = UserModel.fromJson(userDataJson);
       userData.value = userModel;
-      print(userData.value.profile_photo_url);
+      print(userData.value.username);
     } catch (e) {
       print(e);
       isLoading.value = false;
