@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:marketplacedb/controllers/products/ProductController.dart';
+import 'package:marketplacedb/controllers/products/product_controller.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 
-final controller = Get.put<ProductController>(ProductController());
+ProductController productController = ProductController.static;
 
 class ProductTypePage extends StatefulWidget {
   final String categoryName;
@@ -15,14 +15,10 @@ class ProductTypePage extends StatefulWidget {
   // ignore: no_logic_in_create_state
   State<ProductTypePage> createState() =>
       // ignore: no_logic_in_create_state
-      ProductTypePageState(categoryName: categoryName);
+      ProductTypePageState();
 }
 
 class ProductTypePageState extends State<ProductTypePage> {
-  final String categoryName;
-  final productController = ProductController();
-  ProductTypePageState({required this.categoryName});
-
   @override
   void initState() {
     super.initState();
@@ -38,7 +34,7 @@ class ProductTypePageState extends State<ProductTypePage> {
           ),
         ),
         body: Obx(() {
-          return controller.isLoading.value == true
+          return productController.isLoading.value == true
               ? const Center(
                   child: CircularProgressIndicator(
                     strokeWidth: 4.0,
@@ -47,7 +43,7 @@ class ProductTypePageState extends State<ProductTypePage> {
                 )
               : Column(
                   children: [
-                    for (final productType in controller.productTypes)
+                    for (final productType in productController.productTypes)
                       ExpansiontileButton(
                           text: (productType.name ??
                               "Error on Handling API Responses"),

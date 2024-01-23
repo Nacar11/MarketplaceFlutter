@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/screen/landing_pages/on_boarding_screen/on_boarding_screen_widgets.dart';
-import 'package:marketplacedb/controllers/inner_controllers/on_boarding_controller.dart';
+import 'package:marketplacedb/screen/landing_pages/on_boarding_screen/on_boarding_controller.dart';
 import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 

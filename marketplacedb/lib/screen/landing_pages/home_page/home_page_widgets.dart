@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/icons.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/images.dart';
 import 'package:marketplacedb/common/widgets/custom_shapes/custom_curved_edge_widget.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
-import 'package:marketplacedb/util/constants/app_images.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
-import 'package:marketplacedb/util/device/device_utility.dart';
-import 'package:marketplacedb/util/helpers/helper_functions.dart';
-import 'package:marketplacedb/controllers/inner_controllers/home_screen_controller.dart';
+import 'package:marketplacedb/screen/landing_pages/home_page/home_screen_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class MPPrimaryHeaderContainer extends StatelessWidget {
@@ -60,43 +58,6 @@ class MPPrimaryHeaderContainer extends StatelessWidget {
   }
 }
 
-class ShoppingCartCounterIcon extends StatelessWidget {
-  const ShoppingCartCounterIcon({
-    super.key,
-    required this.onPressed,
-    required this.iconColor,
-  });
-
-  final VoidCallback onPressed;
-  final Color iconColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(children: [
-      IconButton(
-          onPressed: () {},
-          icon: const Icon(Iconsax.shopping_bag, color: MPColors.white)),
-      Positioned(
-        right: 0,
-        child: Container(
-            width: MPSizes.circularBadgeSize,
-            height: MPSizes.circularBadgeSize,
-            decoration: BoxDecoration(
-                color: MPColors.black,
-                borderRadius: BorderRadius.circular(
-                  MPSizes.circularBadgeSize,
-                )),
-            child: Center(
-                child: Text('2',
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelLarge!
-                        .apply(color: MPColors.white)))),
-      )
-    ]);
-  }
-}
-
 class MPHomeAppBar extends StatelessWidget {
   const MPHomeAppBar({
     super.key,
@@ -126,48 +87,6 @@ class MPHomeAppBar extends StatelessWidget {
   }
 }
 
-class MPSearchContainer extends StatelessWidget {
-  const MPSearchContainer({
-    super.key,
-    required this.text,
-    this.icon = Iconsax.search_normal,
-    this.showBackground = true,
-    this.showBorder = true,
-  });
-
-  final String text;
-  final IconData? icon;
-  final bool showBackground, showBorder;
-  @override
-  Widget build(BuildContext context) {
-    final dark = MPHelperFunctions.isDarkMode(context);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: MPSizes.defaultSpace),
-      child: GestureDetector(
-        onTap: () {
-          showSearch(context: context, delegate: SearchAppBarDelegate());
-        },
-        child: Container(
-            width: MPDeviceUtils.getScreenWidth(),
-            padding: const EdgeInsets.all(MPSizes.inputFieldRadius),
-            decoration: BoxDecoration(
-                color: showBackground
-                    ? dark
-                        ? MPColors.dark
-                        : MPColors.light
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(MPSizes.cardRadiusLg),
-                border: showBorder ? Border.all(color: MPColors.black) : null),
-            child: Row(children: [
-              Icon(icon, color: dark ? MPColors.white : MPColors.darkerGrey),
-              const SizedBox(width: MPSizes.spaceBtwInputFields),
-              Text(text, style: Theme.of(context).textTheme.bodyMedium),
-            ])),
-      ),
-    );
-  }
-}
-
 class MPSectionHeading extends StatelessWidget {
   const MPSectionHeading({
     super.key,
@@ -185,7 +104,7 @@ class MPSectionHeading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Text(title,
           style: Theme.of(context)
               .textTheme
@@ -197,7 +116,7 @@ class MPSectionHeading extends StatelessWidget {
         TextButton(
             onPressed: onPressed,
             child:
-                Text(buttonTile, style: Theme.of(context).textTheme.bodySmall))
+                Text(buttonTile, style: Theme.of(context).textTheme.bodyLarge))
     ]);
   }
 }
@@ -205,88 +124,47 @@ class MPSectionHeading extends StatelessWidget {
 class MPVerticalImageText extends StatelessWidget {
   const MPVerticalImageText({
     super.key,
+    required this.imageUrl,
+    required this.text,
+    this.isNetworkImage = false,
   });
 
+  final String imageUrl;
+  final String text;
+  final bool isNetworkImage;
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: MPSizes.spaceBtwItems),
-      child: Column(children: [
+      padding: const EdgeInsets.symmetric(horizontal: MPSizes.sm),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Container(
-            width: 56,
+            width: 65,
             height: 56,
             padding: const EdgeInsets.all(MPSizes.sm),
             decoration: BoxDecoration(
                 color: MPColors.white,
                 borderRadius: BorderRadius.circular(100)),
-            child: const Center(
-                child: Image(
-                    image: AssetImage(MPImages.maleCategoryIcon),
-                    fit: BoxFit.cover,
-                    color: MPColors.dark))),
+            child: Center(
+              child: MPRoundedImage(
+                isNetworkImage: isNetworkImage,
+                applyImageRadius: true,
+                borderRadius: MPSizes.productImageRadius,
+                imageUrl: imageUrl,
+              ),
+            )),
         const SizedBox(height: MPSizes.spaceBtwItems / 3),
-        SizedBox(
-          width: 55,
-          child: Text(
-            'Men Category',
-            style: Theme.of(context).textTheme.labelLarge,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+        Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          SizedBox(
+            width: 55,
+            child: Text(
+              text,
+              style: Theme.of(context).textTheme.labelLarge,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        )
+        ])
       ]),
-    );
-  }
-}
-
-class MPRoundedImage extends StatelessWidget {
-  const MPRoundedImage({
-    Key? key,
-    this.border,
-    this.padding,
-    this.onPressed,
-    this.width,
-    this.height,
-    this.applyImageRadius = false,
-    required this.imageUrl,
-    this.boxFit = BoxFit.contain,
-    this.backgroundColor = MPColors.light,
-    this.isNetworkImage = false,
-    this.borderRadius = MPSizes.xl,
-  }) : super(key: key);
-
-  final double? width, height;
-  final String imageUrl;
-  final bool applyImageRadius;
-  final BoxBorder? border;
-  final Color backgroundColor;
-  final BoxFit? boxFit;
-  final EdgeInsetsGeometry? padding;
-  final bool isNetworkImage;
-  final VoidCallback? onPressed;
-  final double borderRadius;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: MPSizes.sm),
-      child: GestureDetector(
-        onTap: onPressed,
-        child: Container(
-            width: width,
-            height: height,
-            padding: padding,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(borderRadius)),
-            child: ClipRRect(
-                borderRadius: applyImageRadius
-                    ? BorderRadius.circular(borderRadius)
-                    : BorderRadius.zero,
-                child: Image(
-                    image: isNetworkImage
-                        ? NetworkImage(imageUrl)
-                        : AssetImage(imageUrl) as ImageProvider,
-                    fit: boxFit))),
-      ),
     );
   }
 }

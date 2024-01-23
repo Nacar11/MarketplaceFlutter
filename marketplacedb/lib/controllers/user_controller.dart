@@ -10,9 +10,12 @@ import 'package:marketplacedb/data/models/CountryModel.dart';
 import 'package:marketplacedb/data/models/UserModel.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/screen/landing_pages/front_page/front_page.dart';
+import 'package:marketplacedb/screen/landing_pages/home_page/home_screen_controller.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddress.dart';
+
+HomeScreenController home_screen_controller = HomeScreenController.static;
 
 class UserController extends GetxController {
   static UserController get instance => Get.find();
@@ -24,27 +27,28 @@ class UserController extends GetxController {
   final userData = UserModel().obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    userDataInit();
+    await userDataInit();
     userHasAddress();
     getCountries();
   }
 
   Future<void> userDataInit() async {
-    print('----------------------------');
-    print('USER CONTROLLER');
     try {
       isLoading.value = true;
       final response =
           await AuthInterceptor().get(Uri.parse("${url}getUserData"));
       Map<String, dynamic> jsonObject = jsonDecode(response.body);
       Map<String, dynamic> userDataJson = jsonObject['userData'];
-      print(userDataJson);
-      // print()
+
       UserModel userModel = UserModel.fromJson(userDataJson);
       userData.value = userModel;
-      print(userData.value.username);
+
+      home_screen_controller.preferredSubCategory.value =
+          userData.value.gender!;
+      print('----------------------------');
+      print(userData.value.gender);
     } catch (e) {
       print(e);
       isLoading.value = false;
@@ -63,6 +67,7 @@ class UserController extends GetxController {
 
       var jsonObject = jsonDecode(response.body);
       isLoading.value = false;
+
       if (jsonObject['message'] == 'Logged out Successfully') {
         localStorage.clearAll();
         Get.offAll(() => const FrontPage(logoutMessage: true));
@@ -73,6 +78,7 @@ class UserController extends GetxController {
           'Error Logging Out, Please Try Again',
           'error',
         );
+        localStorage.clearAll();
       }
     } catch (e) {
       print(e);

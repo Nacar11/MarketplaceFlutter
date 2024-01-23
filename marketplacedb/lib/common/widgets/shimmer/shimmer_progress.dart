@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ShimmerProgressForCarouselSlider extends StatelessWidget {
-  const ShimmerProgressForCarouselSlider({super.key});
+class ShimmerProgressContainer extends StatelessWidget {
+  const ShimmerProgressContainer({
+    Key? key,
+    this.height = 180,
+    this.circular = false,
+    this.width,
+  }) : super(key: key);
+
+  final double height;
+  final bool circular;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
@@ -15,14 +25,15 @@ class ShimmerProgressForCarouselSlider extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           Container(
-            height: 180,
-            width: double.infinity,
-            margin: const EdgeInsets.all(8),
+            height: height,
+            width: width,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: circular
+                  ? BorderRadius.circular(height / 2)
+                  : BorderRadius.circular(MPSizes.cardRadiusLg),
               color: Colors.white,
             ),
-          )
+          ),
         ],
       ),
     );

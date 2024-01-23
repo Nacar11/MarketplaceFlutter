@@ -6,7 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:marketplacedb/controllers/OrderLineController.dart';
-import 'package:marketplacedb/controllers/products/ProductItemController.dart';
+import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/data/models/OrderLineModel.dart';
 import 'package:marketplacedb/data/models/ProductItemModel.dart';
 import 'package:marketplacedb/screen/signin_pages/mepage_pages/mepagesettings.dart';

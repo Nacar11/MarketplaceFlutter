@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:marketplacedb/controllers/products/ProductController.dart';
+import 'package:marketplacedb/controllers/products/product_Controller.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/data/models/VariantsOptionsModel.dart';
 

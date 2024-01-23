@@ -30,6 +30,7 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   iconsax: ^0.0.8
   pinput: ^3.0.1
+  cached_network_image: ^3.3.1
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +50,7 @@ flutter:
     - assets/images/
     - assets/images/promotion_banners/
     - assets/images/products/
+    - assets/images/product_categories/
     - assets/images/logos/
     - assets/images/icons/
     - assets/fonts/

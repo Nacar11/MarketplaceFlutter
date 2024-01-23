@@ -12,7 +12,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
 import 'package:marketplacedb/data/models/ProductTypeModel.dart';
 import 'package:marketplacedb/data/models/VariantsOptionsModel.dart';
 import 'package:marketplacedb/controllers/products/VariationController.dart';
-import 'package:marketplacedb/controllers/products/ProductItemController.dart';
+import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/data/models/VariantsModel.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
 // import 'package:marketplacedb/models/VariantsOptionsModel.dart';

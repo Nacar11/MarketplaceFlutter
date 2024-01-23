@@ -9,6 +9,53 @@ import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/device/device_utility.dart';
+import 'package:marketplacedb/util/helpers/helper_functions.dart';
+
+class MPSearchContainer extends StatelessWidget {
+  const MPSearchContainer({
+    super.key,
+    required this.text,
+    this.icon = Iconsax.search_normal,
+    this.showBackground = true,
+    this.showBorder = true,
+  });
+
+  final String text;
+  final IconData? icon;
+  final bool showBackground, showBorder;
+  @override
+  Widget build(BuildContext context) {
+    final dark = MPHelperFunctions.isDarkMode(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: MPSizes.defaultSpace),
+      child: GestureDetector(
+        onTap: () {
+          showSearch(context: context, delegate: SearchAppBarDelegate());
+        },
+        child: Container(
+            width: MPDeviceUtils.getScreenWidth(),
+            padding: const EdgeInsets.all(MPSizes.inputFieldRadius),
+            decoration: BoxDecoration(
+                color: showBackground
+                    ? dark
+                        ? MPColors.dark
+                        : MPColors.light
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(MPSizes.cardRadiusLg),
+                border: showBorder
+                    ? dark
+                        ? Border.all(color: MPColors.light)
+                        : Border.all(color: MPColors.dark)
+                    : null),
+            child: Row(children: [
+              Icon(icon, color: dark ? MPColors.white : MPColors.darkerGrey),
+              const SizedBox(width: MPSizes.spaceBtwInputFields),
+              Text(text, style: Theme.of(context).textTheme.bodyMedium),
+            ])),
+      ),
+    );
+  }
+}
 
 class PrimarySearchAppBar extends StatelessWidget
     implements PreferredSizeWidget {
@@ -58,13 +105,6 @@ class SearchAppBar extends StatefulWidget {
 final searchController = TextEditingController();
 
 class SearchAppBarState extends State<SearchAppBar> {
-  // @override
-  // void dispose() {
-  //   // Dispose of the controller when no longer needed to prevent memory leaks.
-  //   searchController.dispose();
-  //   super.dispose();
-  // }
-
   void shoppingCartButton(BuildContext context) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const Shoppingcart()));

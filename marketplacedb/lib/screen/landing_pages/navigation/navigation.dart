@@ -3,11 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:marketplacedb/controllers/inner_controllers/navigation_controller.dart';
-import 'package:marketplacedb/controllers/products/ProductItemController.dart';
+import 'package:marketplacedb/screen/landing_pages/navigation/navigation_controller.dart';
+import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddressSetup.dart';
-import 'package:marketplacedb/controllers/products/ProductController.dart';
+import 'package:marketplacedb/controllers/products/product_controller.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
@@ -17,20 +17,15 @@ class Navigation extends StatefulWidget {
 
   const Navigation({Key? key, this.hasSnackbar}) : super(key: key);
   @override
-  // ignore: no_logic_in_create_state
-  State<Navigation> createState() =>
-      // ignore: no_logic_in_create_state
-      NavigationState(hasSnackbar: hasSnackbar ?? '');
+  State<Navigation> createState() => NavigationState();
 }
 
 class NavigationState extends State<Navigation> {
   MPLocalStorage localStorage = MPLocalStorage();
   final userController = Get.put(UserController());
-  final String? hasSnackbar;
   final productController = Get.put(ProductController());
   final productItemController = Get.put(ProductItemController());
   final navigationController = Get.put(NavigationController());
-  NavigationState({required this.hasSnackbar});
 
   @override
   void initState() {
@@ -38,9 +33,9 @@ class NavigationState extends State<Navigation> {
     print(localStorage.readData('token'));
     print(localStorage.readData('userID'));
 
-    if (hasSnackbar != '') {
+    if (widget.hasSnackbar != '') {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        switch (hasSnackbar) {
+        switch (widget.hasSnackbar) {
           case 'welcomeMessage':
             showWelcomeMessageSnackBar();
             break;
@@ -77,7 +72,7 @@ class NavigationState extends State<Navigation> {
           selectedIndex: navigationController.index.value,
           onDestinationSelected: (index) async {
             if (index == 2) {
-              if (userController.userHasAddressValue.value == false) {
+              if (userController.userHasAddressValue.value == true) {
                 Get.to(() => const BillingAddressSetUp());
               } else {
                 setState(() {

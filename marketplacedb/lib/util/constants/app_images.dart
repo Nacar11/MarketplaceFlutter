@@ -10,7 +10,15 @@ class MPImages {
   static const promotion5 = 'assets/images/promotion_banners/promotion5.jpg';
 
   static const maleCategoryIcon = 'assets/images/icons/user_male.png';
+  static const tops = 'assets/images/icons/tops.png';
 
   static const shirtMale = 'assets/images/products/shirt_male.png';
   static const dressFemale = 'assets/images/products/dress_female.jpg';
+
+  static const productCategoryMale =
+      'assets/images/product_categories/male.jpg';
+  static const productCategoryFemale =
+      'assets/images/product_categories/female.jpg';
+  static const productCategoryJewelry =
+      'assets/images/product_categories/jewelry.jpg';
 }

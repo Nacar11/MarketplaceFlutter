@@ -8,11 +8,11 @@ import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
-import 'package:marketplacedb/controllers/products/ProductItemController.dart';
+import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/controllers/shoppingCartController.dart';
 import 'package:marketplacedb/data/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/data/models/ProductItemModel.dart';
-import 'package:marketplacedb/screen/signin_pages/discoverpage_pages/productlistfilter.dart';
+import 'package:marketplacedb/screen/signin_pages/discover_pages/productlistfilter.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/shoppingcart.dart';
 

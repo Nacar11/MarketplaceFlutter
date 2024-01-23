@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
 import 'package:marketplacedb/common/widgets/layouts/grid_layout.dart';
 import 'package:marketplacedb/common/widgets/products/product_cards/product_card_vertical.dart';
 import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
-import 'package:marketplacedb/controllers/products/ProductItemController.dart';
+import 'package:marketplacedb/controllers/products/product_controller.dart';
+import 'package:marketplacedb/controllers/products/product_item_controller.dart';
+import 'package:marketplacedb/data/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/data/models/ProductItemModel.dart';
 
 import 'package:marketplacedb/screen/landing_pages/home_page/home_page_widgets.dart';
+import 'package:marketplacedb/screen/landing_pages/home_page/home_screen_controller.dart';
 import 'package:marketplacedb/util/constants/app_images.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 
 ProductItemController productItemController = ProductItemController.instance;
+HomeScreenController homeScreenController = HomeScreenController.static;
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -32,16 +37,30 @@ class HomePage extends StatelessWidget {
               Column(children: [MPSectionHeading(title: 'Product Categories')]),
         ),
         const SizedBox(height: MPSizes.spaceBtwItems),
-        SizedBox(
-          height: MPSizes.imageThumbSize,
-          child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 6,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (_, index) {
-                return const MPVerticalImageText();
-              }),
-        ),
+        Obx(() => SizedBox(
+                child: Center(
+              child: productItemController.isLoading.value
+                  ? const SizedBox(
+                      height: MPSizes.imageThumbSize,
+                    )
+                  : SizedBox(
+                      height: MPSizes.imageThumbSize,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: homeScreenController
+                              .preferredSubCategoryList.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            ProductCategoryModel productCategories =
+                                homeScreenController
+                                    .preferredSubCategoryList[index];
+                            return MPVerticalImageText(
+                              isNetworkImage: true,
+                              imageUrl: productCategories.product_image!,
+                              text: productCategories.category_name!,
+                            );
+                          })),
+            )))
       ])),
       HomePageBannerSlider(banners: const [
         MPImages.promotion1,
@@ -51,12 +70,21 @@ class HomePage extends StatelessWidget {
         MPImages.promotion5
       ]),
       const SizedBox(height: MPSizes.spaceBtwSections),
+      const Padding(
+        padding: EdgeInsets.only(left: MPSizes.sm),
+        child: Column(children: [
+          MPSectionHeading(
+            title: 'Recently Listed Items',
+            showActionButton: true,
+          )
+        ]),
+      ),
+      const SizedBox(height: MPSizes.spaceBtwSections),
       Obx(
         () => SizedBox(
-          height: 200,
           child: Center(
             child: productItemController.isLoading.value
-                ? const ShimmerProgressForCarouselSlider() // Loading indicator
+                ? const CircularProgressIndicator()
                 : MPGridLayout(
                     itemCount: productItemController.productItemList.length,
                     itemBuilder: (context, index) {
@@ -68,7 +96,7 @@ class HomePage extends StatelessWidget {
                   ),
           ),
         ),
-      )
+      ),
     ])));
   }
 }

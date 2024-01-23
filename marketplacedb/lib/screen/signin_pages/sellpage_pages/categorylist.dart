@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:marketplacedb/controllers/products/ProductController.dart';
+import 'package:marketplacedb/controllers/products/product_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/producttype.dart';
 
-final controller = Get.put<ProductController>(ProductController());
-
-// List<ProductCategoryModel> productCategoryList = controller.productCategoryList;
+ProductController productController = ProductController.static;
 
 class CategoryListPage extends StatelessWidget {
   const CategoryListPage({Key? key}) : super(key: key);
@@ -21,7 +19,7 @@ class CategoryListPage extends StatelessWidget {
           ),
         ),
         body: Obx(() {
-          return controller.isLoading.value == true
+          return productController.isLoading.value == true
               ? const Center(
                   child: CircularProgressIndicator(
                     strokeWidth: 4.0,
@@ -40,7 +38,8 @@ class CategoryListPage extends StatelessWidget {
                       ),
                       Column(
                         children: [
-                          for (final category in controller.productCategoryList)
+                          for (final category
+                              in productController.productCategoryList)
                             ExpansionTile(
                               title: Text(category.category_name!),
                               children: [
@@ -49,9 +48,10 @@ class CategoryListPage extends StatelessWidget {
                                     ListTile(
                                       title: Text(subcategory.category_name!),
                                       onTap: () {
-                                        controller.productTypeID =
-                                            subcategory.id;
-                                        controller.getProductTypeByCategoryId();
+                                        productController
+                                            .getProductTypesByCategoryId(
+                                                subcategory.id!);
+
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(
                                           builder: (context) => ProductTypePage(
@@ -64,7 +64,6 @@ class CategoryListPage extends StatelessWidget {
                                                 .pop(selectedData);
                                           }
                                         });
-                                        // Navigator.of(context).pop(subcategory);
                                       },
                                     ),
                               ],
