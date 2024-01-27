@@ -8,7 +8,7 @@ import 'package:marketplacedb/controllers/products/product_item_controller.dart'
 import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddressSetup.dart';
 import 'package:marketplacedb/controllers/products/product_controller.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
 

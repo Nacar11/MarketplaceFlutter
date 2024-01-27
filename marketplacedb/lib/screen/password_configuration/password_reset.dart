@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/styles/spacing_styles.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/screen/sign_up_pages/password/password_widgets.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
 import 'package:marketplacedb/screen/password_configuration/change_success.dart';

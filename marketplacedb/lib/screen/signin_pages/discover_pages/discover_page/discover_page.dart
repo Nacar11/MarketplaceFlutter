@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/images.dart';
 import 'package:marketplacedb/controllers/products/product_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/discover_pages/discover_page/discover_page_widgets.dart';
+import 'package:marketplacedb/screen/signin_pages/discover_pages/product_types_page/product_types_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/discover_pages/product_types_page/product_types_page.dart';
 import 'package:marketplacedb/util/constants/app_images.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
+import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
 ProductController productController = ProductController.static;
+final productTypesController = Get.put(ProductTypesPageController());
 
 class DiscoverPage extends StatelessWidget {
   const DiscoverPage({super.key});
@@ -17,27 +21,71 @@ class DiscoverPage extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(children: [
-          const MPDiscoverAppBar(),
-          const SizedBox(height: MPSizes.spaceBtwSections),
+          const MPPrimaryHeaderContainer(
+            height: 140,
+            child: Column(children: [
+              MPDiscoverAppBar(
+                showBackArrow: false,
+                text: "Discover",
+              ),
+              SizedBox(height: MPSizes.spaceBtwSections),
+            ]),
+          ),
           MPRoundedCoverImage(
-            onPressed: () {
+            onPressed: () async {
+              //Accessories Category ID is 1
               productController.subCategoriesInit(0);
+              //First Sub Category ID of Accessories Category is 13
+              await productController.getProductTypesByCategoryId(13);
+              productTypesController.currentClickedSubcategory.value = 0;
+              productTypesController.expandedHeight.value =
+                  MPHelperFunctions.expandedHeightTabBar(
+                      productController.subCategoryList.length);
+              productTypesController.selectedProductTypeId.value =
+                  productController.productTypes[0].id!;
+              //First Product Type ID of First Sub Category of Jewelry Category is 28
+              //which is used to retrieve Product Items
+              productItemController.getProductItemsByProductType(64);
               Get.to(() => const ProductTypesPage());
             },
-            text: "Jewelry",
+            text: "Accessories",
             imageUrl: MPImages.productCategoryJewelry,
           ),
           MPRoundedCoverImage(
-            onPressed: () {
+            onPressed: () async {
+              //Men Category ID is 2
               productController.subCategoriesInit(1);
+              //First Sub Category ID of Men Category is 4
+              await productController.getProductTypesByCategoryId(4);
+              productTypesController.currentClickedSubcategory.value = 0;
+              productTypesController.expandedHeight.value =
+                  MPHelperFunctions.expandedHeightTabBar(
+                      productController.subCategoryList.length);
+              productTypesController.selectedProductTypeId.value =
+                  productController.productTypes[0].id!;
+              //First Product Type ID of First Sub Category of Men Category is 1
+              //which is used to retrieve Product Items
+              productItemController.getProductItemsByProductType(1);
               Get.to(() => const ProductTypesPage());
             },
             text: "Men",
             imageUrl: MPImages.productCategoryMale,
           ),
           MPRoundedCoverImage(
-            onPressed: () {
+            onPressed: () async {
+              //Women Category ID is 3
               productController.subCategoriesInit(2);
+              //First Sub Category ID of Women Category is 8
+              await productController.getProductTypesByCategoryId(8);
+              productTypesController.currentClickedSubcategory.value = 0;
+              productTypesController.expandedHeight.value =
+                  MPHelperFunctions.expandedHeightTabBar(
+                      productController.subCategoryList.length);
+              productTypesController.selectedProductTypeId.value =
+                  productController.productTypes[0].id!;
+              //First Product Type ID of First Sub Category of Women Category is 21
+              //which is used to retrieve Product Items
+              productItemController.getProductItemsByProductType(21);
               Get.to(() => const ProductTypesPage());
             },
             text: "Women",

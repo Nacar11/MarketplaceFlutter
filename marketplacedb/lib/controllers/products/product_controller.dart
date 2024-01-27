@@ -27,6 +27,7 @@ class ProductController extends GetxController {
 
   void subCategoriesInit(int counter) {
     subCategoryList.value = productCategoryList[counter].children!;
+    print(subCategoryList.length);
   }
 
   Future<void> getProductCategories() async {

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:marketplacedb/screen/landing_pages/front_page/front_page.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 
 // import 'package:get/get.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';

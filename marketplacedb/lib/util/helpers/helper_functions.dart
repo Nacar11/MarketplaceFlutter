@@ -24,4 +24,16 @@ class MPHelperFunctions {
     }
     return value;
   }
+
+  static double expandedHeightTabBar(int nSubCategory) {
+    if (nSubCategory <= 4) {
+      return 400;
+    } else if (nSubCategory <= 6) {
+      return 500;
+    } else if (nSubCategory <= 8) {
+      return 700;
+    } else {
+      return 200;
+    }
+  }
 }

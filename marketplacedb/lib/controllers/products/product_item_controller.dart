@@ -18,6 +18,7 @@ class ProductItemController extends GetxController {
   static ProductItemController get instance => Get.find();
   var productItemList = <ProductItemModel>[].obs;
   var productItemListUser = <ProductItemModel>[].obs;
+  var productItemListByProductType = <ProductItemModel>[].obs;
 
   int? productTypeID;
   final isLoading = false.obs;
@@ -194,9 +195,9 @@ class ProductItemController extends GetxController {
           .map((e) => ProductItemModel.fromJson(e) as ProductItemModel)
           .toList();
 
-      productItemList.assignAll(itemList);
+      productItemListByProductType.assignAll(itemList);
     }
     isLoading.value = false;
-    return productItemList;
+    return productItemListByProductType;
   }
 }

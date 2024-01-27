@@ -7,8 +7,10 @@ class ProductTypesPageController extends GetxController {
   static ProductTypesPageController get instance => Get.find();
 
   final currentClickedSubcategory = 0.obs;
+  final selectedProductTypeId = 0.obs;
+  Rx<double> expandedHeight = 0.0.obs;
 
-  void updatePageIndicator(index) {
+  Future updatePageIndicator(index) async {
     if (currentClickedSubcategory.value == index) {
     } else {
       currentClickedSubcategory.value = index;
@@ -18,7 +20,8 @@ class ProductTypesPageController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    productController.getProductTypesByCategoryId(
-        productController.subCategoryList[currentClickedSubcategory.value].id!);
+    print('ProductTypesController INIT');
+    // productController.getProductTypesByCategoryId(
+    //     productController.subCategoryList[currentClickedSubcategory.value].id!);
   }
 }

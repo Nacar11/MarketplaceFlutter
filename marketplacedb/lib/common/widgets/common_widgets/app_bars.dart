@@ -75,7 +75,7 @@ class PrimarySearchAppBar extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: MPSizes.md),
+        padding: const EdgeInsets.symmetric(vertical: 0),
         child: AppBar(
             backgroundColor: Colors.transparent,
             automaticallyImplyLeading: false,
@@ -88,7 +88,12 @@ class PrimarySearchAppBar extends StatelessWidget
                         onPressed: leadingOnPressed, icon: Icon(leadingIcon))
                     : null,
             title: title,
-            actions: actions));
+            actions: [
+              Padding(
+                  padding:
+                      const EdgeInsets.only(right: MPSizes.md, top: MPSizes.xs),
+                  child: Column(children: actions!))
+            ]));
   }
 
   @override

@@ -19,7 +19,7 @@ import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/categorylist.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/variationoptions.dart';
 import 'dart:io';
-import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 
 final variationController = VariationController();
 final productItemController = ProductItemController();

@@ -74,6 +74,7 @@ class MPRoundedImage extends StatelessWidget {
     this.borderRadius = MPSizes.xl,
     this.border = BorderStyle.solid,
     this.hasBorder = false,
+    this.isImageCircular = false,
   }) : super(key: key);
 
   final double? width, height;
@@ -88,6 +89,7 @@ class MPRoundedImage extends StatelessWidget {
   final VoidCallback? onPressed;
   final double borderRadius;
   final Color? overlayColor;
+  final bool isImageCircular;
   @override
   Widget build(BuildContext context) {
     final dark = MPHelperFunctions.isDarkMode(context);
@@ -115,8 +117,10 @@ class MPRoundedImage extends StatelessWidget {
                       ? CachedNetworkImage(
                           imageUrl: imageUrl,
                           placeholder: (context, url) =>
-                              const ShimmerProgressContainer(
-                                  height: 35, width: 30, circular: true),
+                              ShimmerProgressContainer(
+                                  height: height,
+                                  width: width,
+                                  circular: isImageCircular),
                           errorWidget: (context, url, error) =>
                               const Icon(Icons.error),
                           imageBuilder: (context, imageProvider) {

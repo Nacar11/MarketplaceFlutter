@@ -5,12 +5,12 @@ import 'package:shimmer/shimmer.dart';
 class ShimmerProgressContainer extends StatelessWidget {
   const ShimmerProgressContainer({
     Key? key,
-    this.height = 180,
+    this.height,
     this.circular = false,
     this.width,
   }) : super(key: key);
 
-  final double height;
+  final double? height;
   final bool circular;
   final double? width;
 
@@ -29,7 +29,7 @@ class ShimmerProgressContainer extends StatelessWidget {
             width: width,
             decoration: BoxDecoration(
               borderRadius: circular
-                  ? BorderRadius.circular(height / 2)
+                  ? BorderRadius.circular(50)
                   : BorderRadius.circular(MPSizes.cardRadiusLg),
               color: Colors.white,
             ),

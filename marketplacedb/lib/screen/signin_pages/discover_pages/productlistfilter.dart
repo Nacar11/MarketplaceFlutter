@@ -1,12 +1,12 @@
 // ignore_for_file: unused_import, avoid_print
-import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/screen/signin_pages/discover_pages/productitempage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // import 'package:marketplacedb/config/icons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/controllers/products/product_Controller.dart';
 

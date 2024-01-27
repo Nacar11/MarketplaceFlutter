@@ -8,17 +8,15 @@ class ShoppingCartCounterIcon extends StatelessWidget {
   const ShoppingCartCounterIcon({
     super.key,
     required this.onPressed,
-    required this.iconColor,
   });
 
   final VoidCallback onPressed;
-  final Color iconColor;
 
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
       IconButton(
-          onPressed: () {},
+          onPressed: onPressed,
           icon: Icon(Iconsax.shopping_bag,
               color: MPHelperFunctions.isDarkMode(context)
                   ? MPColors.white

@@ -10,7 +10,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/screen/landing_pages/front_page/front_page_widgets.dart';
 import 'package:marketplacedb/screen/sign_up_pages/phone/phone_widgets.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';

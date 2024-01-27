@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/data/models/CountryModel.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/listitem.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';

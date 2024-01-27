@@ -1,62 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/CustomAppBar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/icons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/images.dart';
-import 'package:marketplacedb/common/widgets/custom_shapes/custom_curved_edge_widget.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/screen/landing_pages/home_page/home_screen_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-
-class MPPrimaryHeaderContainer extends StatelessWidget {
-  const MPPrimaryHeaderContainer({
-    super.key,
-    required this.child,
-  });
-
-  final Widget child;
-  @override
-  Widget build(BuildContext context) {
-    return CurvedEdgeWidget(
-        child: SizedBox(
-      height: 350,
-      child: Container(
-        color: MPColors.buttonPrimary,
-        padding: const EdgeInsets.only(bottom: 0),
-        child: Stack(children: [
-          Positioned(
-            top: -150,
-            right: -300,
-            child: MPCircularContainer(
-                width: 400,
-                height: 400,
-                radius: 400,
-                backgroundColor: MPColors.white.withOpacity(0.1)),
-          ),
-          Positioned(
-              bottom: -250,
-              right: -300,
-              child: MPCircularContainer(
-                  width: 400,
-                  height: 400,
-                  radius: 400,
-                  backgroundColor: MPColors.white.withOpacity(0.1))),
-          Positioned(
-              top: -300,
-              left: -200,
-              child: MPCircularContainer(
-                  width: 400,
-                  height: 400,
-                  radius: 400,
-                  backgroundColor: MPColors.white.withOpacity(0.1))),
-          child
-        ]),
-      ),
-    ));
-  }
-}
 
 class MPHomeAppBar extends StatelessWidget {
   const MPHomeAppBar({
@@ -80,9 +31,7 @@ class MPHomeAppBar extends StatelessWidget {
         ]),
       ),
       showBackArrow: false,
-      actions: [
-        ShoppingCartCounterIcon(onPressed: () {}, iconColor: MPColors.white)
-      ],
+      actions: [ShoppingCartCounterIcon(onPressed: () {})],
     );
   }
 }

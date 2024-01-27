@@ -38,6 +38,7 @@ class MPProductCardVertical extends StatelessWidget {
                 if (productItemData.product_images != null &&
                     productItemData.product_images!.isNotEmpty)
                   MPRoundedImage(
+                    isImageCircular: true,
                     isNetworkImage: true,
                     padding: const EdgeInsets.only(top: MPSizes.xs),
                     applyImageRadius: true,

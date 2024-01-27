@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:marketplacedb/common/widgets/common_widgets/snackbar.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/data/models/BillingAddressModel.dart';
 import 'package:marketplacedb/data/models/CountryModel.dart';
 import 'package:marketplacedb/data/models/UserModel.dart';
@@ -47,8 +47,6 @@ class UserController extends GetxController {
 
       home_screen_controller.preferredSubCategory.value =
           userData.value.gender!;
-      print('----------------------------');
-      print(userData.value.gender);
     } catch (e) {
       print(e);
       isLoading.value = false;
