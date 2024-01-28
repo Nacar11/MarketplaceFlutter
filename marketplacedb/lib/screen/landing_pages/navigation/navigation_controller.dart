@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:marketplacedb/screen/signin_pages/discover_pages/discover_page/discover_page.dart';
 import 'package:marketplacedb/screen/landing_pages/home_page/home_page.dart';
 import 'package:marketplacedb/screen/signin_pages/mepage_pages/mepage.dart';
-import 'package:marketplacedb/screen/signin_pages/messagespage_pages/messagepage.dart';
+import 'package:marketplacedb/screen/signin_pages/favorites_page/favorites_page.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/sellpage.dart';
 
 class NavigationController extends GetxController {
@@ -14,7 +14,7 @@ class NavigationController extends GetxController {
     const HomePage(),
     const DiscoverPage(),
     const Sellpage(),
-    const Messagepage(),
+    const FavoritesPage(),
     const Mepage(),
   ];
 }

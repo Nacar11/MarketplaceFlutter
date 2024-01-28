@@ -8,7 +8,7 @@ class ProductTypesPageController extends GetxController {
 
   final currentClickedSubcategory = 0.obs;
   final selectedProductTypeId = 0.obs;
-  Rx<double> expandedHeight = 0.0.obs;
+  final expandedHeight = 0.0.obs;
 
   Future updatePageIndicator(index) async {
     if (currentClickedSubcategory.value == index) {

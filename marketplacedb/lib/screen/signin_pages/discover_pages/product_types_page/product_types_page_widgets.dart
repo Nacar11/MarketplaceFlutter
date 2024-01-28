@@ -208,7 +208,7 @@ class ClickableCategoryCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CategoryNameWithCheckIcon(
+                  ExpandedCategoryNameWithCheckIcon(
                     textStyle: Theme.of(context).textTheme.labelLarge!,
                     text: productCategory.category_name!,
                   ),

@@ -6,17 +6,16 @@ class MPDiscoverAppBar extends StatelessWidget {
   const MPDiscoverAppBar({
     super.key,
     required this.showBackArrow,
-    required this.text,
   });
 
   final bool showBackArrow;
-  final String text;
+
   @override
   Widget build(BuildContext context) {
     return PrimarySearchAppBar(
       showBackArrow: showBackArrow,
       title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(text, style: Theme.of(context).textTheme.headlineMedium),
+        Text("Discover", style: Theme.of(context).textTheme.headlineMedium),
       ]),
       actions: [
         ShoppingCartCounterIcon(

@@ -26,7 +26,6 @@ class DiscoverPage extends StatelessWidget {
             child: Column(children: [
               MPDiscoverAppBar(
                 showBackArrow: false,
-                text: "Discover",
               ),
               SizedBox(height: MPSizes.spaceBtwSections),
             ]),

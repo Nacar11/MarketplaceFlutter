@@ -41,3 +41,23 @@ class ShoppingCartCounterIcon extends StatelessWidget {
     ]);
   }
 }
+
+class MPCircularIcon extends StatelessWidget {
+  const MPCircularIcon(
+      {super.key, required this.onPressed, required this.icon});
+
+  final VoidCallback onPressed;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(children: [
+      IconButton(
+          onPressed: onPressed,
+          icon: Icon(icon,
+              color: MPHelperFunctions.isDarkMode(context)
+                  ? MPColors.white
+                  : MPColors.dark)),
+    ]);
+  }
+}

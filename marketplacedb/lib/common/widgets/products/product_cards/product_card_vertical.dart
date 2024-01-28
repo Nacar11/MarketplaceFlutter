@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/styles/shadows.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
@@ -7,9 +8,13 @@ import 'package:marketplacedb/common/widgets/texts/product_price_text.dart';
 import 'package:marketplacedb/common/widgets/texts/product_title_text.dart';
 import 'package:marketplacedb/common/widgets/texts/text_with_icons.dart';
 import 'package:marketplacedb/data/models/ProductItemModel.dart';
+import 'package:marketplacedb/screen/signin_pages/favorites_page/favorites_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
+
+FavoritesPageController favoritesPageController =
+    FavoritesPageController.instance;
 
 class MPProductCardVertical extends StatelessWidget {
   const MPProductCardVertical({
@@ -64,7 +69,7 @@ class MPProductCardVertical extends StatelessWidget {
                 Positioned(
                   right: 0,
                   top: 0,
-                  child: Container(
+                  child: Obx(() => Container(
                       height: 30,
                       width: 30,
                       decoration: BoxDecoration(
@@ -74,9 +79,34 @@ class MPProductCardVertical extends StatelessWidget {
                             : MPColors.white.withOpacity(0.9),
                       ),
                       child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Iconsax.heart5,
-                              size: MPSizes.iconXs))),
+                          onPressed: () {
+                            bool isFavorite = favoritesPageController
+                                .favoriteProductItems
+                                .any((favoriteItem) =>
+                                    favoriteItem.id == productItemData.id);
+
+                            // Perform actions based on whether it's a favorite or not
+                            if (isFavorite) {
+                              // The product item is in the favorites list
+                              // You can handle removing it from favorites or any other action
+                              favoritesPageController
+                                  .removeFromFavorites(productItemData.id!);
+                            } else {
+                              // The product item is not in the favorites list
+                              // You can handle adding it to favorites or any other action
+                              favoritesPageController
+                                  .addToFavorites(productItemData.id!);
+                            }
+                          },
+                          icon: Icon(
+                            Iconsax.heart5,
+                            size: MPSizes.iconXs,
+                            color: favoritesPageController.favoriteProductItems
+                                    .any((favoriteItem) =>
+                                        favoriteItem.id == productItemData.id)
+                                ? Colors.red // Red color if it's a favorite
+                                : null,
+                          )))),
                 )
               ])),
           const SizedBox(height: MPSizes.spaceBtwItems / 2),
@@ -110,7 +140,7 @@ class MPProductCardVertical extends StatelessWidget {
                               width: MPSizes.iconLg * 1.1,
                               height: MPSizes.iconLg * 1.1,
                               child: Center(
-                                child: Icon(Icons.add_shopping_cart,
+                                child: Icon(Iconsax.add_circle,
                                     color: MPColors.white,
                                     size: MPSizes.iconMd),
                               ),

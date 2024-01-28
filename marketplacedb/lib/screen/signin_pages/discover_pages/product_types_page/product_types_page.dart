@@ -40,8 +40,7 @@ class ProductTypesPage extends StatefulWidget {
   State<ProductTypesPage> createState() => ProductTypesPageState();
 }
 
-class ProductTypesPageState extends State<ProductTypesPage>
-    with SingleTickerProviderStateMixin {
+class ProductTypesPageState extends State<ProductTypesPage> {
   @override
   void initState() {
     super.initState();
@@ -49,8 +48,6 @@ class ProductTypesPageState extends State<ProductTypesPage>
 
   @override
   void dispose() {
-    // Dispose of the TabController when the widget is disposed
-
     super.dispose();
   }
 

@@ -6,6 +6,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation_controller.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/controllers/user_controller.dart';
+import 'package:marketplacedb/screen/signin_pages/favorites_page/favorites_page_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddressSetup.dart';
 import 'package:marketplacedb/controllers/products/product_controller.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
@@ -26,6 +27,7 @@ class NavigationState extends State<Navigation> {
   final productController = Get.put(ProductController());
   final productItemController = Get.put(ProductItemController());
   final navigationController = Get.put(NavigationController());
+  final favoritesPageController = Get.put(FavoritesPageController());
 
   @override
   void initState() {
@@ -58,6 +60,7 @@ class NavigationState extends State<Navigation> {
 
   @override
   void dispose() {
+    favoritesPageController.dispose();
     productItemController.dispose();
     navigationController.dispose();
     productController.dispose();
@@ -90,7 +93,8 @@ class NavigationState extends State<Navigation> {
             NavigationDestination(icon: Icon(Icons.search), label: 'Discover'),
             NavigationDestination(
                 icon: Icon(Iconsax.buy_crypto), label: 'Sell'),
-            NavigationDestination(icon: Icon(Icons.mail), label: 'Messages'),
+            NavigationDestination(
+                icon: Icon(Iconsax.heart), label: 'Favorites'),
             NavigationDestination(icon: Icon(Icons.person), label: 'Me'),
           ]),
       //
