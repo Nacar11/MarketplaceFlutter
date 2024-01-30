@@ -8,7 +8,7 @@ import 'package:marketplacedb/screen/signin_pages/sellpage_pages/sellpage.dart';
 class NavigationController extends GetxController {
   static NavigationController get static => Get.find();
 
-  final Rx<int> index = 0.obs;
+  final index = 0.obs;
 
   final screens = [
     const HomePage(),

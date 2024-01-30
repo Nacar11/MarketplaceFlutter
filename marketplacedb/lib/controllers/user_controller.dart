@@ -44,40 +44,6 @@ class UserController extends GetxController {
 
       UserModel userModel = UserModel.fromJson(userDataJson);
       userData.value = userModel;
-
-      home_screen_controller.preferredSubCategory.value =
-          userData.value.gender!;
-    } catch (e) {
-      print(e);
-      isLoading.value = false;
-    }
-  }
-
-  Future<void> logout(BuildContext context) async {
-    try {
-      isLoading.value = true;
-      var response = await AuthInterceptor().get(
-        Uri.parse('${url}logout'),
-        headers: {
-          'Accept': 'application/json',
-        },
-      );
-
-      var jsonObject = jsonDecode(response.body);
-      isLoading.value = false;
-
-      if (jsonObject['message'] == 'Logged out Successfully') {
-        localStorage.clearAll();
-        Get.offAll(() => const FrontPage(logoutMessage: true));
-      } else {
-        print(jsonObject['message']);
-        errorSnackBar(
-          context,
-          'Error Logging Out, Please Try Again',
-          'error',
-        );
-        localStorage.clearAll();
-      }
     } catch (e) {
       print(e);
       isLoading.value = false;

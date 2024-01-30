@@ -11,16 +11,18 @@ UserController userController = UserController.instance;
 class MPUserProfileTile extends StatelessWidget {
   const MPUserProfileTile({
     super.key,
+    required this.title,
+    required this.subtitle,
   });
+
+  final String title, subtitle;
 
   @override
   Widget build(BuildContext context) {
     final dark = MPHelperFunctions.isDarkMode(context);
     return ListTile(
-        title: Text(userController.userData.value.username ?? '',
-            style: Theme.of(context).textTheme.titleLarge),
-        subtitle: Text(userController.userData.value.email ?? '',
-            style: Theme.of(context).textTheme.labelLarge),
+        title: Text(title, style: Theme.of(context).textTheme.titleLarge),
+        subtitle: Text(subtitle, style: Theme.of(context).textTheme.labelLarge),
         trailing: IconButton(
             onPressed: () {},
             icon: Icon(Iconsax.edit,
@@ -35,10 +37,26 @@ class MPUserProfileTile extends StatelessWidget {
 }
 
 class MPSettingsMenuTile extends StatelessWidget {
-  const MPSettingsMenuTile({super.key});
+  const MPSettingsMenuTile(
+      {super.key,
+      required this.icon,
+      required this.title,
+      required this.subTitle,
+      this.trailing,
+      this.onTap});
 
+  final IconData icon;
+  final String title, subTitle;
+  final Widget? trailing;
+  final VoidCallback? onTap;
   @override
   Widget build(BuildContext context) {
-    return const ListTile();
+    return ListTile(
+        leading: Icon(icon, size: 28, color: MPColors.primary),
+        title: Text(title, style: Theme.of(context).textTheme.titleMedium),
+        subtitle:
+            Text(subTitle, style: Theme.of(context).textTheme.labelMedium),
+        trailing: trailing,
+        onTap: onTap);
   }
 }

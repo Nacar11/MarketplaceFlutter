@@ -36,7 +36,7 @@ class MePageSettings extends StatelessWidget {
             title: TextButton(
               onPressed: () async {
                 print('ASD ${localStorage.readData('token')}');
-                await userController.logout(context);
+                // await userController.logout(context);
               },
               child: Text("Log Out",
                   style: Theme.of(context).textTheme.titleLarge),
