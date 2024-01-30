@@ -8,48 +8,43 @@ class MPPrimaryHeaderContainer extends StatelessWidget {
   const MPPrimaryHeaderContainer({
     super.key,
     required this.child,
-    required this.height,
   });
 
-  final double height;
   final Widget child;
   @override
   Widget build(BuildContext context) {
     return CurvedEdgeWidget(
-        child: SizedBox(
-      height: height,
-      child: Container(
-        color: MPColors.buttonPrimary,
-        padding: const EdgeInsets.only(bottom: 0),
-        child: Stack(children: [
-          Positioned(
-            top: -150,
+        child: Container(
+      color: MPColors.buttonPrimary,
+      padding: const EdgeInsets.only(bottom: 0),
+      child: Stack(children: [
+        Positioned(
+          top: -150,
+          right: -300,
+          child: MPCircularContainer(
+              width: 400,
+              height: 400,
+              radius: 400,
+              backgroundColor: MPColors.white.withOpacity(0.1)),
+        ),
+        Positioned(
+            bottom: -250,
             right: -300,
             child: MPCircularContainer(
                 width: 400,
                 height: 400,
                 radius: 400,
-                backgroundColor: MPColors.white.withOpacity(0.1)),
-          ),
-          Positioned(
-              bottom: -250,
-              right: -300,
-              child: MPCircularContainer(
-                  width: 400,
-                  height: 400,
-                  radius: 400,
-                  backgroundColor: MPColors.white.withOpacity(0.1))),
-          Positioned(
-              top: -300,
-              left: -200,
-              child: MPCircularContainer(
-                  width: 400,
-                  height: 400,
-                  radius: 400,
-                  backgroundColor: MPColors.white.withOpacity(0.1))),
-          child
-        ]),
-      ),
+                backgroundColor: MPColors.white.withOpacity(0.1))),
+        Positioned(
+            top: -300,
+            left: -200,
+            child: MPCircularContainer(
+                width: 400,
+                height: 400,
+                radius: 400,
+                backgroundColor: MPColors.white.withOpacity(0.1))),
+        child
+      ]),
     ));
   }
 }

@@ -89,13 +89,14 @@ class NavigationState extends State<Navigation> {
             }
           },
           destinations: const [
-            NavigationDestination(icon: Icon(Icons.home), label: 'home'),
-            NavigationDestination(icon: Icon(Icons.search), label: 'Discover'),
+            NavigationDestination(icon: Icon(Iconsax.home4), label: 'home'),
             NavigationDestination(
-                icon: Icon(Iconsax.buy_crypto), label: 'Sell'),
+                icon: Icon(Iconsax.search_favorite), label: 'Discover'),
+            NavigationDestination(icon: Icon(Iconsax.shop_add), label: 'Sell'),
             NavigationDestination(
                 icon: Icon(Iconsax.heart), label: 'Favorites'),
-            NavigationDestination(icon: Icon(Icons.person), label: 'Me'),
+            NavigationDestination(
+                icon: Icon(Iconsax.profile_tick), label: 'Me'),
           ]),
       //
       body: Obx(

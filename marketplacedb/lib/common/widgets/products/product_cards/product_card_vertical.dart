@@ -140,7 +140,7 @@ class MPProductCardVertical extends StatelessWidget {
                               width: MPSizes.iconLg * 1.1,
                               height: MPSizes.iconLg * 1.1,
                               child: Center(
-                                child: Icon(Iconsax.add_circle,
+                                child: Icon(Iconsax.shopping_cart5,
                                     color: MPColors.white,
                                     size: MPSizes.iconMd),
                               ),

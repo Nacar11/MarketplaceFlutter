@@ -22,7 +22,6 @@ class DiscoverPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(children: [
           const MPPrimaryHeaderContainer(
-            height: 140,
             child: Column(children: [
               MPDiscoverAppBar(
                 showBackArrow: false,

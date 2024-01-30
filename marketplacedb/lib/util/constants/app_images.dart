@@ -10,6 +10,7 @@ class MPImages {
   static const promotion5 = 'assets/images/promotion_banners/promotion5.jpg';
 
   static const maleCategoryIcon = 'assets/images/icons/user_male.png';
+  static const femaleCategoryIcon = 'assets/images/icons/user_female.jpg';
   static const tops = 'assets/images/icons/tops.png';
 
   static const shirtMale = 'assets/images/products/shirt_male.png';

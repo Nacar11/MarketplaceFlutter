@@ -5,6 +5,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/layouts/grid_layout.dart';
 import 'package:marketplacedb/common/widgets/products/product_cards/product_card_vertical.dart';
 import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
+import 'package:marketplacedb/common/widgets/texts/section_headings.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/data/models/ProductCategoryModel.dart';
 import 'package:marketplacedb/data/models/ProductItemModel.dart';
@@ -26,43 +27,43 @@ class HomePage extends StatelessWidget {
         body: SingleChildScrollView(
             child: Column(children: [
       MPPrimaryHeaderContainer(
-          height: 350,
           child: Column(children: [
-            const MPHomeAppBar(),
-            const SizedBox(height: MPSizes.spaceBtwSections),
-            const MPSearchContainer(text: "Search Here"),
-            const SizedBox(height: MPSizes.spaceBtwSections),
-            const Padding(
-              padding: EdgeInsets.only(left: MPSizes.defaultSpace),
-              child: Column(
-                  children: [MPSectionHeading(title: 'Product Categories')]),
-            ),
-            const SizedBox(height: MPSizes.spaceBtwItems),
-            Obx(() => SizedBox(
-                    child: Center(
-                  child: homeScreenController.isLoading.value
-                      ? const SizedBox(
-                          height: MPSizes.imageThumbSize,
-                        )
-                      : SizedBox(
-                          height: MPSizes.imageThumbSize,
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: homeScreenController
-                                  .preferredSubCategoryList.length,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                ProductCategoryModel productCategories =
-                                    homeScreenController
-                                        .preferredSubCategoryList[index];
-                                return MPVerticalImageText(
-                                  isNetworkImage: true,
-                                  imageUrl: productCategories.product_image!,
-                                  text: productCategories.category_name!,
-                                );
-                              })),
-                )))
-          ])),
+        const MPHomeAppBar(),
+        const SizedBox(height: MPSizes.spaceBtwSections),
+        const MPSearchContainer(text: "Search Here"),
+        const SizedBox(height: MPSizes.spaceBtwSections),
+        const Padding(
+          padding: EdgeInsets.only(left: MPSizes.defaultSpace),
+          child:
+              Column(children: [MPSectionHeading(title: 'Product Categories')]),
+        ),
+        const SizedBox(height: MPSizes.spaceBtwItems),
+        Obx(() => SizedBox(
+                child: Center(
+              child: homeScreenController.isLoading.value
+                  ? const SizedBox(
+                      height: MPSizes.imageThumbSize,
+                    )
+                  : SizedBox(
+                      height: MPSizes.imageThumbSize,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: homeScreenController
+                              .preferredSubCategoryList.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            ProductCategoryModel productCategories =
+                                homeScreenController
+                                    .preferredSubCategoryList[index];
+                            return MPVerticalImageText(
+                              isNetworkImage: true,
+                              imageUrl: productCategories.product_image!,
+                              text: productCategories.category_name!,
+                            );
+                          })),
+            ))),
+        const SizedBox(height: MPSizes.spaceBtwSections),
+      ])),
       HomePageBannerSlider(banners: const [
         MPImages.promotion1,
         MPImages.promotion2,
