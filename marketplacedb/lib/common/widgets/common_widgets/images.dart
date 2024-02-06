@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
-import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
 class MPRoundedCoverImage extends StatelessWidget {
   const MPRoundedCoverImage({
@@ -72,15 +71,14 @@ class MPRoundedImage extends StatelessWidget {
     this.backgroundColor = MPColors.light,
     this.isNetworkImage = false,
     this.borderRadius = MPSizes.xl,
-    this.border = BorderStyle.solid,
+    this.border,
     this.hasBorder = false,
-    this.isImageCircular = false,
   }) : super(key: key);
 
   final double? width, height;
   final String imageUrl;
   final bool applyImageRadius;
-  final BorderStyle border;
+  final BoxBorder? border;
   final bool hasBorder;
   final Color backgroundColor;
   final BoxFit? boxFit;
@@ -89,10 +87,10 @@ class MPRoundedImage extends StatelessWidget {
   final VoidCallback? onPressed;
   final double borderRadius;
   final Color? overlayColor;
-  final bool isImageCircular;
+
   @override
   Widget build(BuildContext context) {
-    final dark = MPHelperFunctions.isDarkMode(context);
+    // final dark = MPHelperFunctions.isDarkMode(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: MPSizes.sm),
       child: GestureDetector(
@@ -102,11 +100,7 @@ class MPRoundedImage extends StatelessWidget {
             height: height,
             padding: padding,
             decoration: BoxDecoration(
-                border: hasBorder
-                    ? Border.all(
-                        style: border,
-                        color: dark ? MPColors.textWhite : MPColors.black)
-                    : null,
+                border: hasBorder ? border : null,
                 borderRadius: BorderRadius.circular(borderRadius)),
             child: ClipRRect(
                 borderRadius: applyImageRadius
@@ -120,11 +114,13 @@ class MPRoundedImage extends StatelessWidget {
                               ShimmerProgressContainer(
                                   height: height,
                                   width: width,
-                                  circular: isImageCircular),
+                                  circular: hasBorder),
                           errorWidget: (context, url, error) =>
                               const Icon(Icons.error),
                           imageBuilder: (context, imageProvider) {
                             return Image(
+                              height: height,
+                              width: width,
                               image: imageProvider,
                               fit: boxFit,
                             );

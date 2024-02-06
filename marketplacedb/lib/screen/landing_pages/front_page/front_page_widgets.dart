@@ -78,35 +78,6 @@ class LoginForgetPasswordRow extends StatelessWidget {
   }
 }
 
-class MPDivider extends StatelessWidget {
-  const MPDivider({
-    super.key,
-    required this.isDarkMode,
-  });
-
-  final bool isDarkMode;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Flexible(
-          child: Divider(
-              color: isDarkMode ? MPColors.darkGrey : MPColors.grey,
-              thickness: 2,
-              indent: 60,
-              endIndent: 5)),
-      Text(MPTexts.loginDividerSignUpWith,
-          style: Theme.of(context).textTheme.labelSmall),
-      Flexible(
-          child: Divider(
-              color: isDarkMode ? MPColors.darkGrey : MPColors.grey,
-              thickness: 2,
-              indent: 5,
-              endIndent: 60))
-    ]);
-  }
-}
-
 class SocialLoginButtons extends StatelessWidget {
   const SocialLoginButtons({
     super.key,

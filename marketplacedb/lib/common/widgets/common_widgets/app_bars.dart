@@ -88,12 +88,14 @@ class PrimarySearchAppBar extends StatelessWidget
                         onPressed: leadingOnPressed, icon: Icon(leadingIcon))
                     : null,
             title: title,
-            actions: [
-              Padding(
-                  padding:
-                      const EdgeInsets.only(right: MPSizes.md, top: MPSizes.xs),
-                  child: Column(children: actions!))
-            ]));
+            actions: actions != null
+                ? [
+                    Padding(
+                        padding: const EdgeInsets.only(
+                            right: MPSizes.md, top: MPSizes.xs),
+                        child: Column(children: actions!))
+                  ]
+                : null));
   }
 
   @override

@@ -46,7 +46,7 @@ class AccountSettingsPageState extends State<AccountSettingsPage> {
               const SizedBox(height: MPSizes.spaceBtwSections),
             ])),
             Padding(
-                padding: const EdgeInsets.all(MPSizes.defaultSpace),
+                padding: const EdgeInsets.all(MPSizes.md),
                 child: Column(children: [
                   const MPSectionHeading(title: "Account Settings"),
                   const SizedBox(height: MPSizes.spaceBtwItems),

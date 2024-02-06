@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'MarketPlace',
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       theme: MPAppTheme.lightTheme,
       darkTheme: MPAppTheme.darkTheme,
       initialRoute: '/',

@@ -22,27 +22,18 @@ class MPPrimaryHeaderContainer extends StatelessWidget {
           top: -150,
           right: -300,
           child: MPCircularContainer(
-              width: 400,
-              height: 400,
-              radius: 400,
-              backgroundColor: MPColors.white.withOpacity(0.1)),
+              radius: 400, backgroundColor: MPColors.white.withOpacity(0.1)),
         ),
         Positioned(
             bottom: -250,
             right: -300,
             child: MPCircularContainer(
-                width: 400,
-                height: 400,
-                radius: 400,
-                backgroundColor: MPColors.white.withOpacity(0.1))),
+                radius: 400, backgroundColor: MPColors.white.withOpacity(0.1))),
         Positioned(
             top: -300,
             left: -200,
             child: MPCircularContainer(
-                width: 400,
-                height: 400,
-                radius: 400,
-                backgroundColor: MPColors.white.withOpacity(0.1))),
+                radius: 400, backgroundColor: MPColors.white.withOpacity(0.1))),
         child
       ]),
     ));

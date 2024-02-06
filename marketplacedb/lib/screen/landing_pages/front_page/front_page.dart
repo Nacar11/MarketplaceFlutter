@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:marketplacedb/common/styles/spacing_styles.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/dividers.dart';
 import 'package:marketplacedb/screen/landing_pages/front_page/front_page_widgets.dart';
 import 'package:marketplacedb/screen/sign_up_pages/phone/phone_widgets.dart';
 import 'package:marketplacedb/controllers/authenticationController.dart';
@@ -60,11 +61,6 @@ class FrontPageState extends State<FrontPage> {
     );
   }
 
-  // void signInButton(BuildContext context) {
-  //   Navigator.of(context)
-  //       .push(MaterialPageRoute(builder: (context) => const SignInPage()));
-  // }
-
   // void facebookButton(BuildContext context) async {
   //   await FacebookAuth.instance
   //       .login(permissions: ['public_profile', 'email']).then((value) async {
@@ -90,7 +86,6 @@ class FrontPageState extends State<FrontPage> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isDarkMode = MPHelperFunctions.isDarkMode(context);
     return Scaffold(
         body: SingleChildScrollView(
             child: Padding(
@@ -117,7 +112,8 @@ class FrontPageState extends State<FrontPage> {
                             },
                             text: MPTexts.signIn))),
                     const SizedBox(height: MPSizes.spaceBtwSections * 1.5),
-                    MPDivider(isDarkMode: isDarkMode),
+                    const MPDividerWithText(
+                        text: MPTexts.loginDividerSignUpWith),
                     const SizedBox(height: MPSizes.spaceBtwItems),
                     const SocialLoginButtons(),
                   ],

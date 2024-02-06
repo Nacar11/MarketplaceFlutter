@@ -19,7 +19,7 @@ class ProductItemController extends GetxController {
   var productItemList = <ProductItemModel>[].obs;
   var productItemListUser = <ProductItemModel>[].obs;
   var productItemListByProductType = <ProductItemModel>[].obs;
-
+  final singleProductItemDetail = ProductItemModel().obs;
   int? productTypeID;
   final isLoading = false.obs;
   final token = ''.obs;
@@ -31,11 +31,18 @@ class ProductItemController extends GetxController {
     getProductItems();
   }
 
-  Future test() async {
-    final response = await http.get(
-      Uri.parse(url + 'test'),
-    );
-    print(response.body);
+  Future<void> getSingleProductItemDetail(int itemId) async {
+    isLoading.value = true;
+    final response =
+        await AuthInterceptor().get(Uri.parse(url + "productItem/$itemId"));
+    var jsonObject = jsonDecode(response.body);
+    if (jsonObject['message'] == 'success') {
+      singleProductItemDetail.value =
+          ProductItemModel.fromJson(jsonObject['data']);
+      print(singleProductItemDetail.value);
+    }
+
+    isLoading.value = false;
   }
 
   Future<void> getProductItems() async {
@@ -134,7 +141,7 @@ class ProductItemController extends GetxController {
   Future<int> addProductConfiguration(
       Map<int, VariationOptionModel> selectedOptions, int productItemID) async {
     isLoading.value = true;
-    print('asdasdasa');
+
     for (final entry in selectedOptions.entries) {
       final variationOptionID = entry.value.id;
 

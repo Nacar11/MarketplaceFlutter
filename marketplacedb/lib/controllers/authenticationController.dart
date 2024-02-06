@@ -174,7 +174,7 @@ class AuthenticationController extends GetxController {
       var data = {
         'email': localStorage.readData('email'),
         'password': localStorage.readData('password'),
-        'last_name': localStorage.readData('first_name'),
+        'last_name': localStorage.readData('last_name'),
         'first_name': localStorage.readData('first_name'),
         'username': localStorage.readData('username'),
         'contact_number': localStorage.readData('contact_number'),
