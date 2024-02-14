@@ -16,12 +16,4 @@ class ProductTypesPageController extends GetxController {
       currentClickedSubcategory.value = index;
     }
   }
-
-  @override
-  void onInit() async {
-    super.onInit();
-    print('ProductTypesController INIT');
-    // productController.getProductTypesByCategoryId(
-    //     productController.subCategoryList[currentClickedSubcategory.value].id!);
-  }
 }

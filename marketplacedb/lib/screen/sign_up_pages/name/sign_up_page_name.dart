@@ -34,7 +34,7 @@ class SignUpPageNameState extends State<SignUpPageName> {
     lastNameController = TextEditingController();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      successSnackBar(context, MPTexts.signInCoupleMoreSteps, 'Welcome!');
+      getSnackBar(MPTexts.signInCoupleMoreSteps, 'Welcome!', true);
     });
   }
 

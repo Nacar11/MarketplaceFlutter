@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:marketplacedb/controllers/products/product_controller.dart';
-import 'package:marketplacedb/screen/signin_pages/sellpage_pages/producttype.dart';
+import 'package:marketplacedb/screen/signin_pages/sell_pages/producttype.dart';
 
 ProductController productController = ProductController.static;
 

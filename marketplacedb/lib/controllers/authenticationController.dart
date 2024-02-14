@@ -54,44 +54,16 @@ class AuthenticationController extends GetxController {
         localStorage.saveData('username', jsonResponse['username']);
         localStorage.saveData('userID', jsonResponse['user_id']);
         isLoading.value = false;
-        Get.offAll(() => const Navigation(hasSnackbar: 'welcomeMessage'));
+        Get.offAll(() => const Navigation());
+        String text = 'Welcome, ${localStorage.readData('username')}';
+        getSnackBar(text, MPTexts.successLogin, true);
       } else {
-        errorSnackBar(context, jsonResponse['message'], 'Error');
+        getSnackBar(jsonResponse['message'], 'Error', false);
         isLoading.value = false;
       }
     } catch (e) {
       isLoading.value = false;
       print(e);
-    }
-  }
-
-  Future getUser({
-    required String email,
-  }) async {
-    try {
-      isLoading.value = true;
-      var data = {
-        'email': email,
-      };
-      var response = await AuthInterceptor().post(
-        Uri.parse('${url}getUserByEmail'),
-        headers: {
-          'Accept': 'application/json',
-        },
-        body: data,
-      );
-      print(response.body);
-      final jsonBody = jsonDecode(response.body);
-      if (jsonBody.containsKey('success')) {
-        print('asdad');
-        final storage = GetStorage();
-        storage.write('contact_number', jsonBody['success']);
-        storage.write('email', email);
-        return 0;
-      }
-    } catch (e) {
-      print(e);
-      isLoading.value = false;
     }
   }
 
@@ -208,12 +180,14 @@ class AuthenticationController extends GetxController {
         localStorage.saveData('username', jsonObject['username']);
         localStorage.saveData('userID', jsonObject['user_id']);
 
-        Get.offAll(() => const Navigation(hasSnackbar: 'welcomeMessage'));
+        Get.offAll(() => const Navigation());
+        String text = 'Welcome, ${localStorage.readData('username')}';
+        getSnackBar(text, "Successfully Registered!", true);
       } else {
         isLoading.value = false;
 
         final text = jsonObject['message'];
-        errorSnackBar(context, text, 'error');
+        getSnackBar(text, 'Error', false);
       }
     } catch (e) {
       print(e);
@@ -295,10 +269,12 @@ class AuthenticationController extends GetxController {
         localStorage.saveData('userID', jsonObject['user_id']);
         isLoading.value = false;
         await GoogleSignAPI.logout();
-        Get.to(() => const Navigation(hasSnackbar: 'welcomeMessage'));
+        Get.offAll(() => const Navigation());
+        String text = 'Welcome, ${localStorage.readData('username')}';
+        getSnackBar(text, MPTexts.successLogin, true);
       } else {
         isLoading.value = false;
-        errorSnackBar(context, MPTexts.errorLoggingIn, 'error');
+        getSnackBar(MPTexts.errorLoggingIn, 'error', false);
       }
     } catch (e) {
       print(e);

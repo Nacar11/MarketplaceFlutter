@@ -39,10 +39,6 @@ class PasswordResetPagePageState extends State<PasswordResetPage> {
     super.initState();
     passwordController = TextEditingController();
     reEnterPasswordController = TextEditingController();
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      successSnackBar(context, MPTexts.changePassword, MPTexts.codeVerified);
-    });
   }
 
   @override
@@ -147,12 +143,12 @@ class PasswordResetPagePageState extends State<PasswordResetPage> {
                         isDisabled: !isPasswordValid,
                         isLoading: authController.isLoading.value,
                         onPressed: () async {
-                          print(localStorage
-                              .readData('emailResetPassword')
-                              .runtimeType);
-                          print(
-                              '----------------------------------------------');
-                          print(passwordController.text.trim().runtimeType);
+                          // print(localStorage
+                          //     .readData('emailResetPassword')
+                          //     .runtimeType);
+                          // print(
+                          //     '----------------------------------------------');
+                          // print(passwordController.text.trim().runtimeType);
                           var response = await authController.changePassword(
                             email: localStorage.readData('emailResetPassword'),
                             newPassword: passwordController.text.trim(),
@@ -162,7 +158,7 @@ class PasswordResetPagePageState extends State<PasswordResetPage> {
                             Get.offAll(() => const PasswordChangeSuccessPage());
                           } else {
                             final text = response['message'];
-                            errorSnackBar(context, text, 'error');
+                            getSnackBar(text, 'error', false);
                           }
                         },
                       ))

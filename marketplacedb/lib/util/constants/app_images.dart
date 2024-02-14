@@ -9,12 +9,11 @@ class MPImages {
   static const promotion4 = 'assets/images/promotion_banners/promotion4.jpg';
   static const promotion5 = 'assets/images/promotion_banners/promotion5.jpg';
 
-  static const maleCategoryIcon = 'assets/images/icons/user_male.png';
+  // static const maleCategoryIcon = 'assets/images/icons/user_male.png';
   static const femaleCategoryIcon = 'assets/images/icons/user_female.jpg';
-  static const tops = 'assets/images/icons/tops.png';
 
-  static const shirtMale = 'assets/images/products/shirt_male.png';
-  static const dressFemale = 'assets/images/products/dress_female.jpg';
+  // static const shirtMale = 'assets/images/products/shirt_male.png';
+  // static const dressFemale = 'assets/images/products/dress_female.jpg';
 
   static const productCategoryMale =
       'assets/images/product_categories/male.jpg';

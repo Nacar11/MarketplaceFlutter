@@ -134,10 +134,8 @@ class CustomSignUpContinue extends StatelessWidget {
               if (otpCode == localStorage.readData('SMSVerificationCode')) {
                 Get.offAll(() => const SignUpPageName());
               } else {
-                // showErrorHandlingSnackBar(
-                //     context, "Incorrect PIN, Please try again.", 'error');
-                errorSnackBar(
-                    context, 'Incorrect PIN, Please Try Again.', 'Invalid PIN');
+                getSnackBar(
+                    'Incorrect PIN, Please Try Again.', 'Invalid PIN', false);
               }
             },
           ),

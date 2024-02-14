@@ -7,16 +7,12 @@ import 'package:marketplacedb/screen/landing_pages/navigation/navigation_control
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/favorites_page/favorites_page_controller.dart';
-import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddressSetup.dart';
+import 'package:marketplacedb/screen/signin_pages/sell_pages/billing_address_setup/billing_address_setup.dart';
 import 'package:marketplacedb/controllers/products/product_controller.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
-import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
 
 class Navigation extends StatefulWidget {
-  final String? hasSnackbar;
-
-  const Navigation({Key? key, this.hasSnackbar}) : super(key: key);
+  const Navigation({Key? key}) : super(key: key);
   @override
   State<Navigation> createState() => NavigationState();
 }
@@ -35,36 +31,31 @@ class NavigationState extends State<Navigation> {
     print(localStorage.readData('token'));
     print(localStorage.readData('userID'));
 
-    if (widget.hasSnackbar != '') {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        switch (widget.hasSnackbar) {
-          case 'welcomeMessage':
-            showWelcomeMessageSnackBar();
-            break;
-          case 'listingAdded':
-            successSnackBar(context, MPTexts.productListed, MPTexts.success);
-            break;
-          case 'addedTocart':
-            successSnackBar(context, MPTexts.itemAddedToCart, MPTexts.success);
-            break;
-          default:
-        }
-      });
-    }
-  }
-
-  void showWelcomeMessageSnackBar() {
-    String text = 'Welcome, ${localStorage.readData('username')}';
-    successSnackBar(context, text, MPTexts.successLogin);
+    // if (widget.hasSnackbar != '') {
+    //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //     switch (widget.hasSnackbar) {
+    //       case 'welcomeMessage':
+    //         showWelcomeMessageSnackBar();
+    //         break;
+    //       case 'listingAdded':
+    //         successSnackBar(context, MPTexts.productListed, MPTexts.success);
+    //         break;
+    //       case 'addedTocart':
+    //         successSnackBar(context, MPTexts.itemAddedToCart, MPTexts.success);
+    //         break;
+    //       default:
+    //     }
+    //   });
+    // }
   }
 
   @override
   void dispose() {
-    favoritesPageController.dispose();
     productItemController.dispose();
     navigationController.dispose();
     productController.dispose();
-
+    favoritesPageController.dispose();
+    print("disposed");
     super.dispose();
   }
 
@@ -75,8 +66,8 @@ class NavigationState extends State<Navigation> {
           selectedIndex: navigationController.index.value,
           onDestinationSelected: (index) async {
             if (index == 2) {
-              if (userController.userHasAddressValue.value == true) {
-                Get.to(() => const BillingAddressSetUp());
+              if (userController.userHasAddressValue.value == false) {
+                Get.to(() => const BillingAddressSetup());
               } else {
                 setState(() {
                   navigationController.index.value = index;

@@ -32,7 +32,7 @@ class CodeVerificationForgetPasswordPageState
     if (response['message'] == 'success') {
       localStorage.saveData(
           'emailVerificationCode', response['code'].toString());
-      successSnackBar(context, MPTexts.otpResentSuccessful, MPTexts.success);
+      getSnackBar(MPTexts.otpResentSuccessful, MPTexts.success, true);
     }
   }
 
@@ -84,9 +84,11 @@ class CodeVerificationForgetPasswordPageState
                   if (otpCode ==
                       localStorage.readData('emailVerificationCode')) {
                     Get.offAll(() => const PasswordResetPage());
+                    getSnackBar(
+                        MPTexts.changePassword, MPTexts.codeVerified, true);
                   } else {
-                    errorSnackBar(context, 'Incorrect PIN, Please Try Again.',
-                        'Invalid PIN');
+                    getSnackBar('Incorrect PIN, Please Try Again.',
+                        'Invalid PIN', false);
                   }
                 },
               ))

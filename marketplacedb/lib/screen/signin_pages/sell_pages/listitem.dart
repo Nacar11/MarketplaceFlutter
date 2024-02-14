@@ -16,8 +16,8 @@ import 'package:marketplacedb/controllers/products/product_item_controller.dart'
 import 'package:marketplacedb/data/models/VariantsModel.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
 // import 'package:marketplacedb/models/VariantsOptionsModel.dart';
-import 'package:marketplacedb/screen/signin_pages/sellpage_pages/categorylist.dart';
-import 'package:marketplacedb/screen/signin_pages/sellpage_pages/variationoptions.dart';
+import 'package:marketplacedb/screen/signin_pages/sell_pages/categorylist.dart';
+import 'package:marketplacedb/screen/signin_pages/sell_pages/variationoptions.dart';
 import 'dart:io';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 
@@ -57,16 +57,7 @@ class ListitempageState extends State<Listitempage>
   void initState() {
     super.initState();
     fetchData();
-    if (hasSnackbar != '') {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        switch (hasSnackbar) {
-          case 'billingAddressSuccess':
-            successSnackBar(context, 'Billing Address Added', 'Success');
-            break;
-          default:
-        }
-      });
-    }
+
     _tabController = TabController(length: 2, vsync: this);
   }
 
@@ -294,15 +285,15 @@ class ListitempageState extends State<Listitempage>
                                   myControllers,
                                   selectedOptions);
                           if (response == 1) {
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) => const Navigation(
-                                        hasSnackbar: 'listingAdded')));
+                            // Navigator.of(context).pushReplacement(
+                            //     MaterialPageRoute(
+                            //         builder: (context) => const Navigation(
+                            //             hasSnackbar: 'listingAdded')));
                           } else {
-                            errorSnackBar(
-                                context,
-                                "Adding Item Failed, Please Try Again.",
-                                'error');
+                            // errorSnackBar(
+                            //     context,
+                            //     "Adding Item Failed, Please Try Again.",
+                            //     'error');
                           }
                         },
                         isDisabled: productItemController.isLoading.value,

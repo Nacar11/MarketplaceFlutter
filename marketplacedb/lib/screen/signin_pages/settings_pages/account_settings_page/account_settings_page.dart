@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/list_tile.dart';
 import 'package:marketplacedb/common/widgets/texts/section_headings.dart';
@@ -126,12 +127,11 @@ class AccountSettingsPageState extends State<AccountSettingsPage> {
                   const SizedBox(height: MPSizes.spaceBtwSections),
                   SizedBox(
                       width: double.infinity,
-                      child: OutlinedButton(
+                      child: MPCustomOutlinedButton(
+                          text: "Logout",
                           onPressed: () async {
                             await accountSettingsPageController.logout(context);
-                          },
-                          child: Text('Logout',
-                              style: Theme.of(context).textTheme.titleMedium))),
+                          })),
                   const SizedBox(height: MPSizes.spaceBtwSections)
                 ]))
           ]))));

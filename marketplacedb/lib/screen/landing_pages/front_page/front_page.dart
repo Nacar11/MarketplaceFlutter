@@ -18,34 +18,19 @@ import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
 class FrontPage extends StatefulWidget {
-  final bool? logoutMessage;
-
-  const FrontPage({Key? key, this.logoutMessage}) : super(key: key);
+  const FrontPage({Key? key}) : super(key: key);
 
   @override
-  State<FrontPage> createState() =>
-      // ignore: no_logic_in_create_state
-      FrontPageState(logoutMessage: logoutMessage ?? false);
+  State<FrontPage> createState() => FrontPageState();
 }
 
 class FrontPageState extends State<FrontPage> {
-  final bool logoutMessage;
-  FrontPageState({required this.logoutMessage});
   final controller = Get.put(AuthenticationController());
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   @override
   void initState() {
     super.initState();
-    if (logoutMessage) {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        showLogoutSnackBar();
-      });
-    }
-  }
-
-  void showLogoutSnackBar() async {
-    successSnackBar(context, "Successfully Logged Out", 'Success');
   }
 
   Future<void> termsOfServices(BuildContext context) async {
@@ -60,29 +45,6 @@ class FrontPageState extends State<FrontPage> {
       },
     );
   }
-
-  // void facebookButton(BuildContext context) async {
-  //   await FacebookAuth.instance
-  //       .login(permissions: ['public_profile', 'email']).then((value) async {
-  //     final data = await FacebookAuth.instance.getUserData();
-  //     print(data);
-
-  //     final response = await authController.loginFacebook((data['email']));
-  //     if (response == 0) {
-  //       await FacebookAuth.instance.logOut();
-  //       Navigator.of(context).push(MaterialPageRoute(
-  //           builder: (context) => const SignUpPageName(socialLogin: true)));
-  //     } else if (response == 1) {
-  //       await FacebookAuth.instance.logOut();
-  //       Navigator.of(context).push(MaterialPageRoute(
-  //           builder: (context) =>
-  //               const Navigation(hasSnackbar: 'welcomeMessage')));
-  //     } else {
-  //       FacebookAuth.instance.logOut();
-  //       showErrorHandlingSnackBar(context, 'Error Logging In', 'error');
-  //     }
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -120,3 +82,28 @@ class FrontPageState extends State<FrontPage> {
                 ))));
   }
 }
+
+
+
+  // void facebookButton(BuildContext context) async {
+  //   await FacebookAuth.instance
+  //       .login(permissions: ['public_profile', 'email']).then((value) async {
+  //     final data = await FacebookAuth.instance.getUserData();
+  //     print(data);
+
+  //     final response = await authController.loginFacebook((data['email']));
+  //     if (response == 0) {
+  //       await FacebookAuth.instance.logOut();
+  //       Navigator.of(context).push(MaterialPageRoute(
+  //           builder: (context) => const SignUpPageName(socialLogin: true)));
+  //     } else if (response == 1) {
+  //       await FacebookAuth.instance.logOut();
+  //       Navigator.of(context).push(MaterialPageRoute(
+  //           builder: (context) =>
+  //               const Navigation(hasSnackbar: 'welcomeMessage')));
+  //     } else {
+  //       FacebookAuth.instance.logOut();
+  //       showErrorHandlingSnackBar(context, 'Error Logging In', 'error');
+  //     }
+  //   });
+  // }

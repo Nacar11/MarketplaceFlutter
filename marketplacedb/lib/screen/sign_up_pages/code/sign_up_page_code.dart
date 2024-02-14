@@ -28,7 +28,7 @@ class SignUpPageCodeState extends State<SignUpPageCode> {
     if (code['success'] != null) {
       String successValue = code['success'].toString();
       localStorage.saveData('SMSVerificationCode', successValue);
-      successSnackBar(context, MPTexts.otpResentSuccessful, MPTexts.success);
+      getSnackBar(MPTexts.otpResentSuccessful, MPTexts.success, false);
     }
   }
 
@@ -41,7 +41,7 @@ class SignUpPageCodeState extends State<SignUpPageCode> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const SignUpAppBar(),
+      appBar: const PrimaryAppBarColored(title: MPTexts.getStarted),
       body: Padding(
         padding: MPSpacingStyle.signUpProcessPadding,
         child: Column(children: [

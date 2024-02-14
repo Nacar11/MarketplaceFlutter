@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:marketplacedb/screen/sign_up_pages/name/name_widgets.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/screen/landing_pages/front_page/front_page.dart';
 import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';

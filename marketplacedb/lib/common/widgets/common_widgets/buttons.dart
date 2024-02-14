@@ -7,6 +7,7 @@ class MPPrimaryButton extends StatelessWidget {
   final bool isDisabled;
   final String text;
   final bool isLoading;
+  final Icon? icon;
 
   const MPPrimaryButton({
     Key? key,
@@ -14,6 +15,7 @@ class MPPrimaryButton extends StatelessWidget {
     required this.text,
     this.isDisabled = false,
     this.isLoading = false,
+    this.icon,
   }) : super(key: key);
 
   @override
@@ -37,15 +39,57 @@ class MPPrimaryButton extends StatelessWidget {
 
                 child: CircularProgressIndicator(),
               )
-            : Text(
-                text,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize:
-                      MPSizes.fontSizeSm, // Adjust the font size as needed
-                ),
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (icon != null) ...[
+                    icon!,
+                    const SizedBox(width: MPSizes.xs),
+                  ],
+                  Text(
+                    text,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: MPSizes.fontSizeSm,
+                    ),
+                  ),
+                ],
               ),
+      ),
+    );
+  }
+}
+
+class MPCustomOutlinedButton extends StatelessWidget {
+  const MPCustomOutlinedButton({
+    Key? key,
+    required this.text,
+    this.icon,
+    required this.onPressed,
+  }) : super(key: key);
+
+  final String text;
+  final Future Function() onPressed;
+
+  final Icon? icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: onPressed,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (icon != null) ...[
+            icon!,
+            const SizedBox(width: MPSizes.xs),
+          ],
+          Text(
+            text,
+            style: Theme.of(context).textTheme.labelLarge!,
+          ),
+        ],
       ),
     );
   }

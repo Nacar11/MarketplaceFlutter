@@ -35,7 +35,7 @@ class MPTexts {
   static const String loginDividerSignUpWith =
       "No Account Yet? Register with or Sign In Directly";
 
-  // --AUTHENTICATION HEADINGS TEXTS
+  // --AUTHENTICATION HEADING TEXTS
   static const String loginTitle = "Welcome To Marketplace";
   static const String loginSubTitle =
       "Connect with People Around and Discover Limitless Choices";
@@ -47,6 +47,11 @@ class MPTexts {
       "Password Changed Successfully";
   static const String passwordChangeSuccessfulSubTitle =
       "Navigating Back to Login Page...";
+
+  // --NAVIGATION HEADING TEXTS
+  static const String billingAddressSetupTitle = "Billing Address Setup";
+  static const String billingAddressSetupSubtitle =
+      "Before you can sell your items, set up your billing address first";
 
   // --CONTAINER GUIDE SIGNUP TEXTS
   static const String phoneHeaderText =

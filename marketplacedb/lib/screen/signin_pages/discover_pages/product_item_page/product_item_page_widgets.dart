@@ -1,49 +1,14 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/icons.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/images.dart';
+import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
 import 'package:marketplacedb/common/widgets/texts/product_title_text.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/data/models/ProductConfigurationModel.dart';
-import 'package:marketplacedb/screen/signin_pages/discover_pages/product_item_page/product_item_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
-
-class ProductItemImagesPreview extends StatelessWidget {
-  ProductItemImagesPreview({
-    super.key,
-    required this.banners,
-  });
-
-  final List<String> banners;
-  final controller = Get.put(ProductItemPageController());
-  @override
-  Widget build(BuildContext context) {
-    return Column(children: [
-      CarouselSlider(
-        items: banners
-            .map((url) => MPRoundedImage(
-                  imageUrl: url,
-                  hasBorder: true,
-                  isNetworkImage: true,
-                  applyImageRadius: true,
-                  width: 200,
-                ))
-            .toList(),
-        options: CarouselOptions(
-          viewportFraction: 1,
-          onPageChanged: (index, _) => controller.updatePageIndicator(index),
-          autoPlay: false,
-          enableInfiniteScroll: true,
-        ),
-      ),
-    ]);
-  }
-}
 
 class RatingRow extends StatelessWidget {
   const RatingRow({
@@ -90,10 +55,36 @@ class NameValueRow extends StatelessWidget {
   }
 }
 
-class CheckoutButton extends StatelessWidget {
-  const CheckoutButton({
+class CheckOutButton extends StatelessWidget {
+  const CheckOutButton({
     Key? key,
+    required this.text,
   }) : super(key: key);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: MPSizes.buttonHeight,
+      margin: const EdgeInsets.symmetric(vertical: MPSizes.xs),
+      child: MPPrimaryButton(
+        icon: const Icon(Iconsax.transaction_minus5, color: MPColors.white),
+        text: text,
+        onPressed: () {},
+      ),
+    );
+  }
+}
+
+class AddToCartButton extends StatelessWidget {
+  const AddToCartButton({
+    Key? key,
+    required this.text,
+  }) : super(key: key);
+
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -101,9 +92,10 @@ class CheckoutButton extends StatelessWidget {
       width: double.infinity,
       height: MPSizes.buttonHeight,
       margin: const EdgeInsets.symmetric(vertical: MPSizes.md),
-      child: MPPrimaryButton(
-        text: "Checkout",
-        onPressed: () {},
+      child: MPCustomOutlinedButton(
+        text: text,
+        icon: const Icon(Iconsax.shopping_bag),
+        onPressed: () async {},
       ),
     );
   }
@@ -167,5 +159,50 @@ class BottomAddToCart extends StatelessWidget {
           ),
           MPCircularIcon(icon: Iconsax.shopping_bag, onPressed: () {})
         ]));
+  }
+}
+
+class ProductItemPageShimmerContainer extends StatelessWidget {
+  const ProductItemPageShimmerContainer({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isDarkMode = MPHelperFunctions.isDarkMode(context);
+    return Container(
+      color: isDarkMode ? MPColors.dark : MPColors.white,
+      child: const SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: MPSizes.defaultSpace / 2,
+              horizontal: MPSizes.defaultSpace),
+          child: Column(
+            children: [
+              SizedBox(height: MPSizes.spaceBtwInputFields),
+              ShimmerProgressContainer(
+                height: 60,
+              ),
+              SizedBox(height: MPSizes.spaceBtwSections),
+              ShimmerProgressContainer(
+                height: 250,
+              ),
+              SizedBox(height: MPSizes.spaceBtwInputFields),
+              ShimmerProgressContainer(
+                height: 150,
+              ),
+              SizedBox(height: MPSizes.spaceBtwInputFields),
+              ShimmerProgressContainer(
+                height: 150,
+              ),
+              SizedBox(height: MPSizes.spaceBtwInputFields),
+              ShimmerProgressContainer(
+                height: 70,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

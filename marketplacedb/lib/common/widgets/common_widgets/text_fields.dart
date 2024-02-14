@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
+import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
 class ValidatorField extends StatelessWidget {
@@ -134,19 +136,29 @@ class PasswordValidatorFieldState extends State<PasswordValidatorField> {
   }
 }
 
-class Headertext extends StatelessWidget {
-  final String text;
-
-  const Headertext({Key? key, required this.text}) : super(key: key);
+class CustomPhoneField extends StatelessWidget {
+  final Function(String) onValidityChanged;
+ 
+  const CustomPhoneField({
+    Key? key,
+    required this.onValidityChanged,
+   
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 22,
+    return IntlPhoneField(
+      invalidNumberMessage: MPTexts.invalidNumberMessage,
+      decoration: const InputDecoration(
+        labelText: MPTexts.phoneNo,
+        border: OutlineInputBorder(
+          borderSide: BorderSide(),
+        ),
       ),
+      initialCountryCode: 'PH',
+      onChanged: (phone) {
+        onValidityChanged(phone.completeNumber);
+      },
     );
   }
 }

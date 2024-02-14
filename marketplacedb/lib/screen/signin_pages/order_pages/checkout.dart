@@ -14,7 +14,6 @@ import 'package:marketplacedb/data/models/PaymentMethodModel.dart';
 import 'package:marketplacedb/data/models/ShippingMethodModel.dart';
 import 'package:marketplacedb/data/models/ShoppingCartItemModel.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
-import 'package:marketplacedb/screen/signin_pages/order_pages/addresslist.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/methodlist.dart';
 import 'package:marketplacedb/screen/signin_pages/order_pages/paymentoption.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -87,19 +86,7 @@ class CheckoutPageState extends State<CheckoutPage> {
                   ),
                 ),
               ),
-              onTap: () async {
-                final selectedData = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Addresslist(),
-                  ),
-                );
-                if (selectedData != null) {
-                  setState(() {
-                    selectedAddress = selectedData;
-                  });
-                }
-              },
+              onTap: () async {},
               subtitle: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Text(
@@ -221,7 +208,7 @@ class CheckoutPageState extends State<CheckoutPage> {
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Headertext(text: 'Payment option'),
+                    // const Headertext(text: 'Payment option'),
                     Text(
                       selectedPaymentMethod ?? 'Select a payment method',
                       style: TextStyle(color: Colors.grey[600]),

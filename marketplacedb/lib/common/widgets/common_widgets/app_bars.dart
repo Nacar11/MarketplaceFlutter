@@ -213,15 +213,17 @@ class SearchAppBarDelegate extends SearchDelegate {
           style: const TextStyle(fontSize: 64, fontWeight: FontWeight.bold)));
 }
 
-class SignUpAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const SignUpAppBar({Key? key}) : super(key: key);
+class PrimaryAppBarColored extends StatelessWidget
+    implements PreferredSizeWidget {
+  const PrimaryAppBarColored({Key? key, required this.title}) : super(key: key);
 
+  final String title;
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text(
-        MPTexts.getStarted,
-        style: TextStyle(
+      title: Text(
+        title,
+        style: const TextStyle(
           color: MPColors.textWhite,
           // Set the color to black
         ),

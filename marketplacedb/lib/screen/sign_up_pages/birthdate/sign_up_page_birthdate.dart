@@ -43,7 +43,7 @@ class _SignUpPageState extends State<SignUpPageBirthDate> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const SignUpAppBar(),
+      appBar: const PrimaryAppBarColored(title: MPTexts.getStarted),
       body: Padding(
         padding: MPSpacingStyle.signUpProcessPadding,
         child: Column(children: [

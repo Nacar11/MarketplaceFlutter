@@ -82,7 +82,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
                       Get.to(() => const CodeVerificationForgetPasswordPage());
                     } else {
-                      errorSnackBar(context, response['message'], 'Error');
+                      getSnackBar(response['message'], 'Error', false);
                       // showErrorHandlingSnackBar(
                       //     context, response['message'], 'error');
                     }

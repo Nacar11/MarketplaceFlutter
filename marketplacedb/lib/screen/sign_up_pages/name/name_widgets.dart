@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
 import 'package:marketplacedb/screen/sign_up_pages/birthdate/sign_up_page_birthdate.dart';
@@ -118,54 +117,6 @@ class NameFormFields extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class AnimationContainer extends StatefulWidget {
-  const AnimationContainer({
-    Key? key,
-    required this.animation,
-    required this.duration,
-  }) : super(key: key);
-
-  final String animation;
-  final Duration duration;
-  @override
-  AnimationContainerState createState() =>
-      // ignore: no_logic_in_create_state
-      AnimationContainerState(animation, duration);
-}
-
-class AnimationContainerState extends State<AnimationContainer>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController animationController;
-  final String animation;
-  final Duration duration;
-  AnimationContainerState(this.animation, this.duration);
-
-  @override
-  void dispose() {
-    animationController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    animationController = AnimationController(duration: duration, vsync: this);
-    animationController.forward();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Lottie.asset(
-        animation,
-        width: MPHelperFunctions.screenWidth() * 0.6,
-        height: MPHelperFunctions.screenHeight() * 0.15,
-        controller: animationController,
-      ),
     );
   }
 }

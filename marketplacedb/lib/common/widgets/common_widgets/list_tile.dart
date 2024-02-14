@@ -41,26 +41,32 @@ class MPUserProfileTile extends StatelessWidget {
 }
 
 class MPSettingsMenuTile extends StatelessWidget {
-  const MPSettingsMenuTile(
-      {super.key,
-      required this.icon,
-      required this.title,
-      required this.subTitle,
-      this.trailing,
-      this.onTap});
+  const MPSettingsMenuTile({
+    Key? key,
+    this.icon,
+    required this.title,
+    this.subTitle, // Update the type to String?
+    this.trailing,
+    this.onTap,
+  }) : super(key: key);
 
-  final IconData icon;
-  final String title, subTitle;
+  final IconData? icon;
+  final String title;
+  final String? subTitle; // Update the type to String?
   final Widget? trailing;
   final VoidCallback? onTap;
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        leading: Icon(icon, size: 28, color: MPColors.primary),
-        title: Text(title, style: Theme.of(context).textTheme.titleMedium),
-        subtitle:
-            Text(subTitle, style: Theme.of(context).textTheme.labelMedium),
-        trailing: trailing,
-        onTap: onTap);
+      leading:
+          icon != null ? Icon(icon, size: 28, color: MPColors.primary) : null,
+      title: Text(title, style: Theme.of(context).textTheme.titleMedium),
+      subtitle: subTitle != null
+          ? Text(subTitle!, style: Theme.of(context).textTheme.labelMedium)
+          : null,
+      trailing: trailing,
+      onTap: onTap,
+    );
   }
 }

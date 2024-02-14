@@ -6,7 +6,7 @@ class ProductItemPageController extends GetxController {
   final carouselCurrentIndex = 0.obs;
   final isLoading = false.obs;
 
-  void updatePageIndicator(index) {
+  void updateImagePreviewIndex(index) {
     carouselCurrentIndex.value = index;
   }
 }

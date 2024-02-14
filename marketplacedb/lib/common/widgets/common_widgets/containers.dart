@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:marketplacedb/common/widgets/custom_shapes/custom_curved_edge_widget.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
@@ -77,6 +78,60 @@ class MPCircularContainer extends StatelessWidget {
           color: backgroundColor,
         ),
         child: child);
+  }
+}
+
+class AnimationContainer extends StatefulWidget {
+  const AnimationContainer({
+    Key? key,
+    required this.animation,
+    required this.duration,
+    this.width = 0.6,
+    this.height = 0.15,
+    this.forever = false, // Add forever parameter
+  }) : super(key: key);
+
+  final String animation;
+  final Duration duration;
+  final double? width;
+  final double? height;
+  final bool forever; // Declare forever parameter
+  @override
+  AnimationContainerState createState() => AnimationContainerState();
+}
+
+class AnimationContainerState extends State<AnimationContainer>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController animationController;
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    animationController =
+        AnimationController(duration: widget.duration, vsync: this);
+    if (widget.forever) {
+      animationController.repeat(); // Repeat animation forever
+    } else {
+      animationController.forward(); // Play animation once
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Lottie.asset(
+        widget.animation,
+        width: MPHelperFunctions.screenWidth() * widget.width!,
+        height: MPHelperFunctions.screenHeight() * widget.height!,
+        controller: animationController,
+      ),
+    );
   }
 }
 
@@ -225,129 +280,4 @@ class ContainerGuide extends StatelessWidget {
       ),
     );
   }
-}
-
-class Homepagecon extends StatefulWidget {
-  const Homepagecon({Key? key}) : super(key: key);
-
-  @override
-  State<Homepagecon> createState() => HomepageconState();
-}
-
-class HomepageconState extends State<Homepagecon> {
-  List<CardItem> items = [
-    const CardItem(urlImage: 'flutter_images/shirt1.jpg'),
-    const CardItem(urlImage: 'flutter_images/shirt2.jpg'),
-    const CardItem(urlImage: 'flutter_images/jeans1.jpg'),
-    const CardItem(urlImage: 'flutter_images/shirt1.jpg'),
-    const CardItem(urlImage: 'flutter_images/shirt2.jpg'),
-    const CardItem(urlImage: 'flutter_images/jeans1.jpg'),
-    const CardItem(urlImage: 'flutter_images/shirt1.jpg'),
-    const CardItem(urlImage: 'flutter_images/shirt2.jpg'),
-    const CardItem(urlImage: 'flutter_images/jeans1.jpg'),
-    const CardItem(urlImage: 'flutter_images/jeans1.jpg')
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 256,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: 10,
-        separatorBuilder: (context, _) => const SizedBox(width: 12),
-        itemBuilder: (context, index) => buildCard(item: items[index]),
-      ),
-    );
-  }
-}
-
-class Womenswear extends StatefulWidget {
-  const Womenswear({Key? key}) : super(key: key);
-
-  @override
-  State<Womenswear> createState() => WomenswearState();
-}
-
-class WomenswearState extends State<Womenswear> {
-  List<CardItem> items = [
-    const CardItem(urlImage: 'flutter_images/women1.jpg'),
-    const CardItem(urlImage: 'flutter_images/women2.jpg'),
-    const CardItem(urlImage: 'flutter_images/women3.jpg'),
-    const CardItem(urlImage: 'flutter_images/women1.jpg'),
-    const CardItem(urlImage: 'flutter_images/women2.jpg'),
-    const CardItem(urlImage: 'flutter_images/women3.jpg'),
-    const CardItem(urlImage: 'flutter_images/women1.jpg'),
-    const CardItem(urlImage: 'flutter_images/women2.jpg'),
-    const CardItem(urlImage: 'flutter_images/women3.jpg'),
-    const CardItem(urlImage: 'flutter_images/women1.jpg')
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 256,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: 10,
-        separatorBuilder: (context, _) => const SizedBox(width: 12),
-        itemBuilder: (context, index) => buildCard(item: items[index]),
-      ),
-    );
-  }
-}
-
-Widget buildCard({
-  required CardItem item,
-}) =>
-    SizedBox(
-      width: 200,
-      child: Column(
-        children: [
-          Expanded(
-            child: Image.asset(
-              item.urlImage,
-              fit: BoxFit.cover,
-            ),
-          ),
-          const SizedBox(height: 4),
-        ],
-      ),
-    );
-
-class ProductContainer extends StatelessWidget {
-  const ProductContainer({required this.text, required this.fontsize, Key? key})
-      : super(key: key);
-  final String text;
-  final double fontsize;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.black, // Adjust the border color
-          width: 3.0, // Adjust the border width
-        ),
-      ),
-      child: Center(
-        child: FittedBox(
-          fit: BoxFit.scaleDown, // Scale the text down to fit the container
-          child: Text(
-            text,
-            style: TextStyle(fontSize: fontsize),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class CardItem {
-  final String urlImage;
-
-  const CardItem({
-    required this.urlImage,
-  });
 }

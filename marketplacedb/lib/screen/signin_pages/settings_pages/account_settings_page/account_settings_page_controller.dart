@@ -26,14 +26,11 @@ class AccountSettingsPageController extends GetxController {
 
       if (jsonObject['message'] == 'Logged out Successfully') {
         localStorage.clearAll();
-        Get.offAll(() => const FrontPage(logoutMessage: true));
+        Get.offAll(() => const FrontPage());
+        getSnackBar('Logged Out Successfully.', "Successful", true);
       } else {
         print(jsonObject['message']);
-        errorSnackBar(
-          context,
-          'Error Logging Out, Please Try Again',
-          'error',
-        );
+        getSnackBar("Error Logging Out, Please Try Again.", 'Error', false);
         localStorage.clearAll();
       }
     } catch (e) {

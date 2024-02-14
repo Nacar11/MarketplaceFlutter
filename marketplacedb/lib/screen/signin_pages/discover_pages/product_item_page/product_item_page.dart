@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/icons.dart';
@@ -10,17 +9,18 @@ import 'package:marketplacedb/common/widgets/texts/peso_sign.dart';
 import 'package:marketplacedb/common/widgets/texts/product_price_text.dart';
 import 'package:marketplacedb/common/widgets/texts/product_title_text.dart';
 import 'package:marketplacedb/common/widgets/texts/sale_tag.dart';
-import 'package:marketplacedb/common/widgets/texts/section_headings.dart';
 import 'package:marketplacedb/common/widgets/texts/text_with_icons.dart';
 
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/controllers/user_controller.dart';
+import 'package:marketplacedb/screen/signin_pages/discover_pages/product_item_page/product_item_page_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/discover_pages/product_item_page/product_item_page_widgets.dart';
 import 'package:marketplacedb/screen/signin_pages/favorites_page/favorites_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
+final productItemPageController = Get.put(ProductItemPageController());
 UserController userController = UserController.instance;
 ProductItemController productItemController = ProductItemController.instance;
 FavoritesPageController favoritesPageController =
@@ -47,9 +47,8 @@ class ProductItemPageState extends State<ProductItemPage> {
   Widget build(BuildContext context) {
     final dark = MPHelperFunctions.isDarkMode(context);
     return Obx(() => productItemController.isLoading.value
-        ? const Scaffold(body: Center(child: CircularProgressIndicator()))
+        ? const Scaffold(body: ProductItemPageShimmerContainer())
         : Scaffold(
-            bottomNavigationBar: const BottomAddToCart(),
             appBar: PrimarySearchAppBar(
                 actions: [
                   FavoritesIconButton(
@@ -75,6 +74,7 @@ class ProductItemPageState extends State<ProductItemPage> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const Divider(),
                         const RatingRow(),
                         Row(children: [
                           const MPSaleTag(),
@@ -148,22 +148,16 @@ class ProductItemPageState extends State<ProductItemPage> {
                               maxLines: 6,
                             )),
                         const SizedBox(height: MPSizes.spaceBtwItems),
-                        const CheckoutButton(),
-                        const SizedBox(height: MPSizes.spaceBtwItems),
-                        const Divider(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        const Row(
                           children: [
-                            const MPSectionHeading(
-                              title: "Reviews(200)",
-                              showActionButton: false,
-                            ),
-                            IconButton(
-                                icon: const Icon(Iconsax.arrow_right_3),
-                                onPressed: () {})
+                            Expanded(child: CheckOutButton(text: "Checkout")),
+                            SizedBox(width: MPSizes.spaceBtwItems),
+                            Expanded(
+                                child: AddToCartButton(
+                              text: "Add to Cart",
+                            )),
                           ],
                         ),
-                        const SizedBox(height: MPSizes.spaceBtwItems / 2),
                       ]))
             ])),
           ));

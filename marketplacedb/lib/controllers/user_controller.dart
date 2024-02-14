@@ -13,7 +13,7 @@ import 'package:marketplacedb/screen/landing_pages/front_page/front_page.dart';
 import 'package:marketplacedb/screen/landing_pages/home_page/home_screen_controller.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:marketplacedb/screen/signin_pages/sellpage_pages/billingaddress.dart';
+import 'package:marketplacedb/screen/signin_pages/sell_pages/add_billing_address/add_billing_address.dart';
 
 HomeScreenController home_screen_controller = HomeScreenController.static;
 
@@ -30,8 +30,7 @@ class UserController extends GetxController {
   void onInit() async {
     super.onInit();
     await userDataInit();
-    userHasAddress();
-    getCountries();
+    await userHasAddress();
   }
 
   Future<void> userDataInit() async {
@@ -64,20 +63,6 @@ class UserController extends GetxController {
       print(e);
       isLoading.value = false;
     }
-  }
-
-  Future<List<CountryModel>> getCountries() async {
-    final response = await AuthInterceptor().get(Uri.parse("${url}countries"));
-    if (response.statusCode == 200) {
-      isLoading.value = false;
-      final List<dynamic> result = jsonDecode(response.body);
-      final List<CountryModel> itemList =
-          result.map((e) => CountryModel.fromJson(e)).toList();
-
-      countryList.assignAll(itemList);
-    }
-
-    return countryList;
   }
 
   Future<List<BillingAddressModel>> getAddress() async {
