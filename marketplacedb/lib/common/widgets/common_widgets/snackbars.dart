@@ -1,9 +1,7 @@
 // ignore_for_file: unused_import, no_logic_in_create_state
 
 import 'package:flutter/material.dart';
-import 'package:another_flushbar/flushbar.dart';
-import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:another_flushbar/flushbar_route.dart';
+
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
@@ -93,6 +91,27 @@ SnackbarController getSnackBar(String message, String title, bool isSuccess) {
     backgroundColor: backgroundColor,
     colorText: textColor,
     icon: Icon(iconData, color: iconColor),
+    margin: const EdgeInsets.all(MPSizes.sm),
+    borderRadius: MPSizes.borderRadiusMd,
+    snackPosition: SnackPosition.TOP,
+  );
+}
+
+SnackbarController warningSnackBar(String title) {
+  final bool isDarkMode = MPHelperFunctions.isDarkMode(Get.context!);
+  final Color backgroundColor =
+      isDarkMode ? MPColors.darkContainer : MPColors.white;
+  final Color textColor =
+      isDarkMode ? MPColors.textWhite : MPColors.textPrimary;
+
+  return Get.snackbar(
+    title,
+    '',
+    duration: const Duration(seconds: 3),
+    isDismissible: true,
+    backgroundColor: backgroundColor,
+    colorText: textColor,
+    icon: const Icon(Iconsax.warning_2, color: Colors.orange),
     margin: const EdgeInsets.all(MPSizes.sm),
     borderRadius: MPSizes.borderRadiusMd,
     snackPosition: SnackPosition.TOP,

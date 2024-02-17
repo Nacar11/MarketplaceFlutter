@@ -14,14 +14,18 @@ class MPFullScreenLoader {
             child: Container(
                 color: MPHelperFunctions.isDarkMode(Get.context!)
                     ? MPColors.dark
-                    : MPColors.white),
-            width: double.infinity,
-            height: double.infinity,
-            child: Column(
-              children: [
-                const SizedBox(height: 250),
-                MPAnimationLoaderWidget(text: text, animation: animation),
-              ],
-            )));
+                    : MPColors.white,
+                width: double.infinity,
+                height: double.infinity,
+                child: Column(
+                  children: [
+                    const SizedBox(height: 250),
+                    MPAnimationLoaderWidget(text: text, animation: animation),
+                  ],
+                ))));
+  }
+
+  static stopLoading() {
+    Navigator.of(Get.overlayContext!).pop();
   }
 }

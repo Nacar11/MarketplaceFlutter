@@ -5,26 +5,28 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
+import 'package:marketplacedb/controllers/network_manager/network_manager.dart';
 import 'package:marketplacedb/networks/googleSignIn.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/screen/landing_pages/front_page/front_page.dart';
 import 'package:marketplacedb/screen/sign_up_pages/phone/sign_up_page_phone.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
+import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
+import 'package:marketplacedb/util/popups/full_screen_loader.dart';
 
 class FrontPageController extends GetxController {
   final isLoading = false.obs;
-  final token = ''.obs;
 
   static FrontPageController get instance => Get.find();
   final rememberMe = false.obs;
-  MPLocalStorage localStorage = MPLocalStorage();
   final email = TextEditingController();
   final password = TextEditingController();
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  MPLocalStorage localStorage = MPLocalStorage();
 
   Future<void> simulateLoading(Duration duration) async {
     isLoading.value = true;
@@ -35,7 +37,14 @@ class FrontPageController extends GetxController {
   Future login() async {
     try {
       isLoading.value = true;
-      //loading dialog here
+
+      MPFullScreenLoader.openLoadingDialog(
+          'Logging in...', AnimationsUtils.loading);
+
+      final isConnected = await NetworkManager.instance.isConnected();
+      if (!isConnected) {
+        return;
+      }
 
       final urlRequest =
           http.MultipartRequest('POST', Uri.parse('${url}login'));
@@ -49,7 +58,6 @@ class FrontPageController extends GetxController {
         final jsonResponse = json.decode(response.body);
         print(jsonResponse['message']);
         if (jsonResponse['message'] == 'success') {
-          token.value = jsonResponse['access_token'];
           localStorage.saveData('token', jsonResponse['access_token']);
           localStorage.saveData('username', jsonResponse['username']);
           localStorage.saveData('userID', jsonResponse['user_id']);
@@ -65,7 +73,11 @@ class FrontPageController extends GetxController {
         isLoading.value = false;
         print(e);
       }
-    } catch (e) {}
+    } catch (e) {
+      getSnackBar(e.toString(), "Error", false);
+    } finally {
+      MPFullScreenLoader.stopLoading();
+    }
   }
 
   Future changePassword(

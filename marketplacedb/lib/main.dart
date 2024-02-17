@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:marketplacedb/bindings/general_bindings.dart';
 import 'package:marketplacedb/screen/landing_pages/front_page/front_page.dart';
 import 'package:marketplacedb/screen/landing_pages/on_boarding_screen/on_boarding_screen.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'MarketPlace',
+      initialBinding: GeneralBindings(),
       themeMode: ThemeMode.light,
       theme: MPAppTheme.lightTheme,
       darkTheme: MPAppTheme.darkTheme,
