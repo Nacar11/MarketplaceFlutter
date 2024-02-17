@@ -5,9 +5,9 @@ import 'package:marketplacedb/common/widgets/products/product_cards/product_card
 import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
 import 'package:marketplacedb/common/widgets/texts/text_with_icons.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
-import 'package:marketplacedb/data/models/ProductCategoryModel.dart';
-import 'package:marketplacedb/data/models/ProductItemModel.dart';
-import 'package:marketplacedb/data/models/ProductTypeModel.dart';
+import 'package:marketplacedb/data/models/products/product_category_model.dart';
+import 'package:marketplacedb/data/models/products/product_item_model.dart';
+import 'package:marketplacedb/data/models/products/product_type_model.dart';
 import 'package:marketplacedb/screen/signin_pages/discover_pages/product_types_page/product_types_controller.dart';
 
 import 'package:flutter/material.dart';

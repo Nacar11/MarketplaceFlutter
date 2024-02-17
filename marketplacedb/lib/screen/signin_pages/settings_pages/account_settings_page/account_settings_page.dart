@@ -8,6 +8,7 @@ import 'package:marketplacedb/common/widgets/texts/section_headings.dart';
 import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/settings_pages/account_settings_page/account_settings_page_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/settings_pages/account_settings_page/account_settings_page_widgets.dart';
+import 'package:marketplacedb/screen/signin_pages/settings_pages/address_list_page/address_list_page.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/theme/theme.dart';
 
@@ -52,10 +53,11 @@ class AccountSettingsPageState extends State<AccountSettingsPage> {
                   const MPSectionHeading(title: "Account Settings"),
                   const SizedBox(height: MPSizes.spaceBtwItems),
                   MPSettingsMenuTile(
-                      icon: Iconsax.safe_home,
-                      title: "My Addresses",
-                      subTitle: "Set home address for delivery",
-                      onTap: () {}),
+                    icon: Iconsax.safe_home,
+                    title: "My Addresses",
+                    subTitle: "Set home address for delivery",
+                    onTap: () => Get.to(() => const AddressListPage()),
+                  ),
                   MPSettingsMenuTile(
                       icon: Iconsax.shopping_cart,
                       title: "My Cart",

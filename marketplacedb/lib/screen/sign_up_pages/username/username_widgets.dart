@@ -4,7 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
-import 'package:marketplacedb/controllers/authenticationController.dart';
+import 'package:marketplacedb/screen/landing_pages/front_page/front_page_controller.dart';
 import 'package:marketplacedb/screen/sign_up_pages/password/sign_up_page_password.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
@@ -106,7 +106,7 @@ class CustomSignUpContinue extends StatelessWidget {
 
   final bool isUsernameValid;
   final TextEditingController usernameController;
-  final AuthenticationController authController;
+  final FrontPageController authController;
   final bool isCheckedNewsLetters;
   final bool isCheckedPromotions;
 

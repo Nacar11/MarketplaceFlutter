@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:marketplacedb/util/constants/app_constant.dart';
-import 'package:marketplacedb/data/models/ProductItemModel.dart';
+import 'package:marketplacedb/data/models/products/product_item_model.dart';
 import 'package:marketplacedb/data/models/VariantsModel.dart';
 import 'package:marketplacedb/data/models/VariantsOptionsModel.dart';
 import 'dart:convert';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'dart:io';
-import 'package:marketplacedb/data/models/ProductCategoryModel.dart';
-import 'package:marketplacedb/data/models/ProductTypeModel.dart';
+import 'package:marketplacedb/data/models/products/product_category_model.dart';
+import 'package:marketplacedb/data/models/products/product_type_model.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ProductItemController extends GetxController {

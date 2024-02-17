@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
-import 'package:marketplacedb/data/models/ProductCategoryModel.dart';
+import 'package:marketplacedb/data/models/products/product_category_model.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 
 class HomeScreenController extends GetxController {

@@ -15,12 +15,16 @@ import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
 
-class AuthenticationController extends GetxController {
+class FrontPageController extends GetxController {
   final isLoading = false.obs;
   final token = ''.obs;
 
-  static AuthenticationController get instance => Get.find();
+  static FrontPageController get instance => Get.find();
+  final rememberMe = false.obs;
   MPLocalStorage localStorage = MPLocalStorage();
+  final email = TextEditingController();
+  final password = TextEditingController();
+  GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
 
   Future<void> simulateLoading(Duration duration) async {
     isLoading.value = true;
@@ -28,43 +32,40 @@ class AuthenticationController extends GetxController {
     isLoading.value = false;
   }
 
-  Future login({
-    required BuildContext context,
-    required String email,
-    required String password,
-  }) async {
-    isLoading.value = true;
-    var data = {
-      'email': email,
-      'password': password,
-    };
-    final urlRequest = http.MultipartRequest('POST', Uri.parse('${url}login'));
-
-    urlRequest.fields['email'] = email;
-    urlRequest.fields['password'] = password;
-
+  Future login() async {
     try {
-      final streamedResponse = await urlRequest.send();
-      final response = await http.Response.fromStream(streamedResponse);
-      final jsonResponse = json.decode(response.body);
-      print(jsonResponse['message']);
-      if (jsonResponse['message'] == 'success') {
-        token.value = jsonResponse['access_token'];
-        localStorage.saveData('token', jsonResponse['access_token']);
-        localStorage.saveData('username', jsonResponse['username']);
-        localStorage.saveData('userID', jsonResponse['user_id']);
+      isLoading.value = true;
+      //loading dialog here
+
+      final urlRequest =
+          http.MultipartRequest('POST', Uri.parse('${url}login'));
+
+      urlRequest.fields['email'] = email.text;
+      urlRequest.fields['password'] = password.text;
+
+      try {
+        final streamedResponse = await urlRequest.send();
+        final response = await http.Response.fromStream(streamedResponse);
+        final jsonResponse = json.decode(response.body);
+        print(jsonResponse['message']);
+        if (jsonResponse['message'] == 'success') {
+          token.value = jsonResponse['access_token'];
+          localStorage.saveData('token', jsonResponse['access_token']);
+          localStorage.saveData('username', jsonResponse['username']);
+          localStorage.saveData('userID', jsonResponse['user_id']);
+          isLoading.value = false;
+          Get.offAll(() => const Navigation());
+          String text = 'Welcome, ${localStorage.readData('username')}';
+          getSnackBar(text, MPTexts.successLogin, true);
+        } else {
+          getSnackBar(jsonResponse['message'], 'Error', false);
+          isLoading.value = false;
+        }
+      } catch (e) {
         isLoading.value = false;
-        Get.offAll(() => const Navigation());
-        String text = 'Welcome, ${localStorage.readData('username')}';
-        getSnackBar(text, MPTexts.successLogin, true);
-      } else {
-        getSnackBar(jsonResponse['message'], 'Error', false);
-        isLoading.value = false;
+        print(e);
       }
-    } catch (e) {
-      isLoading.value = false;
-      print(e);
-    }
+    } catch (e) {}
   }
 
   Future changePassword(
@@ -139,7 +140,7 @@ class AuthenticationController extends GetxController {
     }
   }
 
-  Future register(BuildContext context) async {
+  Future register() async {
     try {
       isLoading.value = true;
 
@@ -256,7 +257,6 @@ class AuthenticationController extends GetxController {
       var jsonObject = jsonDecode(response.body);
       print(jsonObject);
       if (jsonObject['message'] == 'registerFirst') {
-        final storage = GetStorage();
         localStorage.saveData('email', email);
         localStorage.saveData('signInMethod', 'google');
         isLoading.value = false;

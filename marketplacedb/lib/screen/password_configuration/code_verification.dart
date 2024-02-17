@@ -4,7 +4,7 @@ import 'package:marketplacedb/common/styles/spacing_styles.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/screen/sign_up_pages/code/code_widgets.dart';
-import 'package:marketplacedb/controllers/authenticationController.dart';
+import 'package:marketplacedb/screen/landing_pages/front_page/front_page_controller.dart';
 import 'package:marketplacedb/screen/password_configuration/password_reset.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
@@ -21,7 +21,7 @@ class CodeVerificationForgetPasswordPage extends StatefulWidget {
 class CodeVerificationForgetPasswordPageState
     extends State<CodeVerificationForgetPasswordPage> {
   String otpCode = '';
-  AuthenticationController authController = AuthenticationController.instance;
+  FrontPageController authController = FrontPageController.instance;
   bool isCodeValid = true;
   MPLocalStorage localStorage = MPLocalStorage();
 

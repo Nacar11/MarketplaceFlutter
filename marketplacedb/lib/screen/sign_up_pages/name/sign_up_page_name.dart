@@ -11,7 +11,7 @@ import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 
-import '../../../controllers/authenticationController.dart';
+import '../../landing_pages/front_page/front_page_controller.dart';
 
 class SignUpPageName extends StatefulWidget {
   const SignUpPageName({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class SignUpPageName extends StatefulWidget {
 }
 
 class SignUpPageNameState extends State<SignUpPageName> {
-  final authController = Get.put(AuthenticationController());
+  final authController = Get.put(FrontPageController());
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
   bool isFirstNameValid = false;

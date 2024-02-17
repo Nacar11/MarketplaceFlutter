@@ -17,8 +17,8 @@ import 'package:marketplacedb/common/widgets/texts/text_with_icons.dart';
 
 import 'package:marketplacedb/controllers/products/product_controller.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
-import 'package:marketplacedb/data/models/ProductCategoryModel.dart';
-import 'package:marketplacedb/data/models/ProductItemModel.dart';
+import 'package:marketplacedb/data/models/products/product_category_model.dart';
+import 'package:marketplacedb/data/models/products/product_item_model.dart';
 import 'package:marketplacedb/screen/landing_pages/home_page/home_page_widgets.dart';
 import 'package:marketplacedb/screen/signin_pages/discover_pages/discover_page/discover_page_widgets.dart';
 import 'package:marketplacedb/screen/signin_pages/discover_pages/product_types_page/product_types_controller.dart';

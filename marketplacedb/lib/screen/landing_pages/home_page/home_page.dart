@@ -7,8 +7,8 @@ import 'package:marketplacedb/common/widgets/products/product_cards/product_card
 import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
 import 'package:marketplacedb/common/widgets/texts/section_headings.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
-import 'package:marketplacedb/data/models/ProductCategoryModel.dart';
-import 'package:marketplacedb/data/models/ProductItemModel.dart';
+import 'package:marketplacedb/data/models/products/product_category_model.dart';
+import 'package:marketplacedb/data/models/products/product_item_model.dart';
 
 import 'package:marketplacedb/screen/landing_pages/home_page/home_page_widgets.dart';
 import 'package:marketplacedb/screen/landing_pages/home_page/home_screen_controller.dart';

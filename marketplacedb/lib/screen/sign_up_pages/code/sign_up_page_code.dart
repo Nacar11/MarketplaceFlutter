@@ -9,7 +9,7 @@ import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 
 import 'code_widgets.dart';
-import '../../../controllers/authenticationController.dart';
+import '../../landing_pages/front_page/front_page_controller.dart';
 
 class SignUpPageCode extends StatefulWidget {
   const SignUpPageCode({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class SignUpPageCode extends StatefulWidget {
 
 class SignUpPageCodeState extends State<SignUpPageCode> {
   String otpCode = '';
-  AuthenticationController authController = AuthenticationController.instance;
+  FrontPageController authController = FrontPageController.instance;
   bool isCodeValid = true;
 
   void onTapFunction() async {

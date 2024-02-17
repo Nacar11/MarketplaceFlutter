@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
-import 'package:marketplacedb/controllers/authenticationController.dart';
+import 'package:marketplacedb/screen/landing_pages/front_page/front_page_controller.dart';
 import 'package:marketplacedb/screen/sign_up_pages/name/sign_up_page_name.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
@@ -88,7 +88,7 @@ class CustomResendCodeRichText extends StatelessWidget {
     required this.onTapFunction,
   });
 
-  final AuthenticationController authController;
+  final FrontPageController authController;
   final Function onTapFunction;
   @override
   Widget build(BuildContext context) {
@@ -120,7 +120,7 @@ class CustomSignUpContinue extends StatelessWidget {
     required this.authController,
     required this.otpCode,
   });
-  final AuthenticationController authController;
+  final FrontPageController authController;
   final String otpCode;
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:marketplacedb/data/models/ProductItemModel.dart';
+import 'package:marketplacedb/data/models/products/product_item_model.dart';
 import 'package:marketplacedb/data/models/ShoppingCartModel.dart';
 import 'package:marketplacedb/data/models/ShoppingCartItemModel.dart';
 import 'package:marketplacedb/networks/googleSignIn.dart';

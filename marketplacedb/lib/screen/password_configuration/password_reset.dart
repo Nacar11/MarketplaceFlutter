@@ -5,7 +5,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/screen/sign_up_pages/password/password_widgets.dart';
-import 'package:marketplacedb/controllers/authenticationController.dart';
+import 'package:marketplacedb/screen/landing_pages/front_page/front_page_controller.dart';
 import 'package:marketplacedb/screen/password_configuration/change_success.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
@@ -20,7 +20,7 @@ class PasswordResetPage extends StatefulWidget {
 
 class PasswordResetPagePageState extends State<PasswordResetPage> {
   String? otpCode;
-  AuthenticationController authController = AuthenticationController.instance;
+  FrontPageController authController = FrontPageController.instance;
   bool isCodeValid = true;
   MPLocalStorage localStorage = MPLocalStorage();
 

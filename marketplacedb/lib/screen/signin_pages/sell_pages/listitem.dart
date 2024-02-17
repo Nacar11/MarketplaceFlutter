@@ -9,7 +9,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
 // import 'package:marketplacedb/constants/constant.dart';
 // import 'package:marketplacedb/models/ProductCategoryModel.dart';
-import 'package:marketplacedb/data/models/ProductTypeModel.dart';
+import 'package:marketplacedb/data/models/products/product_type_model.dart';
 import 'package:marketplacedb/data/models/VariantsOptionsModel.dart';
 import 'package:marketplacedb/controllers/products/VariationController.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
@@ -189,11 +189,6 @@ class ListitempageState extends State<Listitempage>
                   );
                 }),
               )),
-          const Sidetext(
-            text: 'Read our shooting tips',
-            onPressed: null,
-            textcolor: Colors.blue,
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 25),
             child: Container(

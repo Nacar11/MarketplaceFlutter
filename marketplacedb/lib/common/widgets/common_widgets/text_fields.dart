@@ -138,11 +138,10 @@ class PasswordValidatorFieldState extends State<PasswordValidatorField> {
 
 class CustomPhoneField extends StatelessWidget {
   final Function(String) onValidityChanged;
- 
+
   const CustomPhoneField({
     Key? key,
     required this.onValidityChanged,
-   
   }) : super(key: key);
 
   @override
@@ -159,32 +158,6 @@ class CustomPhoneField extends StatelessWidget {
       onChanged: (phone) {
         onValidityChanged(phone.completeNumber);
       },
-    );
-  }
-}
-
-class Sidetext extends StatelessWidget {
-  final String text;
-  final VoidCallback? onPressed;
-  final Color textcolor;
-
-  const Sidetext(
-      {Key? key,
-      required this.text,
-      required this.onPressed,
-      required this.textcolor})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onPressed, // Use the provided onPressed function
-      child: Text(
-        text,
-
-        style:
-            TextStyle(color: textcolor), // Use TextStyle to set the text color
-      ),
     );
   }
 }

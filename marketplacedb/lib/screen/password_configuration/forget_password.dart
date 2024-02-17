@@ -4,7 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
-import 'package:marketplacedb/controllers/authenticationController.dart';
+import 'package:marketplacedb/screen/landing_pages/front_page/front_page_controller.dart';
 import 'package:marketplacedb/screen/password_configuration/code_verification.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
@@ -19,7 +19,7 @@ class ForgetPasswordPage extends StatefulWidget {
 
 class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   bool isEmailValid = false;
-  AuthenticationController authController = AuthenticationController.instance;
+  FrontPageController authController = FrontPageController.instance;
   late TextEditingController emailController;
   MPLocalStorage localStorage = MPLocalStorage();
   @override

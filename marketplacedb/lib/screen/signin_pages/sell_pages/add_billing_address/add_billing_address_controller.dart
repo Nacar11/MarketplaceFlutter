@@ -1,15 +1,15 @@
 import 'package:get/get.dart';
-import 'package:marketplacedb/data/models/CityModel.dart';
-import 'package:marketplacedb/data/models/CountryModel.dart';
-import 'package:marketplacedb/data/models/RegionModel.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
+import 'package:marketplacedb/data/models/addresses/city_model.dart';
+import 'package:marketplacedb/data/models/addresses/country_model.dart';
+import 'package:marketplacedb/data/models/addresses/region_model.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
+import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
 import 'dart:convert';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 
 class AddBillingAddressController extends GetxController {
   static AddBillingAddressController get instance => Get.find();
-
-  final index = 0.obs;
   final isLoading = false.obs;
   final countryList = <CountryModel>[].obs;
   final regionList = <RegionModel>[].obs;
@@ -24,39 +24,58 @@ class AddBillingAddressController extends GetxController {
     await getCountries();
   }
 
+  Future<void> addBillingAddress(Map<String, String> billingAddressData) async {
+    isLoading.value = true;
+    try {
+      // for (var entry in billingAddressData.entries) {
+      //   print('${entry.key}: ${entry.value}');
+      // }
+      final response = await AuthInterceptor().post(
+        Uri.parse("${url}addAddress"),
+        body: billingAddressData,
+      );
+      var jsonObject = jsonDecode(response.body);
+      if (jsonObject['message'] == 'success') {
+        isLoading.value = false;
+        Get.offAll(() => const Navigation());
+        getSnackBar('Address Successfully Added', "Successful", true);
+      } else {
+        isLoading.value = false;
+        getSnackBar(
+            'Error on Adding User Address, Please Try Again.', 'error', false);
+        throw Exception('message is not success');
+      }
+    } catch (e) {
+      isLoading.value = false;
+      getSnackBar(
+          'Error on Adding User Address, Please Try Again.', 'error', false);
+      print('Error in fetching data: $e');
+    }
+  }
+
   Future<void> onCountrySelected(CountryModel country) async {
-    print('called onCountry function');
     selectedCountry.value = country;
 
     regionList.value = countryList
         .firstWhere((c) => c.id == selectedCountry.value.id)
         .regions!;
 
-    print(regionList[0].name);
-    print('-----------------------');
     selectedRegion.value = RegionModel();
     selectedCity.value = CityModel();
     cityList.value = <CityModel>[];
   }
 
   Future<void> onRegionSelected(RegionModel region) async {
-    print('called onRegion function');
     selectedRegion.value = region;
 
     cityList.value =
         regionList.firstWhere((c) => c.id == selectedRegion.value.id).cities!;
 
-    print(cityList[0].name);
-    print('-----------------------');
     selectedCity.value = CityModel();
   }
 
   Future<void> onCitySelected(CityModel city) async {
-    print('called onCityfunction');
     selectedCity.value = city;
-
-    print(selectedCity.value.name);
-    print('-----------------------');
   }
 
   Future<void> getCountries() async {

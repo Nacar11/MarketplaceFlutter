@@ -34,6 +34,7 @@ class MPTexts {
   static const String signIn = "Sign In";
   static const String loginDividerSignUpWith =
       "No Account Yet? Register with or Sign In Directly";
+  static const String rememberMe = "Remember me?";
 
   // --AUTHENTICATION HEADING TEXTS
   static const String loginTitle = "Welcome To Marketplace";

@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 
-import 'package:marketplacedb/data/models/ProductCategoryModel.dart';
+import 'package:marketplacedb/data/models/products/product_category_model.dart';
 
 class ProductTypeModel {
   int? id;

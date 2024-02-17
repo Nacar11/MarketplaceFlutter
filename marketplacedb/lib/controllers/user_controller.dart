@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
-import 'package:marketplacedb/data/models/BillingAddressModel.dart';
-import 'package:marketplacedb/data/models/CountryModel.dart';
+import 'package:marketplacedb/data/models/addresses/address_model.dart';
+import 'package:marketplacedb/data/models/addresses/country_model.dart';
 import 'package:marketplacedb/data/models/UserModel.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/screen/landing_pages/front_page/front_page.dart';
@@ -23,7 +23,7 @@ class UserController extends GetxController {
   final token = ''.obs;
   final userHasAddressValue = false.obs;
   var countryList = <CountryModel>[].obs;
-  var addressList = <BillingAddressModel>[].obs;
+  var addressList = <AddressModel>[].obs;
   final userData = UserModel().obs;
 
   @override
@@ -65,7 +65,7 @@ class UserController extends GetxController {
     }
   }
 
-  Future<List<BillingAddressModel>> getAddress() async {
+  Future<List<AddressModel>> getAddress() async {
     final response = await AuthInterceptor().get(Uri.parse("${url}getAddress"));
     if (response.statusCode == 200) {
       final responseBody = jsonDecode(response.body);
@@ -73,8 +73,8 @@ class UserController extends GetxController {
       if (responseBody.containsKey('message')) {
         if (responseBody['message'] == 'Success') {
           final List<dynamic> result = responseBody['data'];
-          final List<BillingAddressModel> itemList =
-              result.map((e) => BillingAddressModel.fromJson(e)).toList();
+          final List<AddressModel> itemList =
+              result.map((e) => AddressModel.fromJson(e)).toList();
           addressList.assignAll(itemList);
         } else if (responseBody['message'] == 'Error') {
           addressList.clear();

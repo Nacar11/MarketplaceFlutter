@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'dart:convert';
 import 'package:marketplacedb/networks/interceptor.dart';
-import 'package:marketplacedb/data/models/ProductCategoryModel.dart';
-import 'package:marketplacedb/data/models/ProductTypeModel.dart';
+import 'package:marketplacedb/data/models/products/product_category_model.dart';
+import 'package:marketplacedb/data/models/products/product_type_model.dart';
 
 class ProductController extends GetxController {
   static ProductController get static => Get.find();

@@ -5,7 +5,7 @@ import 'package:marketplacedb/common/styles/spacing_styles.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
 import 'package:marketplacedb/screen/sign_up_pages/username/username_widgets.dart';
-import 'package:marketplacedb/controllers/authenticationController.dart';
+import 'package:marketplacedb/screen/landing_pages/front_page/front_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 
@@ -17,7 +17,7 @@ class SignUpPageUsername extends StatefulWidget {
 }
 
 class SignUpPageState extends State<SignUpPageUsername> {
-  AuthenticationController authController = AuthenticationController.instance;
+  FrontPageController authController = FrontPageController.instance;
   bool isCheckedPromotions = false;
   bool isCheckedNewsLetters = false;
 

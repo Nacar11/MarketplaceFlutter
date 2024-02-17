@@ -10,7 +10,7 @@ import 'package:marketplacedb/common/widgets/texts/product_title_text.dart';
 import 'package:marketplacedb/common/widgets/texts/sale_tag.dart';
 import 'package:marketplacedb/common/widgets/texts/text_with_icons.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
-import 'package:marketplacedb/data/models/ProductItemModel.dart';
+import 'package:marketplacedb/data/models/products/product_item_model.dart';
 import 'package:marketplacedb/screen/signin_pages/discover_pages/product_item_page/product_item_page.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';

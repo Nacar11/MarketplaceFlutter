@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
-import 'package:marketplacedb/controllers/authenticationController.dart';
+import 'package:marketplacedb/screen/landing_pages/front_page/front_page_controller.dart';
 import 'package:marketplacedb/networks/googleSignIn.dart';
 import 'package:marketplacedb/screen/password_configuration/forget_password.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_images.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
+import 'package:marketplacedb/util/helpers/validators.dart';
 
 class LoginHeader extends StatelessWidget {
   const LoginHeader({
@@ -34,47 +35,44 @@ class LoginHeader extends StatelessWidget {
 class LoginForm extends StatelessWidget {
   const LoginForm({
     super.key,
-    required this.emailController,
-    required this.passwordController,
   });
-
-  final TextEditingController emailController;
-  final TextEditingController passwordController;
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(FrontPageController());
     return Form(
         child: Column(
       children: [
         ValidatorField(
-          controller: emailController,
+          validator: (value) => MPValidator.validateEmail(value),
+          controller: controller.email,
           labelText: MPTexts.email,
           prefixIcon: const Icon(Iconsax.direct_right),
         ),
         const SizedBox(height: MPSizes.spaceBtwInputFields),
         PasswordValidatorField(
-            controller: passwordController,
+            controller: controller.password,
             labelText: MPTexts.password,
             prefixIcon: const Icon(Iconsax.password_check)),
+        const SizedBox(height: MPSizes.spaceBtwInputFields / 2),
+        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Row(children: [
+            Obx(() => Checkbox(
+                value: controller.rememberMe.value,
+                onChanged: (value) {
+                  controller.rememberMe.value = !controller.rememberMe.value;
+                })),
+            Text(MPTexts.rememberMe,
+                style: Theme.of(context).textTheme.bodyMedium)
+          ]),
+          TextButton(
+              onPressed: () {
+                Get.to(() => const ForgetPasswordPage());
+              },
+              child: const Text(MPTexts.forgetPassword)),
+        ])
       ],
     ));
-  }
-}
-
-class LoginForgetPasswordRow extends StatelessWidget {
-  const LoginForgetPasswordRow({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-      TextButton(
-          onPressed: () {
-            Get.to(() => const ForgetPasswordPage());
-          },
-          child: const Text(MPTexts.forgetPassword)),
-    ]);
   }
 }
 
@@ -92,8 +90,8 @@ class SocialLoginButtons extends StatelessWidget {
               borderRadius: BorderRadius.circular(100)),
           child: IconButton(
               onPressed: () async {
-                AuthenticationController authenticationController =
-                    AuthenticationController.instance;
+                FrontPageController authenticationController =
+                    FrontPageController.instance;
                 final userData = await GoogleSignAPI.login();
                 await authenticationController.loginGoogle(
                     context, userData?.email);

@@ -10,7 +10,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/dividers.dart';
 import 'package:marketplacedb/screen/landing_pages/front_page/front_page_widgets.dart';
 import 'package:marketplacedb/screen/sign_up_pages/phone/phone_widgets.dart';
-import 'package:marketplacedb/controllers/authenticationController.dart';
+import 'package:marketplacedb/screen/landing_pages/front_page/front_page_controller.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
@@ -25,7 +25,7 @@ class FrontPage extends StatefulWidget {
 }
 
 class FrontPageState extends State<FrontPage> {
-  final controller = Get.put(AuthenticationController());
+  final controller = Get.put(FrontPageController());
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   @override
@@ -57,20 +57,14 @@ class FrontPageState extends State<FrontPage> {
                   children: [
                     const LoginHeader(),
                     const SizedBox(height: MPSizes.spaceBtwSections / 2),
-                    LoginForm(
-                        emailController: emailController,
-                        passwordController: passwordController),
-                    const LoginForgetPasswordRow(),
+                    const LoginForm(),
                     const SizedBox(height: MPSizes.spaceBtwItems),
                     SizedBox(
                         width: double.infinity,
                         child: Obx(() => MPPrimaryButton(
                             isLoading: authController.isLoading.value,
                             onPressed: () async {
-                              await controller.login(
-                                  context: context,
-                                  email: emailController.text,
-                                  password: passwordController.text);
+                              await controller.login();
                             },
                             text: MPTexts.signIn))),
                     const SizedBox(height: MPSizes.spaceBtwSections * 1.5),

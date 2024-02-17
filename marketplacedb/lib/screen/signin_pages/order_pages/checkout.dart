@@ -9,7 +9,7 @@ import 'package:marketplacedb/controllers/OrderLineController.dart';
 import 'package:marketplacedb/controllers/paymentMethodController.dart';
 import 'package:marketplacedb/controllers/shippingController.dart';
 import 'package:marketplacedb/controllers/shoppingCartController.dart';
-import 'package:marketplacedb/data/models/BillingAddressModel.dart';
+import 'package:marketplacedb/data/models/addresses/address_model.dart';
 import 'package:marketplacedb/data/models/PaymentMethodModel.dart';
 import 'package:marketplacedb/data/models/ShippingMethodModel.dart';
 import 'package:marketplacedb/data/models/ShoppingCartItemModel.dart';
@@ -39,7 +39,7 @@ class CheckoutPage extends StatefulWidget {
 class CheckoutPageState extends State<CheckoutPage> {
   final ShoppingCartItemModel item;
   PaymentMethodModel? paymentmethod;
-  BillingAddressModel? selectedAddress;
+  AddressModel? selectedAddress;
   ShippingMethodModel? shippingmethod;
   String? selectedPaymentMethod;
 
@@ -91,7 +91,7 @@ class CheckoutPageState extends State<CheckoutPage> {
                 padding: const EdgeInsets.all(15.0),
                 child: Text(
                   selectedAddress != null
-                      ? '${selectedAddress!.address_line_1},\n ${selectedAddress!.city}'
+                      ? '${selectedAddress!.addressLine1},\n ${selectedAddress!.city}'
                       : 'Select Your Address',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,

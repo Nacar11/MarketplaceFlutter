@@ -44,6 +44,7 @@ class _SignUpPagePhoneState extends State<SignUpPagePhone> {
           const SizedBox(height: MPSizes.spaceBtwSections),
           CustomPhoneField(
             onValidityChanged: (completePhoneNumber) {
+              print(completePhoneNumber);
               setState(() {
                 phoneNumberController = completePhoneNumber;
                 isPhoneValid = completePhoneNumber.length == 13;

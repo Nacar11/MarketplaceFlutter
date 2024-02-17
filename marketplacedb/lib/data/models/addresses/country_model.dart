@@ -1,4 +1,4 @@
-import 'package:marketplacedb/data/models/RegionModel.dart';
+import 'package:marketplacedb/data/models/addresses/region_model.dart';
 
 class CountryModel {
   int? id;
