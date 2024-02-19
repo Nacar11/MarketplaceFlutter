@@ -5,6 +5,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/controllers/network_manager/network_manager.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/screen/sign_up_pages/pages/code/sign_up_page_code.dart';
+import 'package:marketplacedb/screen/sign_up_pages/pages/password/sign_up_page_password.dart';
 import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 
@@ -21,6 +22,29 @@ class SignUpPagesController extends GetxController {
 
   //SIGN UP CODE PAGE VARIABLES
   final otp = ''.obs;
+
+  //SIGN UP NAME PAGE VARIABLES
+  final firstName = TextEditingController();
+  final lastName = TextEditingController();
+  final isFirstNameValid = false.obs;
+  final isLastNameValid = false.obs;
+  GlobalKey<FormState> firstNameKey = GlobalKey<FormState>();
+  GlobalKey<FormState> lastNameKey = GlobalKey<FormState>();
+
+  //SIGN UP GENDER / BIRTH DATE PAGE VARIABLES
+  final birthDate = TextEditingController();
+  final gender = 'Male'.obs;
+  final currentDate = DateTime.now();
+  final isDateValid = false.obs;
+
+  //SIGN UP USERNAME / AGREEMENTS PAGE VARIABLES
+  final username = TextEditingController();
+  GlobalKey<FormState> usernameKey = GlobalKey<FormState>();
+  final isUsernameValid = false.obs;
+  final agreements = false.obs;
+
+  final isSubscribedToPromotions = false.obs;
+  final isSubscribedToNewsletters = false.obs;
 
   //SIGN UP PASSWORD VARIABLES
   final password = TextEditingController();
@@ -93,6 +117,35 @@ class SignUpPagesController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       MPDialogContainerLoader.stopLoading();
+      getSnackBar("Please Try Again", 'Error', false);
+    }
+  }
+
+  Future checkUsername() async {
+    try {
+      isLoading.value = true;
+
+      var response = await AuthInterceptor().post(
+        Uri.parse('${url}checkUsername'),
+        body: {
+          'username': username.text,
+        },
+      );
+      var jsonObject = jsonDecode(response.body);
+      if (jsonObject['message'] == 'Username is available') {
+        localStorage.saveData(
+            'is_subscribe_to_promotions', isSubscribedToPromotions.value);
+        localStorage.saveData(
+            'is_subscribe_to_newsletters', isSubscribedToNewsletters.value);
+        localStorage.saveData('username', username.text);
+        Get.to(() => const SignUpPagePassword());
+        isLoading.value = false;
+      } else {
+        isLoading.value = false;
+        getSnackBar(jsonObject['message'], 'Error', false);
+      }
+    } catch (e) {
+      isLoading.value = false;
       getSnackBar("Please Try Again", 'Error', false);
     }
   }

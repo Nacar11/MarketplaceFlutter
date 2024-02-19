@@ -19,7 +19,7 @@ class FrontPageController extends GetxController {
   final isLoading = false.obs;
   final email = TextEditingController();
   final password = TextEditingController();
-  // GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+
   MPLocalStorage localStorage = MPLocalStorage();
 
   Future<void> simulateLoading(Duration duration) async {

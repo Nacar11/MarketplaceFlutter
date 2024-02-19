@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:marketplacedb/common/styles/spacing_styles.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
+import 'package:marketplacedb/screen/sign_up_pages/controller/sign_up_pages_controller.dart';
 import 'package:marketplacedb/screen/sign_up_pages/pages/password/password_widgets.dart';
+import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
+import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
 class SignUpPagePassword extends StatefulWidget {
   const SignUpPagePassword({Key? key}) : super(key: key);
@@ -56,6 +60,8 @@ class _SignUpPagePasswordState extends State<SignUpPagePassword> {
 
   @override
   Widget build(BuildContext context) {
+    SignUpPagesController controller = SignUpPagesController.instance;
+    final dark = MPHelperFunctions.isDarkMode(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: const PrimaryAppBarColored(title: MPTexts.getStarted),
@@ -112,7 +118,7 @@ class _SignUpPagePasswordState extends State<SignUpPagePassword> {
               const SizedBox(height: MPSizes.spaceBtwInputFields),
               CustomPasswordCondition(
                   conditionBoolValue: passwordsMatch,
-                  text: MPTexts.passwordsMatch)
+                  text: MPTexts.passwordsMatch),
             ]),
           ),
         ]),

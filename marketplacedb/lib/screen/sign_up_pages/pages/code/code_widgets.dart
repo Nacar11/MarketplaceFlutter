@@ -126,7 +126,8 @@ class CustomSignUpContinue extends StatelessWidget {
             onPressed: () async {
               if (controller.otp ==
                   localStorage.readData('SMSVerificationCode')) {
-                Get.offAll(() => const SignUpPageName());
+                Get.to(() => const SignUpPageName());
+                getSnackBar(MPTexts.signInCoupleMoreSteps, 'Welcome!', true);
               } else {
                 getSnackBar(
                     'Incorrect PIN, Please Try Again.', 'Invalid PIN', false);

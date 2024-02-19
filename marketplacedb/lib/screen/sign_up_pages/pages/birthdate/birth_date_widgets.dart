@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
+import 'package:marketplacedb/screen/sign_up_pages/controller/sign_up_pages_controller.dart';
 import 'package:marketplacedb/screen/sign_up_pages/username/sign_up_page_username.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
@@ -10,97 +11,87 @@ import 'package:marketplacedb/util/local_storage/local_storage.dart';
 MPLocalStorage localStorage = MPLocalStorage();
 
 class CustomGenderSelector extends StatelessWidget {
-  final String valueGender;
-  final Function(String) onGenderSelected;
-
   const CustomGenderSelector({
     Key? key,
-    required this.valueGender,
-    required this.onGenderSelected,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        const Text('Select Gender'),
-        Row(
+    SignUpPagesController controller = SignUpPagesController.instance;
+    return Obx(() => Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Radio(
-              value: 'Male',
-              groupValue: valueGender,
-              onChanged: (value) {
-                onGenderSelected(value as String);
-              },
+            const Text('Select Gender'),
+            Row(
+              children: [
+                Radio(
+                  value: 'Male',
+                  groupValue: controller.gender.value,
+                  onChanged: (value) {
+                    controller.gender.value = value as String;
+                  },
+                ),
+                const Text('Male'),
+              ],
             ),
-            const Text('Male'),
-          ],
-        ),
-        Row(
-          children: [
-            Radio(
-              value: 'Female',
-              groupValue: valueGender,
-              onChanged: (value) {
-                onGenderSelected(value as String);
-              },
+            Row(
+              children: [
+                Radio(
+                  value: 'Female',
+                  groupValue: controller.gender.value,
+                  onChanged: (value) {
+                    controller.gender.value = value as String;
+                  },
+                ),
+                const Text('Female'),
+              ],
             ),
-            const Text('Female'),
           ],
-        ),
-      ],
-    );
+        ));
   }
 }
 
 class CustomBirthDateSelector extends StatelessWidget {
-  final Function(bool) onDateSelected;
-
-  final TextEditingController dateOfBirthController;
-
   const CustomBirthDateSelector({
     Key? key,
-    required this.onDateSelected,
-    required this.dateOfBirthController,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    SignUpPagesController controller = SignUpPagesController.instance;
     return TextField(
-      readOnly: true, // Disable text input
-      controller: dateOfBirthController,
+      readOnly: true,
+      controller: controller.birthDate,
       decoration: const InputDecoration(
         icon: Icon(Icons.calendar_today_rounded),
         labelText: "Date of Birth",
       ),
       onTap: () async {
-        final currentDate = DateTime.now();
+        controller.isDateValid.value = false;
         final pickedDate = await showDatePicker(
           helpText: "Select Date of Birth",
-          context: context,
-          initialDate: currentDate,
+          context: Get.overlayContext!,
+          initialDate: controller.currentDate,
           firstDate: DateTime(1960),
           lastDate: DateTime(2101),
         );
 
         if (pickedDate != null) {
-          dateOfBirthController.text =
+          controller.birthDate.text =
               DateFormat('yyyy-MM-dd').format(pickedDate);
 
-          int age = currentDate.year - pickedDate.year;
-          if (currentDate.month < pickedDate.month ||
-              (currentDate.month == pickedDate.month &&
-                  currentDate.day < pickedDate.day)) {
+          int age = controller.currentDate.year - pickedDate.year;
+          if (controller.currentDate.month < pickedDate.month ||
+              (controller.currentDate.month == pickedDate.month &&
+                  controller.currentDate.day < pickedDate.day)) {
             age--;
           }
 
           if (age >= 13) {
-            onDateSelected(true);
+            controller.isDateValid.value = true;
           } else {
-            // ignore: use_build_context_synchronously
             showDialog(
-              context: context,
+              context: Get.overlayContext!,
               builder: (context) {
                 return AlertDialog(
                   title: const Text("Invalid Date of Birth"),
@@ -117,7 +108,7 @@ class CustomBirthDateSelector extends StatelessWidget {
                 );
               },
             );
-            onDateSelected(false);
+            controller.isDateValid.value = false;
           }
         }
       },
@@ -128,31 +119,23 @@ class CustomBirthDateSelector extends StatelessWidget {
 class CustomSignUpContinue extends StatelessWidget {
   const CustomSignUpContinue({
     Key? key,
-    required this.isDateSelected,
-    required this.valueGender,
-    required this.dateOfBirthController,
   }) : super(key: key);
-
-  final bool isDateSelected;
-  final String valueGender;
-  final TextEditingController dateOfBirthController;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MPSizes.buttonHeight,
-      margin: const EdgeInsets.all(MPSizes.md),
-      child: MPPrimaryButton(
-        text: MPTexts.continueText,
-        isDisabled: !isDateSelected || valueGender.isEmpty,
-        onPressed: () {
-          if (isDateSelected && valueGender != '') {
-            localStorage.saveData('date_of_birth', dateOfBirthController.text);
-            localStorage.saveData('gender', valueGender);
-            Get.to(() => const SignUpPageUsername());
-          }
-        },
-      ),
-    );
+    SignUpPagesController controller = SignUpPagesController.instance;
+    return Obx(() => Container(
+          height: MPSizes.buttonHeight,
+          margin: const EdgeInsets.all(MPSizes.md),
+          child: MPPrimaryButton(
+            text: MPTexts.continueText,
+            isDisabled: !controller.isDateValid.value,
+            onPressed: () {
+              localStorage.saveData('date_of_birth', controller.birthDate.text);
+              localStorage.saveData('gender', controller.gender.value);
+              Get.to(() => const SignUpPageUsername());
+            },
+          ),
+        ));
   }
 }

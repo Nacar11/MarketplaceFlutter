@@ -1,44 +1,22 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print, no_logic_in_create_state
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:marketplacedb/common/styles/spacing_styles.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
+import 'package:marketplacedb/screen/sign_up_pages/controller/sign_up_pages_controller.dart';
 import 'package:marketplacedb/screen/sign_up_pages/username/username_widgets.dart';
-import 'package:marketplacedb/screen/landing_pages/front_page/front_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 
-class SignUpPageUsername extends StatefulWidget {
+class SignUpPageUsername extends StatelessWidget {
   const SignUpPageUsername({Key? key}) : super(key: key);
 
   @override
-  State<SignUpPageUsername> createState() => SignUpPageState();
-}
-
-class SignUpPageState extends State<SignUpPageUsername> {
-  FrontPageController authController = FrontPageController.instance;
-  bool isCheckedPromotions = false;
-  bool isCheckedNewsLetters = false;
-
-  late TextEditingController usernameController;
-
-  bool isUsernameValid = false;
-
-  @override
-  void initState() {
-    usernameController = TextEditingController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    usernameController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    SignUpPagesController controller = SignUpPagesController.instance;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: const PrimaryAppBarColored(title: MPTexts.getStarted),
@@ -50,48 +28,42 @@ class SignUpPageState extends State<SignUpPageUsername> {
                 headerText: MPTexts.usernameHeaderText,
                 text: MPTexts.usernameSubText),
             const SizedBox(height: MPSizes.spaceBtwSections),
-            CustomUsernameFormField(
-              usernameController: usernameController,
-              onUsernameChange: (isValid) {
-                setState(() {
-                  isUsernameValid = isValid;
-                });
-              },
-            ),
+            const CustomUsernameFormField(),
             const SizedBox(height: MPSizes.spaceBtwSections),
-            MPCheckBox(
-              text: 'Subscribe to Marketplace Promotions',
-              checkBoxValue: isCheckedPromotions,
-              onValueChanged: (newBool) {
-                setState(() {
-                  isCheckedPromotions = newBool;
-
-                  print(isCheckedPromotions);
-                });
-              },
-            ),
-            const SizedBox(height: MPSizes.spaceBtwInputFields),
-            MPCheckBox(
-              text: 'Subscribe to Marketplace Newsletters',
-              checkBoxValue: isCheckedNewsLetters,
-              onValueChanged: (newBool) {
-                setState(() {
-                  isCheckedNewsLetters = newBool;
-
-                  print(isCheckedNewsLetters);
-                });
-              },
-            ),
+            Obx(() => Column(children: [
+                  MPCheckBox(
+                    text: 'Subscribe to MarketPlace Promotions',
+                    checkBoxValue: controller.isSubscribedToPromotions.value,
+                    onValueChanged: (newBool) {
+                      controller.isSubscribedToPromotions.value = newBool;
+                      print(controller.isSubscribedToPromotions.value);
+                    },
+                  ),
+                  const SizedBox(height: MPSizes.spaceBtwInputFields),
+                  MPCheckBox(
+                    text: 'Subscribe to MarketPlace Newsletters',
+                    checkBoxValue: controller.isSubscribedToNewsletters.value,
+                    onValueChanged: (newBool) {
+                      controller.isSubscribedToNewsletters.value = newBool;
+                      print(controller.isSubscribedToNewsletters.value);
+                    },
+                  ),
+                  const SizedBox(height: MPSizes.spaceBtwInputFields),
+                  Row(children: [
+                    Checkbox(
+                        activeColor: Colors.green,
+                        value: controller.agreements.value,
+                        onChanged: (value) {
+                          controller.agreements.value = value!;
+                        }),
+                    const AgreementsText()
+                  ])
+                ]))
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: CustomSignUpContinue(
-          isCheckedNewsLetters: isCheckedNewsLetters,
-          isCheckedPromotions: isCheckedPromotions,
-          isUsernameValid: isUsernameValid,
-          usernameController: usernameController,
-          authController: authController),
+      floatingActionButton: const CustomSignUpContinue(),
     );
   }
 }
