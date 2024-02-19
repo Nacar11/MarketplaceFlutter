@@ -28,6 +28,12 @@ class MPLocalStorage {
   }
 
   Future<void> clearAll() async {
+    final bool? isFirstTime = _storage.read<bool>('isFirstTime');
+
     await _storage.erase();
+
+    if (isFirstTime != null) {
+      await _storage.write('isFirstTime', true);
+    }
   }
 }

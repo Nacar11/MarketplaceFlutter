@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
-import 'package:marketplacedb/screen/landing_pages/front_page/front_page_controller.dart';
-import 'package:marketplacedb/screen/sign_up_pages/name/sign_up_page_name.dart';
+import 'package:marketplacedb/screen/sign_up_pages/controller/sign_up_pages_controller.dart';
+import 'package:marketplacedb/screen/sign_up_pages/pages/name/sign_up_page_name.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
@@ -12,7 +12,6 @@ import 'package:marketplacedb/util/local_storage/local_storage.dart';
 import 'package:pinput/pinput.dart';
 
 MPLocalStorage localStorage = MPLocalStorage();
-String contactNumber = localStorage.readData('contact_number');
 
 RichText codeSubRichText(BuildContext context) {
   return RichText(
@@ -21,7 +20,7 @@ RichText codeSubRichText(BuildContext context) {
       style: Theme.of(context).textTheme.bodyMedium,
       children: <TextSpan>[
         TextSpan(
-          text: contactNumber,
+          text: '${localStorage.readData('contact_number')}',
           style: Theme.of(context).textTheme.headlineSmall,
         ),
       ],
@@ -30,9 +29,9 @@ RichText codeSubRichText(BuildContext context) {
 }
 
 class CustomPinInput extends StatelessWidget {
-  final Function(String) onOtpCompleted;
+  final Function(String) onCompleted;
   const CustomPinInput({
-    required this.onOtpCompleted,
+    required this.onCompleted,
     super.key,
   });
 
@@ -40,9 +39,7 @@ class CustomPinInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return Pinput(
         length: 6,
-        onCompleted: (code) {
-          onOtpCompleted(code);
-        },
+        onCompleted: onCompleted,
         defaultPinTheme: PinTheme(
             width: MPSizes.buttonWidth,
             height: MPSizes.buttonHeight,
@@ -84,11 +81,9 @@ class CustomDifferentNumberRichText extends StatelessWidget {
 class CustomResendCodeRichText extends StatelessWidget {
   const CustomResendCodeRichText({
     super.key,
-    required this.authController,
     required this.onTapFunction,
   });
 
-  final FrontPageController authController;
   final Function onTapFunction;
   @override
   Widget build(BuildContext context) {
@@ -117,21 +112,20 @@ class CustomResendCodeRichText extends StatelessWidget {
 class CustomSignUpContinue extends StatelessWidget {
   const CustomSignUpContinue({
     super.key,
-    required this.authController,
-    required this.otpCode,
   });
-  final FrontPageController authController;
-  final String otpCode;
+
   @override
   Widget build(BuildContext context) {
+    SignUpPagesController controller = SignUpPagesController.instance;
     return Obx(() => Container(
           height: MPSizes.buttonHeight,
           margin: const EdgeInsets.all(MPSizes.md),
           child: MPPrimaryButton(
             text: MPTexts.continueText,
-            isLoading: authController.isLoading.value,
+            isLoading: controller.isLoading.value,
             onPressed: () async {
-              if (otpCode == localStorage.readData('SMSVerificationCode')) {
+              if (controller.otp ==
+                  localStorage.readData('SMSVerificationCode')) {
                 Get.offAll(() => const SignUpPageName());
               } else {
                 getSnackBar(

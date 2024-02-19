@@ -3,13 +3,13 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
 import 'package:marketplacedb/screen/landing_pages/front_page/front_page_controller.dart';
-import 'package:marketplacedb/networks/googleSignIn.dart';
-import 'package:marketplacedb/screen/password_configuration/forget_password.dart';
+import 'package:marketplacedb/networks/google_signin.dart';
+import 'package:marketplacedb/screen/password_configuration/pages/forget_password.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_images.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
-import 'package:marketplacedb/util/helpers/validators.dart';
+// import 'package:marketplacedb/util/helpers/validators.dart';
 
 class LoginHeader extends StatelessWidget {
   const LoginHeader({
@@ -39,12 +39,11 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(FrontPageController());
-    return Form(
-        child: Column(
+    FrontPageController controller = FrontPageController.instance;
+    return Column(
       children: [
         ValidatorField(
-          validator: (value) => MPValidator.validateEmail(value),
+          // validator: (value) => MPValidator.validateEmail(value),
           controller: controller.email,
           labelText: MPTexts.email,
           prefixIcon: const Icon(Iconsax.direct_right),
@@ -55,16 +54,7 @@ class LoginForm extends StatelessWidget {
             labelText: MPTexts.password,
             prefixIcon: const Icon(Iconsax.password_check)),
         const SizedBox(height: MPSizes.spaceBtwInputFields / 2),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Row(children: [
-            Obx(() => Checkbox(
-                value: controller.rememberMe.value,
-                onChanged: (value) {
-                  controller.rememberMe.value = !controller.rememberMe.value;
-                })),
-            Text(MPTexts.rememberMe,
-                style: Theme.of(context).textTheme.bodyMedium)
-          ]),
+        Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           TextButton(
               onPressed: () {
                 Get.to(() => const ForgetPasswordPage());
@@ -72,7 +62,7 @@ class LoginForm extends StatelessWidget {
               child: const Text(MPTexts.forgetPassword)),
         ])
       ],
-    ));
+    );
   }
 }
 
@@ -90,11 +80,9 @@ class SocialLoginButtons extends StatelessWidget {
               borderRadius: BorderRadius.circular(100)),
           child: IconButton(
               onPressed: () async {
-                FrontPageController authenticationController =
-                    FrontPageController.instance;
-                final userData = await GoogleSignAPI.login();
-                await authenticationController.loginGoogle(
-                    context, userData?.email);
+                FrontPageController controller = FrontPageController.instance;
+                var userData = await GoogleSignAPI.login();
+                await controller.loginGoogle(userData?.email);
               },
               icon: const Image(
                   width: MPSizes.iconMd,

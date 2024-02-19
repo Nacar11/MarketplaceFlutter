@@ -75,7 +75,7 @@ class AddBillingAddressState extends State<AddBillingAddress> {
               ),
               const SizedBox(height: MPSizes.spaceBtwSections),
               CustomPhoneField(
-                onValidityChanged: (completePhoneNumber) {
+                onChanged: (completePhoneNumber) {
                   setState(() {
                     phoneNumberController = completePhoneNumber;
                     isPhoneValid = completePhoneNumber.length == 13;

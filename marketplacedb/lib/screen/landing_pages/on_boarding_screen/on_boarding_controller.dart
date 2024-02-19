@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:marketplacedb/screen/landing_pages/front_page/front_page.dart';
+import 'package:marketplacedb/util/local_storage/local_storage.dart';
 
 class OnBoardingController extends GetxController {
+  MPLocalStorage localStorage = MPLocalStorage();
   static OnBoardingController get instance => Get.find();
   final pageController = PageController();
   final currentPageIndex = 0.obs;
@@ -19,8 +20,7 @@ class OnBoardingController extends GetxController {
 
   void nextPage() {
     if (currentPageIndex.value == 3) {
-      final storage = GetStorage();
-      storage.writeIfNull('isFirstTime', true);
+      localStorage.saveData('isFirstTime', true);
       Get.to(() => const FrontPage());
     } else {
       int page = currentPageIndex.value + 1;
@@ -30,8 +30,7 @@ class OnBoardingController extends GetxController {
 
   void skipPage() {
     if (currentPageIndex.value == 3) {
-      final storage = GetStorage();
-      storage.writeIfNull('isFirstTime', true);
+      localStorage.saveData('isFirstTime', true);
       Get.to(() => const FrontPage());
     }
     currentPageIndex.value = 3;

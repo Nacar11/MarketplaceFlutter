@@ -25,7 +25,7 @@ class MPAnimationLoaderWidget extends StatelessWidget {
       Lottie.asset(animation, width: MediaQuery.of(context).size.width * 0.8),
       const SizedBox(height: MPSizes.defaultSpace),
       Text(text,
-          style: Theme.of(context).textTheme.bodyMedium,
+          style: Theme.of(context).textTheme.bodyLarge,
           textAlign: TextAlign.center),
       const SizedBox(height: MPSizes.defaultSpace),
       showAction

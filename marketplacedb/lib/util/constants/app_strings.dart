@@ -42,7 +42,7 @@ class MPTexts {
       "Connect with People Around and Discover Limitless Choices";
   static const String forgetPasswordTitle = "Forget Password";
   static const String forgetPasswordSubTitle =
-      "Enter Your Email and We Will Send You a Verification Code to Update Your Password.";
+      "Enter your email and we will send You a verification code to update your password.";
   static const String resetPasswordTitle = "Reset Password";
   static const String passwordChangeSuccessfulTitle =
       "Password Changed Successfully";

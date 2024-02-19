@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
     final storage = MPLocalStorage();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'MarketPlace',
       initialBinding: GeneralBindings(),
       themeMode: ThemeMode.light,
       theme: MPAppTheme.lightTheme,

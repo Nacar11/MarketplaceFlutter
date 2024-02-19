@@ -11,4 +11,5 @@ class AnimationsUtils {
   static const addressSetup1 = 'assets/animations/address_setup1.json';
   static const addressSetup2 = 'assets/animations/address_setup2.json';
   static const loading = 'assets/animations/loading_animation.json';
+  static const sendEmail = 'assets/animations/send_email.json';
 }

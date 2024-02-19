@@ -137,11 +137,11 @@ class PasswordValidatorFieldState extends State<PasswordValidatorField> {
 }
 
 class CustomPhoneField extends StatelessWidget {
-  final Function(String) onValidityChanged;
+  final Function(String) onChanged;
 
   const CustomPhoneField({
     Key? key,
-    required this.onValidityChanged,
+    required this.onChanged,
   }) : super(key: key);
 
   @override
@@ -156,7 +156,7 @@ class CustomPhoneField extends StatelessWidget {
       ),
       initialCountryCode: 'PH',
       onChanged: (phone) {
-        onValidityChanged(phone.completeNumber);
+        onChanged(phone.completeNumber);
       },
     );
   }
