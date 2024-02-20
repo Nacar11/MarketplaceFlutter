@@ -57,7 +57,7 @@ class FrontPageController extends GetxController {
         isLoading.value = false;
         MPFullScreenLoader.stopLoading();
         Get.offAll(() => const Navigation());
-        String text = 'Welcome, ${localStorage.readData('username')}';
+        String text = 'Welcome, ${jsonResponse['username']}';
         getSnackBar(text, MPTexts.successLogin, true);
       } else {
         getSnackBar(jsonResponse['message'], 'Error', false);

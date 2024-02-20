@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
-import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
@@ -38,61 +37,6 @@ class MPDialogContainer extends StatelessWidget {
             )
           ]),
         ));
-  }
-}
-
-class AddBillingAddressShimmerContainer extends StatelessWidget {
-  const AddBillingAddressShimmerContainer({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final bool isDarkMode = MPHelperFunctions.isDarkMode(context);
-    return Container(
-      color: isDarkMode ? MPColors.dark : MPColors.white,
-      child: const SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(MPSizes.defaultSpace),
-          child: Column(
-            children: [
-              SizedBox(height: MPSizes.defaultSpace / 2),
-              ShimmerProgressContainer(
-                height: 150,
-              ),
-              SizedBox(height: MPSizes.spaceBtwSections),
-              ShimmerProgressContainer(
-                height: 60,
-              ),
-              SizedBox(height: MPSizes.spaceBtwInputFields),
-              ShimmerProgressContainer(
-                height: 60,
-              ),
-              SizedBox(height: MPSizes.spaceBtwInputFields),
-              ShimmerProgressContainer(
-                height: 60,
-              ),
-              SizedBox(height: MPSizes.spaceBtwInputFields),
-              ShimmerProgressContainer(
-                height: 60,
-              ),
-              SizedBox(height: MPSizes.spaceBtwInputFields),
-              ShimmerProgressContainer(
-                height: 60,
-              ),
-              SizedBox(height: MPSizes.spaceBtwInputFields),
-              ShimmerProgressContainer(
-                height: 60,
-              ),
-              SizedBox(height: MPSizes.spaceBtwSections),
-              ShimmerProgressContainer(
-                height: 70,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }
 

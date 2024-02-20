@@ -53,6 +53,9 @@ class MPTexts {
   static const String billingAddressSetupTitle = "Billing Address Setup";
   static const String billingAddressSetupSubtitle =
       "Before you can sell your items, set up your billing address first";
+  static const String favoritesPageTitle = "Your Favorites Await";
+  static const String favoritesPageSubTitle =
+      "Your favorite items will appear here. Begin exploring and adding to your collection.";
 
   // --CONTAINER GUIDE SIGNUP TEXTS
   static const String phoneHeaderText =

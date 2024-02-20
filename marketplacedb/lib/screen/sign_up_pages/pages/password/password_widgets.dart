@@ -1,48 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
-import 'package:marketplacedb/screen/landing_pages/front_page/front_page_controller.dart';
+import 'package:marketplacedb/screen/sign_up_pages/controller/sign_up_pages_controller.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
-
-class CustomPasswordFormField extends StatelessWidget {
-  const CustomPasswordFormField(
-      {Key? key,
-      required this.text,
-      required this.controller1,
-      required this.controller2,
-      required this.formKey,
-      required this.onPasswordChange,
-      required this.passwordsMatch,
-      required this.onIfPasswordsMatch})
-      : super(key: key);
-
-  final TextEditingController controller1;
-  final String text;
-  final TextEditingController controller2;
-  final Function(bool) onIfPasswordsMatch;
-  final Function(String) onPasswordChange;
-  final bool passwordsMatch;
-  final GlobalKey<FormState> formKey;
-
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: formKey,
-      child: PasswordValidatorField(
-        controller: controller1,
-        labelText: text,
-        obscureText: true,
-        onChanged: (value) {
-          final passwordsMatch = value == controller2.text;
-          onIfPasswordsMatch(passwordsMatch);
-          onPasswordChange(value);
-        },
-      ),
-    );
-  }
-}
 
 class CustomPasswordCondition extends StatelessWidget {
   const CustomPasswordCondition({
@@ -77,31 +38,28 @@ class CustomPasswordCondition extends StatelessWidget {
   }
 }
 
-FrontPageController authController = FrontPageController.instance;
-
 class CustomSignUpContinue extends StatelessWidget {
   const CustomSignUpContinue({
     super.key,
-    required this.isPasswordValid,
-    required this.passwordController,
   });
-
-  final bool isPasswordValid;
-  final TextEditingController passwordController;
 
   @override
   Widget build(BuildContext context) {
+    MPLocalStorage localStorage = MPLocalStorage();
+    SignUpPagesController controller = SignUpPagesController.instance;
     return Obx(() => Container(
           height: 50,
           margin: const EdgeInsets.all(10),
           child: MPPrimaryButton(
             text: MPTexts.continueText,
-            isLoading: authController.isLoading.value,
-            isDisabled: !isPasswordValid,
+            isLoading: controller.isLoading.value,
+            isDisabled: !controller.isPasswordEightCharacters.value ||
+                !controller.isPasswordOneNumber.value ||
+                !controller.isPasswordOneSpecialChar.value ||
+                !controller.passwordsMatch.value,
             onPressed: () async {
-              MPLocalStorage localStorage = MPLocalStorage();
-              await localStorage.saveData('password', passwordController.text);
-              await authController.register();
+              await localStorage.saveData('password', controller.password.text);
+              await controller.register();
             },
           ),
         ));

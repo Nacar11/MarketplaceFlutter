@@ -13,52 +13,14 @@ import 'package:marketplacedb/screen/signin_pages/sell_pages/add_billing_address
 import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
+import 'package:marketplacedb/util/helpers/validators.dart';
 
-class AddBillingAddress extends StatefulWidget {
+class AddBillingAddress extends StatelessWidget {
   const AddBillingAddress({Key? key}) : super(key: key);
 
   @override
-  State<AddBillingAddress> createState() => AddBillingAddressState();
-}
-
-class AddBillingAddressState extends State<AddBillingAddress> {
-  final addBillingAddressController = Get.put(AddBillingAddressController());
-
-  String phoneNumberController = '';
-  bool isPhoneValid = false;
-  TextEditingController unitNumber = TextEditingController();
-  TextEditingController addressLine1 = TextEditingController();
-  TextEditingController addressLine2 = TextEditingController();
-  TextEditingController postalCode = TextEditingController();
-
-  bool isButtonDisabled = true;
-
-  void onFieldsChanged() {
-    print(addBillingAddressController.selectedCity.value.id);
-    isButtonDisabled = unitNumber.text.isEmpty ||
-        addressLine1.text.isEmpty ||
-        postalCode.text.isEmpty ||
-        isPhoneValid == false;
-
-    print(isButtonDisabled);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    unitNumber.addListener(onFieldsChanged);
-    addressLine1.addListener(onFieldsChanged);
-    addressLine2.addListener(onFieldsChanged);
-    postalCode.addListener(onFieldsChanged);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = Get.put(AddBillingAddressController());
     return Scaffold(
       appBar: const PrimaryAppBarColored(title: MPTexts.getStarted),
       body: SingleChildScrollView(
@@ -68,42 +30,59 @@ class AddBillingAddressState extends State<AddBillingAddress> {
             children: [
               const Center(
                 child: AnimationContainer(
-                    width: .8,
-                    height: 0.25,
-                    animation: AnimationsUtils.addressSetup2,
-                    duration: Duration(seconds: 10)),
+                  width: .8,
+                  height: 0.25,
+                  animation: AnimationsUtils.addressSetup2,
+                  duration: Duration(seconds: 10),
+                ),
               ),
               const SizedBox(height: MPSizes.spaceBtwSections),
               CustomPhoneField(
                 onChanged: (completePhoneNumber) {
-                  setState(() {
-                    phoneNumberController = completePhoneNumber;
-                    isPhoneValid = completePhoneNumber.length == 13;
-                    onFieldsChanged();
-                  });
+                  controller.phoneNumber.value = completePhoneNumber;
+                  controller.isPhoneValid.value =
+                      controller.phoneNumber.value.length == 13;
                 },
               ),
               const SizedBox(height: MPSizes.spaceBtwInputFields),
-              ValidatorField(
-                onChanged: (value) => setState(() {
-                  onFieldsChanged();
-                }),
-                controller: unitNumber,
-                prefixIcon: const Icon(Iconsax.house_2),
-                labelText: 'Unit No.',
+              Form(
+                key: controller.unitNumberKey,
+                child: ValidatorField(
+                  validator: (value) => MPValidator.validateEmptyText(
+                    value,
+                    'Unit No.',
+                  ),
+                  onChanged: (value) {
+                    controller.isUnitNumberValid.value =
+                        controller.unitNumberKey.currentState!.validate() ==
+                            true;
+                  },
+                  controller: controller.unitNumber,
+                  prefixIcon: const Icon(Iconsax.house_2),
+                  labelText: 'Unit No.',
+                ),
+              ),
+              const SizedBox(height: MPSizes.spaceBtwInputFields),
+              Form(
+                key: controller.addressLine1Key,
+                child: ValidatorField(
+                  validator: (value) => MPValidator.validateEmptyText(
+                    value,
+                    'Address Line 1',
+                  ),
+                  onChanged: (value) {
+                    controller.isAddressLine1Valid.value =
+                        controller.addressLine1Key.currentState!.validate() ==
+                            true;
+                  },
+                  controller: controller.addressLine1,
+                  prefixIcon: const Icon(Iconsax.location),
+                  labelText: 'Address Line 1',
+                ),
               ),
               const SizedBox(height: MPSizes.spaceBtwInputFields),
               ValidatorField(
-                onChanged: (value) => setState(() {
-                  onFieldsChanged();
-                }),
-                controller: addressLine1,
-                prefixIcon: const Icon(Iconsax.location),
-                labelText: 'Address Line 1',
-              ),
-              const SizedBox(height: MPSizes.spaceBtwInputFields),
-              ValidatorField(
-                controller: addressLine2,
+                controller: controller.addressLine2,
                 prefixIcon: const Icon(Iconsax.location_tick),
                 labelText: 'Address Line 2',
               ),
@@ -118,13 +97,12 @@ class AddBillingAddressState extends State<AddBillingAddress> {
                           context: context,
                           title: "Select Country",
                           content: CountryPicker(
-                              addBillingAddressController:
-                                  addBillingAddressController),
+                            addBillingAddressController: controller,
+                          ),
                         );
                       },
                       child: Obx(() => MPDialogContainer(
-                            text: addBillingAddressController
-                                    .selectedCountry.value.name ??
+                            text: controller.selectedCountry.value.name ??
                                 "Country",
                             icon: const Icon(Iconsax.courthouse),
                           )),
@@ -135,17 +113,18 @@ class AddBillingAddressState extends State<AddBillingAddress> {
                     child: GestureDetector(
                       onTap: () {
                         getXDialogContainer(
-                            context: context,
-                            title: "Select province or State",
-                            content: RegionPicker(
-                                addBillingAddressController:
-                                    addBillingAddressController));
+                          context: context,
+                          title: "Select province or State",
+                          content: RegionPicker(
+                            addBillingAddressController: controller,
+                          ),
+                        );
                       },
                       child: Obx(() => MPDialogContainer(
-                          text: addBillingAddressController
-                                  .selectedRegion.value.name ??
-                              "Province",
-                          icon: const Icon(Iconsax.bank))),
+                            text: controller.selectedRegion.value.name ??
+                                "Province",
+                            icon: const Icon(Iconsax.bank),
+                          )),
                     ),
                   ),
                 ],
@@ -158,28 +137,38 @@ class AddBillingAddressState extends State<AddBillingAddress> {
                     child: GestureDetector(
                       onTap: () {
                         getXDialogContainer(
-                            context: context,
-                            title: "Select City",
-                            content: CityPicker(
-                                addBillingAddressController:
-                                    addBillingAddressController));
+                          context: context,
+                          title: "Select City",
+                          content: CityPicker(
+                            addBillingAddressController: controller,
+                          ),
+                        );
                       },
                       child: Obx(() => MPDialogContainer(
-                          text: addBillingAddressController
-                                  .selectedCity.value.name ??
-                              "City",
-                          icon: const Icon(Iconsax.house4))),
+                            text: controller.selectedCity.value.name ?? "City",
+                            icon: const Icon(Iconsax.house4),
+                          )),
                     ),
                   ),
                   const SizedBox(width: MPSizes.spaceBtwInputFields),
                   Expanded(
-                    child: ValidatorField(
-                      onChanged: (value) => setState(() {
-                        onFieldsChanged();
-                      }),
-                      controller: postalCode,
-                      prefixIcon: const Icon(Iconsax.clipboard_export),
-                      labelText: 'Zip Code',
+                    child: Form(
+                      key: controller.postalCodeKey,
+                      child: ValidatorField(
+                        validator: (value) => MPValidator.validateEmptyText(
+                          value,
+                          'Zip Code',
+                        ),
+                        onChanged: (value) {
+                          controller.isPostalCodeValid.value = controller
+                                  .postalCodeKey.currentState!
+                                  .validate() ==
+                              true;
+                        },
+                        controller: controller.postalCode,
+                        prefixIcon: const Icon(Iconsax.clipboard_export),
+                        labelText: 'Zip Code',
+                      ),
                     ),
                   ),
                 ],
@@ -187,29 +176,15 @@ class AddBillingAddressState extends State<AddBillingAddress> {
               const SizedBox(height: MPSizes.spaceBtwSections),
               Obx(() => MPPrimaryButton(
                     onPressed: () async {
-                      Map<String, String> data = {
-                        "contact_number": phoneNumberController,
-                        "unit_number": unitNumber.text,
-                        "address_line_1": addressLine1.text,
-                        "address_line_2": addressLine2.text,
-                        "city_id": addBillingAddressController
-                            .selectedCity.value.id
-                            .toString(),
-                        "region_id": addBillingAddressController
-                            .selectedRegion.value.id
-                            .toString(),
-                        "postal_code": postalCode.text,
-                        "country_id": addBillingAddressController
-                            .selectedCountry.value.id
-                            .toString(),
-                      };
-                      await addBillingAddressController.addBillingAddress(data);
+                      await controller.addBillingAddress();
                     },
-                    isLoading: addBillingAddressController.isLoading.value,
-                    isDisabled: isButtonDisabled ||
-                        addBillingAddressController.selectedCity.value.id ==
-                            null,
-                    text: 'Add Address', // Pass the isNameEmpty variable here
+                    isLoading: controller.isLoading.value,
+                    isDisabled: !controller.isUnitNumberValid.value ||
+                        !controller.isAddressLine1Valid.value ||
+                        !controller.isPostalCodeValid.value ||
+                        controller.isPhoneValid.value == false ||
+                        controller.selectedCity.value.id == null,
+                    text: 'Add Address',
                   )),
             ],
           ),

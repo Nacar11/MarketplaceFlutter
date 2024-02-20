@@ -2,7 +2,7 @@ class MPValidator {
   static const String regexNoSpecialChars = r'^[a-zA-Z0-9\s]+$';
   static const String noWhitespace = r'^[^\s]+$';
   static const String noUnderscoreAtBeginning = r'^[^_].*$';
-  static String? validateEmptyText(String? fieldName, String? value) {
+  static String? validateEmptyText(String? value, String fieldName) {
     if (value == null || value.isEmpty) {
       return '$fieldName is required.';
     }

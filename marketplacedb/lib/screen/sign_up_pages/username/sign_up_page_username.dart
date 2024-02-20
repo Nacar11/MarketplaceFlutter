@@ -11,12 +11,11 @@ import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 
 class SignUpPageUsername extends StatelessWidget {
-  const SignUpPageUsername({Key? key}) : super(key: key);
+  const SignUpPageUsername({super.key});
 
   @override
   Widget build(BuildContext context) {
     SignUpPagesController controller = SignUpPagesController.instance;
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: const PrimaryAppBarColored(title: MPTexts.getStarted),
@@ -36,7 +35,6 @@ class SignUpPageUsername extends StatelessWidget {
                     checkBoxValue: controller.isSubscribedToPromotions.value,
                     onValueChanged: (newBool) {
                       controller.isSubscribedToPromotions.value = newBool;
-                      print(controller.isSubscribedToPromotions.value);
                     },
                   ),
                   const SizedBox(height: MPSizes.spaceBtwInputFields),
@@ -45,7 +43,6 @@ class SignUpPageUsername extends StatelessWidget {
                     checkBoxValue: controller.isSubscribedToNewsletters.value,
                     onValueChanged: (newBool) {
                       controller.isSubscribedToNewsletters.value = newBool;
-                      print(controller.isSubscribedToNewsletters.value);
                     },
                   ),
                   const SizedBox(height: MPSizes.spaceBtwInputFields),

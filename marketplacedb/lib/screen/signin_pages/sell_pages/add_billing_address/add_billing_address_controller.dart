@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/data/models/addresses/city_model.dart';
@@ -18,13 +19,27 @@ class AddBillingAddressController extends GetxController {
   final selectedRegion = RegionModel().obs;
   final selectedCity = CityModel().obs;
 
+//TEXT-EDITING CONTROLLERS
+  final unitNumber = TextEditingController();
+  final addressLine1 = TextEditingController();
+  final addressLine2 = TextEditingController();
+  final postalCode = TextEditingController();
+  final phoneNumber = ''.obs;
+  final isPhoneValid = false.obs;
+  GlobalKey<FormState> unitNumberKey = GlobalKey<FormState>();
+  GlobalKey<FormState> addressLine1Key = GlobalKey<FormState>();
+  GlobalKey<FormState> postalCodeKey = GlobalKey<FormState>();
+  final isUnitNumberValid = false.obs;
+  final isAddressLine1Valid = false.obs;
+  final isPostalCodeValid = false.obs;
+
   @override
   void onInit() async {
     super.onInit();
     await getCountries();
   }
 
-  Future<void> addBillingAddress(Map<String, String> billingAddressData) async {
+  Future<void> addBillingAddress() async {
     isLoading.value = true;
     try {
       // for (var entry in billingAddressData.entries) {
@@ -32,7 +47,16 @@ class AddBillingAddressController extends GetxController {
       // }
       final response = await AuthInterceptor().post(
         Uri.parse("${url}addAddress"),
-        body: billingAddressData,
+        body: {
+          "contact_number": phoneNumber.value,
+          "unit_number": unitNumber.text,
+          "address_line_1": addressLine1.text,
+          "address_line_2": addressLine2.text,
+          "city_id": selectedCity.value.id.toString(),
+          "region_id": selectedRegion.value.id.toString(),
+          "postal_code": postalCode.text,
+          "country_id": selectedCountry.value.id.toString(),
+        },
       );
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == 'success') {

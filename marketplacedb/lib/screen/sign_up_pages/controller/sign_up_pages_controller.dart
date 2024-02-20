@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/controllers/network_manager/network_manager.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
+import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
 import 'package:marketplacedb/screen/sign_up_pages/pages/code/sign_up_page_code.dart';
 import 'package:marketplacedb/screen/sign_up_pages/pages/password/sign_up_page_password.dart';
 import 'package:marketplacedb/util/constants/app_animations.dart';
@@ -11,6 +12,7 @@ import 'package:marketplacedb/util/constants/app_constant.dart';
 
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
 import 'package:marketplacedb/util/popups/dialog_container_loader.dart';
+import 'package:marketplacedb/util/popups/full_screen_loader.dart';
 
 class SignUpPagesController extends GetxController {
   static SignUpPagesController get instance => Get.find();
@@ -142,11 +144,75 @@ class SignUpPagesController extends GetxController {
         isLoading.value = false;
       } else {
         isLoading.value = false;
-        getSnackBar(jsonObject['message'], 'Error', false);
+        getSnackBar(jsonObject['message'], 'Invalid Username', false);
       }
     } catch (e) {
       isLoading.value = false;
       getSnackBar("Please Try Again", 'Error', false);
+    }
+  }
+
+  Future register() async {
+    try {
+      isLoading.value = true;
+
+      MPFullScreenLoader.openLoadingDialog(
+          'Creating your account, this may take a while... ',
+          AnimationsUtils.loading);
+
+      final isConnected = await NetworkManager.instance.isConnected();
+      if (!isConnected) {
+        MPFullScreenLoader.stopLoading();
+        return;
+      }
+      var data = {
+        'email': localStorage.readData('email'),
+        'password': localStorage.readData('password'),
+        'last_name': localStorage.readData('last_name'),
+        'first_name': localStorage.readData('first_name'),
+        'username': localStorage.readData('username'),
+        'contact_number': localStorage.readData('contact_number'),
+        'date_of_birth': localStorage.readData('date_of_birth'),
+        'is_subscribe_to_newsletters':
+            (localStorage.readData('is_subscribe_to_newsletters') ?? false)
+                ? 'true'
+                : 'false',
+        'is_subscribe_to_promotions':
+            (localStorage.readData('is_subscribe_to_promotions') ?? false)
+                ? 'true'
+                : 'false',
+        'gender': localStorage.readData('gender'),
+      };
+
+      data.forEach((key, value) {
+        print('$key: ${value.runtimeType}');
+      });
+
+      var response = await AuthInterceptor().post(
+        Uri.parse('${url}register'),
+        body: data,
+      );
+
+      var jsonResponse = jsonDecode(response.body);
+      if (jsonResponse['message'] == "success") {
+        localStorage.clearAll();
+        isLoading.value = false;
+        localStorage.saveData('token', jsonResponse['access_token']);
+        localStorage.saveData('username', jsonResponse['username']);
+        isLoading.value = false;
+        MPFullScreenLoader.stopLoading();
+        Get.offAll(() => const Navigation());
+        String text = 'Welcome, ${jsonResponse['username']}';
+        getSnackBar(text, "Successfully Registered!", true);
+      } else {
+        getSnackBar(jsonResponse['message'], 'Error', false);
+        MPFullScreenLoader.stopLoading();
+        isLoading.value = false;
+      }
+    } catch (e) {
+      MPFullScreenLoader.stopLoading();
+      isLoading.value = false;
+      getSnackBar(e.toString(), "Error", false);
     }
   }
 }
