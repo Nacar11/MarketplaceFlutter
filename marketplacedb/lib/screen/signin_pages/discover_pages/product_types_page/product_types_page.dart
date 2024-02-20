@@ -28,47 +28,39 @@ import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
 ProductItemController productItemController = ProductItemController.instance;
-ProductController productController = ProductController.static;
+
 ProductTypesPageController productTypesPageController =
     ProductTypesPageController.instance;
 
-class ProductTypesPage extends StatefulWidget {
-  const ProductTypesPage({
-    Key? key,
-  }) : super(key: key);
-  @override
-  State<ProductTypesPage> createState() => ProductTypesPageState();
-}
-
-class ProductTypesPageState extends State<ProductTypesPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
+class ProductTypesPage extends StatelessWidget {
+  const ProductTypesPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => DefaultTabController(
-          length: productController.productTypes.length,
-          child: Scaffold(
-              appBar: PrimarySearchAppBar(
+    ProductController productController = ProductController.static;
+    return Obx(
+      () => productController.isLoading.value
+          ? const Center(child: CircularProgressIndicator())
+          : DefaultTabController(
+              length: productController.productTypes.length,
+              child: Scaffold(
+                appBar: PrimarySearchAppBar(
                   actions: [
                     ShoppingCartCounterIcon(
                       onPressed: () {},
-                    )
+                    ),
                   ],
                   title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Store",
-                            style: Theme.of(context).textTheme.headlineMedium),
-                      ])),
-              body: NestedScrollView(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Store",
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                    ],
+                  ),
+                ),
+                body: NestedScrollView(
                   headerSliverBuilder: (_, innerBoxScrolled) {
                     return [
                       SliverAppBar(
@@ -84,38 +76,43 @@ class ProductTypesPageState extends State<ProductTypesPage> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: MPSizes.xs),
                           child: ListView(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              children: [
-                                const SizedBox(
-                                    height: MPSizes.spaceBtwSections * 2),
-                                const MPSearchContainer(text: "Search Here"),
-                                const SizedBox(
-                                    height: MPSizes.spaceBtwSections),
-                                MPGridLayout(
-                                  mainAxisExtent: 70,
-                                  itemCount:
-                                      productController.subCategoryList.length,
-                                  itemBuilder: (context, index) {
-                                    ProductCategoryModel productCategory =
-                                        productController
-                                            .subCategoryList[index];
-                                    return ClickableCategoryCard(
-                                        productCategory: productCategory,
-                                        index: index);
-                                  },
-                                ),
-                              ]),
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: [
+                              const SizedBox(
+                                  height: MPSizes.spaceBtwSections * 2),
+                              const MPSearchContainer(text: "Search Here"),
+                              const SizedBox(height: MPSizes.spaceBtwSections),
+                              MPGridLayout(
+                                mainAxisExtent: 70,
+                                itemCount:
+                                    productController.subCategoryList.length,
+                                itemBuilder: (context, index) {
+                                  ProductCategoryModel productCategory =
+                                      productController.subCategoryList[index];
+                                  return ClickableCategoryCard(
+                                    productCategory: productCategory,
+                                    index: index,
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                         bottom: PreferredSize(
-                            preferredSize:
-                                const Size.fromHeight(kToolbarHeight),
-                            child: Obx(() => productController.isLoading.value
+                          preferredSize: const Size.fromHeight(kToolbarHeight),
+                          child: Obx(
+                            () => productController.isLoading.value
                                 ? TabBar(
                                     tabs: productController.productTypes
-                                        .map((type) => const Tab(
+                                        .map(
+                                          (type) => const Tab(
                                             child: ShimmerProgressContainer(
-                                                height: 30, width: 80)))
+                                              height: 30,
+                                              width: 80,
+                                            ),
+                                          ),
+                                        )
                                         .toList(),
                                   )
                                 : MPTabBarProductTypes(
@@ -124,34 +121,29 @@ class ProductTypesPageState extends State<ProductTypesPage> {
                                     onTabPressed: (index, productType) {
                                       productItemController
                                           .getProductItemsByProductType(
-                                              productType.id!);
+                                        productType.id!,
+                                      );
                                     },
                                     tabs: productController.productTypes
                                         .map((type) => Tab(text: type.name))
                                         .toList(),
-                                  ))),
-                      )
+                                  ),
+                          ),
+                        ),
+                      ),
                     ];
                   },
                   body: TabBarView(
-                      children: List.generate(
-                          productController.productTypes.length,
-                          (index) => MPTabBarViewProductTypes(
-                              productItemController: productItemController))))),
-        ));
+                    children: List.generate(
+                      productController.productTypes.length,
+                      (index) => MPTabBarViewProductTypes(
+                        productItemController: productItemController,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+    );
   }
 }
-
-//  const MPCircularContainer(
-//                                     height: 50,
-//                                     showBorder: true,
-//                                     borderColor: MPColors.darkGrey,
-//                                     backgroundColor: Colors.transparent,
-//                                     margin: EdgeInsets.only(
-//                                       bottom: MPSizes.spaceBtwItems,
-//                                     ),
-//                                     child: Column(
-//                                       children: [
-//                                         Text("Undecided Product Showase here")
-//                                       ],
-//                                     )),
