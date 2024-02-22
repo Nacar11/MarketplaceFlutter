@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/styles/shadows.dart';
@@ -10,13 +11,15 @@ import 'package:marketplacedb/common/widgets/texts/product_title_text.dart';
 import 'package:marketplacedb/common/widgets/texts/sale_tag.dart';
 import 'package:marketplacedb/common/widgets/texts/text_with_icons.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
+import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:marketplacedb/data/models/products/product_item_model.dart';
 import 'package:marketplacedb/screen/signin_pages/discover_pages/product_item_page/product_item_page.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
+import 'package:marketplacedb/util/popups/alert_dialog.dart';
 
-ProductItemController productItemController = ProductItemController.instance;
+UserController userController = UserController.instance;
 
 class MPProductCardVertical extends StatelessWidget {
   const MPProductCardVertical({
@@ -27,6 +30,9 @@ class MPProductCardVertical extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ProductItemController productItemController =
+        ProductItemController.instance;
+
     final dark = MPHelperFunctions.isDarkMode(context);
     return Container(
         width: 180,
@@ -64,22 +70,25 @@ class MPProductCardVertical extends StatelessWidget {
                     left: 0,
                     child: MPSaleTag(),
                   ),
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    child: Container(
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: dark
-                              ? MPColors.black.withOpacity(0.9)
-                              : MPColors.white.withOpacity(0.9),
-                        ),
-                        child: FavoritesIconButton(
-                            iconSize: MPSizes.iconXs,
-                            productItemDataId: productItemData.id!)),
-                  )
+                  Obx(() => userController.userData.value.id ==
+                          productItemData.user_id
+                      ? const SizedBox()
+                      : Positioned(
+                          right: 0,
+                          top: 0,
+                          child: Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: dark
+                                    ? MPColors.black.withOpacity(0.9)
+                                    : MPColors.white.withOpacity(0.9),
+                              ),
+                              child: FavoritesIconButton(
+                                  iconSize: MPSizes.iconXs,
+                                  productItemDataId: productItemData.id!)),
+                        ))
                 ])),
           ),
           const SizedBox(height: MPSizes.spaceBtwItems / 2),
@@ -101,23 +110,63 @@ class MPProductCardVertical extends StatelessWidget {
                       children: [
                         MPProductPriceText(
                             price: productItemData.price.toString()),
-                        Container(
-                            decoration: const BoxDecoration(
-                                color: MPColors.dark,
-                                borderRadius: BorderRadius.only(
+                        Obx(() => Container(
+                            decoration: BoxDecoration(
+                                color: userController.userData.value.id ==
+                                        productItemData.user_id
+                                    ? Colors.green
+                                    : MPColors.dark,
+                                borderRadius: const BorderRadius.only(
                                     topLeft:
                                         Radius.circular(MPSizes.cardRadiusMd),
                                     bottomRight: Radius.circular(
                                         MPSizes.productImageRadius))),
-                            child: const SizedBox(
-                              width: MPSizes.iconLg * 1.1,
-                              height: MPSizes.iconLg * 1.1,
-                              child: Center(
-                                child: Icon(Iconsax.shopping_cart5,
-                                    color: MPColors.white,
-                                    size: MPSizes.iconMd),
-                              ),
-                            ))
+                            child: userController.userData.value.id ==
+                                    productItemData.user_id
+                                ? SizedBox(
+                                    width: MPSizes.iconLg * 1.1,
+                                    height: MPSizes.iconLg * 1.1,
+                                    child: Center(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          MPAlertDialog.openDialog(
+                                              context,
+                                              "Item Owner",
+                                              "You have listed this item in the marketplace, other users can order this item",
+                                              [
+                                                MaterialButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: Text("Cancel",
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyMedium!))
+                                              ]);
+                                        },
+                                        child: const Icon(Iconsax.profile_tick,
+                                            color: MPColors.white,
+                                            size: MPSizes.iconMd),
+                                      ),
+                                    ),
+                                  )
+                                : SizedBox(
+                                    width: MPSizes.iconLg * 1.1,
+                                    height: MPSizes.iconLg * 1.1,
+                                    child: Center(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          print(
+                                              '-----------------------------');
+                                        },
+                                        child: const Icon(
+                                            Iconsax.shopping_cart5,
+                                            color: MPColors.white,
+                                            size: MPSizes.iconMd),
+                                      ),
+                                    ),
+                                  )))
                       ],
                     )
                   ]))

@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/data/models/addresses/address_model.dart';
 import 'package:marketplacedb/data/models/addresses/country_model.dart';
-import 'package:marketplacedb/data/models/UserModel.dart';
+import 'package:marketplacedb/data/models/user_model.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/screen/landing_pages/front_page/front_page.dart';
 import 'package:marketplacedb/screen/landing_pages/home_page/home_screen_controller.dart';
@@ -39,7 +39,7 @@ class UserController extends GetxController {
       final response =
           await AuthInterceptor().get(Uri.parse("${url}getUserData"));
       Map<String, dynamic> jsonObject = jsonDecode(response.body);
-      Map<String, dynamic> userDataJson = jsonObject['userData'];
+      Map<String, dynamic> userDataJson = jsonObject['data'];
 
       UserModel userModel = UserModel.fromJson(userDataJson);
       userData.value = userModel;

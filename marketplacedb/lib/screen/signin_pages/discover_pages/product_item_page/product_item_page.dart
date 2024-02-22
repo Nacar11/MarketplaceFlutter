@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/icons.dart';
@@ -21,7 +22,7 @@ import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
 final productItemPageController = Get.put(ProductItemPageController());
-UserController userController = UserController.instance;
+
 ProductItemController productItemController = ProductItemController.instance;
 FavoritesPageController favoritesPageController =
     FavoritesPageController.instance;
@@ -45,16 +46,21 @@ class ProductItemPageState extends State<ProductItemPage> {
 
   @override
   Widget build(BuildContext context) {
+    UserController userController = UserController.instance;
     final dark = MPHelperFunctions.isDarkMode(context);
     return Obx(() => productItemController.isLoading.value
         ? const Scaffold(body: ProductItemPageShimmerContainer())
         : Scaffold(
             appBar: PrimarySearchAppBar(
                 actions: [
-                  FavoritesIconButton(
-                      iconSize: MPSizes.iconMd,
-                      productItemDataId: productItemController
-                          .singleProductItemDetail.value.id!)
+                  userController.userData.value.id ==
+                          productItemController
+                              .singleProductItemDetail.value.user_id
+                      ? const SizedBox()
+                      : FavoritesIconButton(
+                          iconSize: MPSizes.iconMd,
+                          productItemDataId: productItemController
+                              .singleProductItemDetail.value.id!)
                 ],
                 title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,16 +154,40 @@ class ProductItemPageState extends State<ProductItemPage> {
                               maxLines: 6,
                             )),
                         const SizedBox(height: MPSizes.spaceBtwItems),
-                        const Row(
-                          children: [
-                            Expanded(child: CheckOutButton(text: "Checkout")),
-                            SizedBox(width: MPSizes.spaceBtwItems),
-                            Expanded(
-                                child: AddToCartButton(
-                              text: "Add to Cart",
-                            )),
-                          ],
-                        ),
+                        userController.userData.value.id ==
+                                productItemController
+                                    .singleProductItemDetail.value.user_id
+                            ? MPCircularContainer(
+                                padding:
+                                    const EdgeInsets.all(MPSizes.spaceBtwItems),
+                                showBorder: true,
+                                height: null,
+                                backgroundColor: Colors.transparent,
+                                child: Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text('Listed by you',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headlineMedium),
+                                      const SizedBox(
+                                          width: MPSizes.spaceBtwItems),
+                                      const Icon(Iconsax.receipt_item)
+                                    ],
+                                  ),
+                                ))
+                            : const Row(
+                                children: [
+                                  Expanded(
+                                      child: CheckOutButton(text: "Checkout")),
+                                  SizedBox(width: MPSizes.spaceBtwItems),
+                                  Expanded(
+                                      child: AddToCartButton(
+                                    text: "Add to Cart",
+                                  )),
+                                ],
+                              ),
                       ]))
             ])),
           ));

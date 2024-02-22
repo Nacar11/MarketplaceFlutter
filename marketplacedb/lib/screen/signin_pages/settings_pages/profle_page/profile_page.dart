@@ -48,7 +48,7 @@ class ProfilePage extends StatelessWidget {
                   ProfileMenu(
                       title: 'Name',
                       value:
-                          '${userController.userData.value.first_name} ${userController.userData.value.last_name}',
+                          '${userController.userData.value.firstName} ${userController.userData.value.lastName}',
                       onPressed: () {}),
                   ProfileMenu(
                       title: 'Username',
@@ -67,7 +67,7 @@ class ProfilePage extends StatelessWidget {
                       onPressed: () {}),
                   ProfileMenu(
                       title: 'Date of Birth',
-                      value: userController.userData.value.birth_date!,
+                      value: userController.userData.value.birthDate!,
                       onPressed: () {}),
                   ProfileMenu(
                       title: 'Gender',
@@ -75,7 +75,7 @@ class ProfilePage extends StatelessWidget {
                       onPressed: () {}),
                   ProfileMenu(
                       title: 'Phone Number',
-                      value: userController.userData.value.contact_number!,
+                      value: userController.userData.value.contactNumber!,
                       onPressed: () {}),
                 ]))));
   }
