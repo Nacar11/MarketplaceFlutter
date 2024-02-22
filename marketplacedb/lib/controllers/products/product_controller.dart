@@ -66,15 +66,18 @@ class ProductController extends GetxController {
             result.map((e) => ProductTypeModel.fromJson(e)).toList();
 
         productTypes.assignAll(productTypesData);
+        isLoading.value = false;
 
         print(productTypes[0].name);
       } else {
+        isLoading.value = false;
+
         throw Exception('Failed to load product types');
       }
     } catch (e) {
-      print('Error fetching product types: $e');
-    } finally {
       isLoading.value = false;
+
+      print('Error fetching product types: $e');
     }
   }
 }

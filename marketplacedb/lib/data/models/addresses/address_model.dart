@@ -7,6 +7,7 @@ class AddressModel {
   String? unitNumber;
   String? addressLine1;
   String? addressLine2;
+  String? contactNumber; // Added field
   CityModel? city;
   RegionModel? region;
   String? postalCode;
@@ -20,6 +21,7 @@ class AddressModel {
     this.unitNumber,
     this.addressLine1,
     this.addressLine2,
+    this.contactNumber, // Added field
     this.city,
     this.region,
     this.postalCode,
@@ -34,6 +36,7 @@ class AddressModel {
     unitNumber = json['unit_number'];
     addressLine1 = json['address_line_1'];
     addressLine2 = json['address_line_2'];
+    contactNumber = json['contact_number']; // Parse contactNumber field
     city = json['city'] != null ? CityModel.fromJson(json['city']) : null;
     region =
         json['region'] != null ? RegionModel.fromJson(json['region']) : null;

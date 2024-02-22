@@ -29,9 +29,6 @@ import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
 ProductItemController productItemController = ProductItemController.instance;
 
-ProductTypesPageController productTypesPageController =
-    ProductTypesPageController.instance;
-
 class ProductTypesPage extends StatelessWidget {
   const ProductTypesPage({Key? key}) : super(key: key);
 
@@ -40,7 +37,109 @@ class ProductTypesPage extends StatelessWidget {
     ProductController productController = ProductController.static;
     return Obx(
       () => productController.isLoading.value
-          ? const Center(child: CircularProgressIndicator())
+          ? Stack(
+              children: [
+                DefaultTabController(
+                  length: productController.productTypes.length,
+                  child: Scaffold(
+                    appBar: PrimarySearchAppBar(
+                      actions: [
+                        ShoppingCartCounterIcon(
+                          onPressed: () {},
+                        ),
+                      ],
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Store",
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                    body: NestedScrollView(
+                      headerSliverBuilder: (_, innerBoxScrolled) {
+                        return [
+                          SliverAppBar(
+                            automaticallyImplyLeading: false,
+                            pinned: true,
+                            floating: true,
+                            backgroundColor:
+                                MPHelperFunctions.isDarkMode(context)
+                                    ? MPColors.black
+                                    : MPColors.white,
+                            expandedHeight:
+                                productTypesPageController.expandedHeight.value,
+                            flexibleSpace: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: MPSizes.xs),
+                              child: ListView(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                children: [
+                                  const SizedBox(
+                                      height: MPSizes.spaceBtwSections * 2),
+                                  const MPSearchContainer(text: "Search Here"),
+                                  const SizedBox(
+                                      height: MPSizes.spaceBtwSections),
+                                  MPGridLayout(
+                                    mainAxisExtent: 70,
+                                    itemCount: productController
+                                        .subCategoryList.length,
+                                    itemBuilder: (context, index) {
+                                      ProductCategoryModel productCategory =
+                                          productController
+                                              .subCategoryList[index];
+                                      return ClickableCategoryCard(
+                                        productCategory: productCategory,
+                                        index: index,
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            bottom: PreferredSize(
+                              preferredSize:
+                                  const Size.fromHeight(kToolbarHeight),
+                              child: Obx(
+                                () => MPTabBarProductTypes(
+                                  productTypes: productController.productTypes,
+                                  onTabPressed: (index, productType) {
+                                    productItemController
+                                        .getProductItemsByProductType(
+                                      productType.id!,
+                                    );
+                                  },
+                                  tabs: productController.productTypes
+                                      .map((type) => Tab(text: type.name))
+                                      .toList(),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ];
+                      },
+                      body: TabBarView(
+                        children: List.generate(
+                          productController.productTypes.length,
+                          (index) => MPTabBarViewProductTypes(
+                            productItemController: productItemController,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Colors.black.withOpacity(0.5),
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+              ],
+            )
           : DefaultTabController(
               length: productController.productTypes.length,
               child: Scaffold(
@@ -102,32 +201,18 @@ class ProductTypesPage extends StatelessWidget {
                         bottom: PreferredSize(
                           preferredSize: const Size.fromHeight(kToolbarHeight),
                           child: Obx(
-                            () => productController.isLoading.value
-                                ? TabBar(
-                                    tabs: productController.productTypes
-                                        .map(
-                                          (type) => const Tab(
-                                            child: ShimmerProgressContainer(
-                                              height: 30,
-                                              width: 80,
-                                            ),
-                                          ),
-                                        )
-                                        .toList(),
-                                  )
-                                : MPTabBarProductTypes(
-                                    productTypes:
-                                        productController.productTypes,
-                                    onTabPressed: (index, productType) {
-                                      productItemController
-                                          .getProductItemsByProductType(
-                                        productType.id!,
-                                      );
-                                    },
-                                    tabs: productController.productTypes
-                                        .map((type) => Tab(text: type.name))
-                                        .toList(),
-                                  ),
+                            () => MPTabBarProductTypes(
+                              productTypes: productController.productTypes,
+                              onTabPressed: (index, productType) {
+                                productItemController
+                                    .getProductItemsByProductType(
+                                  productType.id!,
+                                );
+                              },
+                              tabs: productController.productTypes
+                                  .map((type) => Tab(text: type.name))
+                                  .toList(),
+                            ),
                           ),
                         ),
                       ),

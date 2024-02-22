@@ -8,6 +8,7 @@ class AddressListPageController extends GetxController {
   static AddressListPageController get instance => Get.find();
   final isLoading = false.obs;
   final userAddressList = <UserAddressModel>[].obs;
+  final selectedAddress = UserAddressModel().obs;
 
   @override
   void onInit() async {
@@ -15,19 +16,52 @@ class AddressListPageController extends GetxController {
     await getUserAddresses();
   }
 
-  Future<void> getUserAddresses() async {
-    isLoading.value = true;
+  void setDefaultAddress() async {
     try {
-      final response =
-          await AuthInterceptor().get(Uri.parse("${url}getAddress"));
+      final response = await AuthInterceptor().post(Uri.parse(
+          "${url}setDefaultAddress/${selectedAddress.value.address!.id!}"));
       var jsonObject = jsonDecode(response.body);
+      print(response.body);
       if (jsonObject['message'] == 'success') {
-        final List<dynamic> result = jsonObject['data'];
-        final List<UserAddressModel> list =
-            result.map((e) => UserAddressModel.fromJson(e)).toList();
-        userAddressList.assignAll(list);
-        print('--------------------------------');
-        print(userAddressList.length);
+        getUserAddresses();
+      } else {
+        throw Exception('message is not success');
+      }
+    } catch (e) {
+      print('Error in fetching data: $e');
+    }
+  }
+
+  void deleteAddress() async {
+    try {
+      final response = await AuthInterceptor().delete(Uri.parse(
+          "${url}deleteAddress/${selectedAddress.value.address!.id!}"));
+      var jsonObject = jsonDecode(response.body);
+      print(response.body);
+      if (jsonObject['message'] == 'success') {
+        getUserAddresses();
+      } else {
+        throw Exception('message is not success');
+      }
+    } catch (e) {
+      print('Error in fetching data: $e');
+    }
+  }
+
+  Future<void> getUserAddresses() async {
+    try {
+      isLoading.value = true;
+      final response =
+          await AuthInterceptor().get(Uri.parse("${url}getAddresses"));
+      var jsonObject = jsonDecode(response.body);
+      print(response.body);
+      if (jsonObject['message'] == 'success') {
+        final List<dynamic> addressDataList = jsonObject['data'];
+        final List<UserAddressModel> addressList = addressDataList
+            .map<UserAddressModel>((data) => UserAddressModel.fromJson(data))
+            .toList();
+        userAddressList.assignAll(addressList);
+
         isLoading.value = false;
       } else {
         isLoading.value = false;

@@ -11,7 +11,8 @@ class UserAddressModel {
   UserAddressModel.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
     addressId = json['address_id'];
-    isDefault = json['is_default'];
+    isDefault =
+        json['is_default'] == 1 || json['is_default'] == "1" ? true : false;
     if (json['address'] != null) {
       address = AddressModel.fromJson(json['address']);
     }

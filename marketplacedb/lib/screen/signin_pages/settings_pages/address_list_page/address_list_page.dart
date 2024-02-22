@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
+import 'package:marketplacedb/common/widgets/layouts/list_view_layout.dart';
+import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
+import 'package:marketplacedb/data/models/addresses/user_address_model.dart';
 import 'package:marketplacedb/screen/signin_pages/sell_pages/add_billing_address/add_billing_address.dart';
 import 'package:marketplacedb/screen/signin_pages/settings_pages/address_list_page/address_list_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/settings_pages/address_list_page/address_list_widgets.dart';
@@ -13,8 +16,8 @@ class AddressListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final addressListPageController = Get.put(AddressListPageController());
-    return Scaffold(
+    final controller = Get.put(AddressListPageController());
+    return Obx(() => Scaffold(
         floatingActionButton: FloatingActionButton(
             backgroundColor: MPColors.secondary,
             onPressed: () => Get.to(() => const AddBillingAddress()),
@@ -22,14 +25,34 @@ class AddressListPage extends StatelessWidget {
         appBar: PrimarySearchAppBar(
             title: Text("Addresses",
                 style: Theme.of(context).textTheme.headlineSmall)),
-        body: const SingleChildScrollView(
-            child: Padding(
-                padding: EdgeInsets.all(MPSizes.defaultSpace),
-                child: Column(children: [
-                  SingleAddress(selectedAddress: true),
-                  SingleAddress(selectedAddress: false),
-                  SingleAddress(selectedAddress: false),
-                  SingleAddress(selectedAddress: false)
-                ]))));
+        body: SingleChildScrollView(
+            child: controller.isLoading.value
+                ? Padding(
+                    padding: const EdgeInsets.all(MPSizes.defaultSpace),
+                    child: Column(children: [
+                      MPListViewLayout(
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(height: MPSizes.spaceBtwItems),
+                          itemCount: controller.userAddressList.isNotEmpty
+                              ? controller.userAddressList.length
+                              : 3,
+                          itemBuilder: (_, index) {
+                            return const ShimmerProgressContainer(
+                                height: MPSizes.productImageSize * 1.2,
+                                width: double.infinity);
+                          })
+                    ]))
+                : Padding(
+                    padding: const EdgeInsets.all(MPSizes.defaultSpace),
+                    child: Column(children: [
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: controller.userAddressList.length,
+                          itemBuilder: (_, index) {
+                            UserAddressModel userAddress =
+                                controller.userAddressList[index];
+                            return SingleAddress(userAddress: userAddress);
+                          })
+                    ])))));
   }
 }
