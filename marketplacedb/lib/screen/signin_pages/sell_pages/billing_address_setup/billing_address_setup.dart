@@ -9,6 +9,7 @@ import 'package:marketplacedb/screen/signin_pages/sell_pages/add_billing_address
 import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
+import 'package:marketplacedb/util/local_storage/local_storage.dart';
 
 class BillingAddressSetup extends StatelessWidget {
   const BillingAddressSetup({Key? key}) : super(key: key);
@@ -45,7 +46,10 @@ class BillingAddressSetup extends StatelessWidget {
             MPPrimaryButton(
               text: 'Proceed',
               onPressed: () {
-                Get.to(() => const AddBillingAddress());
+                MPLocalStorage localStorage = MPLocalStorage();
+                localStorage.saveData('addAddressToNavigation', true);
+                print(localStorage.readData('addAddressToNavigation'));
+                Get.off(() => const AddBillingAddress());
               },
             )
           ],

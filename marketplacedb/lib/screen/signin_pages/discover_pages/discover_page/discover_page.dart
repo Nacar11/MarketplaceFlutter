@@ -3,21 +3,23 @@ import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/images.dart';
 import 'package:marketplacedb/controllers/products/product_controller.dart';
+import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/discover_pages/discover_page/discover_page_widgets.dart';
-import 'package:marketplacedb/screen/signin_pages/discover_pages/product_types_page/product_types_controller.dart';
+import 'package:marketplacedb/screen/signin_pages/discover_pages/product_types_page/product_types_page_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/discover_pages/product_types_page/product_types_page.dart';
 import 'package:marketplacedb/util/constants/app_images.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
-
-ProductController productController = ProductController.static;
-final productTypesController = Get.put(ProductTypesPageController());
 
 class DiscoverPage extends StatelessWidget {
   const DiscoverPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    ProductItemController productItemController =
+        ProductItemController.instance;
+    ProductController productController = ProductController.static;
+    final productTypesController = Get.put(ProductTypesPageController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(children: [

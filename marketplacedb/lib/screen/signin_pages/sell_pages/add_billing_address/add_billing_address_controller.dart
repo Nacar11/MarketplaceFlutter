@@ -6,12 +6,16 @@ import 'package:marketplacedb/data/models/addresses/country_model.dart';
 import 'package:marketplacedb/data/models/addresses/region_model.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
+import 'package:marketplacedb/screen/signin_pages/settings_pages/address_list_page/address_list_controller.dart';
 import 'dart:convert';
 import 'package:marketplacedb/util/constants/app_constant.dart';
+import 'package:marketplacedb/util/local_storage/local_storage.dart';
+import 'package:marketplacedb/util/popups/full_screen_overlay_loader.dart';
 
 class AddBillingAddressController extends GetxController {
   static AddBillingAddressController get instance => Get.find();
   final isLoading = false.obs;
+  MPLocalStorage localStorage = MPLocalStorage();
   final countryList = <CountryModel>[].obs;
   final regionList = <RegionModel>[].obs;
   final cityList = <CityModel>[].obs;
@@ -40,11 +44,12 @@ class AddBillingAddressController extends GetxController {
   }
 
   Future<void> addBillingAddress() async {
-    isLoading.value = true;
     try {
+      isLoading.value = true;
       // for (var entry in billingAddressData.entries) {
       //   print('${entry.key}: ${entry.value}');
       // }
+      MPFullScreenOverlayLoader.openLoadingDialog();
       final response = await AuthInterceptor().post(
         Uri.parse("${url}addAddress"),
         body: {
@@ -61,15 +66,29 @@ class AddBillingAddressController extends GetxController {
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == 'success') {
         isLoading.value = false;
-        Get.offAll(() => const Navigation());
+
+        if (localStorage.readData('addAddressToNavigation') == true) {
+          MPFullScreenOverlayLoader.stopLoading();
+          Get.offAll(() => const Navigation());
+        } else {
+          AddressListPageController addressListPageController =
+              AddressListPageController.instance;
+
+          await addressListPageController.getUserAddresses();
+          MPFullScreenOverlayLoader.stopLoading();
+          Get.back();
+        }
+
         getSnackBar('Address Successfully Added', "Successful", true);
       } else {
+        MPFullScreenOverlayLoader.stopLoading();
         isLoading.value = false;
         getSnackBar(
             'Error on Adding User Address, Please Try Again.', 'error', false);
         throw Exception('message is not success');
       }
     } catch (e) {
+      MPFullScreenOverlayLoader.stopLoading();
       isLoading.value = false;
       getSnackBar(
           'Error on Adding User Address, Please Try Again.', 'error', false);

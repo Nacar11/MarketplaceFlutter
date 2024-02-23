@@ -17,11 +17,7 @@ class MPSellPageAppBar extends StatelessWidget {
       title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text("Sell ", style: Theme.of(context).textTheme.headlineMedium),
       ]),
-      actions: [
-        ShoppingCartCounterIcon(
-          onPressed: () {},
-        )
-      ],
+      actions: const [ShoppingCartCounterIcon()],
     );
   }
 }

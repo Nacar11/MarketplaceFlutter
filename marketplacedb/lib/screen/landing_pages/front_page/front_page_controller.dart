@@ -12,7 +12,7 @@ import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
-import 'package:marketplacedb/util/popups/full_screen_loader.dart';
+import 'package:marketplacedb/util/popups/full_screen_animation_loader.dart';
 
 class FrontPageController extends GetxController {
   static FrontPageController get instance => Get.find();
@@ -32,12 +32,12 @@ class FrontPageController extends GetxController {
     try {
       isLoading.value = true;
 
-      MPFullScreenLoader.openLoadingDialog(
+      MPFullScreenAnimationLoader.openLoadingDialog(
           'Logging in...', AnimationsUtils.loading);
 
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
-        MPFullScreenLoader.stopLoading();
+        MPFullScreenAnimationLoader.stopLoading();
         return;
       }
 
@@ -55,17 +55,17 @@ class FrontPageController extends GetxController {
         localStorage.saveData('token', jsonResponse['access_token']);
         localStorage.saveData('username', jsonResponse['username']);
         isLoading.value = false;
-        MPFullScreenLoader.stopLoading();
+        MPFullScreenAnimationLoader.stopLoading();
         Get.offAll(() => const Navigation());
         String text = 'Welcome, ${jsonResponse['username']}';
         getSnackBar(text, MPTexts.successLogin, true);
       } else {
         getSnackBar(jsonResponse['message'], 'Error', false);
-        MPFullScreenLoader.stopLoading();
+        MPFullScreenAnimationLoader.stopLoading();
         isLoading.value = false;
       }
     } catch (e) {
-      MPFullScreenLoader.stopLoading();
+      MPFullScreenAnimationLoader.stopLoading();
       isLoading.value = false;
       getSnackBar(e.toString(), "Error", false);
     }
@@ -155,12 +155,12 @@ class FrontPageController extends GetxController {
 
   Future loginGoogle(String? email) async {
     try {
-      MPFullScreenLoader.openLoadingDialog(
+      MPFullScreenAnimationLoader.openLoadingDialog(
           'Logging in...', AnimationsUtils.loading);
 
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
-        MPFullScreenLoader.stopLoading();
+        MPFullScreenAnimationLoader.stopLoading();
         return;
       }
       isLoading.value = true;
@@ -176,7 +176,7 @@ class FrontPageController extends GetxController {
         await GoogleSignAPI.logout();
         localStorage.saveData('email', email);
         isLoading.value = false;
-        MPFullScreenLoader.stopLoading();
+        MPFullScreenAnimationLoader.stopLoading();
         Get.to(() => const SignUpPagePhone());
       } else if (jsonResponse['message'] == 'success') {
         await GoogleSignAPI.logout();
@@ -184,17 +184,17 @@ class FrontPageController extends GetxController {
         localStorage.saveData('token', jsonResponse['access_token']);
         localStorage.saveData('username', jsonResponse['username']);
         isLoading.value = false;
-        MPFullScreenLoader.stopLoading();
+        MPFullScreenAnimationLoader.stopLoading();
         Get.offAll(() => const Navigation());
         String text = 'Welcome, ${localStorage.readData('username')}';
         getSnackBar(text, MPTexts.successLogin, true);
       } else {
         getSnackBar(MPTexts.errorLoggingIn, 'error', false);
-        MPFullScreenLoader.stopLoading();
+        MPFullScreenAnimationLoader.stopLoading();
         isLoading.value = false;
       }
     } catch (e) {
-      MPFullScreenLoader.stopLoading();
+      MPFullScreenAnimationLoader.stopLoading();
       isLoading.value = false;
       // getSnackBar(MPTexts.errorLoggingIn, "Error", false);
     }

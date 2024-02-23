@@ -21,13 +21,11 @@ import 'package:marketplacedb/data/models/products/product_category_model.dart';
 import 'package:marketplacedb/data/models/products/product_item_model.dart';
 import 'package:marketplacedb/screen/landing_pages/home_page/home_page_widgets.dart';
 import 'package:marketplacedb/screen/signin_pages/discover_pages/discover_page/discover_page_widgets.dart';
-import 'package:marketplacedb/screen/signin_pages/discover_pages/product_types_page/product_types_controller.dart';
+import 'package:marketplacedb/screen/signin_pages/discover_pages/product_types_page/product_types_page_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/discover_pages/product_types_page/product_types_page_widgets.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
-
-ProductItemController productItemController = ProductItemController.instance;
 
 class ProductTypesPage extends StatelessWidget {
   const ProductTypesPage({Key? key}) : super(key: key);
@@ -35,6 +33,8 @@ class ProductTypesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProductController productController = ProductController.static;
+    ProductItemController productItemController =
+        ProductItemController.instance;
     return Obx(
       () => productController.isLoading.value
           ? Stack(
@@ -43,10 +43,8 @@ class ProductTypesPage extends StatelessWidget {
                   length: productController.productTypes.length,
                   child: Scaffold(
                     appBar: PrimarySearchAppBar(
-                      actions: [
-                        ShoppingCartCounterIcon(
-                          onPressed: () {},
-                        ),
+                      actions: const [
+                        ShoppingCartCounterIcon(),
                       ],
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,10 +142,8 @@ class ProductTypesPage extends StatelessWidget {
               length: productController.productTypes.length,
               child: Scaffold(
                 appBar: PrimarySearchAppBar(
-                  actions: [
-                    ShoppingCartCounterIcon(
-                      onPressed: () {},
-                    ),
+                  actions: const [
+                    ShoppingCartCounterIcon(),
                   ],
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

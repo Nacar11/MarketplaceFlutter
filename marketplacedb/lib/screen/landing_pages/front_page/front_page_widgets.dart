@@ -4,7 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
 import 'package:marketplacedb/screen/landing_pages/front_page/front_page_controller.dart';
 import 'package:marketplacedb/networks/google_signin.dart';
-import 'package:marketplacedb/screen/password_configuration/pages/forget_password.dart';
+import 'package:marketplacedb/screen/password_configuration/pages/forget_password_page.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_images.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
@@ -57,7 +57,7 @@ class LoginForm extends StatelessWidget {
         Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           TextButton(
               onPressed: () {
-                Get.to(() => const ForgetPasswordPage());
+                Get.to(() => const PasswordConfigurationForgetPasswordPage());
               },
               child: const Text(MPTexts.forgetPassword)),
         ])

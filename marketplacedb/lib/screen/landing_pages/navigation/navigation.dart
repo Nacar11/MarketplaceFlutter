@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print, use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -9,6 +7,7 @@ import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/favorites_page/favorites_page_controller.dart';
 import 'package:marketplacedb/screen/signin_pages/sell_pages/billing_address_setup/billing_address_setup.dart';
 import 'package:marketplacedb/controllers/products/product_controller.dart';
+import 'package:marketplacedb/screen/signin_pages/shopping_cart_page/shopping_cart_page_controller.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
 
 class Navigation extends StatefulWidget {
@@ -24,6 +23,7 @@ class NavigationState extends State<Navigation> {
   final productItemController = Get.put(ProductItemController());
   final navigationController = Get.put(NavigationController());
   final favoritesPageController = Get.put(FavoritesPageController());
+  final shoppingCartPageController = Get.put(ShoppingCartPageController());
 
   @override
   void initState() {
@@ -55,6 +55,7 @@ class NavigationState extends State<Navigation> {
     navigationController.dispose();
     productController.dispose();
     favoritesPageController.dispose();
+    shoppingCartPageController.dispose();
     print("disposed");
     super.dispose();
   }
@@ -66,8 +67,10 @@ class NavigationState extends State<Navigation> {
           selectedIndex: navigationController.index.value,
           onDestinationSelected: (index) async {
             if (index == 2) {
+              await userController.userHasAddress();
               if (userController.userHasAddressValue.value == false) {
                 Get.to(() => const BillingAddressSetup());
+                navigationController.index.value = 0;
               } else {
                 setState(() {
                   navigationController.index.value = index;

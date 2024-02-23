@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/icons.dart';
 import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
 import 'package:marketplacedb/common/widgets/texts/product_title_text.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
@@ -52,29 +51,6 @@ class NameValueRow extends StatelessWidget {
       const SizedBox(width: MPSizes.spaceBtwItems),
       Text(value, style: Theme.of(context).textTheme.titleLarge)
     ]);
-  }
-}
-
-class CheckOutButton extends StatelessWidget {
-  const CheckOutButton({
-    Key? key,
-    required this.text,
-  }) : super(key: key);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: MPSizes.buttonHeight,
-      margin: const EdgeInsets.symmetric(vertical: MPSizes.xs),
-      child: MPPrimaryButton(
-        icon: const Icon(Iconsax.transaction_minus5, color: MPColors.white),
-        text: text,
-        onPressed: () {},
-      ),
-    );
   }
 }
 
@@ -129,36 +105,6 @@ class ProductDetailVariationList extends StatelessWidget {
             );
           }),
     );
-  }
-}
-
-class BottomAddToCart extends StatelessWidget {
-  const BottomAddToCart({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final dark = MPHelperFunctions.isDarkMode(context);
-    return Container(
-        padding: const EdgeInsets.symmetric(
-            horizontal: MPSizes.defaultSpace,
-            vertical: MPSizes.defaultSpace / 2),
-        decoration: BoxDecoration(
-            color: dark ? MPColors.darkerGrey : MPColors.light,
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(MPSizes.cardRadiusLg),
-                topRight: Radius.circular(MPSizes.cardRadiusLg))),
-        child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          Text(
-            "Add",
-            style: Theme.of(context).textTheme.bodyLarge!.apply(
-                  fontWeightDelta:
-                      2, // Use a positive value to increase font weight
-                ),
-          ),
-          MPCircularIcon(icon: Iconsax.shopping_bag, onPressed: () {})
-        ]));
   }
 }
 

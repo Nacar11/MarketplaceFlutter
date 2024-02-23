@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/screen/signin_pages/favorites_page/favorites_page_controller.dart';
+import 'package:marketplacedb/screen/signin_pages/shopping_cart_page/shopping_cart_page.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
@@ -9,16 +10,15 @@ import 'package:marketplacedb/util/helpers/helper_functions.dart';
 class ShoppingCartCounterIcon extends StatelessWidget {
   const ShoppingCartCounterIcon({
     super.key,
-    required this.onPressed,
   });
-
-  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
       IconButton(
-          onPressed: onPressed,
+          onPressed: () {
+            Get.to(() => const ShoppingCartPage());
+          },
           icon: Icon(Iconsax.shopping_bag,
               color: MPHelperFunctions.isDarkMode(context)
                   ? MPColors.white
@@ -46,21 +46,38 @@ class ShoppingCartCounterIcon extends StatelessWidget {
 
 class MPCircularIcon extends StatelessWidget {
   const MPCircularIcon(
-      {super.key, required this.onPressed, required this.icon});
+      {super.key,
+      required this.onPressed,
+      required this.icon,
+      this.width,
+      this.height,
+      this.size = MPSizes.lg,
+      this.color,
+      this.backgroundColor});
 
   final VoidCallback onPressed;
   final IconData icon;
+  final double? width, height, size;
+  final Color? color;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      IconButton(
+    return Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: backgroundColor != null
+              ? backgroundColor!
+              : MPHelperFunctions.isDarkMode(context)
+                  ? MPColors.black.withOpacity(0.9)
+                  : MPColors.white.withOpacity(0.9),
+          borderRadius: BorderRadius.circular(100),
+        ),
+        child: IconButton(
           onPressed: onPressed,
-          icon: Icon(icon,
-              color: MPHelperFunctions.isDarkMode(context)
-                  ? MPColors.white
-                  : MPColors.dark)),
-    ]);
+          icon: Icon(icon, color: color, size: size),
+        ));
   }
 }
 

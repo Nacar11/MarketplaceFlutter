@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/screen/landing_pages/front_page/front_page.dart';
-import 'package:marketplacedb/screen/signin_pages/order_pages/shoppingcart.dart';
+import 'package:marketplacedb/screen/signin_pages/shopping_cart_page/shopping_cart_page.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
@@ -113,8 +113,8 @@ final searchController = TextEditingController();
 
 class SearchAppBarState extends State<SearchAppBar> {
   void shoppingCartButton(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const Shoppingcart()));
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => const ShoppingCartPage()));
   }
 
   @override

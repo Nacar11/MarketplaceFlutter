@@ -8,7 +8,7 @@ import 'package:marketplacedb/controllers/products/product_item_controller.dart'
 import 'package:marketplacedb/data/models/products/product_category_model.dart';
 import 'package:marketplacedb/data/models/products/product_item_model.dart';
 import 'package:marketplacedb/data/models/products/product_type_model.dart';
-import 'package:marketplacedb/screen/signin_pages/discover_pages/product_types_page/product_types_controller.dart';
+import 'package:marketplacedb/screen/signin_pages/discover_pages/product_types_page/product_types_page_controller.dart';
 
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';

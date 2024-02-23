@@ -15,14 +15,14 @@ import 'package:marketplacedb/screen/landing_pages/home_page/home_screen_control
 import 'package:marketplacedb/util/constants/app_images.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 
-ProductItemController productItemController = ProductItemController.instance;
-HomeScreenController homeScreenController = HomeScreenController.static;
-
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    ProductItemController productItemController =
+        ProductItemController.instance;
+    final homePageController = Get.put(HomeScreenController());
     return Scaffold(
         body: SingleChildScrollView(
             child: Column(children: [
@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
         const SizedBox(height: MPSizes.spaceBtwItems),
         Obx(() => SizedBox(
                 child: Center(
-              child: homeScreenController.isLoading.value
+              child: homePageController.isLoading.value
                   ? const SizedBox(
                       height: MPSizes.imageThumbSize,
                     )
@@ -48,12 +48,12 @@ class HomePage extends StatelessWidget {
                       height: MPSizes.imageThumbSize,
                       child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: homeScreenController
+                          itemCount: homePageController
                               .preferredSubCategoryList.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             ProductCategoryModel productCategories =
-                                homeScreenController
+                                homePageController
                                     .preferredSubCategoryList[index];
                             return MPVerticalImageText(
                               isNetworkImage: true,

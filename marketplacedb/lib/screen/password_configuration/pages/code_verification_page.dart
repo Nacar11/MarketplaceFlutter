@@ -5,15 +5,15 @@ import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/screen/password_configuration/controller/password_configuration_controller.dart';
 import 'package:marketplacedb/screen/sign_up_pages/pages/code/code_widgets.dart';
-import 'package:marketplacedb/screen/password_configuration/pages/password_reset.dart';
+import 'package:marketplacedb/screen/password_configuration/pages/password_reset_page.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
 
-class CodeVerificationForgetPasswordPage extends StatelessWidget {
+class PasswordConfigurationCodeVerificationPage extends StatelessWidget {
   final MPLocalStorage localStorage = MPLocalStorage();
 
-  CodeVerificationForgetPasswordPage({super.key});
+  PasswordConfigurationCodeVerificationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,8 @@ class CodeVerificationForgetPasswordPage extends StatelessWidget {
                         .simulateLoading(const Duration(seconds: 1));
                     if (controller.otp.value ==
                         localStorage.readData('emailVerificationCode')) {
-                      Get.offAll(() => PasswordResetPage());
+                      Get.offAll(
+                          () => PasswordConfigurationPasswordResetPage());
                       getSnackBar(
                           MPTexts.changePassword, MPTexts.codeVerified, true);
                     } else {

@@ -10,6 +10,7 @@ import 'package:marketplacedb/screen/signin_pages/settings_pages/address_list_pa
 import 'package:marketplacedb/screen/signin_pages/settings_pages/address_list_page/address_list_widgets.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
+import 'package:marketplacedb/util/local_storage/local_storage.dart';
 
 class AddressListPage extends StatelessWidget {
   const AddressListPage({super.key});
@@ -20,7 +21,12 @@ class AddressListPage extends StatelessWidget {
     return Obx(() => Scaffold(
         floatingActionButton: FloatingActionButton(
             backgroundColor: MPColors.secondary,
-            onPressed: () => Get.to(() => const AddBillingAddress()),
+            onPressed: () {
+              MPLocalStorage localStorage = MPLocalStorage();
+              localStorage.saveData('addAddressToNavigation', false);
+              print(localStorage.readData('addAddressToNavigation'));
+              Get.to(() => const AddBillingAddress());
+            },
             child: const Icon(Iconsax.add, color: MPColors.white)),
         appBar: PrimarySearchAppBar(
             title: Text("Addresses",

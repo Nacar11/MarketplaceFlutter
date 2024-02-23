@@ -6,15 +6,16 @@ import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 
-class PasswordChangeSuccessPage extends StatefulWidget {
-  const PasswordChangeSuccessPage({super.key});
+class PasswordConfigurationPasswordChangeSuccessPage extends StatefulWidget {
+  const PasswordConfigurationPasswordChangeSuccessPage({super.key});
 
   @override
-  State<PasswordChangeSuccessPage> createState() =>
-      PasswordChangeSuccessPageState();
+  State<PasswordConfigurationPasswordChangeSuccessPage> createState() =>
+      PasswordConfigurationPasswordChangeSuccessPageState();
 }
 
-class PasswordChangeSuccessPageState extends State<PasswordChangeSuccessPage> {
+class PasswordConfigurationPasswordChangeSuccessPageState
+    extends State<PasswordConfigurationPasswordChangeSuccessPage> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 4), () {

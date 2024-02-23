@@ -161,37 +161,3 @@ class CustomPhoneField extends StatelessWidget {
     );
   }
 }
-
-class UnderlineTextField extends StatelessWidget {
-  const UnderlineTextField(
-      {Key? key,
-      required this.controller,
-      this.hintText,
-      this.labelText,
-      this.obscureText = false,
-      this.padding // Should default to false for plain text input
-      })
-      : super(key: key);
-
-  final TextEditingController controller;
-  final String? hintText;
-  final String? labelText;
-  final bool obscureText;
-  final EdgeInsetsGeometry? padding;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: padding ?? EdgeInsets.zero,
-      child: TextField(
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          hintText: hintText,
-          labelText: labelText, // You can provide an optional label
-          border: const UnderlineInputBorder(), // Add an underline border
-        ),
-      ),
-    );
-  }
-}

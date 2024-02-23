@@ -10,10 +10,10 @@ import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
 
-class PasswordResetPage extends StatelessWidget {
+class PasswordConfigurationPasswordResetPage extends StatelessWidget {
   final MPLocalStorage localStorage = MPLocalStorage();
 
-  PasswordResetPage({super.key});
+  PasswordConfigurationPasswordResetPage({super.key});
 
   @override
   Widget build(BuildContext context) {

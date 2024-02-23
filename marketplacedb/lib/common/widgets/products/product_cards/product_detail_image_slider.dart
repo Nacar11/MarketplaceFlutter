@@ -16,11 +16,6 @@ class ProductDetailImageSlider extends StatelessWidget {
   const ProductDetailImageSlider({
     super.key,
   });
-  // productItemController
-  //                               .singleProductItemDetail.value.product_images
-  //                               ?.map((image) => image.product_image ?? "")
-  //                               .toList() ??
-  //                           [],
 
   @override
   Widget build(BuildContext context) {
@@ -97,39 +92,3 @@ class ProductDetailImageSlider extends StatelessWidget {
             ))));
   }
 }
-
-// class ProductItemImagesPreview extends StatelessWidget {
-//   const ProductItemImagesPreview({
-//     super.key,
-//     required this.banners,
-//   });
-
-//   final List<String> banners;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Obx(() {
-//       return Column(children: [
-//         CarouselSlider(
-//           items: banners
-//               .map((url) => MPRoundedImage(
-//                     imageUrl: url,
-//                     hasBorder: true,
-//                     isNetworkImage: true,
-//                     applyImageRadius: true,
-//                     width: 200,
-//                   ))
-//               .toList(),
-//           options: CarouselOptions(
-//             viewportFraction: 1,
-//             onPageChanged: (index, _) =>
-//                 productItemPageController.updateImagePreviewIndex(index),
-//             autoPlay: false,
-//             enableInfiniteScroll: true,
-//             initialPage: productItemPageController.carouselCurrentIndex.value,
-//           ),
-//         ),
-//       ]);
-//     });
-//   }
-// }

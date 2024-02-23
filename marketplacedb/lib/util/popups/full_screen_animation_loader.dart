@@ -4,7 +4,7 @@ import 'package:marketplacedb/common/widgets/loaders/animation_loader.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
-class MPFullScreenLoader {
+class MPFullScreenAnimationLoader {
   static void openLoadingDialog(String text, String animation) {
     showDialog(
         context: Get.overlayContext!,

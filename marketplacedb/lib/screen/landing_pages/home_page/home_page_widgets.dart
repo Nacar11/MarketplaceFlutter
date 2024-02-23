@@ -31,7 +31,7 @@ class MPHomeAppBar extends StatelessWidget {
         ]),
       ),
       showBackArrow: false,
-      actions: [ShoppingCartCounterIcon(onPressed: () {})],
+      actions: const [ShoppingCartCounterIcon()],
     );
   }
 }

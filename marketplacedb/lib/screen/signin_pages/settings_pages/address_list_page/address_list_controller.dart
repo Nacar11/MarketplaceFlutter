@@ -51,6 +51,7 @@ class AddressListPageController extends GetxController {
   Future<void> getUserAddresses() async {
     try {
       isLoading.value = true;
+
       final response =
           await AuthInterceptor().get(Uri.parse("${url}getAddresses"));
       var jsonObject = jsonDecode(response.body);

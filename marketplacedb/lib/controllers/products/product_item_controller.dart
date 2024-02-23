@@ -1,17 +1,12 @@
-// ignore_for_file: file_names, avoid_print, prefer_interpolation_to_compose_strings, unnecessary_cast, unused_import, non_constant_identifier_names, no_leading_underscores_for_local_identifiers
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:marketplacedb/data/models/products/product_item_model.dart';
-import 'package:marketplacedb/data/models/VariantsModel.dart';
 import 'package:marketplacedb/data/models/VariantsOptionsModel.dart';
 import 'dart:convert';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'dart:io';
-import 'package:marketplacedb/data/models/products/product_category_model.dart';
-import 'package:marketplacedb/data/models/products/product_type_model.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ProductItemController extends GetxController {
@@ -25,16 +20,16 @@ class ProductItemController extends GetxController {
   final token = ''.obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    getProductItemsByUser();
-    getProductItems();
+    await getProductItemsByUser();
+    await getProductItems();
   }
 
   Future<void> getSingleProductItemDetail(int itemId) async {
     isLoading.value = true;
     final response =
-        await AuthInterceptor().get(Uri.parse(url + "productItem/$itemId"));
+        await AuthInterceptor().get(Uri.parse("${url}productItem/$itemId"));
     var jsonObject = jsonDecode(response.body);
     if (jsonObject['message'] == 'success') {
       singleProductItemDetail.value =
@@ -48,14 +43,13 @@ class ProductItemController extends GetxController {
   Future<void> getProductItems() async {
     isLoading.value = true;
     final response =
-        await AuthInterceptor().get(Uri.parse(url + "productItems"));
+        await AuthInterceptor().get(Uri.parse("${url}productItems"));
 
     if (response.statusCode == 200) {
       final List<dynamic> result = jsonDecode(response.body);
 
-      final List<ProductItemModel> itemList = result
-          .map((e) => ProductItemModel.fromJson(e) as ProductItemModel)
-          .toList();
+      final List<ProductItemModel> itemList =
+          result.map((e) => ProductItemModel.fromJson(e)).toList();
 
       productItemList.assignAll(itemList);
       print(productItemList[2].description);
@@ -150,7 +144,7 @@ class ProductItemController extends GetxController {
         'variation_option_id': variationOptionID.toString(),
       };
       await AuthInterceptor()
-          .post(Uri.parse(url + "product-configuration"), body: data);
+          .post(Uri.parse("${url}product-configuration"), body: data);
     }
     isLoading.value = false;
     return 1;
@@ -159,15 +153,14 @@ class ProductItemController extends GetxController {
   Future<List<ProductItemModel>> getProductItemsByUser() async {
     isLoading.value = true;
     final response =
-        await AuthInterceptor().get(Uri.parse(url + "getProductItemsByUser"));
+        await AuthInterceptor().get(Uri.parse("${url}getProductItemsByUser"));
 
     if (response.statusCode == 200) {
       // print(response.body);
       final List<dynamic> result = jsonDecode(response.body);
       // print(result);
-      final List<ProductItemModel> itemList = result
-          .map((e) => ProductItemModel.fromJson(e) as ProductItemModel)
-          .toList();
+      final List<ProductItemModel> itemList =
+          result.map((e) => ProductItemModel.fromJson(e)).toList();
 
       productItemListUser.assignAll(itemList);
     }
@@ -175,11 +168,11 @@ class ProductItemController extends GetxController {
     return productItemListUser;
   }
 
-  Future<dynamic> deleteListing(int item_id) async {
-    print(item_id);
+  Future<dynamic> deleteListing(int itemId) async {
+    print(itemId);
 
     final response = await AuthInterceptor()
-        .delete(Uri.parse("${url}deleteListingByID/$item_id"));
+        .delete(Uri.parse("${url}deleteListingByID/$itemId"));
 
     if (response.statusCode == 200) {
       return true;
@@ -192,15 +185,14 @@ class ProductItemController extends GetxController {
       int productTypeID) async {
     isLoading.value = true;
     final response = await AuthInterceptor()
-        .get(Uri.parse(url + "getProductItemsByProductType/$productTypeID"));
+        .get(Uri.parse("${url}getProductItemsByProductType/$productTypeID"));
 
     if (response.statusCode == 200) {
       final List<dynamic> result =
           jsonDecode(response.body); // Parse JSON as a List
 
-      final List<ProductItemModel> itemList = result
-          .map((e) => ProductItemModel.fromJson(e) as ProductItemModel)
-          .toList();
+      final List<ProductItemModel> itemList =
+          result.map((e) => ProductItemModel.fromJson(e)).toList();
 
       productItemListByProductType.assignAll(itemList);
     }

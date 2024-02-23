@@ -17,11 +17,7 @@ class MPDiscoverAppBar extends StatelessWidget {
       title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text("Discover", style: Theme.of(context).textTheme.headlineMedium),
       ]),
-      actions: [
-        ShoppingCartCounterIcon(
-          onPressed: () {},
-        )
-      ],
+      actions: const [ShoppingCartCounterIcon()],
     );
   }
 }

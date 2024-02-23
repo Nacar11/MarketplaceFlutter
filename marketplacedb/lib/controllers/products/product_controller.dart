@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'dart:convert';
 import 'package:marketplacedb/networks/interceptor.dart';
@@ -33,7 +33,8 @@ class ProductController extends GetxController {
   Future<void> getProductCategories() async {
     isLoading.value = true;
     try {
-      final response = await http.get(Uri.parse("${url}product-category"));
+      final response =
+          await AuthInterceptor().get(Uri.parse("${url}product-category"));
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == 'success') {
         final List<dynamic> result = jsonObject['data'];

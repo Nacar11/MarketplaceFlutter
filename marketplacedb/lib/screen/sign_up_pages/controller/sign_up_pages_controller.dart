@@ -12,7 +12,7 @@ import 'package:marketplacedb/util/constants/app_constant.dart';
 
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
 import 'package:marketplacedb/util/popups/dialog_container_loader.dart';
-import 'package:marketplacedb/util/popups/full_screen_loader.dart';
+import 'package:marketplacedb/util/popups/full_screen_animation_loader.dart';
 
 class SignUpPagesController extends GetxController {
   static SignUpPagesController get instance => Get.find();
@@ -156,13 +156,13 @@ class SignUpPagesController extends GetxController {
     try {
       isLoading.value = true;
 
-      MPFullScreenLoader.openLoadingDialog(
+      MPFullScreenAnimationLoader.openLoadingDialog(
           'Creating your account, this may take a while... ',
           AnimationsUtils.loading);
 
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
-        MPFullScreenLoader.stopLoading();
+        MPFullScreenAnimationLoader.stopLoading();
         return;
       }
       var data = {
@@ -200,17 +200,17 @@ class SignUpPagesController extends GetxController {
         localStorage.saveData('token', jsonResponse['access_token']);
         localStorage.saveData('username', jsonResponse['username']);
         isLoading.value = false;
-        MPFullScreenLoader.stopLoading();
+        MPFullScreenAnimationLoader.stopLoading();
         Get.offAll(() => const Navigation());
         String text = 'Welcome, ${jsonResponse['username']}';
         getSnackBar(text, "Successfully Registered!", true);
       } else {
         getSnackBar(jsonResponse['message'], 'Error', false);
-        MPFullScreenLoader.stopLoading();
+        MPFullScreenAnimationLoader.stopLoading();
         isLoading.value = false;
       }
     } catch (e) {
-      MPFullScreenLoader.stopLoading();
+      MPFullScreenAnimationLoader.stopLoading();
       isLoading.value = false;
       getSnackBar(e.toString(), "Error", false);
     }

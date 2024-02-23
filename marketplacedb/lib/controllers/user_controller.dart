@@ -1,29 +1,14 @@
-// ignore_for_file: file_names, avoid_print, non_constant_identifier_names, unused_import
-
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
-import 'package:marketplacedb/data/models/addresses/address_model.dart';
-import 'package:marketplacedb/data/models/addresses/country_model.dart';
 import 'package:marketplacedb/data/models/user_model.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
-import 'package:marketplacedb/screen/landing_pages/front_page/front_page.dart';
-import 'package:marketplacedb/screen/landing_pages/home_page/home_screen_controller.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:marketplacedb/screen/signin_pages/sell_pages/add_billing_address/add_billing_address.dart';
-
-HomeScreenController home_screen_controller = HomeScreenController.static;
+import 'package:marketplacedb/util/popups/full_screen_overlay_loader.dart';
 
 class UserController extends GetxController {
   static UserController get instance => Get.find();
   final isLoading = false.obs;
-  final token = ''.obs;
   final userHasAddressValue = false.obs;
-  var countryList = <CountryModel>[].obs;
-  var addressList = <AddressModel>[].obs;
   final userData = UserModel().obs;
 
   @override
@@ -52,61 +37,17 @@ class UserController extends GetxController {
   Future userHasAddress() async {
     try {
       isLoading.value = true;
+      MPFullScreenOverlayLoader.openLoadingDialog();
       final response =
           await AuthInterceptor().get(Uri.parse("${url}userHasAddress"));
       var jsonObject = jsonDecode(response.body);
-
       userHasAddressValue.value = jsonObject['message'];
-
+      MPFullScreenOverlayLoader.stopLoading();
       isLoading.value = false;
     } catch (e) {
       print(e);
+      MPFullScreenOverlayLoader.stopLoading();
       isLoading.value = false;
-    }
-  }
-
-  Future<List<AddressModel>> getAddress() async {
-    final response = await AuthInterceptor().get(Uri.parse("${url}getAddress"));
-    if (response.statusCode == 200) {
-      final responseBody = jsonDecode(response.body);
-
-      if (responseBody.containsKey('message')) {
-        if (responseBody['message'] == 'Success') {
-          final List<dynamic> result = responseBody['data'];
-          final List<AddressModel> itemList =
-              result.map((e) => AddressModel.fromJson(e)).toList();
-          addressList.assignAll(itemList);
-        } else if (responseBody['message'] == 'Error') {
-          addressList.clear();
-        }
-      }
-      isLoading.value = false;
-    }
-
-    return addressList;
-  }
-
-  Future<dynamic> addBillingAddress(data) async {
-    try {
-      isLoading.value = true;
-      final response = await AuthInterceptor().post(
-        Uri.parse('${url}addAddress'),
-        headers: {
-          'Accept': 'application/json',
-        },
-        body: data,
-      );
-      print(response.body);
-      if (response.statusCode == 200) {
-        isLoading.value = false;
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      isLoading.value = false;
-      print(e);
-      return false;
     }
   }
 }

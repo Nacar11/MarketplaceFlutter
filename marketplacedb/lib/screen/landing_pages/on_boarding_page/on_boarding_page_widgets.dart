@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:marketplacedb/screen/landing_pages/on_boarding_screen/on_boarding_controller.dart';
+import 'package:marketplacedb/screen/landing_pages/on_boarding_page/on_boarding_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/device/device_utility.dart';

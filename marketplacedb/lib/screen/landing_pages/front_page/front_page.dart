@@ -20,19 +20,6 @@ import 'package:marketplacedb/util/helpers/helper_functions.dart';
 class FrontPage extends StatelessWidget {
   const FrontPage({Key? key}) : super(key: key);
 
-  Future<void> termsOfServices(BuildContext context) async {
-    await showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        double screenHeight = MediaQuery.of(context).size.height;
-        double bottomSheetHeight =
-            screenHeight * 0.5; // 40% of the screen height
-
-        return TermsOfServicesContainer(bottomSheetHeight: bottomSheetHeight);
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(FrontPageController());

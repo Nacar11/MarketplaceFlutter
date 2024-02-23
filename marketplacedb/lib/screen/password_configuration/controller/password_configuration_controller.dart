@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/controllers/network_manager/network_manager.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
-import 'package:marketplacedb/screen/password_configuration/pages/change_success.dart';
-import 'package:marketplacedb/screen/password_configuration/pages/code_verification.dart';
+import 'package:marketplacedb/screen/password_configuration/pages/change_success_page.dart';
+import 'package:marketplacedb/screen/password_configuration/pages/code_verification_page.dart';
 import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 
@@ -83,7 +83,7 @@ class PasswordConfigurationController extends GetxController {
         localStorage.saveData('emailResetPassword', email.text);
         isLoading.value = false;
         MPDialogContainerLoader.stopLoading();
-        Get.to(() => CodeVerificationForgetPasswordPage());
+        Get.to(() => PasswordConfigurationCodeVerificationPage());
       } else {
         MPDialogContainerLoader.stopLoading();
         isLoading.value = false;
@@ -111,7 +111,8 @@ class PasswordConfigurationController extends GetxController {
       var jsonObject = jsonDecode(response.body);
       isLoading.value = false;
       if (jsonObject['message'] == 'Password changed successfully') {
-        Get.offAll(() => const PasswordChangeSuccessPage());
+        Get.offAll(
+            () => const PasswordConfigurationPasswordChangeSuccessPage());
       } else {
         isLoading.value = false;
         getSnackBar(jsonObject['message'], 'Error', false);

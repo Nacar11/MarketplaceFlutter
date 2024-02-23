@@ -7,8 +7,8 @@ import 'package:marketplacedb/screen/password_configuration/controller/password_
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 
-class ForgetPasswordPage extends StatelessWidget {
-  const ForgetPasswordPage({Key? key}) : super(key: key);
+class PasswordConfigurationForgetPasswordPage extends StatelessWidget {
+  const PasswordConfigurationForgetPasswordPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
