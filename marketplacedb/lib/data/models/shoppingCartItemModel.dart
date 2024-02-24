@@ -1,5 +1,3 @@
-// ignore_for_file: file_names, non_constant_identifier_names
-
 import 'package:marketplacedb/data/models/products/product_item_model.dart';
 
 class ShoppingCartItemModel {
@@ -7,8 +5,6 @@ class ShoppingCartItemModel {
   int? cart_id;
   int? product_item_id;
   ProductItemModel? product_item;
-
-// Define children property
 
   ShoppingCartItemModel(
       {required this.id,

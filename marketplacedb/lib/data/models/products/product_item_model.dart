@@ -13,8 +13,7 @@ class ProductItemModel {
   String? description;
   List<ProductImageModel>? product_images;
   ProductTypeModel? product;
-  List<ProductConfigurationModel>?
-      product_configurations; // Define children property
+  List<ProductConfigurationModel>? product_configurations;
 
   ProductItemModel(
       {this.id,

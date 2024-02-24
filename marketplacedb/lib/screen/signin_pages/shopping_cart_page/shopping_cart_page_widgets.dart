@@ -3,8 +3,8 @@ import 'package:marketplacedb/common/widgets/common_widgets/images.dart';
 import 'package:marketplacedb/common/widgets/texts/product_price_text.dart';
 import 'package:marketplacedb/common/widgets/texts/product_title_text.dart';
 import 'package:marketplacedb/common/widgets/texts/text_with_icons.dart';
+import 'package:marketplacedb/data/models/ShoppingCartItemModel.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
-import 'package:marketplacedb/util/constants/app_images.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/icons.dart';
@@ -13,7 +13,10 @@ import 'package:iconsax/iconsax.dart';
 class MPCartItem extends StatelessWidget {
   const MPCartItem({
     super.key,
+    required this.cartItem,
   });
+
+  final ShoppingCartItemModel cartItem;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,9 @@ class MPCartItem extends StatelessWidget {
       children: [
         Row(children: [
           MPRoundedImage(
-              imageUrl: MPImages.femaleCategoryIcon,
+              isNetworkImage: true,
+              imageUrl:
+                  cartItem.product_item!.product_images![0].product_image!,
               width: 60,
               height: 60,
               padding: const EdgeInsets.all(MPSizes.sm),
@@ -33,17 +38,35 @@ class MPCartItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CategoryNameWithCheckIcon(
-                    text: "Tops",
+                    text: cartItem.product_item!.product!.product_category!
+                        .category_name!,
                     textStyle: Theme.of(context).textTheme.bodyMedium!),
-                const Flexible(child: MPProductTitleText(title: "T-Shirts")),
-                Text.rich(TextSpan(children: [
-                  TextSpan(
-                      text: "Color: ",
-                      style: Theme.of(context).textTheme.bodyMedium!),
-                  TextSpan(
-                      text: "Black",
-                      style: Theme.of(context).textTheme.bodyMedium!),
-                ]))
+                Flexible(
+                    child: MPProductTitleText(
+                        title: cartItem.product_item!.product!.name!)),
+                if (cartItem.product_item!.product_configurations!.isNotEmpty)
+                  for (var configuration
+                      in cartItem.product_item!.product_configurations!)
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text:
+                                "${configuration.variationOption!.variation!.name}: ",
+                            style: Theme.of(context).textTheme.bodyMedium!,
+                          ),
+                          TextSpan(
+                            text: "${configuration.variationOption!.value}",
+                            style: Theme.of(context).textTheme.bodyMedium!,
+                          ),
+                        ],
+                      ),
+                    )
+                else
+                  Text(
+                    "No Variation",
+                    style: Theme.of(context).textTheme.bodyMedium!,
+                  ),
               ]),
         ])
       ],
@@ -54,14 +77,17 @@ class MPCartItem extends StatelessWidget {
 class SingleCartItemWithFunctionality extends StatelessWidget {
   const SingleCartItemWithFunctionality({
     super.key,
+    required this.cartItem,
   });
+
+  final ShoppingCartItemModel cartItem;
 
   @override
   Widget build(BuildContext context) {
     final dark = MPHelperFunctions.isDarkMode(context);
     return Column(
       children: [
-        const MPCartItem(),
+        MPCartItem(cartItem: cartItem),
         const SizedBox(height: MPSizes.spaceBtwItems),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,7 +116,7 @@ class SingleCartItemWithFunctionality extends StatelessWidget {
                 icon: Iconsax.add,
               ),
             ]),
-            const MPProductPriceText(price: "250")
+            MPProductPriceText(price: cartItem.product_item!.price.toString())
           ],
         ),
       ],
