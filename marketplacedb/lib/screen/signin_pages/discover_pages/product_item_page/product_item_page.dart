@@ -175,17 +175,17 @@ class ProductItemPage extends StatelessWidget {
                                       ],
                                     ),
                                   ))
-                              : const Row(
-                                  children: [
-                                    Expanded(
-                                        child:
-                                            CheckOutButton(text: "Checkout")),
-                                    SizedBox(width: MPSizes.spaceBtwItems),
-                                    Expanded(
-                                        child: AddToCartButton(
-                                      text: "To Cart",
-                                    )),
-                                  ],
+                              : MPCircularContainer(
+                                  height: null,
+                                  child: Column(
+                                    children: [
+                                      const CheckOutButton(),
+                                      AddToCartButton(
+                                        productItemId: productItemController
+                                            .singleProductItemDetail.value.id!,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                         ],
                       ),

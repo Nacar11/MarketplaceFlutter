@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:iconsax/iconsax.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
 import 'package:marketplacedb/common/widgets/texts/product_title_text.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/data/models/products/product_configuration_model.dart';
+import 'package:marketplacedb/screen/signin_pages/shopping_cart_page/shopping_cart_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
@@ -57,23 +59,64 @@ class NameValueRow extends StatelessWidget {
 class AddToCartButton extends StatelessWidget {
   const AddToCartButton({
     Key? key,
-    required this.text,
+    required this.productItemId,
   }) : super(key: key);
 
-  final String text;
+  final int productItemId;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: MPSizes.buttonHeight,
-      margin: const EdgeInsets.symmetric(vertical: MPSizes.md),
-      child: MPCustomOutlinedButton(
-        text: text,
-        icon: const Icon(Iconsax.shopping_bag),
-        onPressed: () async {},
-      ),
-    );
+    final dark = MPHelperFunctions.isDarkMode(context);
+    ShoppingCartPageController controller = ShoppingCartPageController.instance;
+    return Obx(() => Container(
+          width: double.infinity,
+          height: MPSizes.buttonHeight,
+          margin: const EdgeInsets.symmetric(vertical: MPSizes.md),
+          child: OutlinedButton(
+              onPressed: () async {
+                controller.shoppingCartItemList.any((item) =>
+                        item.productItemId ==
+                        productItemController.singleProductItemDetail.value.id)
+                    ? null
+                    : controller.addToCart(productItemId);
+              },
+              child: controller.isLoading.value
+                  ? const Center(
+                      child: Center(
+                        child: SizedBox(
+                          height: MPSizes.iconSm,
+                          width: MPSizes.iconSm,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
+                        ),
+                      ),
+                    )
+                  : controller.shoppingCartItemList.any((item) =>
+                          item.productItemId ==
+                          productItemController
+                              .singleProductItemDetail.value.id)
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                              const Icon(Icons.check, color: Colors.green),
+                              const SizedBox(width: MPSizes.spaceBtwItems),
+                              Text("Added  To Cart",
+                                  style:
+                                      Theme.of(context).textTheme.titleLarge),
+                            ])
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                              Icon(Iconsax.shopping_bag,
+                                  color:
+                                      dark ? MPColors.white : MPColors.black),
+                              const SizedBox(width: MPSizes.spaceBtwItems),
+                              Text("Add To Cart",
+                                  style:
+                                      Theme.of(context).textTheme.titleLarge),
+                            ])),
+        ));
   }
 }
 

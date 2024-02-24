@@ -57,11 +57,10 @@ class FavoritesPageController extends GetxController {
   Future<void> addToFavorites(int productItemId) async {
     isLoading.value = true;
     try {
-      var data = {
-        'product_item_id': productItemId.toString(),
-      };
       final response = await AuthInterceptor()
-          .post(Uri.parse("${url}addToFavorites"), body: data);
+          .post(Uri.parse("${url}addToFavorites"), body: {
+        'product_item_id': productItemId.toString(),
+      });
       var jsonObject = jsonDecode(response.body);
       print(jsonObject);
       if (jsonObject['message'] == 'success') {
@@ -80,11 +79,10 @@ class FavoritesPageController extends GetxController {
   Future<void> removeFromFavorites(int productItemId) async {
     isLoading.value = true;
     try {
-      var data = {
-        'product_item_id': productItemId.toString(),
-      };
       final response = await AuthInterceptor()
-          .delete(Uri.parse("${url}removeFromFavorites"), body: data);
+          .delete(Uri.parse("${url}removeFromFavorites"), body: {
+        'product_item_id': productItemId.toString(),
+      });
       var jsonObject = jsonDecode(response.body);
       print(jsonObject);
       if (jsonObject['message'] == 'success') {

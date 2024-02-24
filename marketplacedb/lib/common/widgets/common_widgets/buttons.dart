@@ -62,10 +62,7 @@ class MPPrimaryButton extends StatelessWidget {
 class CheckOutButton extends StatelessWidget {
   const CheckOutButton({
     Key? key,
-    required this.text,
   }) : super(key: key);
-
-  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -75,15 +72,15 @@ class CheckOutButton extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: MPSizes.xs),
       child: MPPrimaryButton(
         icon: const Icon(Iconsax.transaction_minus5, color: MPColors.white),
-        text: text,
+        text: "To Checkout",
         onPressed: () {},
       ),
     );
   }
 }
 
-class MPCustomOutlinedButton extends StatelessWidget {
-  const MPCustomOutlinedButton({
+class MPOutlinedButton extends StatelessWidget {
+  const MPOutlinedButton({
     Key? key,
     required this.text,
     this.icon,
@@ -92,12 +89,11 @@ class MPCustomOutlinedButton extends StatelessWidget {
 
   final String text;
   final Future Function() onPressed;
-
   final Icon? icon;
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
+    return ElevatedButton(
       onPressed: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -126,8 +122,6 @@ class GoogleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Define responsive values based on screen size
-
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -136,8 +130,7 @@ class GoogleButton extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 30),
         decoration: BoxDecoration(
           color: Colors.black,
-          borderRadius:
-              BorderRadius.circular(10), // Adjust the radius value as needed
+          borderRadius: BorderRadius.circular(10),
         ),
         child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -148,7 +141,7 @@ class GoogleButton extends StatelessWidget {
               image: AssetImage('assets/images/googleIcon.png'),
               fit: BoxFit.contain,
             ),
-            SizedBox(width: 10), // Adjust the space between icon and text
+            SizedBox(width: 10),
             FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(

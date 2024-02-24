@@ -106,7 +106,8 @@ class SignUpPagesController extends GetxController {
       if (jsonObject['message'] == 'success') {
         String code = jsonObject['data'].toString();
         localStorage.saveData('SMSVerificationCode', code);
-        print(localStorage.readData('SMSVerificationCode'));
+        print(
+            'SMS VERIFIFICATION CODE: (IF VONAGE IS NOT DEPLOYED STILL)  ${localStorage.readData('SMSVerificationCode')}');
         localStorage.saveData('contact_number', phoneNumber.text);
         isLoading.value = false;
         MPDialogContainerLoader.stopLoading();

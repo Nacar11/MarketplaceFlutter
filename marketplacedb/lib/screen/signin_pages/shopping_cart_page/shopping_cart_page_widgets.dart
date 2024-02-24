@@ -3,12 +3,14 @@ import 'package:marketplacedb/common/widgets/common_widgets/images.dart';
 import 'package:marketplacedb/common/widgets/texts/product_price_text.dart';
 import 'package:marketplacedb/common/widgets/texts/product_title_text.dart';
 import 'package:marketplacedb/common/widgets/texts/text_with_icons.dart';
-import 'package:marketplacedb/data/models/ShoppingCartItemModel.dart';
+import 'package:marketplacedb/data/models/shopping_cart_item_model.dart';
+import 'package:marketplacedb/screen/signin_pages/shopping_cart_page/shopping_cart_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/icons.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:marketplacedb/util/popups/alert_dialog.dart';
 
 class MPCartItem extends StatelessWidget {
   const MPCartItem({
@@ -25,8 +27,7 @@ class MPCartItem extends StatelessWidget {
         Row(children: [
           MPRoundedImage(
               isNetworkImage: true,
-              imageUrl:
-                  cartItem.product_item!.product_images![0].product_image!,
+              imageUrl: cartItem.productItem!.product_images![0].product_image!,
               width: 60,
               height: 60,
               padding: const EdgeInsets.all(MPSizes.sm),
@@ -38,15 +39,15 @@ class MPCartItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CategoryNameWithCheckIcon(
-                    text: cartItem.product_item!.product!.product_category!
-                        .category_name!,
+                    text: cartItem
+                        .productItem!.product!.product_category!.category_name!,
                     textStyle: Theme.of(context).textTheme.bodyMedium!),
                 Flexible(
                     child: MPProductTitleText(
-                        title: cartItem.product_item!.product!.name!)),
-                if (cartItem.product_item!.product_configurations!.isNotEmpty)
+                        title: cartItem.productItem!.product!.name!)),
+                if (cartItem.productItem!.product_configurations!.isNotEmpty)
                   for (var configuration
-                      in cartItem.product_item!.product_configurations!)
+                      in cartItem.productItem!.product_configurations!)
                     Text.rich(
                       TextSpan(
                         children: [
@@ -84,6 +85,7 @@ class SingleCartItemWithFunctionality extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ShoppingCartPageController controller = ShoppingCartPageController.instance;
     final dark = MPHelperFunctions.isDarkMode(context);
     return Column(
       children: [
@@ -100,7 +102,29 @@ class SingleCartItemWithFunctionality extends StatelessWidget {
                 size: MPSizes.md,
                 color: dark ? MPColors.white : MPColors.black,
                 backgroundColor: dark ? MPColors.darkerGrey : MPColors.light,
-                onPressed: () {},
+                onPressed: () {
+                  MPAlertDialog.openDialog(
+                      context,
+                      "Remove Item from Cart?",
+                      "Are you sure you want to remove this item from your shopping cart?",
+                      [
+                        MaterialButton(
+                            onPressed: () {
+                              MPAlertDialog.popDialog();
+                            },
+                            child: Text("Cancel",
+                                style:
+                                    Theme.of(context).textTheme.bodyMedium!)),
+                        MaterialButton(
+                            onPressed: () async {
+                              controller.selectedCartItem.value = cartItem;
+                              await controller.deleteCartItem();
+                              MPAlertDialog.popDialog();
+                            },
+                            child: Text('Remove',
+                                style: Theme.of(context).textTheme.bodyMedium!))
+                      ]);
+                },
                 icon: Iconsax.trash,
               ),
               const SizedBox(width: MPSizes.spaceBtwItems),
@@ -116,7 +140,7 @@ class SingleCartItemWithFunctionality extends StatelessWidget {
                 icon: Iconsax.add,
               ),
             ]),
-            MPProductPriceText(price: cartItem.product_item!.price.toString())
+            MPProductPriceText(price: cartItem.productItem!.price.toString())
           ],
         ),
       ],

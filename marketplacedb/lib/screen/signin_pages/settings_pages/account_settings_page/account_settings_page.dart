@@ -139,7 +139,7 @@ class AccountSettingsPage extends StatelessWidget {
                         const SizedBox(height: MPSizes.spaceBtwSections),
                         SizedBox(
                           width: double.infinity,
-                          child: MPCustomOutlinedButton(
+                          child: MPOutlinedButton(
                             text: "Logout",
                             onPressed: () async {
                               await accountSettingsPageController

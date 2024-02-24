@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:marketplacedb/data/models/ShoppingCartItemModel.dart';
+import 'package:marketplacedb/data/models/shopping_cart_item_model.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'dart:convert';
 import 'package:marketplacedb/networks/interceptor.dart';
@@ -9,15 +9,14 @@ class ShoppingCartPageController extends GetxController {
 
   var shoppingCartItemList = <ShoppingCartItemModel>[].obs;
   final isLoading = false.obs;
-  // int? subCategoryId;
+  final selectedCartItem = ShoppingCartItemModel().obs;
   // var subCategoryList = <ProductCategoryModel>[].obs;
   // var productTypes = <ProductTypeModel>[].obs;
 
   @override
   void onInit() async {
     super.onInit();
-    print('SHOPPING CART CONTROLLER ON INIT');
-    print('-----------------------------------------');
+
     await getShoppingCartItems();
   }
 
@@ -33,10 +32,48 @@ class ShoppingCartPageController extends GetxController {
             result.map((e) => ShoppingCartItemModel.fromJson(e)).toList();
 
         shoppingCartItemList.assignAll(list);
-        print('SHOPPING CART ITEM LIST LENGTH');
-        print(shoppingCartItemList.length);
-        print(shoppingCartItemList[0].product_item!.price!.toString());
 
+        isLoading.value = false;
+      } else {
+        isLoading.value = false;
+        throw Exception('Failed to fetch data');
+      }
+    } catch (e) {
+      isLoading.value = false;
+      print('Error fetching data: $e');
+    }
+  }
+
+  Future<void> addToCart(int productItemId) async {
+    try {
+      isLoading.value = true;
+      final response =
+          await AuthInterceptor().post(Uri.parse("${url}addToCart"), body: {
+        'product_item_id': productItemId.toString(),
+      });
+      var jsonObject = jsonDecode(response.body);
+      if (jsonObject['message'] == 'success') {
+        getShoppingCartItems();
+        isLoading.value = false;
+      } else {
+        isLoading.value = false;
+        throw Exception('Failed to fetch data');
+      }
+    } catch (e) {
+      isLoading.value = false;
+      print('Error fetching data: $e');
+    }
+  }
+
+  Future<void> deleteCartItem() async {
+    try {
+      isLoading.value = true;
+      final response = await AuthInterceptor().delete(
+        Uri.parse("${url}deleteCartItem/${selectedCartItem.value.id!}"),
+      );
+      var jsonObject = jsonDecode(response.body);
+      if (jsonObject['message'] == 'success') {
+        getShoppingCartItems();
         isLoading.value = false;
       } else {
         isLoading.value = false;

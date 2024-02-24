@@ -82,7 +82,8 @@ class CustomSignUpContinue extends StatelessWidget {
         margin: const EdgeInsets.all(MPSizes.md),
         child: MPPrimaryButton(
           text: "Continue",
-          isDisabled: !controller.isUsernameValid.value,
+          isDisabled:
+              !controller.isUsernameValid.value || !controller.agreements.value,
           isLoading: controller.isLoading.value,
           onPressed: () async {
             await controller.checkUsername();

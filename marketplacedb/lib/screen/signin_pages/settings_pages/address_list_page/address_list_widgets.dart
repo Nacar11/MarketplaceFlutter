@@ -30,15 +30,15 @@ class SingleAddress extends StatelessWidget {
               [
                 MaterialButton(
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      MPAlertDialog.popDialog();
                     },
                     child: Text("Cancel",
                         style: Theme.of(context).textTheme.bodyMedium!)),
                 MaterialButton(
-                    onPressed: () {
+                    onPressed: () async {
                       controller.selectedAddress.value = userAddress;
-                      controller.setDefaultAddress();
-                      Navigator.of(context).pop();
+                      await controller.setDefaultAddress();
+                      MPAlertDialog.popDialog();
                     },
                     child: Text('Approve',
                         style: Theme.of(context).textTheme.bodyMedium!))

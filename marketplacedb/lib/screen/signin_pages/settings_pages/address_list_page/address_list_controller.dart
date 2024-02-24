@@ -16,7 +16,7 @@ class AddressListPageController extends GetxController {
     await getUserAddresses();
   }
 
-  void setDefaultAddress() async {
+  Future setDefaultAddress() async {
     try {
       final response = await AuthInterceptor().post(Uri.parse(
           "${url}setDefaultAddress/${selectedAddress.value.address!.id!}"));
