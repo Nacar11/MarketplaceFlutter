@@ -56,6 +56,12 @@ class MPTexts {
   static const String favoritesPageTitle = "Your Favorites Await";
   static const String favoritesPageSubTitle =
       "Your favorite items will appear here. Begin exploring and adding to your collection.";
+  static const String addressListPageTitle = "No Billing Address for User";
+  static const String addressListPageSubTitle =
+      "Set up your billing address here by clicking the add button below.";
+  static const String shoppingCartPageTitle = "Empty Shopping Cart";
+  static const String shoppingCartPageSubTitle =
+      "Your shopping cart items waiting to be checked out will appear here. Add items to you shopping cart now!";
 
   // --CONTAINER GUIDE SIGNUP TEXTS
   static const String phoneHeaderText =

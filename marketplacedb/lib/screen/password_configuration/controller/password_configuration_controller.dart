@@ -6,7 +6,6 @@ import 'package:marketplacedb/controllers/network_manager/network_manager.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/screen/password_configuration/pages/change_success_page.dart';
 import 'package:marketplacedb/screen/password_configuration/pages/code_verification_page.dart';
-import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
@@ -62,12 +61,11 @@ class PasswordConfigurationController extends GetxController {
     try {
       isLoading.value = true;
 
-      MPDialogContainerLoader.openLoadingDialog(
-          'Sending Code to Email...', AnimationsUtils.sendEmail);
+      MPAlertLoaderDialog.openLoadingDialog();
 
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
-        MPDialogContainerLoader.stopLoading();
+        MPAlertLoaderDialog.stopLoading();
         return;
       }
       var response = await AuthInterceptor().post(
@@ -82,17 +80,17 @@ class PasswordConfigurationController extends GetxController {
             'emailVerificationCode', jsonObject['code'].toString());
         localStorage.saveData('emailResetPassword', email.text);
         isLoading.value = false;
-        MPDialogContainerLoader.stopLoading();
+        MPAlertLoaderDialog.stopLoading();
         Get.to(() => PasswordConfigurationCodeVerificationPage());
       } else {
-        MPDialogContainerLoader.stopLoading();
+        MPAlertLoaderDialog.stopLoading();
         isLoading.value = false;
         getSnackBar(jsonObject['message'], 'Error', false);
       }
 
       return jsonObject;
     } catch (e) {
-      MPDialogContainerLoader.stopLoading();
+      MPAlertLoaderDialog.stopLoading();
       getSnackBar("Please Try Again", 'Error', false);
       isLoading.value = false;
     }

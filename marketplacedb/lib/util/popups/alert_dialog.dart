@@ -4,8 +4,12 @@ import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
 class MPAlertDialog {
-  static void openDialog(BuildContext context, String title, String content,
-      List<Widget> actions) {
+  static void openDialog(
+    BuildContext context,
+    String title,
+    String content,
+    List<Widget> actions,
+  ) {
     final dark = MPHelperFunctions.isDarkMode(context);
     showDialog(
         context: Get.overlayContext!,

@@ -87,12 +87,11 @@ class SignUpPagesController extends GetxController {
     try {
       isLoading.value = true;
 
-      MPDialogContainerLoader.openLoadingDialog(
-          'Sending Code to Email...', AnimationsUtils.sendEmail);
+      MPAlertLoaderDialog.openLoadingDialog();
 
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
-        MPDialogContainerLoader.stopLoading();
+        MPAlertLoaderDialog.stopLoading();
         return;
       }
 
@@ -110,16 +109,16 @@ class SignUpPagesController extends GetxController {
             'SMS VERIFIFICATION CODE: (IF VONAGE IS NOT DEPLOYED STILL)  ${localStorage.readData('SMSVerificationCode')}');
         localStorage.saveData('contact_number', phoneNumber.text);
         isLoading.value = false;
-        MPDialogContainerLoader.stopLoading();
+        MPAlertLoaderDialog.stopLoading();
         Get.to(() => const SignUpPageCode());
       } else {
-        MPDialogContainerLoader.stopLoading();
+        MPAlertLoaderDialog.stopLoading();
         isLoading.value = false;
         getSnackBar(jsonObject['message'], 'Error', false);
       }
     } catch (e) {
       isLoading.value = false;
-      MPDialogContainerLoader.stopLoading();
+      MPAlertLoaderDialog.stopLoading();
       getSnackBar("Please Try Again", 'Error', false);
     }
   }

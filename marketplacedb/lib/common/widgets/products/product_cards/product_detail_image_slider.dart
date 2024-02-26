@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/images.dart';
 import 'package:marketplacedb/common/widgets/custom_shapes/custom_curved_edge_widget.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
-import 'package:marketplacedb/screen/signin_pages/discover_pages/product_item_page/product_item_page_controller.dart';
+import 'package:marketplacedb/screen/sign_in_pages/discover_pages/product_item_page/product_item_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';

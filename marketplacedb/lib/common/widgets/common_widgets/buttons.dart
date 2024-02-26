@@ -62,8 +62,12 @@ class MPPrimaryButton extends StatelessWidget {
 class CheckOutButton extends StatelessWidget {
   const CheckOutButton({
     Key? key,
+    this.isDisabled = false,
+    required this.text,
   }) : super(key: key);
 
+  final bool isDisabled;
+  final String text;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,8 +75,9 @@ class CheckOutButton extends StatelessWidget {
       height: MPSizes.buttonHeight,
       margin: const EdgeInsets.symmetric(vertical: MPSizes.xs),
       child: MPPrimaryButton(
+        isDisabled: isDisabled,
         icon: const Icon(Iconsax.transaction_minus5, color: MPColors.white),
-        text: "To Checkout",
+        text: text,
         onPressed: () {},
       ),
     );
@@ -93,7 +98,7 @@ class MPOutlinedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return OutlinedButton(
       onPressed: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

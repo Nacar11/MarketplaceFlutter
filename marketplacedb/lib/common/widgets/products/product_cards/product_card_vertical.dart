@@ -13,11 +13,13 @@ import 'package:marketplacedb/common/widgets/texts/text_with_icons.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:marketplacedb/data/models/products/product_item_model.dart';
-import 'package:marketplacedb/screen/signin_pages/discover_pages/product_item_page/product_item_page.dart';
+import 'package:marketplacedb/screen/sign_in_pages/discover_pages/product_item_page/product_item_page.dart';
+import 'package:marketplacedb/screen/sign_in_pages/shopping_cart_page/shopping_cart_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 import 'package:marketplacedb/util/popups/alert_dialog.dart';
+import 'package:marketplacedb/util/popups/dialog_container_loader.dart';
 
 UserController userController = UserController.instance;
 
@@ -136,8 +138,7 @@ class MPProductCardVertical extends StatelessWidget {
                                               [
                                                 MaterialButton(
                                                     onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
+                                                      Get.back();
                                                     },
                                                     child: Text("Cancel",
                                                         style: Theme.of(context)
@@ -151,25 +152,70 @@ class MPProductCardVertical extends StatelessWidget {
                                       ),
                                     ),
                                   )
-                                : SizedBox(
-                                    width: MPSizes.iconLg * 1.1,
-                                    height: MPSizes.iconLg * 1.1,
-                                    child: Center(
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          print(
-                                              '-----------------------------');
-                                        },
-                                        child: const Icon(
-                                            Iconsax.shopping_cart5,
-                                            color: MPColors.white,
-                                            size: MPSizes.iconMd),
-                                      ),
-                                    ),
-                                  )))
+                                : AddToCartIcon(
+                                    productItemId: productItemData.id!)))
                       ],
                     )
                   ]))
         ]));
+  }
+}
+
+class AddToCartIcon extends StatelessWidget {
+  const AddToCartIcon({
+    required this.productItemId,
+    super.key,
+  });
+
+  final int productItemId;
+  @override
+  Widget build(BuildContext context) {
+    ShoppingCartPageController shoppingCartPageController =
+        ShoppingCartPageController.instance;
+
+    return Obx(() => SizedBox(
+          width: MPSizes.iconLg * 1.1,
+          height: MPSizes.iconLg * 1.1,
+          child: Center(
+            child: GestureDetector(
+                onTap: () async {
+                  shoppingCartPageController.shoppingCartItemList
+                          .any((item) => item.productItemId == productItemId)
+                      ? null
+                      : MPAlertDialog.openDialog(
+                          context,
+                          "Add this to Cart?",
+                          "Are you sure you want to add this item to your shopping cart?",
+                          [
+                              MaterialButton(
+                                  onPressed: () {
+                                    MPAlertDialog.popDialog();
+                                  },
+                                  child: Text("Cancel",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!)),
+                              MaterialButton(
+                                  onPressed: () async {
+                                    MPAlertLoaderDialog.openLoadingDialog();
+                                    await shoppingCartPageController
+                                        .addToCart(productItemId);
+                                    MPAlertDialog.popDialog();
+                                    MPAlertLoaderDialog.stopLoading();
+                                  },
+                                  child: Text('Approve',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!)),
+                            ]);
+                },
+                child: shoppingCartPageController.shoppingCartItemList
+                        .any((item) => item.productItemId == productItemId)
+                    ? const Icon(Icons.check,
+                        color: Colors.green, size: MPSizes.iconMd)
+                    : const Icon(Iconsax.shopping_cart5,
+                        color: MPColors.white, size: MPSizes.iconMd)),
+          ),
+        ));
   }
 }

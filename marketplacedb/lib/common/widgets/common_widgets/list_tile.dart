@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/images.dart';
 import 'package:marketplacedb/controllers/user_controller.dart';
-import 'package:marketplacedb/screen/signin_pages/settings_pages/profle_page/profile_page.dart';
+import 'package:marketplacedb/screen/sign_in_pages/settings_pages/profle_page/profile_page.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_images.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';

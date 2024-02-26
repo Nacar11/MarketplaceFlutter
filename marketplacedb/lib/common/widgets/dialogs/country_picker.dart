@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/list_tile.dart';
-import 'package:marketplacedb/screen/signin_pages/sell_pages/add_billing_address/add_billing_address_controller.dart';
+import 'package:marketplacedb/screen/sign_in_pages/sell_pages/add_billing_address/add_billing_address_controller.dart';
 
 class CountryPicker extends StatelessWidget {
   const CountryPicker({

@@ -74,7 +74,8 @@ class MPCircularContainer extends StatelessWidget {
         padding: padding,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(radius),
-          border: showBorder ? Border.all(color: borderColor) : null,
+          border:
+              showBorder ? Border.all(color: borderColor, width: 5.0) : null,
           color: backgroundColor,
         ),
         child: child);
