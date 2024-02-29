@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:marketplacedb/screen/landing_pages/home_page/home_page_controller.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation_controller.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/controllers/user_controller.dart';
@@ -24,6 +25,7 @@ class NavigationState extends State<Navigation> {
   final navigationController = Get.put(NavigationController());
   final favoritesPageController = Get.put(FavoritesPageController());
   final shoppingCartPageController = Get.put(ShoppingCartPageController());
+  final homePageController = Get.put(HomeScreenController());
 
   @override
   void initState() {

@@ -139,23 +139,6 @@ class SingleCartItemWithFunctionality extends StatelessWidget {
               const SizedBox(width: MPSizes.spaceBtwItems),
               Text('Available', style: Theme.of(context).textTheme.bodyMedium),
               const SizedBox(width: MPSizes.spaceBtwItems),
-              // MPCircularIcon(
-              //     width: 32,
-              //     height: 32,
-              //     size: MPSizes.md,
-              //     color: dark ? MPColors.white : MPColors.black,
-              //     backgroundColor:
-              //         dark ? MPColors.darkerGrey : MPColors.light,
-              //     onPressed: () {
-              //       controller.isLoading.value
-              //           ? null
-              //           : cartItem.selectedToCheckout == true
-              //               ? controller.unselectToCheckout(cartItem.id!)
-              //               : controller.selectToCheckout(cartItem.id!);
-              //     },
-              //     icon: cartItem.selectedToCheckout == true
-              //         ? Iconsax.minus
-              //         : Iconsax.add),
               Checkbox(
                   shape: const CircleBorder(),
                   activeColor: MPColors.primary,

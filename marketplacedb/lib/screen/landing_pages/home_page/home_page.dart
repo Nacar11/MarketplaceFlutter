@@ -11,7 +11,7 @@ import 'package:marketplacedb/data/models/products/product_category_model.dart';
 import 'package:marketplacedb/data/models/products/product_item_model.dart';
 
 import 'package:marketplacedb/screen/landing_pages/home_page/home_page_widgets.dart';
-import 'package:marketplacedb/screen/landing_pages/home_page/home_screen_controller.dart';
+import 'package:marketplacedb/screen/landing_pages/home_page/home_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_images.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 
@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     ProductItemController productItemController =
         ProductItemController.instance;
-    final homePageController = Get.put(HomeScreenController());
+    HomeScreenController homePageController = HomeScreenController.instance;
     return Scaffold(
         body: SingleChildScrollView(
             child: Column(children: [

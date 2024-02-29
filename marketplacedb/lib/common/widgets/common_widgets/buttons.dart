@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:marketplacedb/screen/sign_in_pages/checkout_page/checkout_page.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 
@@ -78,7 +80,9 @@ class CheckOutButton extends StatelessWidget {
         isDisabled: isDisabled,
         icon: const Icon(Iconsax.transaction_minus5, color: MPColors.white),
         text: text,
-        onPressed: () {},
+        onPressed: () {
+          Get.to(() => const CheckoutPage());
+        },
       ),
     );
   }

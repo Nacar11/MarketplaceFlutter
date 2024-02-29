@@ -12,7 +12,7 @@ class ShoppingCartPageController extends GetxController {
   final selectedCartItem = ShoppingCartItemModel().obs;
 
   final shoppingCartItemListTotalPrice = 0.0.obs;
-  // var productTypes = <ProductTypeModel>[].obs;
+  final shoppingCartItemListSelectedToCheckout = <ShoppingCartItemModel>[].obs;
 
   @override
   void onInit() async {
@@ -34,14 +34,17 @@ class ShoppingCartPageController extends GetxController {
         shoppingCartItemList.assignAll(list);
         //assign value of shoppingCartItemListTotalPrice here
         double totalPrice = 0.0;
+        List<ShoppingCartItemModel> selectedItems = [];
         for (var item in shoppingCartItemList) {
           if (item.selectedToCheckout == true &&
               item.productItem != null &&
               item.productItem!.price != null) {
             totalPrice += item.productItem!.price!;
+            selectedItems.add(item);
           }
         }
         shoppingCartItemListTotalPrice.value = totalPrice;
+        shoppingCartItemListSelectedToCheckout.assignAll(selectedItems);
 
         isLoading.value = false;
       } else {

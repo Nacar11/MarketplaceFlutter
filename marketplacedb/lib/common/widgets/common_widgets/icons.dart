@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/screen/sign_in_pages/favorites_page/favorites_page_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/shopping_cart_page/shopping_cart_page.dart';
+import 'package:marketplacedb/screen/sign_in_pages/shopping_cart_page/shopping_cart_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
@@ -14,6 +15,7 @@ class ShoppingCartCounterIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ShoppingCartPageController controller = ShoppingCartPageController.instance;
     return Stack(children: [
       IconButton(
           onPressed: () {
@@ -34,11 +36,12 @@ class ShoppingCartCounterIcon extends StatelessWidget {
                   MPSizes.circularBadgeSize,
                 )),
             child: Center(
-                child: Text('2',
+                child: Obx(() => Text(
+                    controller.shoppingCartItemList.length.toString(),
                     style: Theme.of(context)
                         .textTheme
                         .labelLarge!
-                        .apply(color: MPColors.white)))),
+                        .apply(color: MPColors.white))))),
       )
     ]);
   }

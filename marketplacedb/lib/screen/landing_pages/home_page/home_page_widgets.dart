@@ -6,7 +6,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/icons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/images.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
-import 'package:marketplacedb/screen/landing_pages/home_page/home_screen_controller.dart';
+import 'package:marketplacedb/screen/landing_pages/home_page/home_page_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class MPHomeAppBar extends StatelessWidget {

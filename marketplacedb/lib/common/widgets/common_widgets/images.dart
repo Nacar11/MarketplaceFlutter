@@ -90,7 +90,6 @@ class MPRoundedImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final dark = MPHelperFunctions.isDarkMode(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: MPSizes.sm),
       child: GestureDetector(

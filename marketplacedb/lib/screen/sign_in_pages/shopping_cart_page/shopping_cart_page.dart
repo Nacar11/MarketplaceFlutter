@@ -23,7 +23,8 @@ class ShoppingCartPage extends StatelessWidget {
             child: Obx(() => CheckOutButton(
                 text:
                     "To Checkout  ${controller.shoppingCartItemListTotalPrice.value}",
-                isDisabled: controller.shoppingCartItemList.isEmpty))),
+                isDisabled: controller
+                    .shoppingCartItemListSelectedToCheckout.isEmpty))),
         appBar: PrimarySearchAppBar(
             title:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

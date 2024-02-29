@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:marketplacedb/data/models/products/product_category_model.dart';
+import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 
 class HomeScreenController extends GetxController {
-  static HomeScreenController get static => Get.find();
+  static HomeScreenController get instance => Get.find();
 
   final carouselCurrentIndex = 0.obs;
   final isLoading = false.obs;
@@ -17,20 +18,24 @@ class HomeScreenController extends GetxController {
   void onInit() async {
     super.onInit();
     await getProductCategories();
-    subCategoriesInit(1);
+    await getUserGender();
   }
 
   void updatePageIndicator(index) {
     carouselCurrentIndex.value = index;
   }
 
-  void subCategoriesInit(int counter) {
-    preferredSubCategoryList.value = productCategoryList[counter].children!;
+  void preferredSubCategories(String gender) async {
+    if (gender == 'Male') {
+      preferredSubCategoryList.value = productCategoryList[1].children!;
+    } else if (gender == 'Female') {
+      preferredSubCategoryList.value = productCategoryList[2].children!;
+    }
   }
 
   Future<void> getProductCategories() async {
-    isLoading.value = true;
     try {
+      isLoading.value = true;
       final response = await http.get(Uri.parse("${url}product-category"));
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == 'success') {
@@ -39,8 +44,26 @@ class HomeScreenController extends GetxController {
             result.map((e) => ProductCategoryModel.fromJson(e)).toList();
 
         productCategoryList.assignAll(categoryList);
-        print(productCategoryList.length);
+        isLoading.value = false;
+      } else {
+        isLoading.value = false;
+        throw Exception('Failed to fetch data');
+      }
+    } catch (e) {
+      isLoading.value = false;
+      print('Error fetching data: $e');
+    }
+  }
 
+  Future<void> getUserGender() async {
+    try {
+      isLoading.value = true;
+      final response =
+          await AuthInterceptor().get(Uri.parse("${url}getUserGender"));
+      var jsonObject = jsonDecode(response.body);
+      if (jsonObject['message'] == 'success') {
+        final String result = jsonObject['data'];
+        preferredSubCategories(result);
         isLoading.value = false;
       } else {
         isLoading.value = false;
