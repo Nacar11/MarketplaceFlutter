@@ -200,7 +200,7 @@ class ClickableCategoryCard extends StatelessWidget {
                 width: 40,
                 height: 50,
                 isNetworkImage: true,
-                imageUrl: productCategory.product_image!),
+                imageUrl: productCategory.productImage!),
           ),
           const SizedBox(width: MPSizes.spaceBtwItems),
           Expanded(
@@ -210,7 +210,7 @@ class ClickableCategoryCard extends StatelessWidget {
                 children: [
                   ExpandedCategoryNameWithCheckIcon(
                     textStyle: Theme.of(context).textTheme.labelLarge!,
-                    text: productCategory.category_name!,
+                    text: productCategory.categoryName!,
                   ),
                   Text('256 Products ',
                       overflow: TextOverflow.ellipsis,

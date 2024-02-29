@@ -28,7 +28,7 @@ class MPCartItem extends StatelessWidget {
         Row(children: [
           MPRoundedImage(
               isNetworkImage: true,
-              imageUrl: cartItem.productItem!.product_images![0].product_image!,
+              imageUrl: cartItem.productItem!.productImages![0].productImage!,
               width: 60,
               height: 60,
               padding: const EdgeInsets.all(MPSizes.sm),
@@ -41,14 +41,14 @@ class MPCartItem extends StatelessWidget {
               children: [
                 CategoryNameWithCheckIcon(
                     text: cartItem
-                        .productItem!.product!.product_category!.category_name!,
+                        .productItem!.product!.productCategory!.categoryName!,
                     textStyle: Theme.of(context).textTheme.bodyMedium!),
                 Flexible(
                     child: MPProductTitleText(
                         title: cartItem.productItem!.product!.name!)),
-                if (cartItem.productItem!.product_configurations!.isNotEmpty)
+                if (cartItem.productItem!.productConfigurations!.isNotEmpty)
                   for (var configuration
-                      in cartItem.productItem!.product_configurations!)
+                      in cartItem.productItem!.productConfigurations!)
                     Text.rich(
                       TextSpan(
                         children: [

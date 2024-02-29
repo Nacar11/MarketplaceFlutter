@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/layouts/list_view_layout.dart';
 import 'package:marketplacedb/data/models/shopping_cart_item_model.dart';
+import 'package:marketplacedb/screen/sign_in_pages/checkout_page/checkout_page_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/checkout_page/checkout_page_widgets.dart';
 import 'package:marketplacedb/screen/sign_in_pages/shopping_cart_page/shopping_cart_page_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/shopping_cart_page/shopping_cart_page_widgets.dart';
@@ -15,6 +17,7 @@ class CheckoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(CheckoutPageController());
     final dark = MPHelperFunctions.isDarkMode(context);
     ShoppingCartPageController controller = ShoppingCartPageController.instance;
     return Scaffold(
@@ -45,11 +48,11 @@ class CheckoutPage extends StatelessWidget {
                         showBorder: true,
                         backgroundColor: dark ? MPColors.dark : MPColors.white,
                         child: const Column(children: [
-                          MPBillingPaymentSection(),
+                          MPBillingAmountSection(),
                           SizedBox(height: MPSizes.spaceBtwItems),
                           Divider(),
                           SizedBox(height: MPSizes.spaceBtwItems),
-                          MPBillingAddressSection()
+                          MPBillingPaymentTypeSection()
                         ]))
                   ],
                 ))));

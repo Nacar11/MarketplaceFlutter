@@ -1,28 +1,24 @@
-// ignore_for_file: file_names, non_constant_identifier_names
-
 import 'package:marketplacedb/data/models/products/product_category_model.dart';
 
 class ProductTypeModel {
   int? id;
   String? name;
-  ProductCategoryModel? product_category;
+  ProductCategoryModel? productCategory;
   String? description;
-// Define children property
 
   ProductTypeModel(
       {required this.description,
       required this.id,
       required this.name,
-      required this.product_category});
+      required this.productCategory});
 
   ProductTypeModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     if (json['product_category'] != null) {
-      product_category =
-          ProductCategoryModel.fromJson(json['product_category']);
+      productCategory = ProductCategoryModel.fromJson(json['product_category']);
     } else {
-      product_category = null;
+      productCategory = null;
     }
     description = json['description'];
   }

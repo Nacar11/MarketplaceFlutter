@@ -57,8 +57,8 @@ class HomePage extends StatelessWidget {
                                     .preferredSubCategoryList[index];
                             return MPVerticalImageText(
                               isNetworkImage: true,
-                              imageUrl: productCategories.product_image!,
-                              text: productCategories.category_name!,
+                              imageUrl: productCategories.productImage!,
+                              text: productCategories.categoryName!,
                             );
                           })),
             ))),

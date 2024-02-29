@@ -56,41 +56,40 @@ class MPProductCardVertical extends StatelessWidget {
                 padding: const EdgeInsets.all(MPSizes.sm),
                 backgroundColor: dark ? MPColors.dark : MPColors.light,
                 child: Stack(children: [
-                  if (productItemData.product_images != null &&
-                      productItemData.product_images!.isNotEmpty)
+                  if (productItemData.productImages != null &&
+                      productItemData.productImages!.isNotEmpty)
                     MPRoundedImage(
                       // isImageCircular: true,
                       isNetworkImage: true,
                       padding: const EdgeInsets.only(top: MPSizes.xs),
                       applyImageRadius: true,
                       borderRadius: MPSizes.productImageRadius,
-                      imageUrl:
-                          productItemData.product_images![0].product_image!,
+                      imageUrl: productItemData.productImages![0].productImage!,
                     ),
                   const Positioned(
                     top: 0,
                     left: 0,
                     child: MPSaleTag(),
                   ),
-                  Obx(() => userController.userData.value.id ==
-                          productItemData.user_id
-                      ? const SizedBox()
-                      : Positioned(
-                          right: 0,
-                          top: 0,
-                          child: Container(
-                              height: 30,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: dark
-                                    ? MPColors.black.withOpacity(0.9)
-                                    : MPColors.white.withOpacity(0.9),
-                              ),
-                              child: FavoritesIconButton(
-                                  iconSize: MPSizes.iconXs,
-                                  productItemDataId: productItemData.id!)),
-                        ))
+                  Obx(() =>
+                      userController.userData.value.id == productItemData.userId
+                          ? const SizedBox()
+                          : Positioned(
+                              right: 0,
+                              top: 0,
+                              child: Container(
+                                  height: 30,
+                                  width: 30,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: dark
+                                        ? MPColors.black.withOpacity(0.9)
+                                        : MPColors.white.withOpacity(0.9),
+                                  ),
+                                  child: FavoritesIconButton(
+                                      iconSize: MPSizes.iconXs,
+                                      productItemDataId: productItemData.id!)),
+                            ))
                 ])),
           ),
           const SizedBox(height: MPSizes.spaceBtwItems / 2),
@@ -101,7 +100,7 @@ class MPProductCardVertical extends StatelessWidget {
                   children: [
                     MPProductTitleText(
                         title: productItemData
-                            .product!.product_category!.category_name!,
+                            .product!.productCategory!.categoryName!,
                         smallSize: false),
                     const SizedBox(height: MPSizes.spaceBtwItems / 2),
                     CategoryNameWithCheckIcon(
@@ -115,7 +114,7 @@ class MPProductCardVertical extends StatelessWidget {
                         Obx(() => Container(
                             decoration: BoxDecoration(
                                 color: userController.userData.value.id ==
-                                        productItemData.user_id
+                                        productItemData.userId
                                     ? Colors.green
                                     : MPColors.dark,
                                 borderRadius: const BorderRadius.only(
@@ -124,7 +123,7 @@ class MPProductCardVertical extends StatelessWidget {
                                     bottomRight: Radius.circular(
                                         MPSizes.productImageRadius))),
                             child: userController.userData.value.id ==
-                                    productItemData.user_id
+                                    productItemData.userId
                                 ? SizedBox(
                                     width: MPSizes.iconLg * 1.1,
                                     height: MPSizes.iconLg * 1.1,

@@ -37,7 +37,7 @@ class ProductItemPage extends StatelessWidget {
                 actions: [
                   userController.userData.value.id ==
                           productItemController
-                              .singleProductItemDetail.value.user_id
+                              .singleProductItemDetail.value.userId
                       ? const SizedBox()
                       : FavoritesIconButton(
                           iconSize: MPSizes.iconMd,
@@ -105,8 +105,8 @@ class ProductItemPage extends StatelessWidget {
                                     .singleProductItemDetail
                                     .value
                                     .product!
-                                    .product_category!
-                                    .product_image!,
+                                    .productCategory!
+                                    .productImage!,
                               ),
                               CategoryNameWithCheckIcon(
                                 textStyle:
@@ -125,7 +125,7 @@ class ProductItemPage extends StatelessWidget {
                           Obx(() => productItemController
                                   .singleProductItemDetail
                                   .value
-                                  .product_configurations!
+                                  .productConfigurations!
                                   .isEmpty
                               ? Text(
                                   'No Variation for Item',
@@ -153,7 +153,7 @@ class ProductItemPage extends StatelessWidget {
                           const SizedBox(height: MPSizes.spaceBtwItems),
                           userController.userData.value.id ==
                                   productItemController
-                                      .singleProductItemDetail.value.user_id
+                                      .singleProductItemDetail.value.userId
                               ? MPCircularContainer(
                                   padding: const EdgeInsets.all(
                                       MPSizes.spaceBtwItems),

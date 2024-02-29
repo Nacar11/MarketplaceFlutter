@@ -1,58 +1,43 @@
-// import 'dart:convert';
+import 'dart:convert';
+import 'package:get/get.dart';
+import 'package:marketplacedb/data/models/order_process/payment_type_model.dart';
+import 'package:marketplacedb/networks/interceptor.dart';
+import 'package:marketplacedb/util/constants/app_constant.dart';
 
-// import 'package:get/get.dart';
-// import 'package:marketplacedb/controllers/products/product_controller.dart';
-// import 'package:marketplacedb/data/models/products/product_item_model.dart';
+class CheckoutPageController extends GetxController {
+  static CheckoutPageController get instance => Get.find();
 
-// import 'package:marketplacedb/networks/interceptor.dart';
-// import 'package:marketplacedb/util/constants/app_constant.dart';
+  final currentClickedSubcategory = 0.obs;
+  final isLoading = false.obs;
+  var paymentTypesList = <PaymentTypeModel>[].obs;
+  final selectedPaymentMethod = PaymentTypeModel().obs;
 
-// ProductController productController = ProductController.static;
+  @override
+  void onInit() async {
+    super.onInit();
+    await getPaymentMethods();
+  }
 
-// class CheckoutPageController extends GetxController {
-//   static CheckoutPageController get instance => Get.find();
-
-//   final currentClickedSubcategory = 0.obs;
-//   final isLoading = false.obs;
-//   var paymentMethodsList = <Payme>[].obs;
-
-//   @override
-//   void onInit() async {
-//     super.onInit();
-//     await getPaymentMethods();
-//   }
-
-
-//     Future<void> getPaymentMethods() async {
-//     isLoading.value = true;
-//     try {
-//       final response =
-//           await AuthInterceptor().get(Uri.parse("${url}getFavoritesByUser"));
-//       var jsonObject = jsonDecode(response.body);
-//       print(jsonObject);
-//       if (jsonObject['message'] == 'success') {
-//         final List<dynamic> data = jsonObject['data'];
-//         final List<Map<String, dynamic>> productItemsDataList = data
-//             .map((item) => item['product_item'] as Map<String, dynamic>)
-//             .toList();
-
-//         final List<ProductItemModel> favoriteItemsList =
-//             productItemsDataList.map((item) {
-//           return ProductItemModel.fromJson(item);
-//         }).toList();
-
-//         paymentMethodsList.assignAll(favoriteItemsList);
-//         print(paymentMethodsList.length);
-
-//         isLoading.value = false;
-//       } else {
-//         isLoading.value = false;
-//         throw Exception('Failed to fetch data');
-//       }
-//     } catch (e) {
-//       isLoading.value = false;
-//       print('Error fetching data: $e');
-//     }
-//   }
-
-// }
+  Future<void> getPaymentMethods() async {
+    try {
+      isLoading.value = true;
+      final response =
+          await AuthInterceptor().get(Uri.parse("${url}getPaymentTypes"));
+      var jsonObject = jsonDecode(response.body);
+      if (jsonObject['message'] == 'success') {
+        final List<dynamic> result = jsonObject['data'];
+        final List<PaymentTypeModel> list =
+            result.map((e) => PaymentTypeModel.fromJson(e)).toList();
+        paymentTypesList.assignAll(list);
+        selectedPaymentMethod.value = paymentTypesList[2];
+        isLoading.value = false;
+      } else {
+        isLoading.value = false;
+        throw Exception('Failed to fetch data');
+      }
+    } catch (e) {
+      isLoading.value = false;
+      print('Error fetching data: $e');
+    }
+  }
+}

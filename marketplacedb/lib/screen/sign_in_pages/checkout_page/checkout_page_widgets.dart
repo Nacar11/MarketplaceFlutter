@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/icons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/images.dart';
+import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
 import 'package:marketplacedb/common/widgets/texts/section_headings.dart';
+import 'package:marketplacedb/screen/sign_in_pages/checkout_page/checkout_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
@@ -48,8 +52,8 @@ class MPCouponCode extends StatelessWidget {
   }
 }
 
-class MPBillingPaymentSection extends StatelessWidget {
-  const MPBillingPaymentSection({super.key});
+class MPBillingAmountSection extends StatelessWidget {
+  const MPBillingAmountSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -77,28 +81,49 @@ class MPBillingPaymentSection extends StatelessWidget {
   }
 }
 
-class MPBillingAddressSection extends StatelessWidget {
-  const MPBillingAddressSection({super.key});
+class MPBillingPaymentTypeSection extends StatelessWidget {
+  const MPBillingPaymentTypeSection({super.key});
 
   @override
   Widget build(BuildContext context) {
+    CheckoutPageController controller = CheckoutPageController.instance;
     final dark = MPHelperFunctions.isDarkMode(context);
     return Column(children: [
       MPSectionHeading(
         title: 'Payment Method',
         showActionButton: true,
         buttonTile: "Change",
-        onPressed: () {},
+        onPressed: () {
+          Get.bottomSheet(const MPCircularContainer());
+        },
       ),
-      const SizedBox(height: MPSizes.spaceBtwItems / 2),
-      Row(children: [
-        MPCircularContainer(
-            width: 60,
-            height: 35,
-            backgroundColor: dark ? MPColors.light : MPColors.white,
-            padding: const EdgeInsets.all(MPSizes.sm),
-            child: Container())
-      ])
+      Obx(() => controller.isLoading.value
+          ? const ShimmerProgressContainer()
+          : Row(children: [
+              Flexible(
+                child: MPCircularContainer(
+                    width: 100,
+                    height: 75,
+                    backgroundColor: dark ? MPColors.light : MPColors.white,
+                    padding: const EdgeInsets.all(MPSizes.sm),
+                    child: MPRoundedImage(
+                        isNetworkImage: true,
+                        imageUrl: controller
+                            .selectedPaymentMethod.value.productImage!)),
+              ),
+              const SizedBox(width: MPSizes.spaceBtwItems / 2),
+              Text(controller.selectedPaymentMethod.value.name!,
+                  style: Theme.of(context).textTheme.bodyLarge)
+            ]))
     ]);
+  }
+}
+
+class MPBillingAddressSection extends StatelessWidget {
+  const MPBillingAddressSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }

@@ -1,14 +1,9 @@
-// ignore_for_file: unused_import, file_names, avoid_print
-
 import 'dart:convert';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:marketplacedb/data/models/OrderLineModel.dart';
-import 'package:marketplacedb/data/models/shippingMethodModel.dart';
+import 'package:marketplacedb/data/models/order_process/order_line_model.dart';
 
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
-import 'package:get_storage/get_storage.dart';
 
 class OrderLineController extends GetxController {
   final isLoading = false.obs;

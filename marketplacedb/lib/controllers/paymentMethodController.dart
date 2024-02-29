@@ -1,11 +1,6 @@
-// ignore_for_file: file_names, avoid_print, non_constant_identifier_names, await_only_futures, unused_import, unused_local_variable
-
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:marketplacedb/networks/google_signin.dart';
-import 'package:marketplacedb/networks/interceptor.dart';
-import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:get_storage/get_storage.dart';
 
 class PaymentMethodController extends GetxController {

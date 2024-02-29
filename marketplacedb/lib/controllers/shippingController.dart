@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:marketplacedb/data/models/ShippingMethodModel.dart';
+import 'package:marketplacedb/data/models/order_process/ShippingMethodModel.dart';
 
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';

@@ -131,11 +131,11 @@ class ProductDetailVariationList extends StatelessWidget {
       height: 100,
       child: ListView.builder(
           itemCount: productItemController
-              .singleProductItemDetail.value.product_configurations!.length,
+              .singleProductItemDetail.value.productConfigurations!.length,
           itemBuilder: (context, index) {
             ProductConfigurationModel productConfigurations =
                 productItemController.singleProductItemDetail.value
-                    .product_configurations![index];
+                    .productConfigurations![index];
             return Padding(
               padding: const EdgeInsets.only(top: MPSizes.spaceBtwItems),
               child: NameValueRow(

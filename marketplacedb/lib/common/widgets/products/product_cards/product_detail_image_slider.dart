@@ -33,8 +33,8 @@ class ProductDetailImageSlider extends StatelessWidget {
                     child: Column(children: [
                       CarouselSlider(
                         items: productItemController
-                            .singleProductItemDetail.value.product_images
-                            ?.map((image) => image.product_image ?? "")
+                            .singleProductItemDetail.value.productImages
+                            ?.map((image) => image.productImage ?? "")
                             .map((url) => MPRoundedImage(
                                   onPressed: () {
                                     productItemPageController
@@ -71,14 +71,14 @@ class ProductDetailImageSlider extends StatelessWidget {
                       separatorBuilder: (_, __) =>
                           const SizedBox(width: MPSizes.spaceBtwItems),
                       itemCount: productItemController
-                          .singleProductItemDetail.value.product_images!.length,
+                          .singleProductItemDetail.value.productImages!.length,
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (_, index) => MPRoundedImage(
                         onPressed: () {
                           productItemPageController.singleProductImage.value =
                               productItemController.singleProductItemDetail
-                                  .value.product_images![index].product_image!;
+                                  .value.productImages![index].productImage!;
                           Get.to(() => const ProductImagePage());
                         },
                         isNetworkImage: true,
@@ -95,7 +95,7 @@ class ProductDetailImageSlider extends StatelessWidget {
                             color: MPColors.secondary),
                         hasBorder: true,
                         imageUrl: productItemController.singleProductItemDetail
-                            .value.product_images![index].product_image!,
+                            .value.productImages![index].productImage!,
                       ),
                     ),
                   ),
