@@ -4,13 +4,11 @@ import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/images.dart';
 import 'package:marketplacedb/common/widgets/custom_shapes/custom_curved_edge_widget.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
+import 'package:marketplacedb/screen/sign_in_pages/discover_pages/product_image_page/product_image_page.dart';
 import 'package:marketplacedb/screen/sign_in_pages/discover_pages/product_item_page/product_item_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
-
-ProductItemController productItemController = ProductItemController.instance;
-final productItemPageController = Get.put(ProductItemPageController());
 
 class ProductDetailImageSlider extends StatelessWidget {
   const ProductDetailImageSlider({
@@ -19,6 +17,9 @@ class ProductDetailImageSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ProductItemController productItemController =
+        ProductItemController.instance;
+    final productItemPageController = Get.put(ProductItemPageController());
     final dark = MPHelperFunctions.isDarkMode(context);
     return Obx(() => CurvedEdgeWidget(
         child: Container(
@@ -35,6 +36,11 @@ class ProductDetailImageSlider extends StatelessWidget {
                             .singleProductItemDetail.value.product_images
                             ?.map((image) => image.product_image ?? "")
                             .map((url) => MPRoundedImage(
+                                  onPressed: () {
+                                    productItemPageController
+                                        .singleProductImage.value = url;
+                                    Get.to(() => const ProductImagePage());
+                                  },
                                   imageUrl: url,
                                   hasBorder: true,
                                   isNetworkImage: true,
@@ -69,6 +75,12 @@ class ProductDetailImageSlider extends StatelessWidget {
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (_, index) => MPRoundedImage(
+                        onPressed: () {
+                          productItemPageController.singleProductImage.value =
+                              productItemController.singleProductItemDetail
+                                  .value.product_images![index].product_image!;
+                          Get.to(() => const ProductImagePage());
+                        },
                         isNetworkImage: true,
                         applyImageRadius: true,
                         width: 70,

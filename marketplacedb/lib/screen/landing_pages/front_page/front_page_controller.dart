@@ -171,7 +171,6 @@ class FrontPageController extends GetxController {
         },
       );
       var jsonResponse = jsonDecode(response.body);
-
       if (jsonResponse['message'] == 'registerFirst') {
         await GoogleSignAPI.logout();
         localStorage.saveData('email', email);
