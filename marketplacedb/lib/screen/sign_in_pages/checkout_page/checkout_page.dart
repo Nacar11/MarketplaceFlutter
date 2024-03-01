@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/layouts/list_view_layout.dart';
 import 'package:marketplacedb/data/models/shopping_cart_item_model.dart';
@@ -21,6 +22,13 @@ class CheckoutPage extends StatelessWidget {
     final dark = MPHelperFunctions.isDarkMode(context);
     ShoppingCartPageController controller = ShoppingCartPageController.instance;
     return Scaffold(
+        bottomNavigationBar: Padding(
+            padding: const EdgeInsets.all(MPSizes.defaultSpace),
+            child: Obx(() => CheckOutButton(
+                text:
+                    "To Checkout  ${controller.shoppingCartItemListTotalPrice.value}",
+                isDisabled: controller
+                    .shoppingCartItemListSelectedToCheckout.isEmpty))),
         appBar: PrimarySearchAppBar(
           title: Text("Checkout",
               style: Theme.of(context).textTheme.headlineSmall),
@@ -44,6 +52,7 @@ class CheckoutPage extends StatelessWidget {
                     const MPCouponCode(),
                     const SizedBox(height: MPSizes.spaceBtwSections),
                     MPCircularContainer(
+                        height: null,
                         padding: const EdgeInsets.all(MPSizes.md),
                         showBorder: true,
                         backgroundColor: dark ? MPColors.dark : MPColors.white,
@@ -52,7 +61,8 @@ class CheckoutPage extends StatelessWidget {
                           SizedBox(height: MPSizes.spaceBtwItems),
                           Divider(),
                           SizedBox(height: MPSizes.spaceBtwItems),
-                          MPBillingPaymentTypeSection()
+                          MPBillingPaymentTypeSection(),
+                          MPBillingAddressSection()
                         ]))
                   ],
                 ))));

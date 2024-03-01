@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/icons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/images.dart';
 import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
 import 'package:marketplacedb/common/widgets/texts/section_headings.dart';
 import 'package:marketplacedb/screen/sign_in_pages/checkout_page/checkout_page_controller.dart';
+import 'package:marketplacedb/screen/sign_in_pages/settings_pages/address_list_page/address_list_page.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
@@ -124,6 +124,43 @@ class MPBillingAddressSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    CheckoutPageController controller = CheckoutPageController.instance;
+    return Obx(() => controller.isLoading.value
+        ? const ShimmerProgressContainer()
+        : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            MPSectionHeading(
+              title: 'Shipping Address',
+              showActionButton: true,
+              buttonTile: "Change",
+              onPressed: () {
+                Get.bottomSheet(
+                    const MPCircularContainer(child: AddressListPage()),
+                    isScrollControlled: false);
+              },
+            ),
+            Text('name', style: Theme.of(context).textTheme.bodyLarge),
+            const SizedBox(height: MPSizes.spaceBtwItems / 2),
+            Row(
+              children: [
+                const Icon(Icons.phone, color: MPColors.grey, size: 16),
+                const SizedBox(width: MPSizes.spaceBtwItems),
+                Text(
+                    controller.defaultUserAddress.value.address!.contactNumber!,
+                    style: Theme.of(context).textTheme.bodyMedium),
+              ],
+            ),
+            const SizedBox(height: MPSizes.spaceBtwItems / 2),
+            Row(
+              children: [
+                const Icon(Icons.location_history,
+                    color: MPColors.grey, size: 16),
+                const SizedBox(width: MPSizes.spaceBtwItems),
+                Expanded(
+                    child: Text(
+                        '${controller.defaultUserAddress.value.address!.addressLine1!}, ${controller.defaultUserAddress.value.address!.city!.name} ',
+                        style: Theme.of(context).textTheme.bodyMedium)),
+              ],
+            ),
+          ]));
   }
 }
