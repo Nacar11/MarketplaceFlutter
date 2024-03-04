@@ -20,9 +20,6 @@ class AccountSettingsPageController extends GetxController {
           'Logging Out...', AnimationsUtils.loading);
       var response = await AuthInterceptor().get(
         Uri.parse('${url}logout'),
-        headers: {
-          'Accept': 'application/json',
-        },
       );
 
       final jsonResponse = jsonDecode(response.body);

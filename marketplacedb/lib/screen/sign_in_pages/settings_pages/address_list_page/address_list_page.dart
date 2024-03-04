@@ -32,8 +32,9 @@ class AddressListPage extends StatelessWidget {
             },
             child: const Icon(Iconsax.add, color: MPColors.white)),
         appBar: PrimarySearchAppBar(
-            title: Text("Addresses",
-                style: Theme.of(context).textTheme.headlineSmall)),
+          title: Text("Addresses",
+              style: Theme.of(context).textTheme.headlineSmall),
+        ),
         body: SingleChildScrollView(
             child: Padding(
                 padding: const EdgeInsets.all(MPSizes.defaultSpace),

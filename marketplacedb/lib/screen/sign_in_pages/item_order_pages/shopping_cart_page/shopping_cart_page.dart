@@ -5,8 +5,8 @@ import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/layouts/list_view_layout.dart';
 import 'package:marketplacedb/data/models/shopping_cart_item_model.dart';
-import 'package:marketplacedb/screen/sign_in_pages/shopping_cart_page/shopping_cart_page_controller.dart';
-import 'package:marketplacedb/screen/sign_in_pages/shopping_cart_page/shopping_cart_page_widgets.dart';
+import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/shopping_cart_page/shopping_cart_page_controller.dart';
+import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/shopping_cart_page/shopping_cart_page_widgets.dart';
 import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
@@ -28,7 +28,7 @@ class ShoppingCartPage extends StatelessWidget {
         appBar: PrimarySearchAppBar(
             title:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text("Cart", style: Theme.of(context).textTheme.headlineMedium),
+          Text("Cart", style: Theme.of(context).textTheme.headlineSmall),
         ])),
         body: Obx(() => SingleChildScrollView(
             child: Padding(

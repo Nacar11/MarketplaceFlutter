@@ -8,7 +8,7 @@ import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/favorites_page/favorites_page_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/sell_pages/billing_address_setup/billing_address_setup.dart';
 import 'package:marketplacedb/controllers/products/product_controller.dart';
-import 'package:marketplacedb/screen/sign_in_pages/shopping_cart_page/shopping_cart_page_controller.dart';
+import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/shopping_cart_page/shopping_cart_page_controller.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
 
 class Navigation extends StatefulWidget {

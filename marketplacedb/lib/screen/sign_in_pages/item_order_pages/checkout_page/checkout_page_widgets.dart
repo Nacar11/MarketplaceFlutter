@@ -3,10 +3,15 @@ import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/images.dart';
+import 'package:marketplacedb/common/widgets/layouts/list_view_layout.dart';
 import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
 import 'package:marketplacedb/common/widgets/texts/section_headings.dart';
-import 'package:marketplacedb/screen/sign_in_pages/checkout_page/checkout_page_controller.dart';
+import 'package:marketplacedb/controllers/user_controller.dart';
+import 'package:marketplacedb/data/models/order_process/payment_type_model.dart';
+import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/checkout_page/checkout_page_controller.dart';
+import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/payment_types_page/payment_types_page.dart';
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/address_list_page/address_list_page.dart';
+import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/shopping_cart_page/shopping_cart_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
@@ -57,6 +62,7 @@ class MPBillingAmountSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ShoppingCartPageController controller = ShoppingCartPageController.instance;
     return Column(children: [
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text('Subtotal', style: Theme.of(context).textTheme.bodyMedium),
@@ -75,7 +81,8 @@ class MPBillingAmountSection extends StatelessWidget {
       const SizedBox(height: MPSizes.spaceBtwItems / 2),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text('Order Total', style: Theme.of(context).textTheme.bodyMedium),
-        Text('69000', style: Theme.of(context).textTheme.titleMedium),
+        Text('${controller.shoppingCartItemListTotalPrice.value}',
+            style: Theme.of(context).textTheme.titleMedium),
       ]),
     ]);
   }
@@ -94,7 +101,7 @@ class MPBillingPaymentTypeSection extends StatelessWidget {
         showActionButton: true,
         buttonTile: "Change",
         onPressed: () {
-          Get.bottomSheet(const MPCircularContainer());
+          Get.to(() => const PaymentTypesPage());
         },
       ),
       Obx(() => controller.isLoading.value
@@ -109,10 +116,10 @@ class MPBillingPaymentTypeSection extends StatelessWidget {
                     child: MPRoundedImage(
                         isNetworkImage: true,
                         imageUrl: controller
-                            .selectedPaymentMethod.value.productImage!)),
+                            .confirmedSelectedPaymentType.value.productImage!)),
               ),
               const SizedBox(width: MPSizes.spaceBtwItems / 2),
-              Text(controller.selectedPaymentMethod.value.name!,
+              Text(controller.confirmedSelectedPaymentType.value.name!,
                   style: Theme.of(context).textTheme.bodyLarge)
             ]))
     ]);
@@ -124,7 +131,7 @@ class MPBillingAddressSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CheckoutPageController controller = CheckoutPageController.instance;
+    UserController controller = UserController.instance;
     return Obx(() => controller.isLoading.value
         ? const ShimmerProgressContainer()
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -134,11 +141,13 @@ class MPBillingAddressSection extends StatelessWidget {
               buttonTile: "Change",
               onPressed: () {
                 Get.bottomSheet(
-                    const MPCircularContainer(child: AddressListPage()),
-                    isScrollControlled: false);
+                  const AddressListPage(),
+                );
               },
             ),
-            Text('name', style: Theme.of(context).textTheme.bodyLarge),
+            Text(
+                '${controller.userData.value.firstName} ${controller.userData.value.lastName}',
+                style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(height: MPSizes.spaceBtwItems / 2),
             Row(
               children: [
@@ -162,5 +171,64 @@ class MPBillingAddressSection extends StatelessWidget {
               ],
             ),
           ]));
+  }
+}
+
+class PaymentTypeSelector extends StatelessWidget {
+  const PaymentTypeSelector({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    CheckoutPageController controller = CheckoutPageController.instance;
+    final dark = MPHelperFunctions.isDarkMode(context);
+    return MPCircularContainer(
+        child: MPListViewLayout(
+            separatorBuilder: (_, __) =>
+                const SizedBox(height: MPSizes.spaceBtwSections),
+            itemBuilder: (_, index) {
+              PaymentTypeModel paymentType = controller.paymentTypesList[index];
+              return Obx(() => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(children: [
+                        MPCircularContainer(
+                          width: 100,
+                          height: 75,
+                          backgroundColor:
+                              dark ? MPColors.light : MPColors.white,
+                          padding: const EdgeInsets.all(MPSizes.sm),
+                          child: MPRoundedImage(
+                            imageUrl: paymentType.productImage!,
+                            isNetworkImage: true,
+                          ),
+                        ),
+                        Text(paymentType.name!,
+                            style: Theme.of(context).textTheme.bodyLarge),
+                      ]),
+                      RadioListTile(
+                        title: MPCircularContainer(
+                          width: 100,
+                          height: 75,
+                          backgroundColor:
+                              dark ? MPColors.light : MPColors.white,
+                          padding: const EdgeInsets.all(MPSizes.sm),
+                          child: MPRoundedImage(
+                            imageUrl: paymentType.productImage!,
+                            isNetworkImage: true,
+                          ),
+                        ),
+                        subtitle: Text(paymentType.name!,
+                            style: Theme.of(context).textTheme.bodyLarge),
+                        value: paymentType,
+                        groupValue: controller.selectedPaymentType.value,
+                        onChanged: (value) {
+                          controller.selectedPaymentType.value =
+                              value as PaymentTypeModel;
+                        },
+                      ),
+                    ],
+                  ));
+            },
+            itemCount: controller.paymentTypesList.length));
   }
 }

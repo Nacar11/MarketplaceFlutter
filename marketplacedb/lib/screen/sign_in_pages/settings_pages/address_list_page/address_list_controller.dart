@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:marketplacedb/data/models/addresses/user_address_model.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'dart:convert';
@@ -9,6 +10,7 @@ class AddressListPageController extends GetxController {
   final isLoading = false.obs;
   final userAddressList = <UserAddressModel>[].obs;
   final selectedAddress = UserAddressModel().obs;
+  final userController = UserController.instance;
 
   @override
   void onInit() async {
@@ -24,6 +26,7 @@ class AddressListPageController extends GetxController {
       print(response.body);
       if (jsonObject['message'] == 'success') {
         getUserAddresses();
+        userController.getDefaultUserAddress();
       } else {
         throw Exception('message is not success');
       }
@@ -40,6 +43,7 @@ class AddressListPageController extends GetxController {
       print(response.body);
       if (jsonObject['message'] == 'success') {
         getUserAddresses();
+        userController.getDefaultUserAddress();
       } else {
         throw Exception('message is not success');
       }
