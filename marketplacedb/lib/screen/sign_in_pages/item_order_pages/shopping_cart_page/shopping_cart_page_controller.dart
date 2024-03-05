@@ -43,7 +43,8 @@ class ShoppingCartPageController extends GetxController {
             selectedItems.add(item);
           }
         }
-        shoppingCartItemListTotalPrice.value = totalPrice;
+        shoppingCartItemListTotalPrice.value =
+            double.parse(totalPrice.toStringAsFixed(2));
         shoppingCartItemListSelectedToCheckout.assignAll(selectedItems);
 
         isLoading.value = false;

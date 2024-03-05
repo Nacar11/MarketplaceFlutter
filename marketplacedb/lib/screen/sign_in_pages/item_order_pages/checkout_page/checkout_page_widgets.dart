@@ -3,11 +3,9 @@ import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/images.dart';
-import 'package:marketplacedb/common/widgets/layouts/list_view_layout.dart';
 import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
 import 'package:marketplacedb/common/widgets/texts/section_headings.dart';
 import 'package:marketplacedb/controllers/user_controller.dart';
-import 'package:marketplacedb/data/models/order_process/payment_type_model.dart';
 import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/checkout_page/checkout_page_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/payment_types_page/payment_types_page.dart';
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/address_list_page/address_list_page.dart';
@@ -105,7 +103,7 @@ class MPBillingPaymentTypeSection extends StatelessWidget {
         },
       ),
       Obx(() => controller.isLoading.value
-          ? const ShimmerProgressContainer()
+          ? const ShimmerProgressContainer(height: 20, width: 20)
           : Row(children: [
               Flexible(
                 child: MPCircularContainer(
@@ -171,64 +169,5 @@ class MPBillingAddressSection extends StatelessWidget {
               ],
             ),
           ]));
-  }
-}
-
-class PaymentTypeSelector extends StatelessWidget {
-  const PaymentTypeSelector({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    CheckoutPageController controller = CheckoutPageController.instance;
-    final dark = MPHelperFunctions.isDarkMode(context);
-    return MPCircularContainer(
-        child: MPListViewLayout(
-            separatorBuilder: (_, __) =>
-                const SizedBox(height: MPSizes.spaceBtwSections),
-            itemBuilder: (_, index) {
-              PaymentTypeModel paymentType = controller.paymentTypesList[index];
-              return Obx(() => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(children: [
-                        MPCircularContainer(
-                          width: 100,
-                          height: 75,
-                          backgroundColor:
-                              dark ? MPColors.light : MPColors.white,
-                          padding: const EdgeInsets.all(MPSizes.sm),
-                          child: MPRoundedImage(
-                            imageUrl: paymentType.productImage!,
-                            isNetworkImage: true,
-                          ),
-                        ),
-                        Text(paymentType.name!,
-                            style: Theme.of(context).textTheme.bodyLarge),
-                      ]),
-                      RadioListTile(
-                        title: MPCircularContainer(
-                          width: 100,
-                          height: 75,
-                          backgroundColor:
-                              dark ? MPColors.light : MPColors.white,
-                          padding: const EdgeInsets.all(MPSizes.sm),
-                          child: MPRoundedImage(
-                            imageUrl: paymentType.productImage!,
-                            isNetworkImage: true,
-                          ),
-                        ),
-                        subtitle: Text(paymentType.name!,
-                            style: Theme.of(context).textTheme.bodyLarge),
-                        value: paymentType,
-                        groupValue: controller.selectedPaymentType.value,
-                        onChanged: (value) {
-                          controller.selectedPaymentType.value =
-                              value as PaymentTypeModel;
-                        },
-                      ),
-                    ],
-                  ));
-            },
-            itemCount: controller.paymentTypesList.length));
   }
 }
