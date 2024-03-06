@@ -16,6 +16,7 @@ class AccountSettingsPageController extends GetxController {
   Future<void> logout(BuildContext context) async {
     try {
       isLoading.value = true;
+
       MPFullScreenAnimationLoader.openLoadingDialog(
           'Logging Out...', AnimationsUtils.loading);
       var response = await AuthInterceptor().get(
