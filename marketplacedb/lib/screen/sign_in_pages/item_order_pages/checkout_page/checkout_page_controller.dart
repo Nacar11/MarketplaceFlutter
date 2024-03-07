@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:marketplacedb/data/models/order_process/payment_type_model.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
+import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
 import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/shopping_cart_page/shopping_cart_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:http/http.dart' as http;
@@ -56,6 +57,7 @@ class CheckoutPageController extends GetxController {
       isLoading.value = true;
       MPFullScreenOverlayLoader.openLoadingDialog();
       List<Map<String, dynamic>> lineItems = [];
+      List<int> cartIds = [];
       for (var item in shoppingCartPageController
           .shoppingCartItemListSelectedToCheckout) {
         lineItems.add({
@@ -64,10 +66,17 @@ class CheckoutPageController extends GetxController {
           "amount": (item.productItem!.price! * 100).toInt(),
           "description": item.productItem!.description,
           "name": item.productItem!.product!.name,
-          "quantity": 1
+          "quantity": 1,
         });
-        // print(item.productItem!.price!.toInt());
+
+        cartIds.add(item.id!);
       }
+      Map<String, dynamic> metaData = {
+        'cart_ids': cartIds,
+        'address_id': userController.defaultUserAddress.value.addressId,
+        'user_id': userController.userData.value.id
+      };
+
       Map<String, String> headers = {
         "authorization": "Basic c2tfdGVzdF82RGhnRzJBVXJQdXp0OFZ4UjN6ZlFOSkc=",
         "accept": "application/json",
@@ -107,24 +116,12 @@ class CheckoutPageController extends GetxController {
             "payment_method_types": [confirmedSelectedPaymentType.value.code!],
             "reference_number": "test_reference_number",
             "description":
-                "test checkout description from paymongo developers - marketplace"
+                "test checkout description from paymongo developers - marketplace",
+            "metadata": metaData
           }
         }
       };
 
-      // print(headers);
-      // List<Map<String, dynamic>> lineItems = [];
-      // for (var item in shoppingCartPageController
-      //     .shoppingCartItemListSelectedToCheckout) {
-      //   lineItems.add({
-      //     "currency": "PHP",
-      //     "images": item.productItem!.productImages![0].productImage,
-      //     "amount": item.productItem!.price! * 10,
-      //     "description": item.productItem!.description,
-      //     "name": item.productItem!.product!.name,
-      //     "quantity": 1
-      //   });
-      // }
       final response = await http.post(
           Uri.parse("https://api.paymongo.com/v1/checkout_sessions"),
           headers: headers,
@@ -141,6 +138,8 @@ class CheckoutPageController extends GetxController {
         );
 
         MPFullScreenOverlayLoader.stopLoading();
+        await shoppingCartPageController.getShoppingCartItems();
+        Get.offAll(() => const Navigation());
       } else {
         MPFullScreenOverlayLoader.stopLoading();
       }
