@@ -20,7 +20,7 @@ class AccountSettingsPageController extends GetxController {
       MPFullScreenAnimationLoader.openLoadingDialog(
           'Logging Out...', AnimationsUtils.loading);
       var response = await AuthInterceptor().get(
-        Uri.parse('${url}logout'),
+        Uri.parse('${MPConstants.url}logout'),
       );
 
       final jsonResponse = jsonDecode(response.body);
@@ -39,6 +39,7 @@ class AccountSettingsPageController extends GetxController {
         localStorage.clearAll();
       }
     } catch (e) {
+      localStorage.clearAll();
       MPFullScreenAnimationLoader.stopLoading();
       isLoading.value = false;
       getSnackBar(e.toString(), "Error", false);

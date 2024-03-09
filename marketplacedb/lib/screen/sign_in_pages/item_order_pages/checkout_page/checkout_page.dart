@@ -4,7 +4,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/layouts/list_view_layout.dart';
-import 'package:marketplacedb/data/models/shopping_cart_item_model.dart';
+import 'package:marketplacedb/data/models/shopping_cart/shopping_cart_item_model.dart';
 import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/checkout_page/checkout_page_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/checkout_page/checkout_page_widgets.dart';
 import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/shopping_cart_page/shopping_cart_page_controller.dart';
@@ -18,10 +18,9 @@ class CheckoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(CheckoutPageController());
     final dark = MPHelperFunctions.isDarkMode(context);
     CheckoutPageController checkoutPageController =
-        CheckoutPageController.instance;
+        Get.put(CheckoutPageController());
     ShoppingCartPageController shoppingCartController =
         ShoppingCartPageController.instance;
     return Scaffold(

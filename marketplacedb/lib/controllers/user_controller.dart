@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:get/get.dart';
-import 'package:marketplacedb/data/models/user_model.dart';
+import 'package:marketplacedb/data/models/user/user_model.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:marketplacedb/util/popups/full_screen_overlay_loader.dart';
@@ -24,8 +24,8 @@ class UserController extends GetxController {
   Future<void> userDataInit() async {
     try {
       isLoading.value = true;
-      final response =
-          await AuthInterceptor().get(Uri.parse("${url}getUserData"));
+      final response = await AuthInterceptor()
+          .get(Uri.parse("${MPConstants.url}getUserData"));
       Map<String, dynamic> jsonObject = jsonDecode(response.body);
       Map<String, dynamic> userDataJson = jsonObject['data'];
 
@@ -41,8 +41,8 @@ class UserController extends GetxController {
     try {
       isLoading.value = true;
       MPFullScreenOverlayLoader.openLoadingDialog();
-      final response =
-          await AuthInterceptor().get(Uri.parse("${url}userHasAddress"));
+      final response = await AuthInterceptor()
+          .get(Uri.parse("${MPConstants.url}userHasAddress"));
       var jsonObject = jsonDecode(response.body);
       userHasAddressValue.value = jsonObject['message'];
       MPFullScreenOverlayLoader.stopLoading();
@@ -57,8 +57,8 @@ class UserController extends GetxController {
   Future<void> getDefaultUserAddress() async {
     try {
       isLoading.value = true;
-      final response =
-          await AuthInterceptor().get(Uri.parse("${url}getDefaultAddress"));
+      final response = await AuthInterceptor()
+          .get(Uri.parse("${MPConstants.url}getDefaultAddress"));
       var jsonObject = jsonDecode(response.body);
       print(jsonObject);
       if (jsonObject['message'] == 'success') {

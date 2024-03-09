@@ -6,7 +6,7 @@ import 'package:marketplacedb/screen/sign_in_pages/favorites_page/favorites_page
 import 'package:marketplacedb/screen/sign_in_pages/sell_pages/sell_page/sell_page.dart';
 
 class NavigationController extends GetxController {
-  static NavigationController get static => Get.find();
+  static NavigationController get instance => Get.find();
 
   final index = 0.obs;
 

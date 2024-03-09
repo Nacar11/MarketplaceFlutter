@@ -36,7 +36,8 @@ class HomeScreenController extends GetxController {
   Future<void> getProductCategories() async {
     try {
       isLoading.value = true;
-      final response = await http.get(Uri.parse("${url}product-category"));
+      final response =
+          await http.get(Uri.parse("${MPConstants.url}product-category"));
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == 'success') {
         final List<dynamic> result = jsonObject['data'];
@@ -58,8 +59,8 @@ class HomeScreenController extends GetxController {
   Future<void> getUserGender() async {
     try {
       isLoading.value = true;
-      final response =
-          await AuthInterceptor().get(Uri.parse("${url}getUserGender"));
+      final response = await AuthInterceptor()
+          .get(Uri.parse("${MPConstants.url}getUserGender"));
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == 'success') {
         final String result = jsonObject['data'];

@@ -33,6 +33,31 @@ class MPHelperFunctions {
     return value;
   }
 
+  static final Map<int, String> monthAbbreviations = {
+    DateTime.january: 'Jan',
+    DateTime.february: 'Feb',
+    DateTime.march: 'Mar',
+    DateTime.april: 'Apr',
+    DateTime.may: 'May',
+    DateTime.june: 'Jun',
+    DateTime.july: 'Jul',
+    DateTime.august: 'Aug',
+    DateTime.september: 'Sept',
+    DateTime.october: 'Oct',
+    DateTime.november: 'Nov',
+    DateTime.december: 'Dec',
+  };
+
+  static String convertDate(String orderDate) {
+    DateTime dateTime = DateTime.parse(orderDate);
+
+    String day = dateTime.day.toString().padLeft(2, '0');
+    String monthName = monthAbbreviations[dateTime.month]!;
+    String year = dateTime.year.toString();
+
+    return '$day $monthName $year';
+  }
+
   static double expandedHeightTabBar(int nSubCategory) {
     if (nSubCategory <= 4) {
       return 400;

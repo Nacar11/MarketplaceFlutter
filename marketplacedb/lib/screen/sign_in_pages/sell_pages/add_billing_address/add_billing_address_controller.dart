@@ -6,7 +6,7 @@ import 'package:marketplacedb/data/models/addresses/country_model.dart';
 import 'package:marketplacedb/data/models/addresses/region_model.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
-import 'package:marketplacedb/screen/sign_in_pages/settings_pages/address_list_page/address_list_controller.dart';
+import 'package:marketplacedb/screen/sign_in_pages/settings_pages/address_list_page/address_list_page_controller.dart';
 import 'dart:convert';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
@@ -51,7 +51,7 @@ class AddBillingAddressController extends GetxController {
       // }
       MPFullScreenOverlayLoader.openLoadingDialog();
       final response = await AuthInterceptor().post(
-        Uri.parse("${url}addAddress"),
+        Uri.parse("${MPConstants.url}addAddress"),
         body: {
           "contact_number": phoneNumber.value,
           "unit_number": unitNumber.text,
@@ -125,7 +125,7 @@ class AddBillingAddressController extends GetxController {
     isLoading.value = true;
     try {
       final response =
-          await AuthInterceptor().get(Uri.parse("${url}countries"));
+          await AuthInterceptor().get(Uri.parse("${MPConstants.url}countries"));
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == 'success') {
         final List<dynamic> result = jsonObject['data'];
@@ -148,7 +148,7 @@ class AddBillingAddressController extends GetxController {
     isLoading.value = true;
     try {
       final response = await AuthInterceptor()
-          .get(Uri.parse("${url}getRegionsByCountryId/$countryId"));
+          .get(Uri.parse("${MPConstants.url}getRegionsByCountryId/$countryId"));
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == 'success') {
         final List<dynamic> result = jsonObject['data'];

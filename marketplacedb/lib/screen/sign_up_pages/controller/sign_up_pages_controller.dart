@@ -96,7 +96,7 @@ class SignUpPagesController extends GetxController {
       }
 
       var response = await AuthInterceptor().post(
-        Uri.parse('${url}SMSVerificationCode'),
+        Uri.parse('${MPConstants.url}SMSVerificationCode'),
         body: {
           'contact_number': phoneNumber.text,
         },
@@ -128,7 +128,7 @@ class SignUpPagesController extends GetxController {
       isLoading.value = true;
 
       var response = await AuthInterceptor().post(
-        Uri.parse('${url}checkUsername'),
+        Uri.parse('${MPConstants.url}checkUsername'),
         body: {
           'username': username.text,
         },
@@ -189,7 +189,7 @@ class SignUpPagesController extends GetxController {
       });
 
       var response = await AuthInterceptor().post(
-        Uri.parse('${url}register'),
+        Uri.parse('${MPConstants.url}register'),
         body: data,
       );
 

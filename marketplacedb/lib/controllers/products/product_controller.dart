@@ -33,8 +33,8 @@ class ProductController extends GetxController {
   Future<void> getProductCategories() async {
     isLoading.value = true;
     try {
-      final response =
-          await AuthInterceptor().get(Uri.parse("${url}product-category"));
+      final response = await AuthInterceptor()
+          .get(Uri.parse("${MPConstants.url}product-category"));
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == 'success') {
         final List<dynamic> result = jsonObject['data'];
@@ -58,8 +58,8 @@ class ProductController extends GetxController {
   Future<void> getProductTypesByCategoryId(int categoryId) async {
     isLoading.value = true;
     try {
-      final response = await AuthInterceptor()
-          .get(Uri.parse("${url}getProductTypesByCategory/$categoryId"));
+      final response = await AuthInterceptor().get(
+          Uri.parse("${MPConstants.url}getProductTypesByCategory/$categoryId"));
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == 'success') {
         final List<dynamic> result = jsonObject['data'];

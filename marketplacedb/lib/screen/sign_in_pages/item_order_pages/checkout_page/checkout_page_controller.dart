@@ -3,10 +3,11 @@ import 'package:get/get.dart';
 import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:marketplacedb/data/models/order_process/payment_type_model.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
-import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
+import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/payment_process_page/payment_process_page.dart';
 import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/shopping_cart_page/shopping_cart_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:http/http.dart' as http;
+import 'package:marketplacedb/util/local_storage/local_storage.dart';
 import 'package:marketplacedb/util/popups/full_screen_overlay_loader.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -16,11 +17,12 @@ UserController userController = UserController.instance;
 
 class CheckoutPageController extends GetxController {
   static CheckoutPageController get instance => Get.find();
-
+  final MPLocalStorage localStorage = MPLocalStorage();
   final isLoading = false.obs;
   var paymentTypesList = <PaymentTypeModel>[].obs;
   final selectedPaymentType = PaymentTypeModel().obs;
   final confirmedSelectedPaymentType = PaymentTypeModel().obs;
+  final checkoutSessionId = ''.obs;
 
   @override
   void onInit() async {
@@ -31,8 +33,8 @@ class CheckoutPageController extends GetxController {
   Future<void> getPaymentTypes() async {
     try {
       isLoading.value = true;
-      final response =
-          await AuthInterceptor().get(Uri.parse("${url}getPaymentTypes"));
+      final response = await AuthInterceptor()
+          .get(Uri.parse("${MPConstants.url}getPaymentTypes"));
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == 'success') {
         final List<dynamic> result = jsonObject['data'];
@@ -77,12 +79,6 @@ class CheckoutPageController extends GetxController {
         'user_id': userController.userData.value.id
       };
 
-      Map<String, String> headers = {
-        "authorization": "Basic c2tfdGVzdF82RGhnRzJBVXJQdXp0OFZ4UjN6ZlFOSkc=",
-        "accept": "application/json",
-        "Content-Type": "application/json"
-      };
-
       Map<String, dynamic> requestBody = {
         "data": {
           "attributes": {
@@ -124,7 +120,7 @@ class CheckoutPageController extends GetxController {
 
       final response = await http.post(
           Uri.parse("https://api.paymongo.com/v1/checkout_sessions"),
-          headers: headers,
+          headers: MPConstants.paymongoApiHeaders,
           body: jsonEncode(requestBody));
 
       print(response.body);
@@ -132,14 +128,17 @@ class CheckoutPageController extends GetxController {
       print(jsonObject['data']['attributes']['checkout_url']);
       if (jsonObject['data']['attributes']['checkout_url'] != null) {
         print(jsonObject['data']['attributes']['checkout_url']);
+        print(jsonObject['data']['id']);
+        checkoutSessionId.value = (jsonObject['data']['id']);
         await launchUrl(
           Uri.parse(jsonObject['data']['attributes']['checkout_url']),
           mode: LaunchMode.externalApplication,
         );
-
+        localStorage.saveData('checkoutSessionId', jsonObject['data']['id']);
+        print('---------------');
+        print(localStorage.readData('checkoutSessionId'));
         MPFullScreenOverlayLoader.stopLoading();
-        await shoppingCartPageController.getShoppingCartItems();
-        Get.offAll(() => const Navigation());
+        Get.offAll(() => const PaymentProcessPage());
       } else {
         MPFullScreenOverlayLoader.stopLoading();
       }

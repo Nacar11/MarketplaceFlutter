@@ -21,7 +21,7 @@ class AddressListPageController extends GetxController {
   Future setDefaultAddress() async {
     try {
       final response = await AuthInterceptor().post(Uri.parse(
-          "${url}setDefaultAddress/${selectedAddress.value.address!.id!}"));
+          "${MPConstants.url}setDefaultAddress/${selectedAddress.value.address!.id!}"));
       var jsonObject = jsonDecode(response.body);
       print(response.body);
       if (jsonObject['message'] == 'success') {
@@ -38,7 +38,7 @@ class AddressListPageController extends GetxController {
   void deleteAddress() async {
     try {
       final response = await AuthInterceptor().delete(Uri.parse(
-          "${url}deleteAddress/${selectedAddress.value.address!.id!}"));
+          "${MPConstants.url}deleteAddress/${selectedAddress.value.address!.id!}"));
       var jsonObject = jsonDecode(response.body);
       print(response.body);
       if (jsonObject['message'] == 'success') {
@@ -56,8 +56,8 @@ class AddressListPageController extends GetxController {
     try {
       isLoading.value = true;
 
-      final response =
-          await AuthInterceptor().get(Uri.parse("${url}getAddresses"));
+      final response = await AuthInterceptor()
+          .get(Uri.parse("${MPConstants.url}getAddresses"));
       var jsonObject = jsonDecode(response.body);
       print(response.body);
       if (jsonObject['message'] == 'success') {

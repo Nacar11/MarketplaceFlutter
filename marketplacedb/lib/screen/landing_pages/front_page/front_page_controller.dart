@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/controllers/network_manager/network_manager.dart';
 import 'package:marketplacedb/networks/google_signin.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
+import 'package:marketplacedb/screen/landing_pages/navigation/navigation_controller.dart';
 import 'package:marketplacedb/screen/sign_up_pages/pages/phone/sign_up_page_phone.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
 import 'package:marketplacedb/util/constants/app_animations.dart';
@@ -19,7 +19,6 @@ class FrontPageController extends GetxController {
   final isLoading = false.obs;
   final email = TextEditingController();
   final password = TextEditingController();
-
   MPLocalStorage localStorage = MPLocalStorage();
 
   Future<void> simulateLoading(Duration duration) async {
@@ -42,7 +41,7 @@ class FrontPageController extends GetxController {
       }
 
       final response = await AuthInterceptor().post(
-        Uri.parse("${url}login"),
+        Uri.parse("${MPConstants.url}login"),
         body: {
           'email': email.text,
           'password': password.text,
@@ -56,6 +55,8 @@ class FrontPageController extends GetxController {
         localStorage.saveData('username', jsonResponse['username']);
         isLoading.value = false;
         MPFullScreenAnimationLoader.stopLoading();
+        NavigationController controller = NavigationController.instance;
+        controller.index.value = 0;
         Get.offAll(() => const Navigation());
         String text = 'Welcome, ${jsonResponse['username']}';
         getSnackBar(text, MPTexts.successLogin, true);
@@ -80,8 +81,8 @@ class FrontPageController extends GetxController {
         'username': username,
       };
 
-      var response = await http.post(
-        Uri.parse('${url}checkUsername'),
+      var response = await AuthInterceptor().post(
+        Uri.parse('${MPConstants.url}checkUsername'),
         headers: {
           'Accept': 'application/json',
         },
@@ -123,8 +124,8 @@ class FrontPageController extends GetxController {
         print('$key: ${value.runtimeType}');
       });
 
-      var response = await http.post(
-        Uri.parse('${url}register'),
+      var response = await AuthInterceptor().post(
+        Uri.parse('${MPConstants.url}register'),
         headers: {
           'Accept': 'application/json',
         },
@@ -138,6 +139,8 @@ class FrontPageController extends GetxController {
         localStorage.saveData('username', jsonObject['username']);
         localStorage.saveData('userID', jsonObject['user_id']);
 
+        NavigationController controller = NavigationController.instance;
+        controller.index.value = 0;
         Get.offAll(() => const Navigation());
         String text = 'Welcome, ${localStorage.readData('username')}';
         getSnackBar(text, "Successfully Registered!", true);
@@ -165,7 +168,7 @@ class FrontPageController extends GetxController {
       }
       isLoading.value = true;
       var response = await AuthInterceptor().post(
-        Uri.parse('${url}google/callback'),
+        Uri.parse('${MPConstants.url}google/callback'),
         body: {
           'email': email,
         },
@@ -184,6 +187,8 @@ class FrontPageController extends GetxController {
         localStorage.saveData('username', jsonResponse['username']);
         isLoading.value = false;
         MPFullScreenAnimationLoader.stopLoading();
+        NavigationController controller = NavigationController.instance;
+        controller.index.value = 0;
         Get.offAll(() => const Navigation());
         String text = 'Welcome, ${localStorage.readData('username')}';
         getSnackBar(text, MPTexts.successLogin, true);

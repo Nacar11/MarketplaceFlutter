@@ -7,7 +7,7 @@ class AddressModel {
   String? unitNumber;
   String? addressLine1;
   String? addressLine2;
-  String? contactNumber; // Added field
+  String? contactNumber;
   CityModel? city;
   RegionModel? region;
   String? postalCode;
@@ -21,7 +21,7 @@ class AddressModel {
     this.unitNumber,
     this.addressLine1,
     this.addressLine2,
-    this.contactNumber, // Added field
+    this.contactNumber,
     this.city,
     this.region,
     this.postalCode,

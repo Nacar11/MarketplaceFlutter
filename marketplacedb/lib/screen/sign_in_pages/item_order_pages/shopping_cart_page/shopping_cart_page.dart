@@ -4,7 +4,8 @@ import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/layouts/list_view_layout.dart';
-import 'package:marketplacedb/data/models/shopping_cart_item_model.dart';
+import 'package:marketplacedb/data/models/shopping_cart/shopping_cart_item_model.dart';
+import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/checkout_page/checkout_page.dart';
 import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/shopping_cart_page/shopping_cart_page_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/shopping_cart_page/shopping_cart_page_widgets.dart';
 import 'package:marketplacedb/util/constants/app_animations.dart';
@@ -21,6 +22,9 @@ class ShoppingCartPage extends StatelessWidget {
         bottomNavigationBar: Padding(
             padding: const EdgeInsets.all(MPSizes.defaultSpace),
             child: Obx(() => CheckOutButton(
+                onPressed: () async {
+                  Get.to(() => const CheckoutPage());
+                },
                 text:
                     "To Checkout  ${controller.shoppingCartItemListTotalPrice.value}",
                 isDisabled: controller

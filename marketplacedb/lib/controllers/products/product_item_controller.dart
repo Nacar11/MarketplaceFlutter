@@ -28,8 +28,8 @@ class ProductItemController extends GetxController {
 
   Future<void> getSingleProductItemDetail(int itemId) async {
     isLoading.value = true;
-    final response =
-        await AuthInterceptor().get(Uri.parse("${url}productItem/$itemId"));
+    final response = await AuthInterceptor()
+        .get(Uri.parse("${MPConstants.url}productItem/$itemId"));
     var jsonObject = jsonDecode(response.body);
     if (jsonObject['message'] == 'success') {
       singleProductItemDetail.value =
@@ -42,8 +42,8 @@ class ProductItemController extends GetxController {
 
   Future<void> getProductItems() async {
     isLoading.value = true;
-    final response =
-        await AuthInterceptor().get(Uri.parse("${url}productItems"));
+    final response = await AuthInterceptor()
+        .get(Uri.parse("${MPConstants.url}productItems"));
 
     if (response.statusCode == 200) {
       final List<dynamic> result = jsonDecode(response.body);
@@ -62,8 +62,8 @@ class ProductItemController extends GetxController {
       Map<String, TextEditingController> controllers,
       Map<int, VariationOptionModel> selectedOptions) async {
     isLoading.value = true;
-    final uri =
-        Uri.parse('${url}addListing'); // Replace with your Laravel endpoint URL
+    final uri = Uri.parse(
+        '${MPConstants.url}addListing'); // Replace with your Laravel endpoint URL
     final request = http.MultipartRequest('POST', uri);
     final storage = GetStorage();
     final token = storage.read('token');
@@ -143,8 +143,9 @@ class ProductItemController extends GetxController {
         'product_item_id': productItemID.toString(),
         'variation_option_id': variationOptionID.toString(),
       };
-      await AuthInterceptor()
-          .post(Uri.parse("${url}product-configuration"), body: data);
+      await AuthInterceptor().post(
+          Uri.parse("${MPConstants.url}product-configuration"),
+          body: data);
     }
     isLoading.value = false;
     return 1;
@@ -152,8 +153,8 @@ class ProductItemController extends GetxController {
 
   Future<List<ProductItemModel>> getProductItemsByUser() async {
     isLoading.value = true;
-    final response =
-        await AuthInterceptor().get(Uri.parse("${url}getProductItemsByUser"));
+    final response = await AuthInterceptor()
+        .get(Uri.parse("${MPConstants.url}getProductItemsByUser"));
 
     if (response.statusCode == 200) {
       // print(response.body);
@@ -172,7 +173,7 @@ class ProductItemController extends GetxController {
     print(itemId);
 
     final response = await AuthInterceptor()
-        .delete(Uri.parse("${url}deleteListingByID/$itemId"));
+        .delete(Uri.parse("${MPConstants.url}deleteListingByID/$itemId"));
 
     if (response.statusCode == 200) {
       return true;
@@ -184,8 +185,8 @@ class ProductItemController extends GetxController {
   Future<List<ProductItemModel>> getProductItemsByProductType(
       int productTypeID) async {
     isLoading.value = true;
-    final response = await AuthInterceptor()
-        .get(Uri.parse("${url}getProductItemsByProductType/$productTypeID"));
+    final response = await AuthInterceptor().get(Uri.parse(
+        "${MPConstants.url}getProductItemsByProductType/$productTypeID"));
 
     if (response.statusCode == 200) {
       final List<dynamic> result =

@@ -1,7 +1,4 @@
-// ignore_for_file: file_names, avoid_print
-
 import 'package:get/get.dart';
-// import 'package:http/http.dart' as http;
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:marketplacedb/data/models/VariantsModel.dart';
 import 'dart:convert';
@@ -19,8 +16,8 @@ class VariationController extends GetxController {
   Future<List<VariationModel>> getAllVariants() async {
     try {
       isLoading.value = true;
-      final response =
-          await AuthInterceptor().get(Uri.parse("${url}variation/"));
+      final response = await AuthInterceptor()
+          .get(Uri.parse("${MPConstants.url}variation/"));
       final List<dynamic> jsonObject = jsonDecode(response.body);
 
       final List<VariationModel> variations =
@@ -42,7 +39,9 @@ class VariationController extends GetxController {
     try {
       isLoading.value = true;
       final response = await AuthInterceptor()
-          .get(Uri.parse("${url}getVariantsByProductTypes/$productTypeId"));
+// ignore_for_file: file_names, avoid_print
+          .get(Uri.parse(
+              "${MPConstants.url}getVariantsByProductTypes/$productTypeId"));
       final List<dynamic> jsonObject = jsonDecode(response.body);
 
       final List<VariationModel> variations =

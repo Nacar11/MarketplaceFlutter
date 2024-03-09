@@ -69,7 +69,7 @@ class PasswordConfigurationController extends GetxController {
         return;
       }
       var response = await AuthInterceptor().post(
-        Uri.parse('${url}getEmailVerificationCode'),
+        Uri.parse('${MPConstants.url}getEmailVerificationCode'),
         body: {
           'email': email.text,
         },
@@ -100,7 +100,7 @@ class PasswordConfigurationController extends GetxController {
     try {
       isLoading.value = true;
       final response = await AuthInterceptor().post(
-        Uri.parse('${url}changePass'),
+        Uri.parse('${MPConstants.url}changePass'),
         body: {
           'email': email.text,
           'new_password': password.text.trim(),

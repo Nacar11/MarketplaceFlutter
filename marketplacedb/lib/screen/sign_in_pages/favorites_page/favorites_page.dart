@@ -20,7 +20,7 @@ class FavoritesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NavigationController navigationController = NavigationController.static;
+    NavigationController navigationController = NavigationController.instance;
     return Scaffold(
       appBar: PrimarySearchAppBar(
           showBackArrow: false,

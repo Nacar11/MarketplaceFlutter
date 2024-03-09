@@ -9,7 +9,6 @@ import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_images.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
-// import 'package:marketplacedb/util/helpers/validators.dart';
 
 class LoginHeader extends StatelessWidget {
   const LoginHeader({
@@ -73,6 +72,7 @@ class SocialLoginButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FrontPageController controller = FrontPageController.instance;
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Container(
           decoration: BoxDecoration(
@@ -80,7 +80,6 @@ class SocialLoginButtons extends StatelessWidget {
               borderRadius: BorderRadius.circular(100)),
           child: IconButton(
               onPressed: () async {
-                FrontPageController controller = FrontPageController.instance;
                 var userData = await GoogleSignAPI.login();
                 await controller.loginGoogle(userData?.email);
               },

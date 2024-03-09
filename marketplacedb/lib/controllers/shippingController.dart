@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:marketplacedb/data/models/order_process/ShippingMethodModel.dart';
+import 'package:marketplacedb/data/models/order_process/shipping_method_model.dart';
 
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
@@ -16,8 +16,8 @@ class ShippingController extends GetxController {
   var shippingmethodList = <ShippingMethodModel>[].obs;
 
   Future<List<ShippingMethodModel>> getShippingMethods() async {
-    final response =
-        await AuthInterceptor().get(Uri.parse("${url}getShippingMethods"));
+    final response = await AuthInterceptor()
+        .get(Uri.parse("${MPConstants.url}getShippingMethods"));
     if (response.statusCode == 200) {
       isLoading.value = false;
       final List<dynamic> result = jsonDecode(response.body);

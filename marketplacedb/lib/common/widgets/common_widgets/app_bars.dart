@@ -145,10 +145,10 @@ class SearchAppBarState extends State<SearchAppBar> {
           child: const Row(
             children: [
               Icon(
-                Icons.search, // Replace with your desired icon
-                color: Colors.grey, // Change icon color as needed
+                Icons.search,
+                color: Colors.grey,
               ),
-              SizedBox(width: 8), // Adjust spacing between icon and text
+              SizedBox(width: 8),
               Expanded(
                 child: Text(
                   'Search for products or users',
@@ -158,7 +158,6 @@ class SearchAppBarState extends State<SearchAppBar> {
                   ),
                 ),
               ),
-              // You can add an icon here if needed
             ],
           ),
         ),

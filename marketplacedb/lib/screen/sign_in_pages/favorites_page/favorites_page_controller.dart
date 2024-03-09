@@ -25,8 +25,8 @@ class FavoritesPageController extends GetxController {
   Future<void> getFavoriteProductItems() async {
     isLoading.value = true;
     try {
-      final response =
-          await AuthInterceptor().get(Uri.parse("${url}getFavoritesByUser"));
+      final response = await AuthInterceptor()
+          .get(Uri.parse("${MPConstants.url}getFavoritesByUser"));
       var jsonObject = jsonDecode(response.body);
       print(jsonObject);
       if (jsonObject['message'] == 'success') {
@@ -58,7 +58,7 @@ class FavoritesPageController extends GetxController {
     try {
       isLoading.value = true;
       final response = await AuthInterceptor()
-          .post(Uri.parse("${url}addToFavorites"), body: {
+          .post(Uri.parse("${MPConstants.url}addToFavorites"), body: {
         'product_item_id': productItemId.toString(),
       });
       var jsonObject = jsonDecode(response.body);
@@ -80,7 +80,7 @@ class FavoritesPageController extends GetxController {
     try {
       isLoading.value = true;
       final response = await AuthInterceptor()
-          .delete(Uri.parse("${url}removeFromFavorites"), body: {
+          .delete(Uri.parse("${MPConstants.url}removeFromFavorites"), body: {
         'product_item_id': productItemId.toString(),
       });
       var jsonObject = jsonDecode(response.body);

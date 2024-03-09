@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/data/models/addresses/user_address_model.dart';
-import 'package:marketplacedb/screen/sign_in_pages/settings_pages/address_list_page/address_list_controller.dart';
+import 'package:marketplacedb/screen/sign_in_pages/settings_pages/address_list_page/address_list_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';

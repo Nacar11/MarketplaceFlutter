@@ -22,7 +22,7 @@ class OrderLineController extends GetxController {
     try {
       isLoading.value = true;
       var response = await AuthInterceptor().post(
-        Uri.parse('${url}addToCart'),
+        Uri.parse('${MPConstants.url}addToCart'),
         headers: {
           'Accept': 'application/json',
         },
@@ -41,8 +41,8 @@ class OrderLineController extends GetxController {
   }
 
   Future<List<OrderLineModel>> getOrderLine() async {
-    final response =
-        await AuthInterceptor().get(Uri.parse("${url}getOrderLinesByID"));
+    final response = await AuthInterceptor()
+        .get(Uri.parse("${MPConstants.url}getOrderLinesByID"));
 
     if (response.statusCode == 200) {
       print(response.body);
@@ -61,7 +61,7 @@ class OrderLineController extends GetxController {
     print(itemId);
 
     final response = await AuthInterceptor()
-        .delete(Uri.parse("${url}deleteOrderLinesByID/$itemId"));
+        .delete(Uri.parse("${MPConstants.url}deleteOrderLinesByID/$itemId"));
 
     print(jsonDecode(response.body));
     if (response.statusCode == 200) {

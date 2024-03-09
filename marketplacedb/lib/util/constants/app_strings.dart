@@ -62,7 +62,14 @@ class MPTexts {
   static const String shoppingCartPageTitle = "Empty Shopping Cart";
   static const String shoppingCartPageSubTitle =
       "Your shopping cart items waiting to be checked out will appear here. Add items to you shopping cart now!";
+  static const String paymentProcessPageTitle = "Payment Processing...";
+  static const String paymentProcessPageSubTitle1 =
+      "You are directed to Paymongo Checkout Session to finish your checkout payment process there.";
+  static const String paymentProcessPageSubTitle2 =
+      "Navigate to the Home Page or check your orders after payment.";
 
+  static const String paymentProcessPageSubTitle3 =
+      "(Note that leaving from this page will expire your session checkout from the Paymongo Client.)";
   // --CONTAINER GUIDE SIGNUP TEXTS
   static const String phoneHeaderText =
       "Stay Connected! What's Your Phone Number?";

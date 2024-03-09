@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:marketplacedb/data/models/shopping_cart_item_model.dart';
+import 'package:marketplacedb/data/models/shopping_cart/shopping_cart_item_model.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'dart:convert';
 import 'package:marketplacedb/networks/interceptor.dart';
@@ -24,7 +24,7 @@ class ShoppingCartPageController extends GetxController {
     try {
       isLoading.value = true;
       final response = await AuthInterceptor()
-          .get(Uri.parse("${url}getShoppingCartItemsByUser"));
+          .get(Uri.parse("${MPConstants.url}getShoppingCartItemsByUser"));
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == 'success') {
         final List<dynamic> result = jsonObject['data'];
@@ -61,8 +61,8 @@ class ShoppingCartPageController extends GetxController {
   Future<void> addToCart(int productItemId) async {
     try {
       isLoading.value = true;
-      final response =
-          await AuthInterceptor().post(Uri.parse("${url}addToCart"), body: {
+      final response = await AuthInterceptor()
+          .post(Uri.parse("${MPConstants.url}addToCart"), body: {
         'product_item_id': productItemId.toString(),
       });
       var jsonObject = jsonDecode(response.body);
@@ -84,7 +84,8 @@ class ShoppingCartPageController extends GetxController {
       isLoading.value = true;
 
       final response = await AuthInterceptor().delete(
-        Uri.parse("${url}deleteCartItem/${selectedCartItem.value.id!}"),
+        Uri.parse(
+            "${MPConstants.url}deleteCartItem/${selectedCartItem.value.id!}"),
       );
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == 'success') {
@@ -105,7 +106,7 @@ class ShoppingCartPageController extends GetxController {
       isLoading.value = true;
 
       final response = await AuthInterceptor().put(
-        Uri.parse("${url}unSelectForCheckout/$cartItemId"),
+        Uri.parse("${MPConstants.url}unSelectForCheckout/$cartItemId"),
       );
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == 'success') {
@@ -126,7 +127,7 @@ class ShoppingCartPageController extends GetxController {
       isLoading.value = true;
 
       final response = await AuthInterceptor().put(
-        Uri.parse("${url}selectForCheckout/$cartItemId"),
+        Uri.parse("${MPConstants.url}selectForCheckout/$cartItemId"),
       );
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == 'success') {

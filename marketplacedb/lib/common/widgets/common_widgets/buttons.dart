@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/checkout_page/checkout_page.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 
@@ -66,10 +64,12 @@ class CheckOutButton extends StatelessWidget {
     Key? key,
     this.isDisabled = false,
     required this.text,
+    required this.onPressed,
   }) : super(key: key);
 
   final bool isDisabled;
   final String text;
+  final Future Function() onPressed;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -77,13 +77,10 @@ class CheckOutButton extends StatelessWidget {
       height: MPSizes.buttonHeight,
       margin: const EdgeInsets.symmetric(vertical: MPSizes.xs),
       child: MPPrimaryButton(
-        isDisabled: isDisabled,
-        icon: const Icon(Iconsax.transaction_minus5, color: MPColors.white),
-        text: text,
-        onPressed: () {
-          Get.to(() => const CheckoutPage());
-        },
-      ),
+          isDisabled: isDisabled,
+          icon: const Icon(Iconsax.transaction_minus5, color: MPColors.white),
+          text: text,
+          onPressed: onPressed),
     );
   }
 }
@@ -113,7 +110,7 @@ class MPOutlinedButton extends StatelessWidget {
           ],
           Text(
             text,
-            style: Theme.of(context).textTheme.titleSmall!,
+            style: Theme.of(context).textTheme.bodyLarge!,
           ),
         ],
       ),
