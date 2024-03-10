@@ -4,10 +4,12 @@ import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/layouts/list_view_layout.dart';
 import 'package:marketplacedb/data/models/order_process/order_line_model.dart';
-import 'package:marketplacedb/screen/sign_in_pages/settings_pages/my_orders_page/my_orders_page_controller.dart';
+import 'package:marketplacedb/screen/sign_in_pages/settings_pages/orders_list_page/orders_list_page_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/order_details_page/order_details_page.dart';
+import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
+import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
 class MPOrderListItems extends StatelessWidget {
@@ -15,7 +17,7 @@ class MPOrderListItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MyOrdersPageController controller = MyOrdersPageController.instance;
+    OrdersListPageController controller = OrdersListPageController.instance;
     return Obx(() => MPListViewLayout(
         itemCount: controller.orderLinesList.length,
         separatorBuilder: (_, __) =>
@@ -36,7 +38,7 @@ class MPSingleOrderListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MyOrdersPageController controller = MyOrdersPageController.instance;
+    OrdersListPageController controller = OrdersListPageController.instance;
     final dark = MPHelperFunctions.isDarkMode(context);
     return MPCircularContainer(
         height: null,
@@ -105,5 +107,39 @@ class MPSingleOrderListItem extends StatelessWidget {
             ),
           ])
         ]));
+  }
+}
+
+class NoOrdersDisplay extends StatelessWidget {
+  const NoOrdersDisplay({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        const Center(
+          child: AnimationContainer(
+              forever: true,
+              width: 1,
+              height: 0.3,
+              animation: AnimationsUtils.orderDetails,
+              duration: Duration(seconds: 4)),
+        ),
+        const SizedBox(height: MPSizes.spaceBtwSections),
+        Text(
+          MPTexts.orderListPageTitle,
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+        const SizedBox(height: MPSizes.spaceBtwItems),
+        Text(
+          MPTexts.orderListPageSubTitle,
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
+      ],
+    );
   }
 }

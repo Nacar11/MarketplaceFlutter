@@ -67,9 +67,11 @@ class MPTexts {
       "You are directed to Paymongo Checkout Session to finish your checkout payment process there.";
   static const String paymentProcessPageSubTitle2 =
       "Navigate to the Home Page or check your orders after payment.";
-
   static const String paymentProcessPageSubTitle3 =
       "(Note that leaving from this page will expire your session checkout from the Paymongo Client.)";
+  static const String orderListPageTitle = "No Orders Placed Yet";
+  static const String orderListPageSubTitle =
+      "Start by exploring and ordering from the Discover or Home Tab";
   // --CONTAINER GUIDE SIGNUP TEXTS
   static const String phoneHeaderText =
       "Stay Connected! What's Your Phone Number?";

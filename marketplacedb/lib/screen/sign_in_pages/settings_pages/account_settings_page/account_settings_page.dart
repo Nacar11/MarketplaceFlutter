@@ -10,7 +10,7 @@ import 'package:marketplacedb/screen/sign_in_pages/settings_pages/account_settin
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/account_settings_page/account_settings_page_widgets.dart';
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/address_list_page/address_list_page.dart';
 import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/shopping_cart_page/shopping_cart_page.dart';
-import 'package:marketplacedb/screen/sign_in_pages/settings_pages/my_orders_page/my_orders_page.dart';
+import 'package:marketplacedb/screen/sign_in_pages/settings_pages/orders_list_page/orders_list_page.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/theme/theme.dart';
 
@@ -62,7 +62,7 @@ class AccountSettingsPage extends StatelessWidget {
                           icon: Iconsax.bag_tick,
                           title: "My Orders",
                           subTitle: "Track your orders",
-                          onTap: () => Get.to(() => const MyOrdersPage()),
+                          onTap: () => Get.to(() => const OrdersListPage()),
                         ),
                         MPSettingsMenuTile(
                           icon: Iconsax.forward_item,

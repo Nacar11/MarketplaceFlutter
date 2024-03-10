@@ -23,8 +23,8 @@ class FavoritesPageController extends GetxController {
   }
 
   Future<void> getFavoriteProductItems() async {
-    isLoading.value = true;
     try {
+      isLoading.value = true;
       final response = await AuthInterceptor()
           .get(Uri.parse("${MPConstants.url}getFavoritesByUser"));
       var jsonObject = jsonDecode(response.body);

@@ -43,6 +43,12 @@ class PaymentProcessPage extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const SizedBox(height: MPSizes.spaceBtwItems),
+                //click here to navigate to the checkout session again!
+                //
+                //
+                //
+                //
+                //
                 Text(
                   MPTexts.paymentProcessPageSubTitle3,
                   style: Theme.of(context).textTheme.bodyMedium,
@@ -56,12 +62,10 @@ class PaymentProcessPage extends StatelessWidget {
                       forever: true,
                       width: 1,
                       height: 0.2,
-                      animation: AnimationsUtils.addressSetup1,
+                      animation: AnimationsUtils.paymentProcess,
                       duration: Duration(seconds: 4)),
                 ),
-                const SizedBox(height: MPSizes.spaceBtwSections),
-                //animation
-                const SizedBox(height: MPSizes.spaceBtwSections),
+                const SizedBox(height: MPSizes.spaceBtwSections * 2),
                 MPOutlinedButton(
                   icon: const Icon(Iconsax.home4),
                   text: 'Go Back to Homepage',

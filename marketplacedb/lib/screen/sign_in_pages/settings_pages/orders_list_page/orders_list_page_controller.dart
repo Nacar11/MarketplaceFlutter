@@ -4,8 +4,8 @@ import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'dart:convert';
 import 'package:marketplacedb/networks/interceptor.dart';
 
-class MyOrdersPageController extends GetxController {
-  static MyOrdersPageController get instance => Get.find();
+class OrdersListPageController extends GetxController {
+  static OrdersListPageController get instance => Get.find();
 
   final orderLinesList = <OrderLineModel>[].obs;
   final singleOrderLineDetails = OrderLineModel().obs;
@@ -13,8 +13,8 @@ class MyOrdersPageController extends GetxController {
 
   @override
   void onInit() async {
-    super.onInit();
     await getOrderLinesByUser();
+    super.onInit();
   }
 
   Future<void> getOrderLinesByUser() async {
@@ -34,7 +34,6 @@ class MyOrdersPageController extends GetxController {
         // print(orderLinesList[0].id!);
         // print(orderLinesList[0].orderStatus!.status);
         // print(orderLinesList[0].shippingAddress!.id);
-
         isLoading.value = false;
       } else {
         isLoading.value = false;
