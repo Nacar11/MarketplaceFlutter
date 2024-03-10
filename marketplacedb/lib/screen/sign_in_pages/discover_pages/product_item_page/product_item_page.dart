@@ -30,177 +30,166 @@ class ProductItemPage extends StatelessWidget {
         ProductItemController.instance;
     UserController userController = UserController.instance;
     final dark = MPHelperFunctions.isDarkMode(context);
-    return Obx(() {
-      return productItemController.isLoading.value
-          ? const Scaffold(body: ProductItemPageShimmerContainer())
-          : Scaffold(
-              appBar: PrimarySearchAppBar(
-                actions: [
-                  userController.userData.value.id ==
-                          productItemController
-                              .singleProductItemDetail.value.userId
-                      ? const SizedBox()
-                      : FavoritesIconButton(
-                          iconSize: MPSizes.iconMd,
-                          productItemDataId: productItemController
-                              .singleProductItemDetail.value.id!)
+    return Obx(() => productItemController.isLoading.value
+        ? const Scaffold(body: ProductItemPageShimmerContainer())
+        : Scaffold(
+            appBar: PrimarySearchAppBar(
+              actions: [
+                userController.userData.value.id ==
+                        productItemController
+                            .singleProductItemDetail.value.userId
+                    ? const SizedBox()
+                    : FavoritesIconButton(
+                        iconSize: MPSizes.iconMd,
+                        productItemDataId: productItemController
+                            .singleProductItemDetail.value.id!)
+              ],
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Product Details",
+                      style: Theme.of(context).textTheme.headlineMedium),
                 ],
-                title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Product Details",
-                        style: Theme.of(context).textTheme.headlineMedium),
-                  ],
-                ),
               ),
-              body: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const ProductDetailImageSlider(),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        right: MPSizes.defaultSpace,
-                        left: MPSizes.defaultSpace,
-                        bottom: MPSizes.defaultSpace,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Divider(),
-                          const RatingRow(),
-                          Row(
-                            children: [
-                              const MPSaleTag(),
-                              const SizedBox(width: MPSizes.spaceBtwItems),
-                              const PesoSign(),
-                              Text(
-                                productItemController
-                                    .singleProductItemDetail.value.price
-                                    .toString(),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall!
-                                    .apply(
-                                      decoration: TextDecoration.lineThrough,
-                                    ),
-                              ),
-                              const SizedBox(width: MPSizes.spaceBtwItems / 2),
-                              MPProductPriceText(
-                                price: productItemController
-                                    .singleProductItemDetail.value.price
-                                    .toString(),
-                                isLarge: true,
-                              )
-                            ],
-                          ),
-                          const SizedBox(height: MPSizes.spaceBtwItems / 2),
-                          const NameValueRow(name: "Status", value: "In Stock"),
-                          const SizedBox(height: MPSizes.spaceBtwItems / 2),
-                          Row(
-                            children: [
-                              MPRoundedImage(
-                                isNetworkImage: true,
-                                width: MPSizes.iconLg,
-                                height: MPSizes.iconLg,
-                                imageUrl: productItemController
-                                    .singleProductItemDetail
-                                    .value
-                                    .product!
-                                    .productCategory!
-                                    .productImage!,
-                              ),
-                              CategoryNameWithCheckIcon(
-                                textStyle:
-                                    Theme.of(context).textTheme.labelMedium!,
-                                text: productItemController
-                                    .singleProductItemDetail
-                                    .value
-                                    .product!
-                                    .name!,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: MPSizes.spaceBtwItems),
-                          const MPProductTitleText(title: 'Variation'),
-                          const SizedBox(height: MPSizes.spaceBtwItems),
-                          Obx(() => productItemController
+            ),
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const ProductDetailImageSlider(),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      right: MPSizes.defaultSpace,
+                      left: MPSizes.defaultSpace,
+                      bottom: MPSizes.defaultSpace,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Divider(),
+                        const RatingRow(),
+                        Row(
+                          children: [
+                            const MPSaleTag(),
+                            const SizedBox(width: MPSizes.spaceBtwItems),
+                            const PesoSign(),
+                            Text(
+                              productItemController
+                                  .singleProductItemDetail.value.price
+                                  .toString(),
+                              style:
+                                  Theme.of(context).textTheme.titleSmall!.apply(
+                                        decoration: TextDecoration.lineThrough,
+                                      ),
+                            ),
+                            const SizedBox(width: MPSizes.spaceBtwItems / 2),
+                            MPProductPriceText(
+                              price: productItemController
+                                  .singleProductItemDetail.value.price
+                                  .toString(),
+                              isLarge: true,
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: MPSizes.spaceBtwItems / 2),
+                        const NameValueRow(name: "Status", value: "In Stock"),
+                        const SizedBox(height: MPSizes.spaceBtwItems / 2),
+                        Row(
+                          children: [
+                            MPRoundedImage(
+                              isNetworkImage: true,
+                              width: MPSizes.iconLg,
+                              height: MPSizes.iconLg,
+                              imageUrl: productItemController
                                   .singleProductItemDetail
                                   .value
-                                  .productConfigurations!
-                                  .isEmpty
-                              ? Text(
-                                  'No Variation for Item',
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
-                                )
-                              : const ProductDetailVariationList()),
-                          const SizedBox(height: MPSizes.spaceBtwItems),
-                          const Divider(),
-                          const SizedBox(height: MPSizes.spaceBtwItems),
-                          const MPProductTitleText(title: 'Description'),
-                          const SizedBox(height: MPSizes.spaceBtwItems),
-                          MPCircularContainer(
-                            height: null,
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(MPSizes.md),
-                            backgroundColor:
-                                dark ? MPColors.darkerGrey : MPColors.grey,
-                            child: MPProductTitleText(
-                              title: productItemController
-                                  .singleProductItemDetail.value.description!,
-                              maxLines: 6,
+                                  .product!
+                                  .productCategory!
+                                  .productImage!,
                             ),
+                            CategoryNameWithCheckIcon(
+                              textStyle:
+                                  Theme.of(context).textTheme.labelMedium!,
+                              text: productItemController
+                                  .singleProductItemDetail.value.product!.name!,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: MPSizes.spaceBtwItems),
+                        const MPProductTitleText(title: 'Variation'),
+                        const SizedBox(height: MPSizes.spaceBtwItems),
+                        Obx(() => productItemController.singleProductItemDetail
+                                .value.productConfigurations!.isEmpty
+                            ? Text(
+                                'No Variation for Item',
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
+                              )
+                            : const ProductDetailVariationList()),
+                        const SizedBox(height: MPSizes.spaceBtwItems),
+                        const Divider(),
+                        const SizedBox(height: MPSizes.spaceBtwItems),
+                        const MPProductTitleText(title: 'Description'),
+                        const SizedBox(height: MPSizes.spaceBtwItems),
+                        MPCircularContainer(
+                          height: null,
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(MPSizes.md),
+                          backgroundColor:
+                              dark ? MPColors.darkerGrey : MPColors.grey,
+                          child: MPProductTitleText(
+                            title: productItemController
+                                .singleProductItemDetail.value.description!,
+                            maxLines: 6,
                           ),
-                          const SizedBox(height: MPSizes.spaceBtwItems),
-                          userController.userData.value.id ==
-                                  productItemController
-                                      .singleProductItemDetail.value.userId
-                              ? MPCircularContainer(
-                                  padding: const EdgeInsets.all(
-                                      MPSizes.spaceBtwItems),
-                                  showBorder: true,
-                                  height: null,
-                                  backgroundColor: Colors.transparent,
-                                  child: Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text('Listed by you',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headlineMedium),
-                                        const SizedBox(
-                                            width: MPSizes.spaceBtwItems),
-                                        const Icon(Iconsax.receipt_item)
-                                      ],
-                                    ),
-                                  ))
-                              : MPCircularContainer(
-                                  height: null,
-                                  child: Column(
+                        ),
+                        const SizedBox(height: MPSizes.spaceBtwItems),
+                        userController.userData.value.id ==
+                                productItemController
+                                    .singleProductItemDetail.value.userId
+                            ? MPCircularContainer(
+                                padding:
+                                    const EdgeInsets.all(MPSizes.spaceBtwItems),
+                                showBorder: true,
+                                height: null,
+                                backgroundColor: Colors.transparent,
+                                child: Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      CheckOutButton(
-                                          onPressed: () async {
-                                            Get.to(
-                                                () => const ShoppingCartPage());
-                                          },
-                                          text: "To Checkout"),
-                                      AddToCartButton(
-                                        productItemId: productItemController
-                                            .singleProductItemDetail.value.id!,
-                                      ),
+                                      Text('Listed by you',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headlineMedium),
+                                      const SizedBox(
+                                          width: MPSizes.spaceBtwItems),
+                                      const Icon(Iconsax.receipt_item)
                                     ],
                                   ),
+                                ))
+                            : MPCircularContainer(
+                                height: null,
+                                child: Column(
+                                  children: [
+                                    CheckOutButton(
+                                        onPressed: () async {
+                                          Get.to(
+                                              () => const ShoppingCartPage());
+                                        },
+                                        text: "To Checkout"),
+                                    AddToCartButton(
+                                      productItemId: productItemController
+                                          .singleProductItemDetail.value.id!,
+                                    ),
+                                  ],
                                 ),
-                        ],
-                      ),
+                              ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            );
-    });
+            ),
+          ));
   }
 }
 

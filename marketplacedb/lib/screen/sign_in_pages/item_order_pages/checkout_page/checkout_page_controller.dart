@@ -23,7 +23,7 @@ class CheckoutPageController extends GetxController {
   final selectedPaymentType = PaymentTypeModel().obs;
   final confirmedSelectedPaymentType = PaymentTypeModel().obs;
   final checkoutSessionId = ''.obs;
-
+  final checkoutUrl = ''.obs;
   @override
   void onInit() async {
     super.onInit();
@@ -130,13 +130,15 @@ class CheckoutPageController extends GetxController {
         print(jsonObject['data']['attributes']['checkout_url']);
         print(jsonObject['data']['id']);
         checkoutSessionId.value = (jsonObject['data']['id']);
+        checkoutUrl.value = (jsonObject['data']['attributes']['checkout_url']);
         await launchUrl(
           Uri.parse(jsonObject['data']['attributes']['checkout_url']),
           mode: LaunchMode.externalApplication,
         );
         localStorage.saveData('checkoutSessionId', jsonObject['data']['id']);
-        print('---------------');
-        print(localStorage.readData('checkoutSessionId'));
+        localStorage.saveData(
+            'checkoutUrl', jsonObject['data']['attributes']['checkout_url']);
+
         MPFullScreenOverlayLoader.stopLoading();
         Get.offAll(() => const PaymentProcessPage());
       } else {

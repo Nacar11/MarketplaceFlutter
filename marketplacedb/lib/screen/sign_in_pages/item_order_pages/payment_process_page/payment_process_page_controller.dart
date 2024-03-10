@@ -10,6 +10,7 @@ CheckoutPageController checkoutPageController = CheckoutPageController.instance;
 class PaymentProcessPageController extends GetxController {
   static PaymentProcessPageController get instance => Get.find();
   final checkoutSessionId = ''.obs;
+  final checkoutUrl = ''.obs;
   final isLoading = false.obs;
   final MPLocalStorage localStorage = MPLocalStorage();
   @override
@@ -26,12 +27,15 @@ class PaymentProcessPageController extends GetxController {
         headers: MPConstants.paymongoApiHeaders);
     getSnackBar('Your payment session with Paymongo has expired.',
         "Payment Session Expired", true);
+    localStorage.removeData('checkoutSessionId');
+    localStorage.removeData('checkoutUrl');
     super.onClose();
   }
 
   Future<void> getCheckOutSession() async {
     try {
       checkoutSessionId.value = localStorage.readData('checkoutSessionId');
+      checkoutUrl.value = localStorage.readData('checkoutUrl');
     } catch (e) {
       isLoading.value = false;
       print('Error fetching data: $e');

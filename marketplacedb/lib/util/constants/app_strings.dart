@@ -68,7 +68,7 @@ class MPTexts {
   static const String paymentProcessPageSubTitle2 =
       "Navigate to the Home Page or check your orders after payment.";
   static const String paymentProcessPageSubTitle3 =
-      "(Note that leaving from this page will expire your session checkout from the Paymongo Client.)";
+      "Note that leaving from this page will expire your session checkout from the Paymongo Client.";
   static const String orderListPageTitle = "No Orders Placed Yet";
   static const String orderListPageSubTitle =
       "Start by exploring and ordering from the Discover or Home Tab";

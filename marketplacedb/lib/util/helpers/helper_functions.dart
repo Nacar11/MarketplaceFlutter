@@ -58,6 +58,21 @@ class MPHelperFunctions {
     return '$day $monthName $year';
   }
 
+  static String orderDescription(String orderStatus) {
+    switch (orderStatus) {
+      case 'Processing':
+        return 'Your order is being processed.';
+      case 'Shipping':
+        return 'Your order is being shipped.';
+      case 'Delivering':
+        return 'Your order is out for delivery.';
+      case 'Completed':
+        return 'Your order has been completed.';
+      default:
+        return 'Unknown order status';
+    }
+  }
+
   static double expandedHeightTabBar(int nSubCategory) {
     if (nSubCategory <= 4) {
       return 400;

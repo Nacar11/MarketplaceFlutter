@@ -9,14 +9,13 @@ import 'package:marketplacedb/screen/sign_in_pages/favorites_page/favorites_page
 import 'package:marketplacedb/screen/sign_in_pages/favorites_page/favorites_page_widgets.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 
-FavoritesPageController favoritesPageController =
-    FavoritesPageController.instance;
-
 class FavoritesPage extends StatelessWidget {
   const FavoritesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    FavoritesPageController favoritesPageController =
+        FavoritesPageController.instance;
     NavigationController navigationController = NavigationController.instance;
     return Scaffold(
       appBar: PrimarySearchAppBar(
@@ -34,12 +33,11 @@ class FavoritesPage extends StatelessWidget {
             Text("Favorites",
                 style: Theme.of(context).textTheme.headlineMedium),
           ])),
-      body: Obx(() => favoritesPageController.favoriteProductItems.isEmpty
-          ? const Padding(
-              padding: EdgeInsets.all(MPSizes.defaultSpace),
-              child: NoFavoritesDisplay(),
-            )
-          : const MPFavoritesList()),
+      body: Obx(() => Padding(
+          padding: const EdgeInsets.all(MPSizes.defaultSpace),
+          child: favoritesPageController.favoriteProductItems.isEmpty
+              ? const NoFavoritesDisplay()
+              : const MPFavoritesList())),
     );
   }
 }

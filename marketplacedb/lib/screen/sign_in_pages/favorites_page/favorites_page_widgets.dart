@@ -9,9 +9,6 @@ import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/constants/app_strings.dart';
 
-FavoritesPageController favoritesPageController =
-    FavoritesPageController.instance;
-
 class MPFavoritesList extends StatelessWidget {
   const MPFavoritesList({
     super.key,
@@ -19,20 +16,19 @@ class MPFavoritesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FavoritesPageController favoritesPageController =
+        FavoritesPageController.instance;
     return Obx(() => SingleChildScrollView(
-        child: Padding(
-            padding: const EdgeInsets.all(MPSizes.sm),
             child: Column(children: [
-              MPGridLayout(
-                  itemCount:
-                      favoritesPageController.favoriteProductItems.length,
-                  itemBuilder: (_, index) {
-                    ProductItemModel favoriteProductItem =
-                        favoritesPageController.favoriteProductItems[index];
-                    return MPProductCardVertical(
-                        productItemData: favoriteProductItem);
-                  })
-            ]))));
+          MPGridLayout(
+              itemCount: favoritesPageController.favoriteProductItems.length,
+              itemBuilder: (_, index) {
+                ProductItemModel favoriteProductItem =
+                    favoritesPageController.favoriteProductItems[index];
+                return MPProductCardVertical(
+                    productItemData: favoriteProductItem);
+              })
+        ])));
   }
 }
 
