@@ -10,6 +10,7 @@ import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/shopping_car
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
+import 'package:marketplacedb/util/popups/dialog_container_loader.dart';
 
 class RatingRow extends StatelessWidget {
   const RatingRow({
@@ -74,11 +75,14 @@ class AddToCartButton extends StatelessWidget {
           margin: const EdgeInsets.symmetric(vertical: MPSizes.md),
           child: OutlinedButton(
               onPressed: () async {
-                controller.shoppingCartItemList.any((item) =>
-                        item.productItemId ==
-                        productItemController.singleProductItemDetail.value.id)
-                    ? null
-                    : controller.addToCart(productItemId);
+                if (controller.shoppingCartItemList.any((item) =>
+                    item.productItemId ==
+                    productItemController.singleProductItemDetail.value.id)) {
+                } else {
+                  MPAlertLoaderDialog.openLoadingDialog();
+                  await controller.addToCart(productItemId);
+                  MPAlertLoaderDialog.stopLoading();
+                }
               },
               child: controller.isLoading.value
                   ? const Center(
@@ -99,7 +103,7 @@ class AddToCartButton extends StatelessWidget {
                           children: [
                               const Icon(Icons.check, color: Colors.green),
                               const SizedBox(width: MPSizes.sm),
-                              Text("Added  To Cart",
+                              Text("Added To Cart",
                                   style:
                                       Theme.of(context).textTheme.titleLarge),
                             ])

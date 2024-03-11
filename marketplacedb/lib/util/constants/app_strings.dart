@@ -72,6 +72,11 @@ class MPTexts {
   static const String orderListPageTitle = "No Orders Placed Yet";
   static const String orderListPageSubTitle =
       "Start by exploring and ordering from the Discover or Home Tab";
+
+  static const String userListedItemsTitle = "Your Listings are Empty";
+  static const String userListedItemsSubTitle =
+      "Start by adding your items to the Marketplace from the Sell Tab";
+
   // --CONTAINER GUIDE SIGNUP TEXTS
   static const String phoneHeaderText =
       "Stay Connected! What's Your Phone Number?";

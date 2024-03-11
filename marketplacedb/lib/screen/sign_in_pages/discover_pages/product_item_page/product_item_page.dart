@@ -17,6 +17,7 @@ import 'package:marketplacedb/controllers/products/product_item_controller.dart'
 import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/discover_pages/product_item_page/product_item_page_widgets.dart';
 import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/shopping_cart_page/shopping_cart_page.dart';
+import 'package:marketplacedb/screen/sign_in_pages/settings_pages/profle_page/profile_page.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
@@ -154,15 +155,28 @@ class ProductItemPage extends StatelessWidget {
                                 backgroundColor: Colors.transparent,
                                 child: Center(
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Text('Listed by you',
+                                      const Icon(Iconsax.user),
+                                      const SizedBox(width: MPSizes.sm),
+                                      Text('Listed by You (Owner)',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headlineMedium),
-                                      const SizedBox(
-                                          width: MPSizes.spaceBtwItems),
-                                      const Icon(Iconsax.receipt_item)
+                                              .titleLarge),
+                                      const SizedBox(width: MPSizes.sm),
+                                      Expanded(
+                                        child: TextButton(
+                                            onPressed: () {
+                                              Get.to(() => const ProfilePage());
+                                            },
+                                            child: Text('View Profile',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall,
+                                                maxLines: 1,
+                                                overflow:
+                                                    TextOverflow.ellipsis)),
+                                      )
                                     ],
                                   ),
                                 ))

@@ -86,6 +86,10 @@ class SingleCartItemWithFunctionality extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const isAvailable = true;
+    // controller.shoppingCartItemList.any((item) =>
+    //                 item.productItemId ==
+    //                 productItemController.singleProductItemDetail.value.id
     ShoppingCartPageController controller = ShoppingCartPageController.instance;
     final dark = MPHelperFunctions.isDarkMode(context);
     return Column(

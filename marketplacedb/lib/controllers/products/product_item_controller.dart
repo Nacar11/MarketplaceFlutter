@@ -22,7 +22,7 @@ class ProductItemController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await getProductItemsByUser();
+
     await getProductItems();
   }
 
@@ -149,24 +149,6 @@ class ProductItemController extends GetxController {
     }
     isLoading.value = false;
     return 1;
-  }
-
-  Future<List<ProductItemModel>> getProductItemsByUser() async {
-    isLoading.value = true;
-    final response = await AuthInterceptor()
-        .get(Uri.parse("${MPConstants.url}getProductItemsByUser"));
-
-    if (response.statusCode == 200) {
-      // print(response.body);
-      final List<dynamic> result = jsonDecode(response.body);
-      // print(result);
-      final List<ProductItemModel> itemList =
-          result.map((e) => ProductItemModel.fromJson(e)).toList();
-
-      productItemListUser.assignAll(itemList);
-    }
-    isLoading.value = false;
-    return productItemListUser;
   }
 
   Future<dynamic> deleteListing(int itemId) async {

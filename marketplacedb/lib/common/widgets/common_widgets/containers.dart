@@ -117,9 +117,9 @@ class AnimationContainerState extends State<AnimationContainer>
     animationController =
         AnimationController(duration: widget.duration, vsync: this);
     if (widget.forever) {
-      animationController.repeat(); // Repeat animation forever
+      animationController.repeat(); //
     } else {
-      animationController.forward(); // Play animation once
+      animationController.forward();
     }
   }
 

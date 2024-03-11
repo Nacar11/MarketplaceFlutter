@@ -1,6 +1,7 @@
 import 'package:marketplacedb/data/models/products/product_configuration_model.dart';
 import 'package:marketplacedb/data/models/products/product_image_model.dart';
 import 'package:marketplacedb/data/models/products/product_type_model.dart';
+import 'package:marketplacedb/data/models/user/user_model.dart';
 
 class ProductItemModel {
   int? id;
@@ -12,6 +13,7 @@ class ProductItemModel {
   List<ProductImageModel>? productImages;
   ProductTypeModel? product;
   List<ProductConfigurationModel>? productConfigurations;
+  UserModel? user;
 
   ProductItemModel(
       {this.id,
@@ -22,7 +24,8 @@ class ProductItemModel {
       this.description,
       this.productImages,
       this.product,
-      this.productConfigurations});
+      this.productConfigurations,
+      this.user});
 
   ProductItemModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -50,6 +53,11 @@ class ProductItemModel {
           .toList();
     } else {
       productConfigurations = <ProductConfigurationModel>[];
+    }
+    if (json['user'] != null) {
+      user = UserModel.fromJson(json['user']);
+    } else {
+      user = null;
     }
   }
 }

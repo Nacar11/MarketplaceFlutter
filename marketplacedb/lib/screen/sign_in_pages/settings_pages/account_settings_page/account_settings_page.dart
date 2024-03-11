@@ -10,6 +10,7 @@ import 'package:marketplacedb/screen/sign_in_pages/settings_pages/account_settin
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/account_settings_page/account_settings_page_widgets.dart';
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/address_list_page/address_list_page.dart';
 import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/shopping_cart_page/shopping_cart_page.dart';
+import 'package:marketplacedb/screen/sign_in_pages/settings_pages/listed_items_list_page/listed_items_list_page.dart';
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/orders_list_page/orders_list_page.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/theme/theme.dart';
@@ -68,7 +69,8 @@ class AccountSettingsPage extends StatelessWidget {
                           icon: Iconsax.forward_item,
                           title: "My Listed Items",
                           subTitle: "Check your items listed to Marketplace",
-                          onTap: () {},
+                          onTap: () =>
+                              Get.to(() => const ListedItemsListPage()),
                         ),
                         MPSettingsMenuTile(
                           icon: Iconsax.bank,

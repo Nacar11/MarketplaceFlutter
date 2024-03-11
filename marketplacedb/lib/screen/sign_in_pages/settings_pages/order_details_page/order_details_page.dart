@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
-import 'package:marketplacedb/common/widgets/custom_shapes/custom_curved_edge_widget.dart';
+import 'package:marketplacedb/common/widgets/texts/peso_sign.dart';
+import 'package:marketplacedb/controllers/products/product_item_controller.dart';
+import 'package:marketplacedb/screen/sign_in_pages/settings_pages/order_details_page/order_details_page_widgets.dart';
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/orders_list_page/orders_list_page_controller.dart';
-import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
-import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
 class OrderDetailsPage extends StatelessWidget {
   const OrderDetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final dark = MPHelperFunctions.isDarkMode(context);
+    ProductItemController.instance;
     OrdersListPageController controller = OrdersListPageController.instance;
     return Scaffold(
         appBar: PrimarySearchAppBar(
@@ -28,69 +27,43 @@ class OrderDetailsPage extends StatelessWidget {
         body: SingleChildScrollView(
             child: Column(
           children: [
-            CurvedEdgeWidget(
-                child: Container(
-                    color: dark ? MPColors.darkerGrey : MPColors.secondary,
-                    child: SizedBox(
-                      height: null,
-                      width: double.infinity,
-                      child: Padding(
-                        padding: const EdgeInsets.all(MPSizes.defaultSpace),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Obx(() => Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            'Order ${controller.singleOrderLineDetails.value.orderStatus!.status}',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleLarge!
-                                                .apply(color: MPColors.white)),
-                                        const SizedBox(
-                                            height: MPSizes.spaceBtwItems),
-                                        Text(
-                                            MPHelperFunctions.orderDescription(
-                                                controller
-                                                    .singleOrderLineDetails
-                                                    .value
-                                                    .orderStatus!
-                                                    .status!),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleMedium!
-                                                .apply(color: MPColors.white)),
-                                        const SizedBox(
-                                            height: MPSizes.spaceBtwSections)
-                                      ])),
-                              const Icon(
-                                Iconsax.receipt_15,
-                                color: Colors.white,
-                                size: MPSizes.iconLg,
-                              ),
-                            ]),
-                      ),
-                    ))),
+            const OrderStatusInformation(),
             Padding(
               padding: const EdgeInsets.all(MPSizes.defaultSpace),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(children: [
-                      const Icon(
-                        Iconsax.truck,
-                      ),
-                      const SizedBox(width: MPSizes.defaultSpace),
-                      Text('Shipping Information',
-                          style: Theme.of(context).textTheme.titleLarge)
-                    ]),
-                    const SizedBox(height: MPSizes.defaultSpace),
-                    Text(
-                        controller
-                            .singleOrderLineDetails.value.shippingMethod!.name!,
-                        style: Theme.of(context).textTheme.titleLarge)
+                    const ShippingInformation(icon: Iconsax.truck),
+                    const SizedBox(height: MPSizes.defaultSpace / 2),
+                    const Divider(),
+                    const SizedBox(height: MPSizes.defaultSpace / 2),
+                    const DeliveryAddressInformation(),
+                    const SizedBox(height: MPSizes.defaultSpace / 2),
+                    const Divider(),
+                    const SizedBox(height: MPSizes.defaultSpace / 2),
+                    const ProductSellerInformation(),
+                    const SizedBox(height: MPSizes.defaultSpace / 2),
+                    const ProductItemInformation(),
+                    const SizedBox(height: MPSizes.defaultSpace / 2),
+                    const Divider(),
+                    const SizedBox(height: MPSizes.defaultSpace / 2),
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Order Total ',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          const SizedBox(height: MPSizes.defaultSpace / 2),
+                          Row(children: [
+                            const PesoSign(),
+                            const SizedBox(width: MPSizes.defaultSpace / 2),
+                            Text(
+                              controller.singleOrderLineDetails.value.price!,
+                              style: Theme.of(context).textTheme.titleSmall,
+                            ),
+                          ])
+                        ])
                   ]),
             )
           ],
