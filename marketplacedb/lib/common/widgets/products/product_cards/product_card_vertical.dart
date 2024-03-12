@@ -21,8 +21,6 @@ import 'package:marketplacedb/util/helpers/helper_functions.dart';
 import 'package:marketplacedb/util/popups/alert_dialog.dart';
 import 'package:marketplacedb/util/popups/dialog_container_loader.dart';
 
-UserController userController = UserController.instance;
-
 class MPProductCardVertical extends StatelessWidget {
   const MPProductCardVertical({
     super.key,
@@ -34,7 +32,6 @@ class MPProductCardVertical extends StatelessWidget {
   Widget build(BuildContext context) {
     ProductItemController productItemController =
         ProductItemController.instance;
-
     final dark = MPHelperFunctions.isDarkMode(context);
     return Container(
         width: 180,
@@ -122,8 +119,11 @@ class MPProductCardVertical extends StatelessWidget {
                                         Radius.circular(MPSizes.cardRadiusMd),
                                     bottomRight: Radius.circular(
                                         MPSizes.productImageRadius))),
-                            child: userController.userData.value.id ==
-                                    productItemData.userId
+                            child: Obx(() => orderLineController.orderLineList
+                                    .any((orderLineItem) =>
+                                        orderLineItem.productItem?.id ==
+                                        productItemController
+                                            .singleProductItemDetail.value.id!)
                                 ? SizedBox(
                                     width: MPSizes.iconLg * 1.1,
                                     height: MPSizes.iconLg * 1.1,
@@ -132,8 +132,8 @@ class MPProductCardVertical extends StatelessWidget {
                                         onTap: () {
                                           MPAlertDialog.openDialog(
                                               context,
-                                              "Item Owner",
-                                              "You have listed this item in the marketplace, other users can order this item",
+                                              "Item Not Available",
+                                              "Another user may have already ordered this, but the order process is still not completed so this item may be available some other time.",
                                               [
                                                 MaterialButton(
                                                     onPressed: () {
@@ -145,14 +145,45 @@ class MPProductCardVertical extends StatelessWidget {
                                                             .bodyMedium!))
                                               ]);
                                         },
-                                        child: const Icon(Iconsax.profile_tick,
+                                        child: const Icon(Iconsax.receipt_item,
                                             color: MPColors.white,
                                             size: MPSizes.iconMd),
                                       ),
                                     ),
                                   )
-                                : AddToCartIcon(
-                                    productItemId: productItemData.id!)))
+                                : userController.userData.value.id ==
+                                        productItemData.userId
+                                    ? SizedBox(
+                                        width: MPSizes.iconLg * 1.1,
+                                        height: MPSizes.iconLg * 1.1,
+                                        child: Center(
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              MPAlertDialog.openDialog(
+                                                  context,
+                                                  "Item Owner",
+                                                  "You have listed this item in the marketplace, other users can order this item",
+                                                  [
+                                                    MaterialButton(
+                                                        onPressed: () {
+                                                          Get.back();
+                                                        },
+                                                        child: Text("Cancel",
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyMedium!))
+                                                  ]);
+                                            },
+                                            child: const Icon(
+                                                Iconsax.profile_tick,
+                                                color: MPColors.white,
+                                                size: MPSizes.iconMd),
+                                          ),
+                                        ),
+                                      )
+                                    : AddToCartIcon(
+                                        productItemId: productItemData.id!))))
                       ],
                     )
                   ]))
@@ -169,8 +200,7 @@ class AddToCartIcon extends StatelessWidget {
   final int productItemId;
   @override
   Widget build(BuildContext context) {
-    ShoppingCartPageController shoppingCartPageController =
-        ShoppingCartPageController.instance;
+    UserController userController = UserController.instance;
 
     return Obx(() => SizedBox(
           width: MPSizes.iconLg * 1.1,
@@ -178,7 +208,7 @@ class AddToCartIcon extends StatelessWidget {
           child: Center(
             child: GestureDetector(
                 onTap: () async {
-                  shoppingCartPageController.shoppingCartItemList
+                  userController.shoppingCartItemList
                           .any((item) => item.productItemId == productItemId)
                       ? null
                       : MPAlertDialog.openDialog(
@@ -197,7 +227,7 @@ class AddToCartIcon extends StatelessWidget {
                               MaterialButton(
                                   onPressed: () async {
                                     MPAlertLoaderDialog.openLoadingDialog();
-                                    await shoppingCartPageController
+                                    await userController
                                         .addToCart(productItemId);
                                     MPAlertDialog.popDialog();
                                     MPAlertLoaderDialog.stopLoading();
@@ -208,7 +238,7 @@ class AddToCartIcon extends StatelessWidget {
                                           .bodyMedium!)),
                             ]);
                 },
-                child: shoppingCartPageController.shoppingCartItemList
+                child: userController.shoppingCartItemList
                         .any((item) => item.productItemId == productItemId)
                     ? const Icon(Icons.check,
                         color: Colors.green, size: MPSizes.iconMd)

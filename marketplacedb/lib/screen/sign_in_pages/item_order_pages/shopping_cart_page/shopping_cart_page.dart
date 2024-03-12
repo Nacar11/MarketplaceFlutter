@@ -4,6 +4,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/layouts/list_view_layout.dart';
+import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
 import 'package:marketplacedb/common/widgets/texts/peso_sign.dart';
 import 'package:marketplacedb/data/models/shopping_cart/shopping_cart_item_model.dart';
 import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/checkout_page/checkout_page.dart';
@@ -19,7 +20,8 @@ class ShoppingCartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ShoppingCartPageController controller = ShoppingCartPageController.instance;
+    ShoppingCartPageController controller =
+        Get.put(ShoppingCartPageController());
     return Scaffold(
         bottomNavigationBar: Padding(
             padding: const EdgeInsets.all(MPSizes.defaultSpace),
@@ -76,47 +78,64 @@ class ShoppingCartPage extends StatelessWidget {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text("Cart", style: Theme.of(context).textTheme.headlineSmall),
         ])),
-        body: Obx(() => SingleChildScrollView(
-            child: Padding(
-                padding: const EdgeInsets.all(MPSizes.defaultSpace),
-                child: controller.shoppingCartItemList.isEmpty
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: MPSizes.defaultSpace),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const Center(
-                              child: AnimationContainer(
-                                  forever: true,
-                                  width: 1,
-                                  height: 0.3,
-                                  animation: AnimationsUtils.favorites,
-                                  duration: Duration(seconds: 4)),
+        body: Obx(() => controller.isLoading.value
+            ? MPListViewLayout(
+                separatorBuilder: (_, __) =>
+                    const SizedBox(height: MPSizes.spaceBtwSections),
+                itemCount: controller.shoppingCartItemList.length,
+                itemBuilder: (context, index) {
+                  return const Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: MPSizes.defaultSpace),
+                    child: ShimmerProgressContainer(height: 150),
+                  );
+                },
+              )
+            : SingleChildScrollView(
+                child: Padding(
+                    padding: const EdgeInsets.all(MPSizes.defaultSpace),
+                    child: controller.shoppingCartItemList.isEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: MPSizes.defaultSpace),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const Center(
+                                  child: AnimationContainer(
+                                      forever: true,
+                                      width: 1,
+                                      height: 0.3,
+                                      animation: AnimationsUtils.favorites,
+                                      duration: Duration(seconds: 4)),
+                                ),
+                                const SizedBox(
+                                    height: MPSizes.spaceBtwSections),
+                                Text(
+                                  MPTexts.shoppingCartPageTitle,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium,
+                                ),
+                                const SizedBox(height: MPSizes.spaceBtwItems),
+                                Text(
+                                  MPTexts.shoppingCartPageSubTitle,
+                                  style: Theme.of(context).textTheme.labelLarge,
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: MPSizes.spaceBtwSections),
-                            Text(
-                              MPTexts.shoppingCartPageTitle,
-                              style: Theme.of(context).textTheme.headlineMedium,
-                            ),
-                            const SizedBox(height: MPSizes.spaceBtwItems),
-                            Text(
-                              MPTexts.shoppingCartPageSubTitle,
-                              style: Theme.of(context).textTheme.labelLarge,
-                            ),
-                          ],
-                        ),
-                      )
-                    : MPListViewLayout(
-                        separatorBuilder: (_, __) =>
-                            const SizedBox(height: MPSizes.spaceBtwSections),
-                        itemBuilder: (_, index) {
-                          ShoppingCartItemModel shoppingCartItem =
-                              controller.shoppingCartItemList[index];
-                          return SingleCartItemWithFunctionality(
-                              cartItem: shoppingCartItem);
-                        },
-                        itemCount: controller.shoppingCartItemList.length)))));
+                          )
+                        : MPListViewLayout(
+                            separatorBuilder: (_, __) => const SizedBox(
+                                height: MPSizes.spaceBtwSections),
+                            itemBuilder: (_, index) {
+                              ShoppingCartItemModel shoppingCartItem =
+                                  controller.shoppingCartItemList[index];
+                              return SingleCartItemWithFunctionality(
+                                  cartItem: shoppingCartItem);
+                            },
+                            itemCount:
+                                controller.shoppingCartItemList.length)))));
   }
 }

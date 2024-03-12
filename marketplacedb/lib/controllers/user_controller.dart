@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:marketplacedb/data/models/shopping_cart/shopping_cart_item_model.dart';
 import 'package:marketplacedb/data/models/user/user_model.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
@@ -12,6 +13,7 @@ class UserController extends GetxController {
   final userHasAddressValue = false.obs;
   final userData = UserModel().obs;
   final defaultUserAddress = UserAddressModel().obs;
+  final shoppingCartItemList = <ShoppingCartItemModel>[].obs;
 
   @override
   void onInit() async {
@@ -19,6 +21,50 @@ class UserController extends GetxController {
     await userDataInit();
     await getDefaultUserAddress();
     await userHasAddress();
+    await getShoppingCartItems();
+  }
+
+  Future<void> addToCart(int productItemId) async {
+    try {
+      isLoading.value = true;
+      final response = await AuthInterceptor()
+          .post(Uri.parse("${MPConstants.url}addToCart"), body: {
+        'product_item_id': productItemId.toString(),
+      });
+      var jsonObject = jsonDecode(response.body);
+      if (jsonObject['message'] == 'success') {
+        await getShoppingCartItems();
+        isLoading.value = false;
+      } else {
+        isLoading.value = false;
+        throw Exception('Failed to fetch data');
+      }
+    } catch (e) {
+      isLoading.value = false;
+      print('Error fetching data: $e');
+    }
+  }
+
+  Future<void> getShoppingCartItems() async {
+    try {
+      isLoading.value = true;
+      final response = await AuthInterceptor()
+          .get(Uri.parse("${MPConstants.url}getShoppingCartItemsByUser"));
+      var jsonObject = jsonDecode(response.body);
+      if (jsonObject['message'] == 'success') {
+        final List<dynamic> result = jsonObject['data'];
+        final List<ShoppingCartItemModel> list =
+            result.map((e) => ShoppingCartItemModel.fromJson(e)).toList();
+        shoppingCartItemList.assignAll(list);
+        isLoading.value = false;
+      } else {
+        isLoading.value = false;
+        throw Exception('Failed to fetch data');
+      }
+    } catch (e) {
+      isLoading.value = false;
+      print('Error fetching data: $e');
+    }
   }
 
   Future<void> userDataInit() async {

@@ -12,6 +12,7 @@ import 'package:marketplacedb/common/widgets/texts/product_price_text.dart';
 import 'package:marketplacedb/common/widgets/texts/product_title_text.dart';
 import 'package:marketplacedb/common/widgets/texts/sale_tag.dart';
 import 'package:marketplacedb/common/widgets/texts/text_with_icons.dart';
+import 'package:marketplacedb/controllers/order_process/order_line_controller.dart';
 
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/controllers/user_controller.dart';
@@ -27,8 +28,10 @@ class ProductItemPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    OrderLineController orderLineController = OrderLineController.instance;
     ProductItemController productItemController =
         ProductItemController.instance;
+
     UserController userController = UserController.instance;
     final dark = MPHelperFunctions.isDarkMode(context);
     return Obx(() => productItemController.isLoading.value
@@ -144,9 +147,11 @@ class ProductItemPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: MPSizes.spaceBtwItems),
-                        userController.userData.value.id ==
-                                productItemController
-                                    .singleProductItemDetail.value.userId
+                        Obx(() => orderLineController.orderLineList.any(
+                                (orderLineItem) =>
+                                    orderLineItem.productItem?.id ==
+                                    productItemController
+                                        .singleProductItemDetail.value.id!)
                             ? MPCircularContainer(
                                 padding:
                                     const EdgeInsets.all(MPSizes.spaceBtwItems),
@@ -155,48 +160,75 @@ class ProductItemPage extends StatelessWidget {
                                 backgroundColor: Colors.transparent,
                                 child: Center(
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const Icon(Iconsax.user),
+                                      const Icon(Iconsax.warning_2),
                                       const SizedBox(width: MPSizes.sm),
-                                      Text('Listed by You (Owner)',
+                                      Text('Not Available',
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleLarge),
                                       const SizedBox(width: MPSizes.sm),
-                                      Expanded(
-                                        child: TextButton(
-                                            onPressed: () {
-                                              Get.to(() => const ProfilePage());
-                                            },
-                                            child: Text('View Profile',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall,
-                                                maxLines: 1,
-                                                overflow:
-                                                    TextOverflow.ellipsis)),
-                                      )
                                     ],
                                   ),
                                 ))
-                            : MPCircularContainer(
-                                height: null,
-                                child: Column(
-                                  children: [
-                                    CheckOutButton(
-                                        onPressed: () async {
-                                          Get.to(
-                                              () => const ShoppingCartPage());
-                                        },
-                                        text: "To Checkout"),
-                                    AddToCartButton(
-                                      productItemId: productItemController
-                                          .singleProductItemDetail.value.id!,
+                            : userController.userData.value.id ==
+                                    productItemController
+                                        .singleProductItemDetail.value.userId
+                                ? MPCircularContainer(
+                                    padding: const EdgeInsets.all(
+                                        MPSizes.spaceBtwItems),
+                                    showBorder: true,
+                                    height: null,
+                                    backgroundColor: Colors.transparent,
+                                    child: Center(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          const Icon(Iconsax.user),
+                                          const SizedBox(width: MPSizes.sm),
+                                          Text('Listed by You (Owner)',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleLarge),
+                                          const SizedBox(width: MPSizes.sm),
+                                          Expanded(
+                                            child: TextButton(
+                                                onPressed: () {
+                                                  Get.to(() =>
+                                                      const ProfilePage());
+                                                },
+                                                child: Text('View Profile',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall,
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis)),
+                                          )
+                                        ],
+                                      ),
+                                    ))
+                                : MPCircularContainer(
+                                    height: null,
+                                    child: Column(
+                                      children: [
+                                        CheckOutButton(
+                                            onPressed: () async {
+                                              Get.to(() =>
+                                                  const ShoppingCartPage());
+                                            },
+                                            text: "To Checkout"),
+                                        AddToCartButton(
+                                          productItemId: productItemController
+                                              .singleProductItemDetail
+                                              .value
+                                              .id!,
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ),
+                                  )),
                       ],
                     ),
                   ),

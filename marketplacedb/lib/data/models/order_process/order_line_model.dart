@@ -6,6 +6,7 @@ import 'package:marketplacedb/data/models/user/user_model.dart';
 
 class OrderLineModel {
   int? id;
+  int? productItemId;
   UserModel? user;
   String? sku;
   String? price;
@@ -18,19 +19,21 @@ class OrderLineModel {
 
   OrderLineModel({
     this.id,
+    this.productItemId,
+    this.user,
     this.sku,
     this.price,
     this.orderDate,
     this.paymentMethodId,
     this.shippingMethod,
     this.productItem,
-    this.user,
     this.shippingAddress,
     this.orderStatus,
   });
 
   OrderLineModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    productItemId = json['product_item_id'];
     sku = json['SKU'];
     price = json['price'];
     orderDate = json['order_date'];
