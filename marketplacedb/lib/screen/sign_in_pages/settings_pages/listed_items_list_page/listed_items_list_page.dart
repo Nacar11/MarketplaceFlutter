@@ -25,6 +25,6 @@ class ListedItemsListPage extends StatelessWidget {
                 padding: const EdgeInsets.all(MPSizes.defaultSpace),
                 child: controller.listedItemsList.isEmpty
                     ? const MPNoListedItemsDisplay()
-                    : Container())));
+                    : const MPListedItems())));
   }
 }

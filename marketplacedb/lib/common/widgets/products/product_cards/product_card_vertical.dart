@@ -119,11 +119,10 @@ class MPProductCardVertical extends StatelessWidget {
                                         Radius.circular(MPSizes.cardRadiusMd),
                                     bottomRight: Radius.circular(
                                         MPSizes.productImageRadius))),
-                            child: Obx(() => orderLineController.orderLineList
-                                    .any((orderLineItem) =>
+                            child: orderLineController.orderLineList.any(
+                                    (orderLineItem) =>
                                         orderLineItem.productItem?.id ==
-                                        productItemController
-                                            .singleProductItemDetail.value.id!)
+                                        productItemData.id!)
                                 ? SizedBox(
                                     width: MPSizes.iconLg * 1.1,
                                     height: MPSizes.iconLg * 1.1,
@@ -183,7 +182,7 @@ class MPProductCardVertical extends StatelessWidget {
                                         ),
                                       )
                                     : AddToCartIcon(
-                                        productItemId: productItemData.id!))))
+                                        productItemId: productItemData.id!)))
                       ],
                     )
                   ]))
