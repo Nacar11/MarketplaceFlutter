@@ -226,7 +226,7 @@ class MPSingleListedItem extends StatelessWidget {
                                                           onPressed: () {
                                                             Get.back();
                                                           },
-                                                          child: Text("Cancel",
+                                                          child: Text("Close",
                                                               style: Theme.of(
                                                                       context)
                                                                   .textTheme

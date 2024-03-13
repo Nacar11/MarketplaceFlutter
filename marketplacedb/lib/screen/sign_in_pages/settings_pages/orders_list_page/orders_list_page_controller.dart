@@ -28,12 +28,7 @@ class OrdersListPageController extends GetxController {
         final List<dynamic> result = jsonObject['data'];
         final List<OrderLineModel> list =
             result.map((e) => OrderLineModel.fromJson(e)).toList();
-
         orderLinesList.assignAll(list);
-        // print('----------------------');
-        // print(orderLinesList[0].id!);
-        // print(orderLinesList[0].orderStatus!.status);
-        // print(orderLinesList[0].shippingAddress!.id);
         isLoading.value = false;
       } else {
         isLoading.value = false;

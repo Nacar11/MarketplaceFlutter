@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
@@ -16,6 +14,7 @@ class BillingAddressSetup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MPLocalStorage localStorage = MPLocalStorage();
     return Scaffold(
       appBar: const PrimarySearchAppBar(),
       body: Padding(
@@ -40,15 +39,11 @@ class BillingAddressSetup extends StatelessWidget {
                   animation: AnimationsUtils.addressSetup1,
                   duration: Duration(seconds: 4)),
             ),
-            const SizedBox(height: MPSizes.spaceBtwSections),
-            //animation
-            const SizedBox(height: MPSizes.spaceBtwSections),
+            const SizedBox(height: MPSizes.spaceBtwSections / 2),
             MPPrimaryButton(
               text: 'Proceed',
               onPressed: () {
-                MPLocalStorage localStorage = MPLocalStorage();
                 localStorage.saveData('addAddressToNavigation', true);
-                print(localStorage.readData('addAddressToNavigation'));
                 Get.off(() => const AddBillingAddress());
               },
             )

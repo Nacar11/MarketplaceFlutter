@@ -12,7 +12,6 @@ import 'package:get_storage/get_storage.dart';
 class ProductItemController extends GetxController {
   static ProductItemController get instance => Get.find();
   var productItemList = <ProductItemModel>[].obs;
-  var productItemListUser = <ProductItemModel>[].obs;
   var productItemListByProductType = <ProductItemModel>[].obs;
   final singleProductItemDetail = ProductItemModel().obs;
   int? productTypeID;
@@ -34,7 +33,6 @@ class ProductItemController extends GetxController {
     if (jsonObject['message'] == 'success') {
       singleProductItemDetail.value =
           ProductItemModel.fromJson(jsonObject['data']);
-      print(singleProductItemDetail.value);
     }
 
     isLoading.value = false;
@@ -52,7 +50,6 @@ class ProductItemController extends GetxController {
           result.map((e) => ProductItemModel.fromJson(e)).toList();
 
       productItemList.assignAll(itemList);
-      print(productItemList[2].description);
     }
     isLoading.value = false;
   }
