@@ -31,6 +31,7 @@ class SellPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(height: MPSizes.spaceBtwSections),
                 Text(
                   MPTexts.sellPageTitle,
                   style: Theme.of(context).textTheme.headlineMedium,

@@ -107,17 +107,3 @@ class HomePage extends StatelessWidget {
     ])));
   }
 }
-
-
-
-
-// (_, index) => const MPProductCardVertical()
-
-
-
-
-
-
-
-
-
