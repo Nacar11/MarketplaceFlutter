@@ -89,8 +89,8 @@ class MPOutlinedButton extends StatelessWidget {
   const MPOutlinedButton({
     Key? key,
     required this.text,
-    this.icon,
     required this.onPressed,
+    this.icon,
   }) : super(key: key);
 
   final String text;
@@ -108,102 +108,8 @@ class MPOutlinedButton extends StatelessWidget {
             icon!,
             const SizedBox(width: MPSizes.xs),
           ],
-          Text(
-            text,
-            style: Theme.of(context).textTheme.bodyLarge!,
-          ),
+          Text(text, style: Theme.of(context).textTheme.bodyLarge!),
         ],
-      ),
-    );
-  }
-}
-
-class GoogleButton extends StatelessWidget {
-  final Function()? onTap;
-
-  const GoogleButton({
-    Key? key,
-    required this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 70,
-        padding: const EdgeInsets.all(5),
-        margin: const EdgeInsets.symmetric(horizontal: 30),
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image(
-              width: 24,
-              height: 24,
-              image: AssetImage('assets/images/googleIcon.png'),
-              fit: BoxFit.contain,
-            ),
-            SizedBox(width: 10),
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
-                "Continue with Google",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class FBButton extends StatelessWidget {
-  final Function()? onTap;
-
-  const FBButton({
-    Key? key,
-    required this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 65,
-        padding: const EdgeInsets.all(20),
-        margin: const EdgeInsets.symmetric(horizontal: 30),
-        decoration: BoxDecoration(
-          color: const Color(0xFF1877F2),
-          borderRadius:
-              BorderRadius.circular(10), // Adjust the radius value as needed
-        ),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.facebook, // Replace this with your desired Facebook icon
-              color: Colors.white,
-              size: 24,
-            ),
-            SizedBox(width: 10), // Adjust the space between icon and text
-            Text(
-              "Continue with Facebook",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

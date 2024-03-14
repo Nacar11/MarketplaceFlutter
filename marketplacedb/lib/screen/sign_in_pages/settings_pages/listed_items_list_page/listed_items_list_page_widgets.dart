@@ -13,9 +13,10 @@ import 'package:marketplacedb/controllers/order_process/order_line_controller.da
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/controllers/user_controller.dart';
 import 'package:marketplacedb/data/models/products/product_item_model.dart';
+import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
+import 'package:marketplacedb/screen/landing_pages/navigation/navigation_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/discover_pages/product_item_page/product_item_page.dart';
 import 'package:marketplacedb/screen/sign_in_pages/sell_pages/billing_address_setup/billing_address_setup.dart';
-import 'package:marketplacedb/screen/sign_in_pages/sell_pages/sell_page/sell_page.dart';
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/listed_items_list_page/listed_items_list_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
@@ -32,6 +33,7 @@ class MPNoListedItemsDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    NavigationController navigationController = NavigationController.instance;
     UserController userController = UserController.instance;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,9 +65,9 @@ class MPNoListedItemsDisplay extends StatelessWidget {
             if (userController.userHasAddressValue.value == false) {
               Get.to(() => const BillingAddressSetup());
             } else {
-              Get.to(() => const SellPage());
+              navigationController.index.value = 2;
+              Get.to(() => const Navigation());
             }
-            // Get.off(() => const AddBillingAddress());
           },
         )
       ],

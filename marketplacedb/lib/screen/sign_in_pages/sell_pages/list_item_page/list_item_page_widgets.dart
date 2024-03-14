@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,20 +33,20 @@ class ProductListingImagesDisplay extends StatelessWidget {
                         itemBuilder: (__, int index, _) {
                           final File? image = controller.selectedImages[index];
                           if (image == null || image.path.isEmpty) {
-                            return IconButton(
-                                iconSize: MPSizes.imageThumbSize,
-                                onPressed: () {},
-                                icon: const Icon(
+                            return GestureDetector(
+                                onTap: () {
+                                  PickImageBottomSheet.openBottomSheet(
+                                      controller.selectedImages, index);
+                                },
+                                child: const Icon(
                                   Icons.camera_alt,
+                                  size: MPSizes.imageThumbSize,
                                 ));
                           } else {
-                            return MPRoundedImage(
-                              onPressed: () {
-                                print(controller.selectedImages.length);
-                              },
-                              imageUrl: image.path,
+                            return MPRoundedFileImage(
+                              onPressed: () {},
+                              imageUrl: image,
                               hasBorder: true,
-                              isNetworkImage: false,
                               applyImageRadius: true,
                               width: 200,
                             );
@@ -78,26 +77,28 @@ class ProductListingImagesDisplay extends StatelessWidget {
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (_, index) {
-                        final productImage = controller.selectedImages[index];
-                        if (productImage == null || productImage.path.isEmpty) {
-                          return MPCircularContainer(
-                            backgroundColor: Colors.transparent,
-                            height: MPSizes.xl * 2,
-                            width: MPSizes.xl * 2,
-                            showBorder: true,
-                            child: IconButton(
-                                iconSize: MPSizes.iconLg,
-                                onPressed: () {
-                                  PickImageBottomSheet.openBottomSheet();
-                                },
-                                icon: const Icon(
+                        final File? image = controller.selectedImages[index];
+                        if (image == null || image.path.isEmpty) {
+                          return GestureDetector(
+                            onTap: () {
+                              PickImageBottomSheet.openBottomSheet(
+                                controller.selectedImages,
+                                index,
+                              );
+                            },
+                            child: const MPCircularContainer(
+                                backgroundColor: Colors.transparent,
+                                height: MPSizes.xl * 2,
+                                width: MPSizes.xl * 2,
+                                showBorder: true,
+                                child: Icon(
                                   Icons.camera_alt,
+                                  size: MPSizes.iconLg,
                                 )),
                           );
                         } else {
-                          return MPRoundedImage(
+                          return MPRoundedFileImage(
                             onPressed: () {},
-                            isNetworkImage: true,
                             applyImageRadius: true,
                             width: 70,
                             borderRadius: MPSizes.lg,
@@ -111,7 +112,7 @@ class ProductListingImagesDisplay extends StatelessWidget {
                               color: MPColors.secondary,
                             ),
                             hasBorder: true,
-                            imageUrl: productImage.path,
+                            imageUrl: image,
                           );
                         }
                       },
@@ -120,5 +121,54 @@ class ProductListingImagesDisplay extends StatelessWidget {
                 ),
               ],
             ))));
+  }
+}
+
+class ProductDialogContainer extends StatelessWidget {
+  const ProductDialogContainer({
+    super.key,
+    required this.text,
+    this.icon,
+  });
+
+  final String text;
+  final Icon? icon;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isDarkMode = MPHelperFunctions.isDarkMode(context);
+    return MPCircularContainer(
+        backgroundColor: Colors.transparent,
+        borderColor: isDarkMode ? MPColors.white : MPColors.black,
+        radius: MPSizes.cardRadiusSm,
+        height: 60,
+        showBorder: true,
+        child: Padding(
+          padding: const EdgeInsets.only(left: MPSizes.sm),
+          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+            if (icon != null) ...[
+              icon!,
+              const SizedBox(width: MPSizes.xs),
+            ],
+            const SizedBox(width: MPSizes.sm),
+            Expanded(
+              child: Text(
+                text,
+                style: Theme.of(context).textTheme.bodyMedium,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            )
+          ]),
+        ));
+  }
+}
+
+class VariationPicker extends StatelessWidget {
+  const VariationPicker({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column();
   }
 }

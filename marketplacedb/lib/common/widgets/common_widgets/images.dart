@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
@@ -58,22 +60,23 @@ class MPRoundedCoverImage extends StatelessWidget {
 }
 
 class MPRoundedImage extends StatelessWidget {
-  const MPRoundedImage({
-    Key? key,
-    this.padding,
-    this.onPressed,
-    this.width,
-    this.height,
-    this.overlayColor,
-    this.applyImageRadius = false,
-    required this.imageUrl,
-    this.boxFit = BoxFit.cover,
-    this.backgroundColor = MPColors.light,
-    this.isNetworkImage = false,
-    this.borderRadius = MPSizes.xl,
-    this.border,
-    this.hasBorder = false,
-  }) : super(key: key);
+  const MPRoundedImage(
+      {Key? key,
+      this.padding,
+      this.onPressed,
+      this.width,
+      this.height,
+      this.overlayColor,
+      this.applyImageRadius = false,
+      required this.imageUrl,
+      this.boxFit = BoxFit.cover,
+      this.backgroundColor = MPColors.light,
+      this.isNetworkImage = false,
+      this.borderRadius = MPSizes.xl,
+      this.border,
+      this.hasBorder = false,
+      this.isImageFile = false})
+      : super(key: key);
 
   final double? width, height;
   final String imageUrl;
@@ -87,6 +90,7 @@ class MPRoundedImage extends StatelessWidget {
   final VoidCallback? onPressed;
   final double borderRadius;
   final Color? overlayColor;
+  final bool isImageFile;
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +133,68 @@ class MPRoundedImage extends StatelessWidget {
                           fit: boxFit,
                         ),
                 ))),
+      ),
+    );
+  }
+}
+
+class MPRoundedFileImage extends StatelessWidget {
+  const MPRoundedFileImage({
+    Key? key,
+    this.padding,
+    this.onPressed,
+    this.width,
+    this.height,
+    this.overlayColor,
+    this.applyImageRadius = false,
+    required this.imageUrl,
+    this.boxFit = BoxFit.cover,
+    this.backgroundColor = MPColors.light,
+    this.borderRadius = MPSizes.xl,
+    this.border,
+    this.hasBorder = false,
+  }) : super(key: key);
+
+  final double? width, height;
+  final File imageUrl;
+  final bool applyImageRadius;
+  final BoxBorder? border;
+  final bool hasBorder;
+  final Color backgroundColor;
+  final BoxFit? boxFit;
+  final EdgeInsetsGeometry? padding;
+  final VoidCallback? onPressed;
+  final double borderRadius;
+  final Color? overlayColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: MPSizes.sm),
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Container(
+          width: width,
+          height: height,
+          padding: padding,
+          decoration: BoxDecoration(
+            border: hasBorder ? border : null,
+            borderRadius: BorderRadius.circular(borderRadius),
+          ),
+          child: ClipRRect(
+            borderRadius: applyImageRadius
+                ? BorderRadius.circular(borderRadius)
+                : BorderRadius.zero,
+            child: Center(
+              child: Image.file(
+                imageUrl,
+                fit: boxFit,
+                height: height,
+                width: width,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

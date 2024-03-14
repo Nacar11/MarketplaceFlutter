@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
-class MPDialogContainer extends StatelessWidget {
-  const MPDialogContainer({
+class AddressDialogContainer extends StatelessWidget {
+  const AddressDialogContainer({
     super.key,
     required this.text,
     required this.icon,
@@ -38,17 +37,4 @@ class MPDialogContainer extends StatelessWidget {
           ]),
         ));
   }
-}
-
-Future<dynamic> getXDialogContainer({
-  required String title,
-  required Widget content,
-  required BuildContext context,
-}) {
-  return Get.defaultDialog(
-    title: title,
-    titlePadding: const EdgeInsets.all(MPSizes.lg),
-    titleStyle: Theme.of(context).textTheme.headlineSmall!,
-    content: content,
-  );
 }

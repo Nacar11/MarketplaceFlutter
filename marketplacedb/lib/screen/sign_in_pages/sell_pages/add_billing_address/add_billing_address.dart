@@ -4,9 +4,9 @@ import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
-import 'package:marketplacedb/common/widgets/dialogs/city_picker.dart';
-import 'package:marketplacedb/common/widgets/dialogs/country_picker.dart';
-import 'package:marketplacedb/common/widgets/dialogs/region_picker.dart';
+import 'package:marketplacedb/util/popups/city_picker_dialog.dart';
+import 'package:marketplacedb/util/popups/country_picker_dialog.dart';
+import 'package:marketplacedb/util/popups/region_picker_dialog.dart';
 import 'package:marketplacedb/screen/sign_in_pages/sell_pages/add_billing_address/add_billing_address.widgets.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/text_fields.dart';
 import 'package:marketplacedb/screen/sign_in_pages/sell_pages/add_billing_address/add_billing_address_controller.dart';
@@ -93,15 +93,9 @@ class AddBillingAddress extends StatelessWidget {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        getXDialogContainer(
-                          context: context,
-                          title: "Select Country",
-                          content: CountryPicker(
-                            addBillingAddressController: controller,
-                          ),
-                        );
+                        CountryPickerDialog.openDialog(context, controller);
                       },
-                      child: Obx(() => MPDialogContainer(
+                      child: Obx(() => AddressDialogContainer(
                             text: controller.selectedCountry.value.name ??
                                 "Country",
                             icon: const Icon(Iconsax.courthouse),
@@ -112,15 +106,9 @@ class AddBillingAddress extends StatelessWidget {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        getXDialogContainer(
-                          context: context,
-                          title: "Select province or State",
-                          content: RegionPicker(
-                            addBillingAddressController: controller,
-                          ),
-                        );
+                        RegionPickerDialog.openDialog(context, controller);
                       },
-                      child: Obx(() => MPDialogContainer(
+                      child: Obx(() => AddressDialogContainer(
                             text: controller.selectedRegion.value.name ??
                                 "Province",
                             icon: const Icon(Iconsax.bank),
@@ -136,15 +124,9 @@ class AddBillingAddress extends StatelessWidget {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        getXDialogContainer(
-                          context: context,
-                          title: "Select City",
-                          content: CityPicker(
-                            addBillingAddressController: controller,
-                          ),
-                        );
+                        CityPickerDialog.openDialog(context, controller);
                       },
-                      child: Obx(() => MPDialogContainer(
+                      child: Obx(() => AddressDialogContainer(
                             text: controller.selectedCity.value.name ?? "City",
                             icon: const Icon(Iconsax.house4),
                           )),

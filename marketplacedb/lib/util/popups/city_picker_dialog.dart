@@ -5,6 +5,21 @@ import 'package:marketplacedb/common/widgets/common_widgets/list_tile.dart';
 import 'package:marketplacedb/screen/sign_in_pages/sell_pages/add_billing_address/add_billing_address_controller.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 
+class CityPickerDialog {
+  static void openDialog(
+    BuildContext context,
+    AddBillingAddressController addBillingAddressController,
+  ) {
+    Get.defaultDialog(
+      title: 'Select City',
+      titlePadding: const EdgeInsets.all(MPSizes.lg),
+      titleStyle: Theme.of(context).textTheme.headlineSmall!,
+      content:
+          CityPicker(addBillingAddressController: addBillingAddressController),
+    );
+  }
+}
+
 class CityPicker extends StatelessWidget {
   const CityPicker({
     super.key,

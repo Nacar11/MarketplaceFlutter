@@ -7,10 +7,7 @@ class ProductTypeModel {
   String? description;
 
   ProductTypeModel(
-      {required this.description,
-      required this.id,
-      required this.name,
-      required this.productCategory});
+      {this.description, this.id, this.name, this.productCategory});
 
   ProductTypeModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

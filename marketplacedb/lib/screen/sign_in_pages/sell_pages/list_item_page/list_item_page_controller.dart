@@ -1,15 +1,23 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:marketplacedb/data/models/VariantsModel.dart';
+import 'package:marketplacedb/data/models/VariantsOptionsModel.dart';
+import 'package:marketplacedb/data/models/products/product_category_model.dart';
+import 'package:marketplacedb/data/models/products/product_type_model.dart';
 
 class ListItemPageController extends GetxController {
   static ListItemPageController get instance => Get.find();
   final carouselCurrentIndex = 0.obs;
   final isLoading = false.obs;
-  final selectedImages = List<File?>.filled(4, null).obs;
-
+  final selectedImages = List<File?>.filled(6, null).obs;
+  final selectedProductCategory1 = ProductCategoryModel().obs;
+  final selectedProductCategory2 = ProductCategoryModel().obs;
+  final selectedProductType = ProductTypeModel().obs;
+  final itemDescription = TextEditingController().obs;
+  final specifiedVariationList = <VariationModel>[].obs;
+  final specifiedVariationOptionList = <VariationOptionModel>[].obs;
+  final itemPrice = TextEditingController().obs;
   @override
   void onInit() async {
     super.onInit();
@@ -21,25 +29,4 @@ class ListItemPageController extends GetxController {
   }
 
   Future<void> sampleFunction() async {}
-
-  // Future<void> displayBottomSheet(int index) async {
-  //   await Get.bottomSheet(const PickImageBottomSheet());
-
-  //   selectedImages.asMap().forEach((index, image) {
-  //     print('Image $index: $image');
-  //   });
-  // }
-
-  // Future<void> pickImage(int index, ImageSource source) async {
-  //   try {
-  //     final pickedFile = await ImagePicker().pickImage(source: source);
-  //     if (pickedFile != null) {
-  //       selectedImages[index] = File(pickedFile.path);
-  //       print(selectedImages[index]);
-  //       print('asd');
-  //     }
-  //   } on PlatformException catch (e) {
-  //     print('Failed to pick image: $e');
-  //   }
-  // }
 }

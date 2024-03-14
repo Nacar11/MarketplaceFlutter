@@ -15,6 +15,8 @@ class ValidatorField extends StatelessWidget {
     this.validator,
     this.onChanged,
     this.prefixIcon,
+    this.maxLines = 1,
+    this.isKeyboardInputNumber = false,
   }) : super(key: key);
 
   final bool obscureText;
@@ -24,6 +26,8 @@ class ValidatorField extends StatelessWidget {
   final String? Function(String?)? validator;
   final ValueChanged<String>? onChanged;
   final Icon? prefixIcon;
+  final int maxLines;
+  final bool isKeyboardInputNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -31,22 +35,20 @@ class ValidatorField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
+      maxLines: maxLines,
+      keyboardType: isKeyboardInputNumber ? TextInputType.number : null,
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
         labelText: labelText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(MPSizes.borderRadiusMd),
           borderSide: BorderSide(
-            color: isDarkMode
-                ? MPColors.lightContainer
-                : MPColors.black, // Border color in normal state
+            color: isDarkMode ? MPColors.lightContainer : MPColors.black,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: isDarkMode
-                ? MPColors.lightContainer
-                : MPColors.black, // Focused border color
+            color: isDarkMode ? MPColors.lightContainer : MPColors.black,
           ),
           borderRadius: BorderRadius.circular(MPSizes.borderRadiusMd),
         ),
