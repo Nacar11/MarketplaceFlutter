@@ -32,7 +32,8 @@ class ProductTypesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ProductController productController = ProductController.static;
+    final productTypesPageController = Get.put(ProductTypesPageController());
+    ProductController productController = ProductController.instance;
     ProductItemController productItemController =
         ProductItemController.instance;
     return Obx(

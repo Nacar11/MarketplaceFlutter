@@ -4,20 +4,17 @@ import 'package:marketplacedb/common/widgets/layouts/grid_layout.dart';
 import 'package:marketplacedb/common/widgets/products/product_cards/product_card_vertical.dart';
 import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
 import 'package:marketplacedb/common/widgets/texts/text_with_icons.dart';
+import 'package:marketplacedb/controllers/products/product_controller.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/data/models/products/product_category_model.dart';
 import 'package:marketplacedb/data/models/products/product_item_model.dart';
 import 'package:marketplacedb/data/models/products/product_type_model.dart';
 import 'package:marketplacedb/screen/sign_in_pages/discover_pages/product_types_page/product_types_page_controller.dart';
-
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/device/device_utility.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
-
-final productTypesPageController = Get.put(ProductTypesPageController());
-ProductItemController productItemController = ProductItemController.instance;
 
 class MPTabBarProductTypes extends StatelessWidget
     implements PreferredSizeWidget {
@@ -137,6 +134,8 @@ class MPClickableCircularContainer extends StatefulWidget {
 class MPCircularContainerState extends State<MPClickableCircularContainer> {
   @override
   Widget build(BuildContext context) {
+    ProductTypesPageController productTypesPageController =
+        ProductTypesPageController.instance;
     return Obx(
       () {
         bool isClicked = widget.index ==
@@ -180,6 +179,11 @@ class ClickableCategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ProductItemController productItemController =
+        ProductItemController.instance;
+    ProductTypesPageController productTypesPageController =
+        ProductTypesPageController.instance;
+    ProductController productController = ProductController.instance;
     return MPClickableCircularContainer(
         index: index,
         onClicked: () async {
@@ -220,48 +224,3 @@ class ClickableCategoryCard extends StatelessWidget {
         ]));
   }
 }
-
-// class MPCategoryCard extends StatelessWidget {
-//   const MPCategoryCard({
-//     super.key,
-//     required this.productCategory,
-//   });
-
-//   final ProductCategoryModel productCategory;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       onTap: () {},
-//       child: MPCircularContainer(
-//           borderColor: MPHelperFunctions.isDarkMode(context)
-//               ? MPColors.white
-//               : MPColors.dark,
-//           padding: const EdgeInsets.all(MPSizes.sm),
-//           backgroundColor: Colors.transparent,
-//           child: Row(children: [
-//             Flexible(
-//               child: MPRoundedImage(
-//                   width: 40,
-//                   height: 50,
-//                   isNetworkImage: true,
-//                   imageUrl: productCategory.product_image!),
-//             ),
-//             const SizedBox(width: MPSizes.spaceBtwItems),
-//             Expanded(
-//               child: Column(
-//                   mainAxisSize: MainAxisSize.min,
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     CategoryNameWithCheckIcon(
-//                         textStyle: Theme.of(context).textTheme.labelLarge!,
-//                         text: productCategory.category_name!),
-//                     Text('256 Products ',
-//                         overflow: TextOverflow.ellipsis,
-//                         style: Theme.of(context).textTheme.labelMedium)
-//                   ]),
-//             )
-//           ])),
-//     );
-//   }
-// }

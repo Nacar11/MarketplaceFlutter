@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
-import 'package:marketplacedb/data/models/VariantsModel.dart';
+import 'package:marketplacedb/data/models/variation_model.dart';
 import 'dart:convert';
 import 'package:marketplacedb/networks/interceptor.dart';
 
@@ -38,10 +38,8 @@ class VariationController extends GetxController {
   Future<void> getVariantsByProductType(int productTypeId) async {
     try {
       isLoading.value = true;
-      final response = await AuthInterceptor()
-// ignore_for_file: file_names, avoid_print
-          .get(Uri.parse(
-              "${MPConstants.url}getVariantsByProductTypes/$productTypeId"));
+      final response = await AuthInterceptor().get(Uri.parse(
+          "${MPConstants.url}getVariantsByProductTypes/$productTypeId"));
       final List<dynamic> jsonObject = jsonDecode(response.body);
 
       final List<VariationModel> variations =

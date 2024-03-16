@@ -62,8 +62,7 @@ class CityPicker extends StatelessWidget {
                           onTap: () async {
                             await addBillingAddressController.onCitySelected(
                                 addBillingAddressController.cityList[index]);
-                            print(addBillingAddressController
-                                .selectedCity.value.name);
+
                             Get.back();
                           },
                         );

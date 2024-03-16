@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:marketplacedb/data/models/products/product_item_model.dart';
-import 'package:marketplacedb/data/models/VariantsOptionsModel.dart';
+import 'package:marketplacedb/data/models/variation_option_model.dart';
 import 'dart:convert';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'dart:io';

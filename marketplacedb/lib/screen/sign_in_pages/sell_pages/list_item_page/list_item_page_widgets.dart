@@ -154,7 +154,7 @@ class ProductDialogContainer extends StatelessWidget {
             Expanded(
               child: Text(
                 text,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.labelLarge,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
               ),

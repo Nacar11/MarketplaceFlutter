@@ -46,8 +46,7 @@ class CountryPicker extends StatelessWidget {
                     onTap: () async {
                       await addBillingAddressController.onCountrySelected(
                           addBillingAddressController.countryList[index]);
-                      print(addBillingAddressController
-                          .selectedCountry.value.name);
+
                       Get.back();
                     },
                   );

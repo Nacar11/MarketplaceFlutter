@@ -7,7 +7,7 @@ import 'package:marketplacedb/data/models/products/product_category_model.dart';
 import 'package:marketplacedb/data/models/products/product_type_model.dart';
 
 class ProductController extends GetxController {
-  static ProductController get static => Get.find();
+  static ProductController get instance => Get.find();
 
   var productCategoryList = <ProductCategoryModel>[].obs;
 
@@ -27,7 +27,6 @@ class ProductController extends GetxController {
 
   void subCategoriesInit(int counter) {
     subCategoryList.value = productCategoryList[counter].children!;
-    print(subCategoryList.length);
   }
 
   Future<void> getProductCategories() async {

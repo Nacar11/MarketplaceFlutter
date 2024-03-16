@@ -7,6 +7,9 @@ import 'package:marketplacedb/common/widgets/texts/peso_sign.dart';
 import 'package:marketplacedb/screen/sign_in_pages/sell_pages/list_item_page/list_item_page_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/sell_pages/list_item_page/list_item_page_widgets.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
+import 'package:marketplacedb/util/popups/first_product_category_dialog.dart';
+import 'package:marketplacedb/util/popups/product_type_dialog.dart';
+import 'package:marketplacedb/util/popups/second_product_category_dialog.dart';
 
 class ListItemPage extends StatelessWidget {
   const ListItemPage({super.key});
@@ -45,12 +48,15 @@ class ListItemPage extends StatelessWidget {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
-                                // CountryPickerDialog.openDialog(context, controller);
+                                FirstProductCategoryDialog.openDialog(
+                                    context, controller);
                               },
                               child: Obx(() => ProductDialogContainer(
-                                    text: controller.selectedProductCategory1
-                                            .value.categoryName ??
-                                        "Select Category 1",
+                                    text: controller
+                                            .selectedFirstProductCategory
+                                            .value
+                                            .categoryName ??
+                                        "Select Main Category",
                                   )),
                             ),
                           ),
@@ -58,12 +64,15 @@ class ListItemPage extends StatelessWidget {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
-                                // RegionPickerDialog.openDialog(context, controller);
+                                SecondProductCategoryDialog.openDialog(
+                                    context, controller);
                               },
                               child: Obx(() => ProductDialogContainer(
-                                    text: controller.selectedProductCategory2
-                                            .value.categoryName ??
-                                        "Select Category 2",
+                                    text: controller
+                                            .selectedSecondProductCategory
+                                            .value
+                                            .categoryName ??
+                                        "Select Sub-Category",
                                   )),
                             ),
                           ),
@@ -75,11 +84,10 @@ class ListItemPage extends StatelessWidget {
                       const SizedBox(height: MPSizes.spaceBtwItems),
                       GestureDetector(
                         onTap: () {
-                          // RegionPickerDialog.openDialog(context, controller);
+                          ProductTypeDialog.openDialog(context, controller);
                         },
                         child: Obx(() => ProductDialogContainer(
-                              text: controller.selectedProductCategory2.value
-                                      .categoryName ??
+                              text: controller.selectedProductType.value.name ??
                                   "Select Product Type",
                             )),
                       ),

@@ -18,7 +18,7 @@ class DiscoverPage extends StatelessWidget {
   Widget build(BuildContext context) {
     ProductItemController productItemController =
         ProductItemController.instance;
-    ProductController productController = ProductController.static;
+    ProductController productController = ProductController.instance;
     final productTypesController = Get.put(ProductTypesPageController());
     return Scaffold(
       body: SingleChildScrollView(

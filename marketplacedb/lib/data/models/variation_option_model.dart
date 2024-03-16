@@ -1,4 +1,4 @@
-import 'package:marketplacedb/data/models/VariantsModel.dart';
+import 'package:marketplacedb/data/models/variation_model.dart';
 
 class VariationOptionModel {
   int? id;

@@ -1,7 +1,4 @@
 import 'package:get/get.dart';
-import 'package:marketplacedb/controllers/products/product_controller.dart';
-
-ProductController productController = ProductController.static;
 
 class ProductTypesPageController extends GetxController {
   static ProductTypesPageController get instance => Get.find();
