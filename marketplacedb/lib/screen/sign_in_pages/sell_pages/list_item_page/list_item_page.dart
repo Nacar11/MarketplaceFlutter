@@ -99,22 +99,28 @@ class ListItemPage extends StatelessWidget {
                           maxLines: 3,
                           controller: controller.itemDescription.value),
                       const SizedBox(height: MPSizes.spaceBtwSections),
-                      Text('Specify Variation',
+                      Text('Specify Variation:',
                           style: Theme.of(context).textTheme.titleLarge),
                       const SizedBox(height: MPSizes.spaceBtwSections),
                       const Divider(),
-                      const SizedBox(height: MPSizes.spaceBtwSections),
-                      Padding(
-                          padding: const EdgeInsets.all(MPSizes.defaultSpace),
-                          child: controller.specifiedVariationList.isEmpty
-                              ? Center(
+                      Obx(() => controller.specifiedVariationList.isEmpty
+                          ? Column(
+                              children: [
+                                const SizedBox(
+                                    height: MPSizes.spaceBtwSections),
+                                Center(
                                   child: Text('No Product Category Variation',
                                       style: Theme.of(context)
                                           .textTheme
                                           .headlineSmall),
-                                )
-                              : const VariationPicker()),
-                      const SizedBox(height: MPSizes.spaceBtwSections),
+                                ),
+                                const SizedBox(
+                                    height: MPSizes.spaceBtwSections),
+                              ],
+                            )
+                          : const Padding(
+                              padding: EdgeInsets.all(MPSizes.defaultSpace),
+                              child: VariationPicker())),
                       const Divider(),
                       const SizedBox(height: MPSizes.spaceBtwSections),
                       Row(
@@ -131,7 +137,11 @@ class ListItemPage extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: MPSizes.spaceBtwSections),
-                      MPPrimaryButton(onPressed: () {}, text: 'List Item')
+                      MPPrimaryButton(
+                          onPressed: () {
+                            controller.imageUpload();
+                          },
+                          text: 'List Item')
                     ]))
           ],
         ),

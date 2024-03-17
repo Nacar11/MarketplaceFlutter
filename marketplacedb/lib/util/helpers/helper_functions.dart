@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:marketplacedb/util/constants/app_colors.dart';
 
 class MPHelperFunctions {
   static bool isDarkMode(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark;
   }
 
-  static String currency(BuildContext context) {
-    Locale locale = Localizations.localeOf(context);
-    var format =
-        NumberFormat.simpleCurrency(locale: locale.toString(), name: 'PHP');
-    return format.currencySymbol;
-  }
+  // static String currency(BuildContext context) {
+  //   Locale locale = Localizations.localeOf(context);
+  //   var format =
+  //       NumberFormat.simpleCurrency(locale: locale.toString(), name: 'PHP');
+  //   return format.currencySymbol;
+  // }
 
   static Size screenSize() {
     return MediaQuery.of(Get.context!).size;
@@ -71,6 +71,35 @@ class MPHelperFunctions {
       default:
         return 'Unknown order status';
     }
+  }
+
+  static Widget orderTextDesign(String orderStatus, BuildContext context) {
+    TextStyle textStyle;
+
+    switch (orderStatus) {
+      case 'Processing':
+        textStyle = Theme.of(context)
+            .textTheme
+            .bodyLarge!
+            .apply(color: MPColors.secondary, fontWeightDelta: 1);
+        break;
+      case 'Cancelled':
+        textStyle = Theme.of(context).textTheme.bodyLarge!.apply(
+            color: Colors.red,
+            fontWeightDelta: 1,
+            decoration: TextDecoration.lineThrough);
+        break;
+      default:
+        textStyle = Theme.of(context)
+            .textTheme
+            .bodyLarge!
+            .apply(color: MPColors.secondary, fontWeightDelta: 1);
+    }
+
+    return Text(
+      orderStatus,
+      style: textStyle,
+    );
   }
 
   static double expandedHeightTabBar(int nSubCategory) {

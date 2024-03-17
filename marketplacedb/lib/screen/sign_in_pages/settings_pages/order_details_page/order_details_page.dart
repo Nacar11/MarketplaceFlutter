@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/texts/peso_sign.dart';
-import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/order_details_page/order_details_page_widgets.dart';
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/orders_list_page/orders_list_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
@@ -12,7 +12,6 @@ class OrderDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ProductItemController.instance;
     OrdersListPageController controller = OrdersListPageController.instance;
     return Scaffold(
         appBar: PrimarySearchAppBar(
@@ -55,14 +54,36 @@ class OrderDetailsPage extends StatelessWidget {
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           const SizedBox(height: MPSizes.defaultSpace / 2),
-                          Row(children: [
-                            const PesoSign(),
-                            const SizedBox(width: MPSizes.defaultSpace / 2),
-                            Text(
-                              controller.singleOrderLineDetails.value.price!,
-                              style: Theme.of(context).textTheme.titleSmall,
-                            ),
-                          ])
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    const PesoSign(),
+                                    const SizedBox(
+                                        width: MPSizes.defaultSpace / 2),
+                                    Text(
+                                      controller
+                                          .singleOrderLineDetails.value.price!,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall,
+                                    ),
+                                  ],
+                                ),
+                                controller.singleOrderLineDetails.value
+                                            .orderStatus!.status ==
+                                        'Processing'
+                                    ? MPPrimaryButton(
+                                        onPressed: () {},
+                                        text: 'Cancel',
+                                      )
+                                    : controller.singleOrderLineDetails.value
+                                                .orderStatus!.status ==
+                                            'Cancelled'
+                                        ? Container()
+                                        : Container(),
+                              ])
                         ])
                   ]),
             )

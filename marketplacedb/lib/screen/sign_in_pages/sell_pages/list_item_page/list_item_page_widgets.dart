@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/images.dart';
@@ -10,6 +11,7 @@ import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 import 'package:marketplacedb/util/popups/pick_image_bottom_sheet.dart';
+import 'package:marketplacedb/util/popups/variation_option_dialog.dart';
 
 class ProductListingImagesDisplay extends StatelessWidget {
   const ProductListingImagesDisplay({super.key});
@@ -126,26 +128,31 @@ class ProductListingImagesDisplay extends StatelessWidget {
 
 class ProductDialogContainer extends StatelessWidget {
   const ProductDialogContainer({
-    super.key,
+    Key? key,
     required this.text,
     this.icon,
-  });
+    this.width,
+  }) : super(key: key);
 
   final String text;
   final Icon? icon;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
     final bool isDarkMode = MPHelperFunctions.isDarkMode(context);
     return MPCircularContainer(
-        backgroundColor: Colors.transparent,
-        borderColor: isDarkMode ? MPColors.white : MPColors.black,
-        radius: MPSizes.cardRadiusSm,
-        height: 60,
-        showBorder: true,
-        child: Padding(
-          padding: const EdgeInsets.only(left: MPSizes.sm),
-          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+      backgroundColor: Colors.transparent,
+      borderColor: isDarkMode ? MPColors.white : MPColors.black,
+      radius: MPSizes.cardRadiusSm,
+      height: 60,
+      width: width, // Apply the width argument here
+      showBorder: true,
+      child: Padding(
+        padding: const EdgeInsets.only(left: MPSizes.sm),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
             if (icon != null) ...[
               icon!,
               const SizedBox(width: MPSizes.xs),
@@ -158,17 +165,53 @@ class ProductDialogContainer extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
               ),
-            )
-          ]),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
 class VariationPicker extends StatelessWidget {
-  const VariationPicker({super.key});
+  const VariationPicker({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Column();
+    ListItemPageController controller = ListItemPageController.instance;
+    return Column(
+      children: [
+        for (int index = 0;
+            index < controller.specifiedVariationList.length;
+            index++)
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text('${controller.specifiedVariationList[index].name}:',
+                      style: Theme.of(context).textTheme.titleLarge),
+                  const SizedBox(width: MPSizes.spaceBtwItems),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        VariationOptionDialog.openDialog(
+                            context,
+                            controller,
+                            controller.specifiedVariationList[index]
+                                .variationOptions!,
+                            index);
+                      },
+                      child: const ProductDialogContainer(
+                          text: 'Select Variation'),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: MPSizes.spaceBtwSections),
+            ],
+          ),
+      ],
+    );
   }
 }

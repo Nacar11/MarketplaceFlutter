@@ -8,9 +8,13 @@ import 'package:marketplacedb/data/models/products/product_category_model.dart';
 import 'package:marketplacedb/data/models/products/product_type_model.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
+import 'package:http/http.dart' as http;
+import 'package:marketplacedb/util/local_storage/local_storage.dart';
 
 class ListItemPageController extends GetxController {
   static ListItemPageController get instance => Get.find();
+
+  MPLocalStorage localStorage = MPLocalStorage();
   final carouselCurrentIndex = 0.obs;
   final isLoading = false.obs;
   final selectedImages = List<File?>.filled(6, null).obs;
@@ -27,11 +31,12 @@ class ListItemPageController extends GetxController {
   final productTypeMainList = <ProductTypeModel>[].obs;
   final filteredProductTypeList = <ProductTypeModel>[].obs;
 
+  final itemPrice = TextEditingController().obs;
   final itemDescription = TextEditingController().obs;
 
   final specifiedVariationList = <VariationModel>[].obs;
-  final specifiedVariationOptionList = <VariationOptionModel>[].obs;
-  final itemPrice = TextEditingController().obs;
+  final selectedVariationOptionList = <VariationOptionModel>[].obs;
+
   @override
   void onInit() async {
     super.onInit();
@@ -129,7 +134,7 @@ class ListItemPageController extends GetxController {
     try {
       isLoading.value = true;
       final response = await AuthInterceptor().get(Uri.parse(
-          "${MPConstants.url}getVariantsByProductTypes/${productCategory.id}"));
+          "${MPConstants.url}getVariationsByProductTypes/${productCategory.id}"));
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == 'success') {
         final List<dynamic> result = jsonObject['data'];
@@ -137,7 +142,14 @@ class ListItemPageController extends GetxController {
             result.map((e) => VariationModel.fromJson(e)).toList();
 
         specifiedVariationList.assignAll(categoryList);
-        print(specifiedVariationList[0].name);
+        selectedVariationOptionList.assignAll(List.generate(
+            specifiedVariationList.length, (_) => VariationOptionModel()));
+        print('length of selectedVariationOptionList');
+        print(selectedVariationOptionList.length);
+        print('Names of selectedVariationOptionList instances:');
+        for (var option in selectedVariationOptionList) {
+          print(option.value);
+        }
         isLoading.value = false;
       } else {
         isLoading.value = false;
@@ -151,9 +163,95 @@ class ListItemPageController extends GetxController {
 
   Future<void> onProductTypeSelected(ProductTypeModel productType) async {
     selectedProductType.value = productType;
+  }
 
-    print('Category Name: ${selectedFirstProductCategory.value.categoryName}');
-    print('Category Name: ${selectedSecondProductCategory.value.categoryName}');
-    print('Category Name: ${selectedProductType.value.name}');
+  Future<void> onVariationOptionSelected(
+      VariationOptionModel variationOption, int variationIndex) async {
+    selectedVariationOptionList[variationIndex] = variationOption;
+  }
+
+  Future<int> imageUpload() async {
+    isLoading.value = true;
+    final uri = Uri.parse('${MPConstants.url}addListing');
+    final request = http.MultipartRequest('POST', uri);
+
+    final token = localStorage.readData('token');
+
+    final headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    headers.forEach((key, value) {
+      request.headers[key] = value;
+    });
+
+    for (int i = 0; i < selectedImages.length; i++) {
+      final file = selectedImages[i];
+
+      if (file != null) {
+        request.files.add(http.MultipartFile(
+          'File$i',
+          http.ByteStream.fromBytes(file.readAsBytesSync()),
+          file.lengthSync(),
+          filename: 'image.jpg',
+        ));
+      }
+    }
+
+    request.fields['product_id'] = selectedProductType.value.id.toString();
+    request.fields['price'] = itemPrice.value.toString();
+    request.fields['description'] = itemDescription.value.text;
+    try {
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+
+      final jsonResponse = json.decode(response.body);
+
+      if (jsonResponse['message'] == 'success') {
+        print(jsonResponse['data']['id'].runtimeType);
+        final productConfigurationResponse = await addProductConfiguration(
+          jsonResponse['data']['id'],
+        );
+        if (productConfigurationResponse == 1) {
+          print('File uploaded successfully');
+          isLoading.value = false;
+          return 1;
+        } else {
+          print('Error on Product Configuration');
+
+          isLoading.value = false;
+          return 0;
+        }
+      } else {
+        print('File upload failed');
+
+        isLoading.value = false;
+        return 0;
+      }
+    } catch (e) {
+      print('Error uploading file: $e');
+
+      isLoading.value = false;
+      return 0;
+    }
+  }
+
+  Future<int> addProductConfiguration(int productItemID) async {
+    isLoading.value = true;
+
+    for (final variationOption in selectedVariationOptionList) {
+      final variationOptionID = variationOption.id;
+
+      var data = {
+        'product_item_id': productItemID.toString(),
+        'variation_option_id': variationOptionID.toString(),
+      };
+      await AuthInterceptor().post(
+          Uri.parse("${MPConstants.url}productConfiguration"),
+          body: data);
+    }
+    isLoading.value = false;
+    return 1;
   }
 }

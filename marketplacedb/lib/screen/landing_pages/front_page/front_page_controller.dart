@@ -16,6 +16,7 @@ import 'package:marketplacedb/util/popups/full_screen_animation_loader.dart';
 
 class FrontPageController extends GetxController {
   static FrontPageController get instance => Get.find();
+  NavigationController controller = NavigationController.instance;
   final isLoading = false.obs;
   final email = TextEditingController();
   final password = TextEditingController();
@@ -27,7 +28,7 @@ class FrontPageController extends GetxController {
     isLoading.value = false;
   }
 
-  Future login() async {
+  Future<void> login() async {
     try {
       isLoading.value = true;
 
@@ -47,18 +48,18 @@ class FrontPageController extends GetxController {
           'password': password.text,
         },
       );
+
       final jsonResponse = json.decode(response.body);
 
       if (jsonResponse['message'] == 'success') {
         localStorage.clearAll();
-        localStorage.saveData('token', jsonResponse['access_token']);
-        localStorage.saveData('username', jsonResponse['username']);
+        localStorage.saveData('token', jsonResponse['data']['access_token']);
+        localStorage.saveData('username', jsonResponse['data']['username']);
         isLoading.value = false;
         MPFullScreenAnimationLoader.stopLoading();
-        NavigationController controller = NavigationController.instance;
         controller.index.value = 0;
         Get.offAll(() => const Navigation());
-        String text = 'Welcome, ${jsonResponse['username']}';
+        String text = 'Welcome, ${jsonResponse['data']['username']}';
         getSnackBar(text, MPTexts.successLogin, true);
       } else {
         getSnackBar(jsonResponse['message'], 'Error', false);
@@ -98,10 +99,9 @@ class FrontPageController extends GetxController {
     }
   }
 
-  Future register() async {
+  Future<void> register() async {
     try {
       isLoading.value = true;
-
       var data = {
         'email': localStorage.readData('email'),
         'password': localStorage.readData('password'),
@@ -120,9 +120,6 @@ class FrontPageController extends GetxController {
                 : 'false',
         'gender': localStorage.readData('gender'),
       };
-      data.forEach((key, value) {
-        print('$key: ${value.runtimeType}');
-      });
 
       var response = await AuthInterceptor().post(
         Uri.parse('${MPConstants.url}register'),
@@ -134,19 +131,15 @@ class FrontPageController extends GetxController {
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == "success") {
         isLoading.value = false;
-        print(jsonObject['access_token']);
-        localStorage.saveData('token', jsonObject['access_token']);
-        localStorage.saveData('username', jsonObject['username']);
-        localStorage.saveData('userID', jsonObject['user_id']);
-
-        NavigationController controller = NavigationController.instance;
+        localStorage.saveData('token', jsonObject['data']['access_token']);
+        localStorage.saveData('username', jsonObject['data']['username']);
+        localStorage.saveData('userID', jsonObject['data']['user_id']);
         controller.index.value = 0;
         Get.offAll(() => const Navigation());
         String text = 'Welcome, ${localStorage.readData('username')}';
         getSnackBar(text, "Successfully Registered!", true);
       } else {
         isLoading.value = false;
-
         final text = jsonObject['message'];
         getSnackBar(text, 'Error', false);
       }
@@ -156,7 +149,7 @@ class FrontPageController extends GetxController {
     }
   }
 
-  Future loginGoogle(String? email) async {
+  Future<void> loginGoogle(String? email) async {
     try {
       MPFullScreenAnimationLoader.openLoadingDialog(
           'Logging in...', AnimationsUtils.loading);
@@ -166,6 +159,7 @@ class FrontPageController extends GetxController {
         MPFullScreenAnimationLoader.stopLoading();
         return;
       }
+
       isLoading.value = true;
       var response = await AuthInterceptor().post(
         Uri.parse('${MPConstants.url}google/callback'),
@@ -173,7 +167,9 @@ class FrontPageController extends GetxController {
           'email': email,
         },
       );
+
       var jsonResponse = jsonDecode(response.body);
+
       if (jsonResponse['message'] == 'registerFirst') {
         await GoogleSignAPI.logout();
         localStorage.saveData('email', email);
@@ -183,27 +179,25 @@ class FrontPageController extends GetxController {
       } else if (jsonResponse['message'] == 'success') {
         await GoogleSignAPI.logout();
         localStorage.clearAll();
-        localStorage.saveData('token', jsonResponse['access_token']);
-        localStorage.saveData('username', jsonResponse['username']);
+        localStorage.saveData('token', jsonResponse['data']['access_token']);
+        localStorage.saveData('username', jsonResponse['data']['username']);
         isLoading.value = false;
         MPFullScreenAnimationLoader.stopLoading();
-        NavigationController controller = NavigationController.instance;
         controller.index.value = 0;
         Get.offAll(() => const Navigation());
-        String text = 'Welcome, ${localStorage.readData('username')}';
+        String text = 'Welcome, ${jsonResponse['data']['username']}';
         getSnackBar(text, MPTexts.successLogin, true);
       } else {
-        getSnackBar(MPTexts.errorLoggingIn, 'error', false);
+        await GoogleSignAPI.logout();
+        getSnackBar(MPTexts.errorLoggingIn, 'Error', false);
         MPFullScreenAnimationLoader.stopLoading();
         isLoading.value = false;
       }
     } catch (e) {
       MPFullScreenAnimationLoader.stopLoading();
       isLoading.value = false;
-      // getSnackBar(MPTexts.errorLoggingIn, "Error", false);
     }
   }
-
   // Future loginFacebook(String? email) async {
   //   try {
   //     var data = {'email': email};

@@ -8,15 +8,11 @@ import 'package:marketplacedb/data/models/products/product_type_model.dart';
 
 class ProductController extends GetxController {
   static ProductController get instance => Get.find();
-
-  var productCategoryList = <ProductCategoryModel>[].obs;
-
-  int? subCategoryId;
-  var subCategoryList = <ProductCategoryModel>[].obs;
-  var productTypes = <ProductTypeModel>[].obs;
-
+  final productCategoryList = <ProductCategoryModel>[].obs;
+  final subCategoryList = <ProductCategoryModel>[].obs;
+  final productTypes = <ProductTypeModel>[].obs;
   final isLoading = false.obs;
-  final token = ''.obs;
+  int? subCategoryId;
 
   @override
   void onInit() async {
@@ -33,7 +29,7 @@ class ProductController extends GetxController {
     isLoading.value = true;
     try {
       final response = await AuthInterceptor()
-          .get(Uri.parse("${MPConstants.url}product-category"));
+          .get(Uri.parse("${MPConstants.url}getOrganizedProductCategories"));
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == 'success') {
         final List<dynamic> result = jsonObject['data'];
@@ -42,15 +38,13 @@ class ProductController extends GetxController {
 
         productCategoryList.assignAll(categoryList);
         print(productCategoryList.length);
-
-        isLoading.value = false;
       } else {
-        isLoading.value = false;
         throw Exception('Failed to fetch data');
       }
     } catch (e) {
-      isLoading.value = false;
       print('Error fetching data: $e');
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -64,20 +58,15 @@ class ProductController extends GetxController {
         final List<dynamic> result = jsonObject['data'];
         final List<ProductTypeModel> productTypesData =
             result.map((e) => ProductTypeModel.fromJson(e)).toList();
-
         productTypes.assignAll(productTypesData);
         isLoading.value = false;
-
-        print(productTypes[0].name);
       } else {
-        isLoading.value = false;
-
         throw Exception('Failed to load product types');
       }
     } catch (e) {
-      isLoading.value = false;
-
       print('Error fetching product types: $e');
+    } finally {
+      isLoading.value = false;
     }
   }
 }

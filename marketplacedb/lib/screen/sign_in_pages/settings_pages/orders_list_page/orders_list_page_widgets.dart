@@ -52,15 +52,17 @@ class MPSingleOrderListItem extends StatelessWidget {
             const SizedBox(width: MPSizes.spaceBtwItems / 2),
             Expanded(
               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(orderLine.orderStatus!.status!,
-                        style: Theme.of(context).textTheme.bodyLarge!.apply(
-                            color: MPColors.secondary, fontWeightDelta: 1)),
-                    Text(MPHelperFunctions.convertDate(orderLine.orderDate!),
-                        style: Theme.of(context).textTheme.headlineSmall)
-                  ]),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  MPHelperFunctions.orderTextDesign(
+                      orderLine.orderStatus!.status!, context),
+                  Text(
+                    MPHelperFunctions.convertDate(orderLine.orderDate!),
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  )
+                ],
+              ),
             ),
             IconButton(
                 onPressed: () {
