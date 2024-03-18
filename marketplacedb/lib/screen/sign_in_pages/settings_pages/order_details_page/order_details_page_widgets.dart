@@ -198,6 +198,7 @@ class ProductItemInformation extends StatelessWidget {
             ),
           ),
         ),
+        const SizedBox(width: MPSizes.spaceBtwItems),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

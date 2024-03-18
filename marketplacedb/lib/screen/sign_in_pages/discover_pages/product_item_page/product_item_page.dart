@@ -150,8 +150,12 @@ class ProductItemPage extends StatelessWidget {
                         Obx(() => orderLineController.orderLineList.any(
                                 (orderLineItem) =>
                                     orderLineItem.productItem?.id ==
-                                    productItemController
-                                        .singleProductItemDetail.value.id!)
+                                        productItemController
+                                            .singleProductItemDetail
+                                            .value
+                                            .id! &&
+                                    orderLineItem.orderStatus!.status !=
+                                        "Cancelled")
                             ? MPCircularContainer(
                                 padding:
                                     const EdgeInsets.all(MPSizes.spaceBtwItems),

@@ -5,13 +5,18 @@ import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/texts/peso_sign.dart';
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/order_details_page/order_details_page_widgets.dart';
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/orders_list_page/orders_list_page_controller.dart';
+import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
+import 'package:marketplacedb/util/helpers/helper_functions.dart';
+import 'package:marketplacedb/util/popups/alert_dialog.dart';
+import 'package:marketplacedb/util/popups/dialog_container_loader.dart';
 
 class OrderDetailsPage extends StatelessWidget {
   const OrderDetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final dark = MPHelperFunctions.isDarkMode(context);
     OrdersListPageController controller = OrdersListPageController.instance;
     return Scaffold(
         appBar: PrimarySearchAppBar(
@@ -74,10 +79,42 @@ class OrderDetailsPage extends StatelessWidget {
                                 controller.singleOrderLineDetails.value
                                             .orderStatus!.status ==
                                         'Processing'
-                                    ? MPPrimaryButton(
-                                        onPressed: () {},
+                                    ? MPOutlinedButton(
                                         text: 'Cancel',
-                                      )
+                                        onPressed: () async {
+                                          MPAlertDialog.openDialog(
+                                              context,
+                                              "Cancel your Order?",
+                                              "Are you sure you want to cancel this item order?",
+                                              [
+                                                MaterialButton(
+                                                    onPressed: () {
+                                                      MPAlertDialog.popDialog();
+                                                    },
+                                                    child: Text("Close",
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyMedium!)),
+                                                MaterialButton(
+                                                    onPressed: () async {
+                                                      MPAlertLoaderDialog
+                                                          .openLoadingDialog();
+                                                      await controller
+                                                          .cancelOrder();
+                                                      MPAlertDialog.popDialog();
+                                                      MPAlertLoaderDialog
+                                                          .stopLoading();
+                                                    },
+                                                    child: Text('Cancel Order',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyMedium!)),
+                                              ]);
+                                        },
+                                        icon: Icon(Icons.cancel,
+                                            color: dark
+                                                ? MPColors.light
+                                                : MPColors.dark))
                                     : controller.singleOrderLineDetails.value
                                                 .orderStatus!.status ==
                                             'Cancelled'

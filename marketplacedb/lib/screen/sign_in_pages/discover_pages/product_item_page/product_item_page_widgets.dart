@@ -131,24 +131,30 @@ class ProductDetailVariationList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 100,
-      child: ListView.builder(
-          itemCount: productItemController
-              .singleProductItemDetail.value.productConfigurations!.length,
-          itemBuilder: (context, index) {
-            ProductConfigurationModel productConfigurations =
-                productItemController.singleProductItemDetail.value
-                    .productConfigurations![index];
-            return Padding(
-              padding: const EdgeInsets.only(top: MPSizes.spaceBtwItems),
-              child: NameValueRow(
-                  name:
-                      '${productConfigurations.variationOption!.variation!.name!}:',
-                  value:
-                      productConfigurations.variationOption!.value.toString()),
-            );
-          }),
+    return Column(
+      children: [
+        const Divider(),
+        const SizedBox(height: MPSizes.spaceBtwItems),
+        SizedBox(
+          height: 100,
+          child: ListView.builder(
+              itemCount: productItemController
+                  .singleProductItemDetail.value.productConfigurations!.length,
+              itemBuilder: (context, index) {
+                ProductConfigurationModel productConfigurations =
+                    productItemController.singleProductItemDetail.value
+                        .productConfigurations![index];
+                return Padding(
+                  padding: const EdgeInsets.only(top: MPSizes.spaceBtwItems),
+                  child: NameValueRow(
+                      name:
+                          '${productConfigurations.variationOption!.variation!.name!}:',
+                      value: productConfigurations.variationOption!.value
+                          .toString()),
+                );
+              }),
+        ),
+      ],
     );
   }
 }

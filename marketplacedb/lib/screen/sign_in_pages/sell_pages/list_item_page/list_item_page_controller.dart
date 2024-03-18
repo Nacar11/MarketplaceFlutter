@@ -2,21 +2,26 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:marketplacedb/data/models/variation_model.dart';
-import 'package:marketplacedb/data/models/variation_option_model.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
+import 'package:marketplacedb/data/models/product_variations/variation_model.dart';
+import 'package:marketplacedb/data/models/product_variations/variation_option_model.dart';
 import 'package:marketplacedb/data/models/products/product_category_model.dart';
 import 'package:marketplacedb/data/models/products/product_type_model.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
+import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
+import 'package:marketplacedb/screen/landing_pages/navigation/navigation_controller.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:http/http.dart' as http;
+import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
 
 class ListItemPageController extends GetxController {
   static ListItemPageController get instance => Get.find();
-
+  NavigationController navigationController = NavigationController.instance;
   MPLocalStorage localStorage = MPLocalStorage();
   final carouselCurrentIndex = 0.obs;
   final isLoading = false.obs;
+  final variationListWidgetLoading = false.obs;
   final selectedImages = List<File?>.filled(6, null).obs;
 
   final productCategoryMainList = <ProductCategoryModel>[].obs;
@@ -31,6 +36,10 @@ class ListItemPageController extends GetxController {
   final productTypeMainList = <ProductTypeModel>[].obs;
   final filteredProductTypeList = <ProductTypeModel>[].obs;
 
+  GlobalKey<FormState> itemPriceKey = GlobalKey<FormState>();
+  GlobalKey<FormState> itemDescriptionKey = GlobalKey<FormState>();
+  final isItemPriceValid = false.obs;
+  final isItemDescriptionValid = false.obs;
   final itemPrice = TextEditingController().obs;
   final itemDescription = TextEditingController().obs;
 
@@ -113,13 +122,9 @@ class ListItemPageController extends GetxController {
             category.categoryId == selectedFirstProductCategory.value.id)
         .toList();
 
-    print('Items with filteredProductCategorySecondList :');
-    for (var item in filteredProductCategorySecondList) {
-      print('Category Name: ${item.categoryName}');
-    }
-
+    specifiedVariationList.clear();
     selectedSecondProductCategory.value = ProductCategoryModel();
-    filteredProductTypeList.value = <ProductTypeModel>[];
+    filteredProductTypeList.clear();
     selectedProductType.value = ProductTypeModel();
   }
 
@@ -130,11 +135,13 @@ class ListItemPageController extends GetxController {
         .where((productType) => productType.categoryId == productCategory.id)
         .toList();
     selectedProductType.value = ProductTypeModel();
-
+    specifiedVariationList.clear();
+    selectedVariationOptionList.clear();
     try {
+      variationListWidgetLoading.value = true;
       isLoading.value = true;
       final response = await AuthInterceptor().get(Uri.parse(
-          "${MPConstants.url}getVariationsByProductTypes/${productCategory.id}"));
+          "${MPConstants.url}getVariationsByProductCategory/${productCategory.id}"));
       var jsonObject = jsonDecode(response.body);
       if (jsonObject['message'] == 'success') {
         final List<dynamic> result = jsonObject['data'];
@@ -144,20 +151,15 @@ class ListItemPageController extends GetxController {
         specifiedVariationList.assignAll(categoryList);
         selectedVariationOptionList.assignAll(List.generate(
             specifiedVariationList.length, (_) => VariationOptionModel()));
-        print('length of selectedVariationOptionList');
-        print(selectedVariationOptionList.length);
-        print('Names of selectedVariationOptionList instances:');
-        for (var option in selectedVariationOptionList) {
-          print(option.value);
-        }
-        isLoading.value = false;
       } else {
-        isLoading.value = false;
         throw Exception('Failed to fetch data');
       }
     } catch (e) {
       isLoading.value = false;
       print('Error fetching data: $e');
+    } finally {
+      isLoading.value = false;
+      variationListWidgetLoading.value = false;
     }
   }
 
@@ -170,88 +172,85 @@ class ListItemPageController extends GetxController {
     selectedVariationOptionList[variationIndex] = variationOption;
   }
 
-  Future<int> imageUpload() async {
-    isLoading.value = true;
-    final uri = Uri.parse('${MPConstants.url}addListing');
-    final request = http.MultipartRequest('POST', uri);
-
-    final token = localStorage.readData('token');
-
-    final headers = {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    };
-
-    headers.forEach((key, value) {
-      request.headers[key] = value;
-    });
-
-    for (int i = 0; i < selectedImages.length; i++) {
-      final file = selectedImages[i];
-
-      if (file != null) {
-        request.files.add(http.MultipartFile(
-          'File$i',
-          http.ByteStream.fromBytes(file.readAsBytesSync()),
-          file.lengthSync(),
-          filename: 'image.jpg',
-        ));
-      }
-    }
-
-    request.fields['product_id'] = selectedProductType.value.id.toString();
-    request.fields['price'] = itemPrice.value.toString();
-    request.fields['description'] = itemDescription.value.text;
+  Future<void> imageUpload() async {
     try {
+      isLoading.value = true;
+      final uri = Uri.parse('${MPConstants.url}addListingAndConfiguration');
+      final request = http.MultipartRequest('POST', uri);
+      final token = localStorage.readData('token');
+      final headers = {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+      headers.forEach((key, value) {
+        request.headers[key] = value;
+      });
+
+      for (int i = 0; i < selectedImages.length; i++) {
+        final file = selectedImages[i];
+
+        if (file != null) {
+          request.files.add(http.MultipartFile(
+            'File$i',
+            http.ByteStream.fromBytes(file.readAsBytesSync()),
+            file.lengthSync(),
+            filename: 'image.jpg',
+          ));
+        }
+      }
+      request.fields['product_id'] = selectedProductType.value.id.toString();
+      request.fields['price'] = (double.parse(itemPrice.value.text)).toString();
+      request.fields['description'] = itemDescription.value.text;
+
+      for (String item in selectedVariationOptionList
+          .map((option) => option.id.toString())
+          .toList()) {
+        request.files
+            .add(http.MultipartFile.fromString('variation_option_ids[]', item));
+      }
+
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
-
       final jsonResponse = json.decode(response.body);
-
       if (jsonResponse['message'] == 'success') {
-        print(jsonResponse['data']['id'].runtimeType);
-        final productConfigurationResponse = await addProductConfiguration(
-          jsonResponse['data']['id'],
-        );
-        if (productConfigurationResponse == 1) {
-          print('File uploaded successfully');
-          isLoading.value = false;
-          return 1;
-        } else {
-          print('Error on Product Configuration');
-
-          isLoading.value = false;
-          return 0;
-        }
+        navigationController.index.value = 0;
+        Get.offAll(() => const Navigation());
+        getSnackBar(MPTexts.productListed, 'Successful Listing', true);
       } else {
-        print('File upload failed');
-
-        isLoading.value = false;
-        return 0;
+        getSnackBar('Please Try Again', 'Error on Listing', true);
       }
     } catch (e) {
-      print('Error uploading file: $e');
-
+      print('Error creating item file: $e');
+    } finally {
       isLoading.value = false;
-      return 0;
     }
   }
 
-  Future<int> addProductConfiguration(int productItemID) async {
-    isLoading.value = true;
-
-    for (final variationOption in selectedVariationOptionList) {
-      final variationOptionID = variationOption.id;
-
-      var data = {
-        'product_item_id': productItemID.toString(),
-        'variation_option_id': variationOptionID.toString(),
-      };
-      await AuthInterceptor().post(
-          Uri.parse("${MPConstants.url}productConfiguration"),
-          body: data);
-    }
-    isLoading.value = false;
-    return 1;
-  }
+  // Future<void> addProductConfiguration(int productItemID) async {
+  //   try {
+  //     isLoading.value = true;
+  //     for (final variationOption in selectedVariationOptionList) {
+  //       final variationOptionID = variationOption.id;
+  //       var data = {
+  //         'product_item_id': productItemID.toString(),
+  //         'variation_option_id': variationOptionID.toString(),
+  //       };
+  //       final response = await AuthInterceptor().post(
+  //           Uri.parse("${MPConstants.url}productConfiguration"),
+  //           body: data);
+  //       final jsonResponse = json.decode(response.body);
+  //       if (jsonResponse['message'] == 'success') {
+  //         await addProductConfiguration(
+  //           jsonResponse['data']['id'],
+  //         );
+  //         print('File Successfully uploaded with Product Configurations');
+  //       } else {
+  //         print('File upload failed');
+  //         isLoading.value = false;
+  //       }
+  //     }
+  //   } catch (e) {
+  //     isLoading.value = false;
+  //   }
+  // }
 }

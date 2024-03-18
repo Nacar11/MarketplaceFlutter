@@ -61,7 +61,9 @@ class MPHelperFunctions {
   static String orderDescription(String orderStatus) {
     switch (orderStatus) {
       case 'Processing':
-        return 'Your order is being processed.';
+        return 'Your order is still being processed.';
+      case 'Cancelled':
+        return 'You cancelled this order.';
       case 'Shipping':
         return 'Your order is being shipped.';
       case 'Delivering':

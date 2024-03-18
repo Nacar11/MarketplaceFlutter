@@ -16,8 +16,9 @@ class OrderLineController extends GetxController {
   }
 
   bool isItemNotAvailable(int productItemId) {
-    return orderLineList
-        .any((orderLineItem) => orderLineItem.productItem?.id == productItemId);
+    return orderLineList.any((orderLineItem) =>
+        orderLineItem.productItem!.id == productItemId &&
+        orderLineItem.orderStatus!.status != "Cancelled");
   }
 
   Future<void> getAllOrderLines() async {

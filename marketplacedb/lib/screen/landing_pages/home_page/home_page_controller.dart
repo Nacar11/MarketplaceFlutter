@@ -51,7 +51,7 @@ class HomeScreenController extends GetxController {
       }
     } catch (e) {
       isLoading.value = false;
-      print('Error fetching data: $e');
+      print('Error fetching data getProductCategories: $e');
     }
   }
 

@@ -193,19 +193,22 @@ class VariationPicker extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleLarge),
                   const SizedBox(width: MPSizes.spaceBtwItems),
                   Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        VariationOptionDialog.openDialog(
-                            context,
-                            controller,
-                            controller.specifiedVariationList[index]
-                                .variationOptions!,
-                            index);
-                      },
-                      child: const ProductDialogContainer(
-                          text: 'Select Variation'),
+                      child: GestureDetector(
+                    onTap: () {
+                      VariationOptionDialog.openDialog(
+                          context,
+                          controller,
+                          controller
+                              .specifiedVariationList[index].variationOptions!,
+                          index);
+                    },
+                    child: Obx(
+                      () => ProductDialogContainer(
+                          text: controller
+                                  .selectedVariationOptionList[index].value ??
+                              'Select Variation'),
                     ),
-                  ),
+                  )),
                 ],
               ),
               const SizedBox(height: MPSizes.spaceBtwSections),

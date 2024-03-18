@@ -49,4 +49,36 @@ class MPValidator {
     }
     return null;
   }
+
+  static String? validateDescriptionLength(String? value, String fieldName) {
+    if (value == null || value.isEmpty) {
+      return '$fieldName is required.';
+    }
+    if (value.length < 16) {
+      return '$fieldName must be at least 16 characters long.';
+    }
+    return null;
+  }
+
+  static String? validatePrice(String? value,
+      {required double minimumPrice, double? maximumPrice}) {
+    if (value == null) {
+      return 'Price is required.';
+    }
+
+    if (value.isEmpty) {
+      return 'Price is required.';
+    }
+
+    final price = double.tryParse(value);
+    if (price == null || price < minimumPrice) {
+      return 'Price must be at least Php ${minimumPrice.toStringAsFixed(0)}';
+    }
+
+    if (maximumPrice != null && price > maximumPrice) {
+      return 'Price cannot exceed Php ${maximumPrice.toStringAsFixed(0)}';
+    }
+
+    return null;
+  }
 }

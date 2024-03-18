@@ -122,7 +122,9 @@ class MPProductCardVertical extends StatelessWidget {
                             child: orderLineController.orderLineList.any(
                                     (orderLineItem) =>
                                         orderLineItem.productItem?.id ==
-                                        productItemData.id!)
+                                            productItemData.id! &&
+                                        orderLineItem.orderStatus!.status !=
+                                            "Cancelled")
                                 ? SizedBox(
                                     width: MPSizes.iconLg * 1.1,
                                     height: MPSizes.iconLg * 1.1,
