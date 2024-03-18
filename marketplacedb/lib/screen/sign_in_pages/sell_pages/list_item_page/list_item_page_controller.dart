@@ -14,6 +14,7 @@ import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/local_storage/local_storage.dart';
+import 'package:marketplacedb/util/popups/dialog_container_loader.dart';
 
 class ListItemPageController extends GetxController {
   static ListItemPageController get instance => Get.find();
@@ -174,6 +175,7 @@ class ListItemPageController extends GetxController {
 
   Future<void> imageUpload() async {
     try {
+      MPAlertLoaderDialog.openLoadingDialog();
       isLoading.value = true;
       final uri = Uri.parse('${MPConstants.url}addListingAndConfiguration');
       final request = http.MultipartRequest('POST', uri);
@@ -212,6 +214,7 @@ class ListItemPageController extends GetxController {
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
       final jsonResponse = json.decode(response.body);
+      MPAlertLoaderDialog.stopLoading();
       if (jsonResponse['message'] == 'success') {
         navigationController.index.value = 0;
         Get.offAll(() => const Navigation());

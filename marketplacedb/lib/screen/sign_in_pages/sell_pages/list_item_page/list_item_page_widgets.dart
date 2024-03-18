@@ -88,12 +88,13 @@ class ProductListingImagesDisplay extends StatelessWidget {
                                 index,
                               );
                             },
-                            child: const MPCircularContainer(
-                                backgroundColor: Colors.transparent,
+                            child: MPCircularContainer(
+                                backgroundColor:
+                                    dark ? MPColors.darkerGrey : MPColors.light,
                                 height: MPSizes.xl * 2,
                                 width: MPSizes.xl * 2,
                                 showBorder: true,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.camera_alt,
                                   size: MPSizes.iconLg,
                                 )),

@@ -11,6 +11,7 @@ import 'package:marketplacedb/screen/sign_in_pages/sell_pages/list_item_page/lis
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 import 'package:marketplacedb/util/helpers/validators.dart';
 import 'package:marketplacedb/util/popups/alert_dialog.dart';
+import 'package:marketplacedb/util/popups/dialog_container_loader.dart';
 import 'package:marketplacedb/util/popups/first_product_category_dialog.dart';
 import 'package:marketplacedb/util/popups/full_screen_overlay_loader.dart';
 import 'package:marketplacedb/util/popups/product_type_dialog.dart';
@@ -220,13 +221,9 @@ class ListItemPage extends StatelessWidget {
                                         controller.isLoading.value == true
                                             ? null
                                             : {
-                                                MPFullScreenOverlayLoader
-                                                    .openLoadingDialog(),
+                                                MPAlertDialog.popDialog(),
                                                 await controller.imageUpload(),
-                                                MPFullScreenOverlayLoader
-                                                    .stopLoading(),
                                               };
-                                        MPAlertDialog.popDialog();
                                       },
                                       child: Text('Add',
                                           style: Theme.of(context)
