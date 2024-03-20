@@ -14,4 +14,5 @@ class AnimationsUtils {
   static const sendEmail = 'assets/animations/send_email.json';
   static const paymentProcess = 'assets/animations/payment_process.json';
   static const orderDetails = 'assets/animations/order_details.json';
+  static const noItems = 'assets/animations/no_items.json';
 }

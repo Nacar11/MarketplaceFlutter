@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
+import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/images.dart';
 import 'package:marketplacedb/common/widgets/layouts/grid_layout.dart';
 import 'package:marketplacedb/common/widgets/products/product_cards/product_card_vertical.dart';
@@ -9,10 +11,13 @@ import 'package:marketplacedb/controllers/products/product_item_controller.dart'
 import 'package:marketplacedb/data/models/product/product_category_model.dart';
 import 'package:marketplacedb/data/models/product/product_item_model.dart';
 import 'package:marketplacedb/data/models/product/product_type_model.dart';
-import 'package:marketplacedb/screen/sign_in_pages/discover_pages/product_types_page/product_types_page_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:marketplacedb/screen/sign_in_pages/discover_pages/discover_page/discover_page_controller.dart';
+import 'package:marketplacedb/screen/sign_in_pages/sell_pages/list_item_page/list_item_page.dart';
+import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
+import 'package:marketplacedb/util/constants/app_strings.dart';
 import 'package:marketplacedb/util/device/device_utility.dart';
 import 'package:marketplacedb/util/helpers/helper_functions.dart';
 
@@ -79,7 +84,44 @@ class MPTabBarViewProductTypes extends StatelessWidget {
                             )
                           : productItemController
                                   .productItemListByProductType.isEmpty
-                              ? const Text('NO ITEM LISTED YET')
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const Center(
+                                      child: AnimationContainer(
+                                          forever: true,
+                                          width: 1,
+                                          height: 0.12,
+                                          animation: AnimationsUtils.noItems,
+                                          duration: Duration(seconds: 4)),
+                                    ),
+                                    const SizedBox(
+                                        height: MPSizes.spaceBtwSections),
+                                    Text(
+                                      MPTexts.productTypesPageNoItemsTitle,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall,
+                                    ),
+                                    const SizedBox(
+                                        height: MPSizes.spaceBtwItems),
+                                    Text(
+                                      MPTexts.productTypesPageNoItemsSubTitle,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall,
+                                    ),
+                                    const SizedBox(
+                                        height: MPSizes.spaceBtwItems),
+                                    MPPrimaryButton(
+                                      text: 'Proceed',
+                                      onPressed: () {
+                                        Get.off(() => const ListItemPage());
+                                      },
+                                    )
+                                  ],
+                                )
                               : MPGridLayout(
                                   itemCount: productItemController
                                       .productItemListByProductType.length,
@@ -134,8 +176,8 @@ class MPClickableCircularContainer extends StatefulWidget {
 class MPCircularContainerState extends State<MPClickableCircularContainer> {
   @override
   Widget build(BuildContext context) {
-    ProductTypesPageController productTypesPageController =
-        ProductTypesPageController.instance;
+    DiscoverPageController productTypesPageController =
+        DiscoverPageController.instance;
     return Obx(
       () {
         bool isClicked = widget.index ==
@@ -181,8 +223,8 @@ class ClickableCategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     ProductItemController productItemController =
         ProductItemController.instance;
-    ProductTypesPageController productTypesPageController =
-        ProductTypesPageController.instance;
+    DiscoverPageController productTypesPageController =
+        DiscoverPageController.instance;
     ProductController productController = ProductController.instance;
     return MPClickableCircularContainer(
         index: index,

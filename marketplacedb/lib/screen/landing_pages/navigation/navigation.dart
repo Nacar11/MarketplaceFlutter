@@ -6,6 +6,7 @@ import 'package:marketplacedb/screen/landing_pages/home_page/home_page_controlle
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation_controller.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/controllers/user/user_controller.dart';
+import 'package:marketplacedb/screen/sign_in_pages/discover_pages/discover_page/discover_page_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/favorites_page/favorites_page_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/sell_pages/billing_address_setup/billing_address_setup.dart';
 import 'package:marketplacedb/controllers/products/product_controller.dart';
@@ -21,6 +22,7 @@ class Navigation extends StatelessWidget {
     Get.put(ProductItemController());
     Get.put(FavoritesPageController());
     Get.put(HomeScreenController());
+    Get.put(DiscoverPageController());
     Get.put(OrderLineController());
     UserController userController = Get.put(UserController());
     NavigationController navigationController = NavigationController.instance;

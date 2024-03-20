@@ -79,7 +79,9 @@ class MPTexts {
   static const String sellPageTitle = "List Your Product Items";
   static const String sellPageSubTitle =
       "By creating your own product listings, other users can order these with ease.";
-
+  static const String productTypesPageNoItemsTitle = "No Items Listed Yet ";
+  static const String productTypesPageNoItemsSubTitle =
+      "List your own items to the Marketplace for other users to see";
   // --CONTAINER GUIDE SIGNUP TEXTS
   static const String phoneHeaderText =
       "Stay Connected! What's Your Phone Number?";

@@ -6,23 +6,28 @@ import 'package:marketplacedb/common/widgets/layouts/grid_layout.dart';
 import 'package:marketplacedb/common/widgets/products/product_cards/product_card_vertical.dart';
 import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
 import 'package:marketplacedb/common/widgets/texts/section_headings.dart';
+import 'package:marketplacedb/controllers/products/product_controller.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/data/models/product/product_category_model.dart';
 import 'package:marketplacedb/data/models/product/product_item_model.dart';
 import 'package:marketplacedb/screen/landing_pages/home_page/home_page_widgets.dart';
 import 'package:marketplacedb/screen/landing_pages/home_page/home_page_controller.dart';
+import 'package:marketplacedb/screen/sign_in_pages/discover_pages/discover_page/discover_page_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/discover_pages/product_types_page/product_types_page.dart';
 import 'package:marketplacedb/util/constants/app_images.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
+import 'package:marketplacedb/util/popups/dialog_container_loader.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    ProductController productController = ProductController.instance;
     ProductItemController productItemController =
         ProductItemController.instance;
     HomeScreenController homePageController = HomeScreenController.instance;
+    DiscoverPageController discoverController = DiscoverPageController.instance;
     return Scaffold(
         body: SingleChildScrollView(
             child: Column(children: [
@@ -52,19 +57,29 @@ class HomePage extends StatelessWidget {
                               .preferredSubCategoryList.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
-                            ProductCategoryModel productCategories =
+                            ProductCategoryModel productCategory =
                                 homePageController
                                     .preferredSubCategoryList[index];
                             return MPVerticalImageText(
-                              onPressed: () {
-                                productItemController
+                              onPressed: () async {
+                                MPAlertLoaderDialog.openLoadingDialog();
+                                await productController
+                                    .getProductTypesByCategoryId(
+                                        productCategory.id!);
+                                await productItemController
                                     .getProductItemsByProductType(
-                                        productCategories.id!);
+                                        productController.productTypes[0].id!);
+                                discoverController
+                                    .currentClickedSubcategory.value = index;
+                                productController.subCategoriesInit(
+                                    homePageController.preferredSubCategories(
+                                        homePageController.userGender.value));
+                                MPAlertLoaderDialog.stopLoading();
                                 Get.to(() => const ProductTypesPage());
                               },
                               isNetworkImage: true,
-                              imageUrl: productCategories.productImage!,
-                              text: productCategories.categoryName!,
+                              imageUrl: productCategory.productImage!,
+                              text: productCategory.categoryName!,
                             );
                           })),
             ))),

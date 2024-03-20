@@ -6,7 +6,7 @@ import 'package:marketplacedb/common/widgets/layouts/grid_layout.dart';
 import 'package:marketplacedb/controllers/products/product_controller.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
 import 'package:marketplacedb/data/models/product/product_category_model.dart';
-import 'package:marketplacedb/screen/sign_in_pages/discover_pages/product_types_page/product_types_page_controller.dart';
+import 'package:marketplacedb/screen/sign_in_pages/discover_pages/discover_page/discover_page_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/discover_pages/product_types_page/product_types_page_widgets.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
@@ -17,7 +17,7 @@ class ProductTypesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productTypesPageController = Get.put(ProductTypesPageController());
+    final productTypesPageController = Get.put(DiscoverPageController());
     ProductController productController = ProductController.instance;
     ProductItemController productItemController =
         ProductItemController.instance;

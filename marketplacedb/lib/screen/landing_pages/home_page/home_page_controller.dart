@@ -1,17 +1,19 @@
 import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:marketplacedb/controllers/products/product_controller.dart';
 import 'package:marketplacedb/data/models/product/product_category_model.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 
 class HomeScreenController extends GetxController {
   static HomeScreenController get instance => Get.find();
-
+  ProductController productController = ProductController.instance;
   final carouselCurrentIndex = 0.obs;
   final isLoading = false.obs;
   final preferredSubCategory = 'Male'.obs;
-  var preferredSubCategoryList = <ProductCategoryModel>[].obs;
-  var productCategoryList = <ProductCategoryModel>[].obs;
+  final preferredSubCategoryList = <ProductCategoryModel>[].obs;
+  final productCategoryList = <ProductCategoryModel>[].obs;
+  final userGender = ''.obs;
 
   @override
   void onInit() async {
@@ -24,11 +26,16 @@ class HomeScreenController extends GetxController {
     carouselCurrentIndex.value = index;
   }
 
-  void preferredSubCategories(String gender) async {
+  int preferredSubCategories(String gender) {
     if (gender == 'Male') {
       preferredSubCategoryList.value = productCategoryList[1].children!;
+      return 1;
     } else if (gender == 'Female') {
       preferredSubCategoryList.value = productCategoryList[2].children!;
+      return 2;
+    } else {
+      //Accessories
+      return 0;
     }
   }
 
@@ -64,6 +71,7 @@ class HomeScreenController extends GetxController {
       if (jsonObject['message'] == 'success') {
         final String result = jsonObject['data'];
         preferredSubCategories(result);
+        userGender.value = result;
         isLoading.value = false;
       } else {
         isLoading.value = false;
