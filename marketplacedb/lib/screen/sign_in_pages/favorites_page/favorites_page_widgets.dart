@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/layouts/grid_layout.dart';
 import 'package:marketplacedb/common/widgets/products/product_cards/product_card_vertical.dart';
-import 'package:marketplacedb/data/models/products/product_item_model.dart';
+import 'package:marketplacedb/data/models/product/product_item_model.dart';
 import 'package:marketplacedb/screen/sign_in_pages/favorites_page/favorites_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';

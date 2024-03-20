@@ -1,5 +1,5 @@
-import 'package:marketplacedb/data/models/products/product_item_model.dart';
-import 'package:marketplacedb/data/models/product_variations/variation_option_model.dart';
+import 'package:marketplacedb/data/models/product/product_item_model.dart';
+import 'package:marketplacedb/data/models/product_variation/variation_option_model.dart';
 
 class ProductConfigurationModel {
   int? id;

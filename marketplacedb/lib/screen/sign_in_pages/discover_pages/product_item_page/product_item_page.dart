@@ -15,7 +15,7 @@ import 'package:marketplacedb/common/widgets/texts/text_with_icons.dart';
 import 'package:marketplacedb/controllers/order_process/order_line_controller.dart';
 
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
-import 'package:marketplacedb/controllers/user_controller.dart';
+import 'package:marketplacedb/controllers/user/user_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/discover_pages/product_item_page/product_item_page_widgets.dart';
 import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/shopping_cart_page/shopping_cart_page.dart';
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/profle_page/profile_page.dart';

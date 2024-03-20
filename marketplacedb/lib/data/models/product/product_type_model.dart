@@ -1,4 +1,4 @@
-import 'package:marketplacedb/data/models/products/product_category_model.dart';
+import 'package:marketplacedb/data/models/product/product_category_model.dart';
 
 class ProductTypeModel {
   int? id;

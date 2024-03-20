@@ -81,8 +81,8 @@ class DiscoverPage extends StatelessWidget {
               productTypesController.expandedHeight.value =
                   MPHelperFunctions.expandedHeightTabBar(
                       productController.subCategoryList.length);
-              productTypesController.selectedProductTypeId.value =
-                  productController.productTypes[0].id!;
+              // productTypesController.selectedProductTypeId.value =
+              //     productController.productTypes[0].id!;
               //First Product Type ID of First Sub Category of Women Category is 21
               //which is used to retrieve Product Items
               productItemController.getProductItemsByProductType(21);

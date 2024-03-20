@@ -5,7 +5,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/buttons.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/list_tile.dart';
 import 'package:marketplacedb/common/widgets/texts/section_headings.dart';
-import 'package:marketplacedb/controllers/user_controller.dart';
+import 'package:marketplacedb/controllers/user/user_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/account_settings_page/account_settings_page_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/account_settings_page/account_settings_page_widgets.dart';
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/address_list_page/address_list_page.dart';

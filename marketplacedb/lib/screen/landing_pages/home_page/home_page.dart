@@ -7,11 +7,11 @@ import 'package:marketplacedb/common/widgets/products/product_cards/product_card
 import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
 import 'package:marketplacedb/common/widgets/texts/section_headings.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
-import 'package:marketplacedb/data/models/products/product_category_model.dart';
-import 'package:marketplacedb/data/models/products/product_item_model.dart';
-
+import 'package:marketplacedb/data/models/product/product_category_model.dart';
+import 'package:marketplacedb/data/models/product/product_item_model.dart';
 import 'package:marketplacedb/screen/landing_pages/home_page/home_page_widgets.dart';
 import 'package:marketplacedb/screen/landing_pages/home_page/home_page_controller.dart';
+import 'package:marketplacedb/screen/sign_in_pages/discover_pages/product_types_page/product_types_page.dart';
 import 'package:marketplacedb/util/constants/app_images.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 
@@ -56,6 +56,12 @@ class HomePage extends StatelessWidget {
                                 homePageController
                                     .preferredSubCategoryList[index];
                             return MPVerticalImageText(
+                              onPressed: () {
+                                productItemController
+                                    .getProductItemsByProductType(
+                                        productCategories.id!);
+                                Get.to(() => const ProductTypesPage());
+                              },
                               isNetworkImage: true,
                               imageUrl: productCategories.productImage!,
                               text: productCategories.categoryName!,

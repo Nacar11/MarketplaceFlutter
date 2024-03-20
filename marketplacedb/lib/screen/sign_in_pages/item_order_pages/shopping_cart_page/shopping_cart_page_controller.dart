@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:marketplacedb/controllers/order_process/order_line_controller.dart';
-import 'package:marketplacedb/controllers/user_controller.dart';
+import 'package:marketplacedb/controllers/user/user_controller.dart';
 import 'package:marketplacedb/data/models/shopping_cart/shopping_cart_item_model.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'dart:convert';

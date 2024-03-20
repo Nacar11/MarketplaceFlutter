@@ -1,26 +1,11 @@
-// ignore_for_file: unused_import, file_names
-
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/icons.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/images.dart';
-import 'package:marketplacedb/common/widgets/common_widgets/tab_bars.dart';
 import 'package:marketplacedb/common/widgets/layouts/grid_layout.dart';
-import 'package:marketplacedb/common/widgets/products/product_cards/product_card_vertical.dart';
-import 'package:marketplacedb/common/widgets/shimmer/shimmer_progress.dart';
-import 'package:marketplacedb/common/widgets/texts/text_with_icons.dart';
-
 import 'package:marketplacedb/controllers/products/product_controller.dart';
 import 'package:marketplacedb/controllers/products/product_item_controller.dart';
-import 'package:marketplacedb/data/models/products/product_category_model.dart';
-import 'package:marketplacedb/data/models/products/product_item_model.dart';
-import 'package:marketplacedb/screen/landing_pages/home_page/home_page_widgets.dart';
-import 'package:marketplacedb/screen/sign_in_pages/discover_pages/discover_page/discover_page_widgets.dart';
+import 'package:marketplacedb/data/models/product/product_category_model.dart';
 import 'package:marketplacedb/screen/sign_in_pages/discover_pages/product_types_page/product_types_page_controller.dart';
 import 'package:marketplacedb/screen/sign_in_pages/discover_pages/product_types_page/product_types_page_widgets.dart';
 import 'package:marketplacedb/util/constants/app_colors.dart';

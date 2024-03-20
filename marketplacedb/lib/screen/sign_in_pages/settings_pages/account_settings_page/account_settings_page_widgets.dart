@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/app_bars.dart';
-import 'package:marketplacedb/controllers/user_controller.dart';
+import 'package:marketplacedb/controllers/user/user_controller.dart';
 
 UserController userController = UserController.instance;
 

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:marketplacedb/controllers/user_controller.dart';
+import 'package:marketplacedb/controllers/user/user_controller.dart';
 import 'package:marketplacedb/data/models/addresses/user_address_model.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'dart:convert';

@@ -1,6 +1,6 @@
-import 'package:marketplacedb/data/models/products/product_configuration_model.dart';
-import 'package:marketplacedb/data/models/products/product_image_model.dart';
-import 'package:marketplacedb/data/models/products/product_type_model.dart';
+import 'package:marketplacedb/data/models/product/product_configuration_model.dart';
+import 'package:marketplacedb/data/models/product/product_image_model.dart';
+import 'package:marketplacedb/data/models/product/product_type_model.dart';
 import 'package:marketplacedb/data/models/user/user_model.dart';
 
 class ProductItemModel {

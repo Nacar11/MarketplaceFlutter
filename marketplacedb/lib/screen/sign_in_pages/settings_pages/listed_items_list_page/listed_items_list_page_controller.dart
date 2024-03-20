@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:marketplacedb/controllers/order_process/order_line_controller.dart';
-import 'package:marketplacedb/data/models/products/product_item_model.dart';
+import 'package:marketplacedb/data/models/product/product_item_model.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 

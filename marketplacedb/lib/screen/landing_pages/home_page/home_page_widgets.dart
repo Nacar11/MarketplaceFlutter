@@ -41,11 +41,13 @@ class MPVerticalImageText extends StatelessWidget {
     super.key,
     required this.imageUrl,
     required this.text,
+    required this.onPressed,
     this.isNetworkImage = false,
   });
 
   final String imageUrl;
   final String text;
+  final VoidCallback onPressed;
   final bool isNetworkImage;
   @override
   Widget build(BuildContext context) {
@@ -61,6 +63,7 @@ class MPVerticalImageText extends StatelessWidget {
                 borderRadius: BorderRadius.circular(100)),
             child: Center(
               child: MPRoundedImage(
+                onPressed: onPressed,
                 isNetworkImage: isNetworkImage,
                 applyImageRadius: true,
                 borderRadius: MPSizes.productImageRadius,

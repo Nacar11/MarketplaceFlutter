@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
-import 'package:marketplacedb/data/models/product_variations/variation_model.dart';
-import 'package:marketplacedb/data/models/product_variations/variation_option_model.dart';
-import 'package:marketplacedb/data/models/products/product_category_model.dart';
-import 'package:marketplacedb/data/models/products/product_type_model.dart';
+import 'package:marketplacedb/data/models/product_variation/variation_model.dart';
+import 'package:marketplacedb/data/models/product_variation/variation_option_model.dart';
+import 'package:marketplacedb/data/models/product/product_category_model.dart';
+import 'package:marketplacedb/data/models/product/product_type_model.dart';
 import 'package:marketplacedb/networks/interceptor.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation_controller.dart';
@@ -228,32 +228,4 @@ class ListItemPageController extends GetxController {
       isLoading.value = false;
     }
   }
-
-  // Future<void> addProductConfiguration(int productItemID) async {
-  //   try {
-  //     isLoading.value = true;
-  //     for (final variationOption in selectedVariationOptionList) {
-  //       final variationOptionID = variationOption.id;
-  //       var data = {
-  //         'product_item_id': productItemID.toString(),
-  //         'variation_option_id': variationOptionID.toString(),
-  //       };
-  //       final response = await AuthInterceptor().post(
-  //           Uri.parse("${MPConstants.url}productConfiguration"),
-  //           body: data);
-  //       final jsonResponse = json.decode(response.body);
-  //       if (jsonResponse['message'] == 'success') {
-  //         await addProductConfiguration(
-  //           jsonResponse['data']['id'],
-  //         );
-  //         print('File Successfully uploaded with Product Configurations');
-  //       } else {
-  //         print('File upload failed');
-  //         isLoading.value = false;
-  //       }
-  //     }
-  //   } catch (e) {
-  //     isLoading.value = false;
-  //   }
-  // }
 }

@@ -1,4 +1,4 @@
-import 'package:marketplacedb/data/models/products/product_item_model.dart';
+import 'package:marketplacedb/data/models/product/product_item_model.dart';
 
 class ShoppingCartItemModel {
   int? id;

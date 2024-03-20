@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/containers.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/list_tile.dart';
-import 'package:marketplacedb/data/models/product_variations/variation_option_model.dart';
+import 'package:marketplacedb/data/models/product_variation/variation_option_model.dart';
 import 'package:marketplacedb/screen/sign_in_pages/sell_pages/list_item_page/list_item_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_sizes.dart';
 

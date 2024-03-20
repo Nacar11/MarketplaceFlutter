@@ -1,6 +1,6 @@
 import 'package:marketplacedb/data/models/addresses/address_model.dart';
 import 'package:marketplacedb/data/models/order_process/order_status_model.dart';
-import 'package:marketplacedb/data/models/products/product_item_model.dart';
+import 'package:marketplacedb/data/models/product/product_item_model.dart';
 import 'package:marketplacedb/data/models/order_process/shipping_method_model.dart';
 import 'package:marketplacedb/data/models/user/user_model.dart';
 
