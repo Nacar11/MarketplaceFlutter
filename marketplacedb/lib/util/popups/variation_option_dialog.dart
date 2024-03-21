@@ -15,7 +15,7 @@ class VariationOptionDialog {
     Get.defaultDialog(
       title: controller.filteredProductCategorySecondList.isEmpty
           ? ''
-          : 'Select Product Category',
+          : 'Select Variation',
       titlePadding: const EdgeInsets.all(MPSizes.lg),
       titleStyle: Theme.of(context).textTheme.headlineSmall!,
       content: VariationOption(

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:marketplacedb/controllers/user/user_controller.dart';
 import 'package:marketplacedb/data/models/order_process/payment_type_model.dart';
-import 'package:marketplacedb/networks/interceptor.dart';
+import 'package:marketplacedb/networks/services/interceptor.dart';
 import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/payment_process_page/payment_process_page.dart';
 import 'package:marketplacedb/screen/sign_in_pages/item_order_pages/shopping_cart_page/shopping_cart_page_controller.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';

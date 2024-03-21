@@ -4,7 +4,7 @@ import 'package:marketplacedb/controllers/user/user_controller.dart';
 import 'package:marketplacedb/data/models/shopping_cart/shopping_cart_item_model.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'dart:convert';
-import 'package:marketplacedb/networks/interceptor.dart';
+import 'package:marketplacedb/networks/services/interceptor.dart';
 import 'package:marketplacedb/util/popups/dialog_container_loader.dart';
 
 OrderLineController orderLineController = OrderLineController.instance;
