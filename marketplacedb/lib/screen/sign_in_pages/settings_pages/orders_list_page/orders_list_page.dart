@@ -23,26 +23,28 @@ class OrdersListPage extends StatelessWidget {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text("My Orders", style: Theme.of(context).textTheme.headlineSmall),
         ])),
-        body: Obx(() => Padding(
-            padding: const EdgeInsets.all(MPSizes.defaultSpace),
-            child: controller.isLoading.value
-                ? Column(children: [
-                    MPListViewLayout(
-                        separatorBuilder: (_, __) =>
-                            const SizedBox(height: MPSizes.spaceBtwItems),
-                        itemCount: orderLineController.orderLineList
-                            .where((orderLine) =>
-                                orderLine.user!.id ==
-                                userController.userData.value.id)
-                            .length,
-                        itemBuilder: (_, index) {
-                          return const ShimmerProgressContainer(
-                              height: MPSizes.productImageSize * 1.2,
-                              width: double.infinity);
-                        })
-                  ])
-                : controller.orderLinesList.isEmpty
-                    ? const NoOrdersDisplay()
-                    : const MPOrderListItems())));
+        body: Obx(() => SingleChildScrollView(
+              child: Padding(
+                  padding: const EdgeInsets.all(MPSizes.defaultSpace),
+                  child: controller.isLoading.value
+                      ? Column(children: [
+                          MPListViewLayout(
+                              separatorBuilder: (_, __) =>
+                                  const SizedBox(height: MPSizes.spaceBtwItems),
+                              itemCount: orderLineController.orderLineList
+                                  .where((orderLine) =>
+                                      orderLine.user!.id ==
+                                      userController.userData.value.id)
+                                  .length,
+                              itemBuilder: (_, index) {
+                                return const ShimmerProgressContainer(
+                                    height: MPSizes.productImageSize * 1.2,
+                                    width: double.infinity);
+                              })
+                        ])
+                      : controller.orderLinesList.isEmpty
+                          ? const NoOrdersDisplay()
+                          : const MPOrderListItems()),
+            )));
   }
 }
