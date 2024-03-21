@@ -130,7 +130,11 @@ class CustomSignUpContinue extends StatelessWidget {
                 getSnackBar(MPTexts.signInCoupleMoreSteps, 'Welcome!', true);
               } else {
                 getSnackBar(
-                    'Incorrect PIN, Please Try Again.', 'Invalid PIN', false);
+                    'Here is your pin: ${localStorage.readData('SMSVerificationCode')}',
+                    'Vonage not yet Deployed',
+                    false);
+                // getSnackBar(
+                //     'Incorrect PIN, Please Try Again.', 'Invalid PIN', false);
               }
             },
           ),

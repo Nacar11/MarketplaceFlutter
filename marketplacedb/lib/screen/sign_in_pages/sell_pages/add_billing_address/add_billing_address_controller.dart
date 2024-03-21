@@ -4,7 +4,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/data/models/addresses/city_model.dart';
 import 'package:marketplacedb/data/models/addresses/country_model.dart';
 import 'package:marketplacedb/data/models/addresses/region_model.dart';
-import 'package:marketplacedb/networks/interceptor.dart';
+import 'package:marketplacedb/networks/services/interceptor.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
 import 'package:marketplacedb/screen/sign_in_pages/settings_pages/address_list_page/address_list_page_controller.dart';
 import 'dart:convert';

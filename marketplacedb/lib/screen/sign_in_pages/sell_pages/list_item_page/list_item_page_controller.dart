@@ -7,7 +7,7 @@ import 'package:marketplacedb/data/models/product_variation/variation_model.dart
 import 'package:marketplacedb/data/models/product_variation/variation_option_model.dart';
 import 'package:marketplacedb/data/models/product/product_category_model.dart';
 import 'package:marketplacedb/data/models/product/product_type_model.dart';
-import 'package:marketplacedb/networks/interceptor.dart';
+import 'package:marketplacedb/networks/services/interceptor.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation_controller.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';

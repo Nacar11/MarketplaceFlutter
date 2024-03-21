@@ -3,10 +3,6 @@
          the Flutter tool needs it to communicate with the running application
          to allow setting breakpoints, to provide hot reload, etc.
     -->
-    <queries> 
-<provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
-<provider android:authorities="com.facebook.orca.provider.PlatformProvider" /> 
-</queries>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />

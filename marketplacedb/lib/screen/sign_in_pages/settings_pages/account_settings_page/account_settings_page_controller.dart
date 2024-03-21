@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
-import 'package:marketplacedb/networks/interceptor.dart';
+import 'package:marketplacedb/networks/services/interceptor.dart';
 import 'package:marketplacedb/screen/landing_pages/front_page/front_page.dart';
 import 'package:marketplacedb/util/constants/app_animations.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:marketplacedb/controllers/user/user_controller.dart';
 import 'package:marketplacedb/data/models/addresses/user_address_model.dart';
-import 'package:marketplacedb/networks/interceptor.dart';
+import 'package:marketplacedb/networks/services/interceptor.dart';
 import 'dart:convert';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 
