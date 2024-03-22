@@ -201,6 +201,7 @@ class ProductTypesPage extends StatelessWidget {
                     ];
                   },
                   body: TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
                     children: List.generate(
                       productController.productTypes.length,
                       (index) => MPTabBarViewProductTypes(
