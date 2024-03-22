@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/controllers/network_manager/network_manager.dart';
-import 'package:marketplacedb/networks/interceptor.dart';
+import 'package:marketplacedb/networks/services/interceptor.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
 import 'package:marketplacedb/screen/sign_up_pages/pages/code/sign_up_page_code.dart';
 import 'package:marketplacedb/screen/sign_up_pages/pages/password/sign_up_page_password.dart';

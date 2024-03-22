@@ -3,7 +3,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/data/models/order_process/order_line_model.dart';
 import 'package:marketplacedb/util/constants/app_constant.dart';
 import 'dart:convert';
-import 'package:marketplacedb/networks/interceptor.dart';
+import 'package:marketplacedb/networks/services/interceptor.dart';
 
 class OrdersListPageController extends GetxController {
   static OrdersListPageController get instance => Get.find();

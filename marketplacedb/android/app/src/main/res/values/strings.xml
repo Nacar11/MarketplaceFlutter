@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="facebook_app_id">6935909486448457</string>
+    <!-- <string name="facebook_app_id">6935909486448457</string>
     <string name="fb_login_protocol_scheme">fb6935909486448457</string>
     <string name="facebook_client_token">ed217c5bca4068dceb9b8ccb2e9168bf</string>
-    <string name="app_name">UkayCo.ph</string>
+    <string name="app_name">Marketplace</string> -->
 </resources>
