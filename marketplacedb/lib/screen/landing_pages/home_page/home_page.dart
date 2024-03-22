@@ -76,6 +76,8 @@ class HomePage extends StatelessWidget {
                                         homePageController.userGender.value));
                                 MPAlertLoaderDialog.stopLoading();
                                 Get.to(() => const ProductTypesPage());
+
+                                asdasda
                               },
                               isNetworkImage: true,
                               imageUrl: productCategory.productImage!,
