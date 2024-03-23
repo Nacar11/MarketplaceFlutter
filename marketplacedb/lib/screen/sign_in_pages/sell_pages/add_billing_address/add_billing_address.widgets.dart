@@ -28,11 +28,13 @@ class AddressDialogContainer extends StatelessWidget {
           child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             icon,
             const SizedBox(width: MPSizes.sm),
-            Text(
-              text,
-              style: Theme.of(context).textTheme.bodyMedium,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
+            Expanded(
+              child: Text(
+                text,
+                style: Theme.of(context).textTheme.bodyMedium,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             )
           ]),
         ));

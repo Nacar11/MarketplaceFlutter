@@ -1,4 +1,5 @@
-// String url = 'http://10.0.2.2:8000/api/';
+// String url = 'https://10.0.2.2:8000/api/';
+// static const String url = 'https://prompt-closely-goose.ngrok-free.app/api/';
 class MPConstants {
   static const String url = 'https://prompt-closely-goose.ngrok-free.app/api/';
 
