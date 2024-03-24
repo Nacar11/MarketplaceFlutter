@@ -46,28 +46,8 @@ Make sure Marketplace Backend is configured and currently running with ngrok
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/cded5dd0-192a-4004-b686-dadddcde0c41" width="200" height="450" alt="Screenshot 22"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/a40c0b03-4c86-4cc2-995b-8eddc6254209" width="200" height="450" alt="Screenshot 23"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/9b0469b0-7ad8-44dd-b819-5dbd4706ab2a" width="200" height="450" alt="Screenshot 24"></a>
-
 </div>
 
-<style>
-  .screenshot-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px; /* Adjust gap as needed */
-  }
 
-  .screenshot-item {
-    width: 200px;
-    height: 450px;
-    overflow: hidden; /* Ensure images don't exceed specified height */
-  }
-
-  .screenshot-item img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensure images cover the entire space */
-  }
-</style>
 
 
