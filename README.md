@@ -1,8 +1,6 @@
 ## About Marketplace Frontend Configuration
 
-Open project with a code editor
-
-Navigate inside project directory: 
+Open project with a code editor, and navigate inside project directory: 
 ```sh
 $ cd marketplacedb
 ```
