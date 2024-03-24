@@ -45,6 +45,9 @@ Make sure Marketplace Backend is configured and currently running with ngrok
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/233eb782-fcbe-4456-ba7f-ea286b85b645" width="200" height="450" alt="Screenshot 20"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/cded5dd0-192a-4004-b686-dadddcde0c41" width="200" height="450" alt="Screenshot 22"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/a40c0b03-4c86-4cc2-995b-8eddc6254209" width="200" height="450" alt="Screenshot 23"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/d5b1268d-0fef-45e8-8eb9-1b515a3b6e5c" width="200" height="450" alt="Screenshot 23"></a>
+ 
+
 </div>
 
 
