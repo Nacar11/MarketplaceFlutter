@@ -19,7 +19,15 @@ You can download Android Studio here for Android Emulators
 
 Make sure Marketplace Backend is configured and currently running with ngrok 
 
+## Screenshots
+<p align="center">
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/34a7c78d-8bc9-4256-a12c-325182aac072" alt="Build Status"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/06700262-0853-4529-a13e-aa02d7bb3d80" alt="Total Downloads"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/31b9313a-60c7-4907-8421-d1634bcd548a" alt="Latest Stable Version"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/7a47dd90-70df-4049-8589-5472df4a006a" alt="License"></a>
+</p>
 
+## Screenshots
 ![Screenshot_2024-03-24-20-30-08-72_c9967b7698dad26003aff9867b279d79](https://github.com/Nacar11/marketplace_frontend/assets/39459541/34a7c78d-8bc9-4256-a12c-325182aac072)
 ![Screenshot_2024-03-24-20-30-15-30_c9967b7698dad26003aff9867b279d79](https://github.com/Nacar11/marketplace_frontend/assets/39459541/06700262-0853-4529-a13e-aa02d7bb3d80)
 ![Screenshot_2024-03-24-20-30-20-56_f7aa348215f5d566f9e4ca860f474209](https://github.com/Nacar11/marketplace_frontend/assets/39459541/31b9313a-60c7-4907-8421-d1634bcd548a)
@@ -44,7 +52,6 @@ Make sure Marketplace Backend is configured and currently running with ngrok
 ![Screenshot_2024-03-24-20-57-04-36_c9967b7698dad26003aff9867b279d79](https://github.com/Nacar11/marketplace_frontend/assets/39459541/cded5dd0-192a-4004-b686-dadddcde0c41)
 ![Screenshot_2024-03-24-20-57-40-57_c9967b7698dad26003aff9867b279d79(1)](https://github.com/Nacar11/marketplace_frontend/assets/39459541/a40c0b03-4c86-4cc2-995b-8eddc6254209)
 ![Screenshot_2024-03-24-20-57-40-57_c9967b7698dad26003aff9867b279d79](https://github.com/Nacar11/marketplace_frontend/assets/39459541/9b0469b0-7ad8-44dd-b819-5dbd4706ab2a)
-
 
 
 
