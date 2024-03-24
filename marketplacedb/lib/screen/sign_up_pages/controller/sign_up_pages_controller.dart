@@ -5,6 +5,7 @@ import 'package:marketplacedb/common/widgets/common_widgets/snackbars.dart';
 import 'package:marketplacedb/controllers/network_manager/network_manager.dart';
 import 'package:marketplacedb/networks/services/interceptor.dart';
 import 'package:marketplacedb/screen/landing_pages/navigation/navigation.dart';
+import 'package:marketplacedb/screen/landing_pages/navigation/navigation_controller.dart';
 import 'package:marketplacedb/screen/sign_up_pages/pages/code/sign_up_page_code.dart';
 import 'package:marketplacedb/screen/sign_up_pages/pages/password/sign_up_page_password.dart';
 import 'package:marketplacedb/util/constants/app_animations.dart';
@@ -17,6 +18,7 @@ import 'package:marketplacedb/util/popups/full_screen_animation_loader.dart';
 class SignUpPagesController extends GetxController {
   static SignUpPagesController get instance => Get.find();
   final isLoading = false.obs;
+  NavigationController controller = NavigationController.instance;
 
   //SIGN UP PHONE PAGE VARIABLES
   final phoneNumber = TextEditingController();
@@ -196,11 +198,13 @@ class SignUpPagesController extends GetxController {
       var jsonResponse = jsonDecode(response.body);
       if (jsonResponse['message'] == "success") {
         localStorage.clearAll();
+
         isLoading.value = false;
         localStorage.saveData('token', jsonResponse['access_token']);
         localStorage.saveData('username', jsonResponse['username']);
         isLoading.value = false;
         MPFullScreenAnimationLoader.stopLoading();
+        controller.index.value = 0;
         Get.offAll(() => const Navigation());
         String text = 'Welcome, ${jsonResponse['username']}';
         getSnackBar(text, "Successfully Registered!", true);

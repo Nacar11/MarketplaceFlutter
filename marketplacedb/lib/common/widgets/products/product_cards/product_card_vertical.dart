@@ -32,6 +32,7 @@ class MPProductCardVertical extends StatelessWidget {
   Widget build(BuildContext context) {
     ProductItemController productItemController =
         ProductItemController.instance;
+    UserController userController = UserController.instance;
     final dark = MPHelperFunctions.isDarkMode(context);
     return Container(
         width: 180,
@@ -56,7 +57,6 @@ class MPProductCardVertical extends StatelessWidget {
                   if (productItemData.productImages != null &&
                       productItemData.productImages!.isNotEmpty)
                     MPRoundedImage(
-                      // isImageCircular: true,
                       isNetworkImage: true,
                       padding: const EdgeInsets.only(top: MPSizes.xs),
                       applyImageRadius: true,
