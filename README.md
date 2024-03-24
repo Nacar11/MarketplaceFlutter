@@ -21,7 +21,7 @@ Make sure Marketplace Backend is configured and currently running with ngrok
 
 ## Screenshots
 
-  <div class="screenshot-grid">
+<div class="screenshot-grid">
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/34a7c78d-8bc9-4256-a12c-325182aac072" alt="Screenshot 1"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/06700262-0853-4529-a13e-aa02d7bb3d80" alt="Screenshot 2"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/31b9313a-60c7-4907-8421-d1634bcd548a" alt="Screenshot 3"></a>
