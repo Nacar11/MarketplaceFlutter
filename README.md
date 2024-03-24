@@ -28,7 +28,7 @@ Make sure Marketplace Backend is configured and currently running with ngrok
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/7a47dd90-70df-4049-8589-5472df4a006a" width="200" height="450" alt="Screenshot 4"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/21d0551b-1381-4c3d-97bd-980ddff7da46" width="200" height="450" alt="Screenshot 5"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/d690dc86-1659-43dd-9dd0-6a5148f07255" width="200" height="450" alt="Screenshot 6"></a>
-  <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/8935d6e1-db6e-4002-a35d-8806cd7e8ad4" width="200" height="450" alt="Screenshot 21"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/8935d6e1-db6e-4002-a35d-8806cd7e8ad4" width="200" height="450" alt="Screenshot 21"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/8acf7ea2-3a6c-48ba-a531-e147fa073301" width="200" height="450" alt="Screenshot 7"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/d86d8c28-ef15-42a9-a735-c593df8542ac" width="200" height="450" alt="Screenshot 8"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/4d01dc92-7a40-4f67-8a09-fa4d9041c0fa" width="200" height="450" alt="Screenshot 9"></a>
@@ -45,7 +45,6 @@ Make sure Marketplace Backend is configured and currently running with ngrok
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/233eb782-fcbe-4456-ba7f-ea286b85b645" width="200" height="450" alt="Screenshot 20"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/cded5dd0-192a-4004-b686-dadddcde0c41" width="200" height="450" alt="Screenshot 22"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/a40c0b03-4c86-4cc2-995b-8eddc6254209" width="200" height="450" alt="Screenshot 23"></a>
-<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/ee13da0c-1a29-4d81-80df-cfa74124786a" width="400" height="600" alt="Screenshot 23"></a>
 </div>
 
 
