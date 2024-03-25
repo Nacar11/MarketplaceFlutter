@@ -11,11 +11,10 @@ import 'package:marketplacedb/util/local_storage/local_storage.dart';
 import 'package:marketplacedb/util/popups/full_screen_overlay_loader.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-ShoppingCartPageController shoppingCartPageController =
-    ShoppingCartPageController.instance;
-UserController userController = UserController.instance;
-
 class CheckoutPageController extends GetxController {
+  ShoppingCartPageController shoppingCartPageController =
+      ShoppingCartPageController.instance;
+  UserController userController = UserController.instance;
   static CheckoutPageController get instance => Get.find();
   final MPLocalStorage localStorage = MPLocalStorage();
   final isLoading = false.obs;
