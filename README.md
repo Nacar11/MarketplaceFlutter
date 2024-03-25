@@ -48,19 +48,3 @@ Make sure Marketplace Backend is configured and currently running with ngrok
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/e27f4ad2-419f-4a8c-a5a5-033c3120ebcd" width="300" height="650" alt="OrderDetailsPage"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/4abf7376-6782-4058-92a5-8fb7dcb9d68d" width="300" height="650" alt="ListedItemsPage"></a>
 </div>
-
-
-
-
-
-
-
-![AddressListPage](https://github.com/Nacar11/marketplace_frontend/assets/39459541/e3cf6343-5adf-4fa5-b7f8-7e4ef808294d)
-![OrderDetailsPage](https://github.com/Nacar11/marketplace_frontend/assets/39459541/e27f4ad2-419f-4a8c-a5a5-033c3120ebcd)
-
-
-
-
-
-
-
