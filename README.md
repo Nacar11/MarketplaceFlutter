@@ -24,8 +24,8 @@ Make sure Marketplace Backend is configured and currently running with ngrok
 
 <div class="screenshot-grid">
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/9e23a9df-30d3-40a5-aef9-f4fb92e1c580" width="270" height="600" alt="OnBoardingPage"></a>
-<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/38bc45c9-323e-4b2d-89aa-cf7dbf4d058d" width="265" height="600" alt="LoginPage"></a>
-<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/c96d3196-0815-41a5-9ff1-ffba127e2a9c" width="265" height="600" alt="GoogleSignIn"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/38bc45c9-323e-4b2d-89aa-cf7dbf4d058d" width="270" height="600" alt="LoginPage"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/c96d3196-0815-41a5-9ff1-ffba127e2a9c" width="270" height="600" alt="GoogleSignIn"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/34b2a92c-5483-41d6-a38f-c8064a0961d1" width="265" height="600" alt="ForgetPasswordPage"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/99a6e594-2775-4c24-bc20-b1409205e575" width="265" height="600" alt="HomePage"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/02704046-98e7-45a4-ba96-f7279bf7a617" width="265" height="600" alt="HomePageDarkMode"></a>
