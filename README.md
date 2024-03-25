@@ -30,11 +30,30 @@ Make sure Marketplace Backend is configured and currently running with ngrok
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/99a6e594-2775-4c24-bc20-b1409205e575" width="300" height="650" alt="Screenshot 5"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/02704046-98e7-45a4-ba96-f7279bf7a617" width="300" height="650" alt="Screenshot 6"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/a69e2785-0ee0-4f75-8387-66c25b09df22" width="300" height="650" alt="Screenshot 21"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/d5a9e20f-0cb1-4946-9703-282eae195a1e" width="300" height="650" alt="DiscoverPage"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/850789e0-64de-471e-b143-53ba701f2d30" width="300" height="650" alt="ProductTypesPage"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/a06e7565-aa30-48e7-99ba-a762b0d29795" width="300" height="650" alt="ProductDetailsPage"></a>
+
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/0a04a8a5-d7c9-41e9-a7ac-38697d928d18" width="300" height="650" alt="FavoritesPage"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/f3d76809-93a5-4495-8e59-49a95fcf3cf7" width="300" height="650" alt="AccountSettingsPage"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/04c203fd-8b18-4f67-b0a2-930630154e4f" width="300" height="650" alt="ProfilePage"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/34b2a92c-5483-41d6-a38f-c8064a0961d1" width="300" height="650" alt="Screenshot 4"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/99a6e594-2775-4c24-bc20-b1409205e575" width="300" height="650" alt="Screenshot 5"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/02704046-98e7-45a4-ba96-f7279bf7a617" width="300" height="650" alt="Screenshot 6"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/a69e2785-0ee0-4f75-8387-66c25b09df22" width="300" height="650" alt="Screenshot 21"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/d5a9e20f-0cb1-4946-9703-282eae195a1e" width="300" height="650" alt="Screenshot 21"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/850789e0-64de-471e-b143-53ba701f2d30" width="300" height="650" alt="Screenshot 21"></a>
 </div>
 
 
+![ShoppingCartPage](https://github.com/Nacar11/marketplace_frontend/assets/39459541/381723d0-ed76-4474-bc18-314da6da3ef6)
+![ProductDetailsPage](https://github.com/Nacar11/marketplace_frontend/assets/39459541/a06e7565-aa30-48e7-99ba-a762b0d29795)
+![OrderListPage](https://github.com/Nacar11/marketplace_frontend/assets/39459541/37883029-1820-4836-93ba-74698c153a62)
+![OrderDetailsPaage](https://github.com/Nacar11/marketplace_frontend/assets/39459541/17eda715-3c85-44ca-8054-58f1bce5d28b)
+![ListedItemsPage](https://github.com/Nacar11/marketplace_frontend/assets/39459541/4abf7376-6782-4058-92a5-8fb7dcb9d68d)
+![ConfirmCheckout](https://github.com/Nacar11/marketplace_frontend/assets/39459541/6eef2503-a0ee-4875-8b5e-28c6d45f5e67)
+![CheckoutPage](https://github.com/Nacar11/marketplace_frontend/assets/39459541/b489f6d4-deb9-40db-8404-f30a4b44756c)
+![CheckoutLinkPaymongo](https://github.com/Nacar11/marketplace_frontend/assets/39459541/a6d32634-95bc-4ea6-81cd-0c04c00e1a07)
 
 
 
