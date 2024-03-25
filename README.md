@@ -39,13 +39,13 @@ Make sure Marketplace Backend is configured and currently running with ngrok
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/f3d76809-93a5-4495-8e59-49a95fcf3cf7" width="300" height="650" alt="AccountSettingsPage"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/04c203fd-8b18-4f67-b0a2-930630154e4f" width="300" height="650" alt="ProfilePage"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/15ce0403-d718-4ff8-a04d-9d0d8fd3a912" width="300" height="650" alt="AddAddressPage"></a>
-<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/855141e3-1f77-48b3-bf85-12826f7194bd" width="300" height="650" alt="AddressListPage"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/e3cf6343-5adf-4fa5-b7f8-7e4ef808294d" width="300" height="650" alt="AddressListPage"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/381723d0-ed76-4474-bc18-314da6da3ef6" width="300" height="650" alt="ShoppingCartPage"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/b489f6d4-deb9-40db-8404-f30a4b44756c" width="300" height="650" alt="CheckoutPage"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/a6d32634-95bc-4ea6-81cd-0c04c00e1a07" width="300" height="650" alt="CheckoutLinkPaymongo"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/6eef2503-a0ee-4875-8b5e-28c6d45f5e67" width="300" height="650" alt="ConfirmCheckout"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/37883029-1820-4836-93ba-74698c153a62" width="300" height="650" alt="OrderListPage"></a>
-<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/17eda715-3c85-44ca-8054-58f1bce5d28b" width="300" height="650" alt="OrderDetailsPage"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/e27f4ad2-419f-4a8c-a5a5-033c3120ebcd" width="300" height="650" alt="OrderDetailsPage"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/4abf7376-6782-4058-92a5-8fb7dcb9d68d" width="300" height="650" alt="ListedItemsPage"></a>
 </div>
 
@@ -55,6 +55,8 @@ Make sure Marketplace Backend is configured and currently running with ngrok
 
 
 
+![AddressListPage](https://github.com/Nacar11/marketplace_frontend/assets/39459541/e3cf6343-5adf-4fa5-b7f8-7e4ef808294d)
+![OrderDetailsPage](https://github.com/Nacar11/marketplace_frontend/assets/39459541/e27f4ad2-419f-4a8c-a5a5-033c3120ebcd)
 
 
 
