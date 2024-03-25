@@ -33,7 +33,7 @@ Make sure Marketplace Backend is configured and currently running with ngrok
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/d5a9e20f-0cb1-4946-9703-282eae195a1e" width="300" height="650" alt="ProductTypesPage"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/850789e0-64de-471e-b143-53ba701f2d30" width="300" height="650" alt="ProductListPage"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/a06e7565-aa30-48e7-99ba-a762b0d29795" width="300" height="650" alt="ProductDetailsPage"></a>
-
+  
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/0a04a8a5-d7c9-41e9-a7ac-38697d928d18" width="300" height="650" alt="FavoritesPage"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/f3d76809-93a5-4495-8e59-49a95fcf3cf7" width="300" height="650" alt="AccountSettingsPage"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/04c203fd-8b18-4f67-b0a2-930630154e4f" width="300" height="650" alt="ProfilePage"></a>
