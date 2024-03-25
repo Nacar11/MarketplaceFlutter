@@ -21,6 +21,34 @@ Make sure Marketplace Backend is configured and currently running with ngrok
 
 ## Screenshots
 
+
+<div class="screenshot-grid">
+ <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/d5a9e20f-0cb1-4946-9703-282eae195a1e" width="200" height="450" alt="Screenshot 1"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/850789e0-64de-471e-b143-53ba701f2d30" width="200" height="450" alt="Screenshot 2"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/9e23a9df-30d3-40a5-aef9-f4fb92e1c580" width="200" height="450" alt="Screenshot 3"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/38bc45c9-323e-4b2d-89aa-cf7dbf4d058d" width="200" height="450" alt="Screenshot 4"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/02704046-98e7-45a4-ba96-f7279bf7a617" width="200" height="450" alt="Screenshot 5"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/99a6e594-2775-4c24-bc20-b1409205e575" width="200" height="450" alt="Screenshot 6"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/c96d3196-0815-41a5-9ff1-ffba127e2a9c" width="200" height="450" alt="Screenshot 21"></a>
+ <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/34b2a92c-5483-41d6-a38f-c8064a0961d1" width="200" height="450" alt="Screenshot 21"></a>
+ <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/a69e2785-0ee0-4f75-8387-66c25b09df22" width="200" height="450" alt="Screenshot 21"></a>
+</div>
+
+
+
+![ProductTypesPage](https://github.com/Nacar11/marketplace_frontend/assets/39459541/d5a9e20f-0cb1-4946-9703-282eae195a1e)
+![ProductList](https://github.com/Nacar11/marketplace_frontend/assets/39459541/850789e0-64de-471e-b143-53ba701f2d30)
+![OnBoardingScreen](https://github.com/Nacar11/marketplace_frontend/assets/39459541/9e23a9df-30d3-40a5-aef9-f4fb92e1c580)
+![LoginPage](https://github.com/Nacar11/marketplace_frontend/assets/39459541/38bc45c9-323e-4b2d-89aa-cf7dbf4d058d)
+![HomePageDarkMode](https://github.com/Nacar11/marketplace_frontend/assets/39459541/02704046-98e7-45a4-ba96-f7279bf7a617)
+![HomePage](https://github.com/Nacar11/marketplace_frontend/assets/39459541/99a6e594-2775-4c24-bc20-b1409205e575)
+![GoogleLogin](https://github.com/Nacar11/marketplace_frontend/assets/39459541/c96d3196-0815-41a5-9ff1-ffba127e2a9c)
+![ForgetPasswordPage](https://github.com/Nacar11/marketplace_frontend/assets/39459541/34b2a92c-5483-41d6-a38f-c8064a0961d1)
+![DiscoverPage](https://github.com/Nacar11/marketplace_frontend/assets/39459541/a69e2785-0ee0-4f75-8387-66c25b09df22)
+
+
+
+
 <div class="screenshot-grid">
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/34a7c78d-8bc9-4256-a12c-325182aac072" width="200" height="450" alt="Screenshot 1"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/06700262-0853-4529-a13e-aa02d7bb3d80" width="200" height="450" alt="Screenshot 2"></a>
@@ -45,9 +73,6 @@ Make sure Marketplace Backend is configured and currently running with ngrok
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/233eb782-fcbe-4456-ba7f-ea286b85b645" width="200" height="450" alt="Screenshot 20"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/cded5dd0-192a-4004-b686-dadddcde0c41" width="200" height="450" alt="Screenshot 22"></a>
 <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/a40c0b03-4c86-4cc2-995b-8eddc6254209" width="200" height="450" alt="Screenshot 23"></a>
-<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/d5b1268d-0fef-45e8-8eb9-1b515a3b6e5c" width="200" height="450" alt="Screenshot 23"></a>
- 
-
 </div>
 
 
