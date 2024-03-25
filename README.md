@@ -23,16 +23,15 @@ Make sure Marketplace Backend is configured and currently running with ngrok
 
 
 <div class="screenshot-grid">
- <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/9e23a9df-30d3-40a5-aef9-f4fb92e1c580" width="300" height="550" alt="Screenshot 1"></a>
-<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/38bc45c9-323e-4b2d-89aa-cf7dbf4d058d" width="300" height="550" alt="Screenshot 2"></a>
-<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/c96d3196-0815-41a5-9ff1-ffba127e2a9c" width="300" height="550" alt="Screenshot 3"></a>
-<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/34b2a92c-5483-41d6-a38f-c8064a0961d1" width="300" height="550" alt="Screenshot 4"></a>
- 
-<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/99a6e594-2775-4c24-bc20-b1409205e575" width="300" height="550" alt="Screenshot 5"></a>
-<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/02704046-98e7-45a4-ba96-f7279bf7a617" width="300" height="550" alt="Screenshot 6"></a>
-<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/a69e2785-0ee0-4f75-8387-66c25b09df22" width="300" height="550" alt="Screenshot 21"></a>
- <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/d5a9e20f-0cb1-4946-9703-282eae195a1e" width="300" height="550" alt="Screenshot 21"></a>
- <a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/850789e0-64de-471e-b143-53ba701f2d30" width="300" height="550" alt="Screenshot 21"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/9e23a9df-30d3-40a5-aef9-f4fb92e1c580" width="300" height="650" alt="Screenshot 1"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/38bc45c9-323e-4b2d-89aa-cf7dbf4d058d" width="300" height="650" alt="Screenshot 2"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/c96d3196-0815-41a5-9ff1-ffba127e2a9c" width="300" height="650" alt="Screenshot 3"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/34b2a92c-5483-41d6-a38f-c8064a0961d1" width="300" height="650" alt="Screenshot 4"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/99a6e594-2775-4c24-bc20-b1409205e575" width="300" height="650" alt="Screenshot 5"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/02704046-98e7-45a4-ba96-f7279bf7a617" width="300" height="650" alt="Screenshot 6"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/a69e2785-0ee0-4f75-8387-66c25b09df22" width="300" height="650" alt="Screenshot 21"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/d5a9e20f-0cb1-4946-9703-282eae195a1e" width="300" height="650" alt="Screenshot 21"></a>
+<a><img src="https://github.com/Nacar11/marketplace_frontend/assets/39459541/850789e0-64de-471e-b143-53ba701f2d30" width="300" height="650" alt="Screenshot 21"></a>
 </div>
 
 
