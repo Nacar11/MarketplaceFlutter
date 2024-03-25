@@ -1,3 +1,20 @@
+## About Marketplace 
+
+"Marketplace" is a full-stack project designed to provide a comprehensive platform for online buying and selling. Leveraging modern technologies, the project is structured with a Laravel-based backend serving as a headless API, while XAMPP facilitates its local execution. The frontend is developed as a separate project using Flutter, with state management handled by GetX.
+
+
+Local Server Setup:
+
+
+XAMPP, a cross-platform web server solution stack, is utilized to host the Laravel backend locally. XAMPP simplifies the setup process by bundling Apache, MySQL, PHP, and Perl, providing an integrated environment for web development and testing.
+
+
+Mobile API Access:
+
+
+To enable access to the Laravel backend from mobile devices during development, ngrok is employed. Ngrok creates secure tunnels to localhost, allowing external access to locally hosted web servers. By utilizing ngrok, developers can test the functionality of the headless API on mobile devices.
+
+
 ## About Marketplace Frontend Configuration
 
 Open project with a code editor, and navigate inside project directory: 
